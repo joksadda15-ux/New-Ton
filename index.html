@@ -296,15 +296,26 @@
                  <div class="activation-box">
                     <p>To activate your referral rewards, please join both official NEW TON channels below. You’ll earn 20 Points per verified referral after joining.</p>
                     <div class="channel-buttons">
-                        <a href="https://t.me/newtube_Offecial" target="_blank" class="channel-btn">
+                        <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="channel-btn">
                             <i class="fab fa-telegram-plane"></i> Official Channel
                         </a>
-                        <a href="https://t.me/newtube12" target="_blank" class="channel-btn">
+                        <a href="https://t.me/payment_new_ton" target="_blank" class="channel-btn">
                             <i class="fab fa-telegram-plane"></i> Payment Channel
                         </a>
                     </div>
                  </div>
              </div>
+    
+             <div class="card">
+                <h3>Promo Code</h3>
+                <p>Enter a promo code to claim your reward.</p>
+                <form id="promo-code-form">
+                    <div class="form-group">
+                        <input type="text" id="promo-code-input" placeholder="Enter your code" required>
+                    </div>
+                    <button type="submit" class="form-button">Claim Reward</button>
+                </form>
+            </div>
 
              <h3 class="sub-section-title">Daily Rewards</h3>
              <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
@@ -335,8 +346,11 @@
         <section id="withdraw-content" class="content-section">
              <div class="card">
                 <h3 class="section-title" style="border: none; margin-bottom: 10px; text-align: center;">Withdraw Funds</h3>
-                <p>Your Balance: <strong id="withdrawTonBalance" style="color: var(--success-color); font-size: 1.2em;">0.0000 TON</strong></p>
-                <button id="showConvertModalBtn" class="form-button" style="background-color: #6c757d; margin-bottom: 20px;">Convert Points to TON</button>
+                <p>Your Balance: <strong id="withdrawPointBalance" style="color: var(--success-color); font-size: 1.2em;">0 Points</strong></p>
+                <div class="conversion-rate-display">
+                    100 Points = 0.01 TON<br>
+                    10,000 Points = 1 TON
+                </div>
                 <p class="info-text" style="text-align: center; margin-bottom: 25px;">
                     Withdrawals are processed within 1-5 hours.
                 </p>
@@ -349,8 +363,8 @@
                         </select>
                      </div>
                      <div class="form-group">
-                        <label for="withdrawalAmount">2. Enter Amount (TON)</label>
-                        <input type="number" id="withdrawalAmount" step="0.01" placeholder="e.g., 0.03" required>
+                        <label for="withdrawalAmount">2. Enter Amount (Points)</label>
+                        <input type="number" id="withdrawalAmount" step="1" placeholder="e.g., 200" required>
                      </div>
                      <div class="form-group">
                         <label for="accountDetails">3. Enter Account Details</label>
@@ -359,7 +373,7 @@
                      <div id="withdraw-summary" class="withdraw-summary" style="display: none;">
                         <p><span>Minimum Withdrawal:</span> <strong id="summary-min"></strong></p>
                         <p><span>Withdrawal Fee:</span> <strong id="summary-fee"></strong></p>
-                        <p><span>You Will Receive:</span> <strong id="summary-receive"></strong></p>
+                        <p><span>You Will Receive (approx.):</span> <strong id="summary-receive"></strong></p>
                      </div>
                 </form>
                 <button id="submitWithdrawalBtn" class="form-button" style="margin-top: 20px;">Submit Withdrawal Request</button>
@@ -453,10 +467,10 @@
             <div class="modal-body">
                 <p>To start earning and to activate referral rewards, you must join our official channels.</p>
                 <div class="channel-buttons" style="flex-direction: column; margin: 20px 0;">
-                    <a href="https://t.me/newtube_Offecial" target="_blank" class="channel-btn">
+                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="channel-btn">
                         <i class="fab fa-telegram-plane"></i> Join Official Channel
                     </a>
-                    <a href="https://t.me/newtube12" target="_blank" class="channel-btn">
+                    <a href="https://t.me/payment_new_ton" target="_blank" class="channel-btn">
                         <i class="fab fa-telegram-plane"></i> Join Payment Channel
                     </a>
                 </div>
@@ -539,12 +553,12 @@
         const ADS_PER_SET = 15;
         const REFERRAL_REWARD_POINTS = 20;
         const USER_CREATED_TASK_REWARD_POINTS = 10;
-        const POINTS_TO_TON_RATE = 0.00001; // 1 point = 0.00001 TON (or 1000 points = 0.01 TON)
+        const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
         const MIN_POINTS_TO_CONVERT = 200;
 
         const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 0.03, fee: 0.005 },
-            'Bkash': { min: 0.05, fee: 0.01 }, // Values in TON
+            'Tonkeeper': { min: 200, fee: 20 }, // Values in Points
+            'Bkash': { min: 700, fee: 70 }, // Values in Points
         };
 
         const adPackages = [
@@ -590,6 +604,7 @@
                     'dailyBrowseVisit2Completed': false,
                     'dailyAdViews_set1': 0,
                     'dailyAdViews_set2': 0,
+                    'dailyAdViews_set3': 0,
                 };
                 try {
                     const userRef = doc(db, 'users', currentUser.id);
@@ -617,7 +632,7 @@
                     claimedDailyRewards: [],
                     dailyTelegramVisit1Completed: false, dailyTelegramVisit2Completed: false,
                     dailyBrowseVisit1Completed: false, dailyBrowseVisit2Completed: false,
-                    dailyAdViews_set1: 0, dailyAdViews_set2: 0,
+                    dailyAdViews_set1: 0, dailyAdViews_set2: 0, dailyAdViews_set3: 0,
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -636,6 +651,7 @@
             if (userData.dailyAdViews_set1 === undefined) {
                  updates.dailyAdViews_set1 = 0;
                  updates.dailyAdViews_set2 = 0;
+                 updates.dailyAdViews_set3 = 0;
             }
 
             if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
@@ -658,9 +674,7 @@
         }
 
         function generateReferralLink(userId) {
-            const botUsername = "NewTube12_bot";
-            const webAppShortName = "newtoncash"; // You might want to update this
-            const referralLink = `https://t.me/${botUsername}/${webAppShortName}?startapp=${userId}`;
+            const referralLink = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             document.getElementById('popoverReferralLinkInput').value = referralLink;
             document.getElementById('homeReferralLinkInput').value = referralLink;
         }
@@ -696,22 +710,23 @@
             if (!currentUser) return;
 
             const adSets = [
-                { id: '1', title: 'View Ads (Set 1)', viewsToday: currentUser.dailyAdViews_set1 || 0 },
-                { id: '2', title: 'View Ads (Set 2)', viewsToday: currentUser.dailyAdViews_set2 || 0 },
+                { id: '1', title: 'Watch Ads 1', viewsToday: currentUser.dailyAdViews_set1 || 0, limit: 5, reward: 4, adProvider: 'monetag' },
+                { id: '2', title: 'Watch Ads 2', viewsToday: currentUser.dailyAdViews_set2 || 0, limit: 5, reward: 4, adProvider: 'gigapub' },
+                { id: '3', title: 'Watch Ads 3', viewsToday: currentUser.dailyAdViews_set3 || 0, limit: 20, reward: 3, adProvider: 'random' },
             ];
 
             adSets.forEach(task => {
-                const viewsLeft = ADS_PER_SET - task.viewsToday;
+                const viewsLeft = task.limit - task.viewsToday;
                 const isCompleted = viewsLeft <= 0;
                 const card = document.createElement('div');
                 card.className = 'ad-task-card';
                 card.innerHTML = `
                     <div class="ad-task-card-info">
                         <h4>${task.title}</h4>
-                        <p>Reward: <span class="task-reward-points">${AD_REWARD_POINTS} Points</span> per ad</p>
-                        <p>Progress: ${task.viewsToday} / ${ADS_PER_SET} ads watched</p>
+                        <p>Reward: <span class="task-reward-points">${task.reward} Points</span> per ad</p>
+                        <p>Progress: ${task.viewsToday} / ${task.limit} ads watched</p>
                     </div>
-                    <button class="ad-task-button" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}>
+                    <button class="ad-task-button" data-task-id="${task.id}" data-reward="${task.reward}" data-ad-provider="${task.adProvider}" ${isCompleted ? 'disabled' : ''}>
                         ${isCompleted ? 'Completed Today' : `View Ad (${viewsLeft} left)`}
                     </button>`;
                 container.appendChild(card);
@@ -722,7 +737,7 @@
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
 
-            const setId = button.dataset.taskId;
+            const { taskId, adProvider, reward } = button.dataset;
             button.disabled = true; button.textContent = 'Loading Ad...';
 
             let adTimer = null; let adSuccess = false; let countdown = 10;
@@ -736,8 +751,8 @@
                         adSuccess = true; clearInterval(adTimer);
                         button.textContent = 'Processing...';
                         try {
-                            const updateField = `dailyAdViews_set${setId}`;
-                            await grantReward({ points: AD_REWARD_POINTS }, { type: 'Ad Reward', details: `Watched Ad from Set ${setId}`});
+                            const updateField = `dailyAdViews_set${taskId}`;
+                            await grantReward({ points: parseInt(reward) }, { type: 'Ad Reward', details: `Watched Ad from Set ${taskId}`});
                             await updateDoc(doc(db, 'users', currentUser.id), { [updateField]: increment(1) });
                             await fetchAndUpdateCurrentUser();
                             setupAdsToEarn();
@@ -758,7 +773,15 @@
                         setupAdsToEarn();
                     }
                 };
-                await showRandomAd();
+                
+                if (adProvider === 'monetag') {
+                    await showMonetagAd();
+                } else if (adProvider === 'gigapub') {
+                    await showGigaPubAd();
+                } else if (adProvider === 'random') {
+                    await showRandomAd();
+                }
+
                 button.textContent = `Wait ${countdown}s`;
                 startTimer();
             } catch (err) {
@@ -876,8 +899,6 @@
 
             const claimedDaily = currentUser.claimedDailyRewards || [];
             const tasks = [
-                { id: 'tg_1', type: 'visit', title: 'Visit Official Channel', reward: 10, url: 'https://t.me/tech_and_touch', completed: currentUser.dailyTelegramVisit1Completed, visitTime: 5 },
-                { id: 'tg_2', type: 'visit', title: 'Visit Payment Channel', reward: 10, url: 'https://t.me/newtube12', completed: currentUser.dailyTelegramVisit2Completed, visitTime: 5 },
                 { id: 'web_1', type: 'visit', title: 'Visit Website 1', reward: 15, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit1Completed, visitTime: 15 },
                 { id: 'web_2', type: 'visit', title: 'Visit Website 2', reward: 15, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit2Completed, visitTime: 15 },
             ];
@@ -927,7 +948,6 @@
                     if (countdown <= 0) {
                         clearInterval(timer); button.textContent = `Processing...`;
                         const updateField = {
-                            'tg_1': 'dailyTelegramVisit1Completed', 'tg_2': 'dailyTelegramVisit2Completed',
                             'web_1': 'dailyBrowseVisit1Completed', 'web_2': 'dailyBrowseVisit2Completed'
                         }[taskId];
                         if (updateField) {
@@ -1027,8 +1047,8 @@
 
         function setupWithdrawalUI() {
             if (!currentUser) return;
-            const balance = currentUser.tonBalance || 0;
-            document.getElementById('withdrawTonBalance').textContent = `${balance.toFixed(4)} TON`;
+            const balance = currentUser.pointBalance || 0;
+            document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
             const amountInput = document.getElementById('withdrawalAmount');
 
@@ -1040,12 +1060,13 @@
 
                 if (!config) { summaryBox.style.display = 'none'; return; }
 
-                document.getElementById('summary-min').textContent = `${config.min.toFixed(2)} TON` + (method === 'Bkash' ? ' (10 BDT)' : '');
-                document.getElementById('summary-fee').textContent = `${config.fee.toFixed(4)} TON`;
+                document.getElementById('summary-min').textContent = `${config.min} Points`;
+                document.getElementById('summary-fee').textContent = `${config.fee} Points`;
 
                 if (!isNaN(amount) && amount > 0) {
                     const receiveAmount = amount - config.fee;
-                    document.getElementById('summary-receive').textContent = `${receiveAmount > 0 ? receiveAmount.toFixed(4) : '0.0000'} TON`;
+                    const receiveTon = receiveAmount * POINTS_TO_TON_RATE;
+                    document.getElementById('summary-receive').textContent = `${receiveTon > 0 ? receiveTon.toFixed(4) : '0.0000'} TON`;
                 } else {
                     document.getElementById('summary-receive').textContent = '0.0000 TON';
                 }
@@ -1057,64 +1078,6 @@
             updateSummary();
         }
 
-        document.getElementById('showConvertModalBtn').addEventListener('click', () => {
-            document.getElementById('convertModalOverlay').classList.add('show');
-            document.getElementById('convertPointsBalance').textContent = Math.floor(currentUser.pointBalance || 0);
-            document.getElementById('pointsToConvertInput').value = '';
-            document.getElementById('tonToReceive').textContent = '0.0000 TON';
-            document.getElementById('conversionRateText').textContent = `Rate: ${1 / POINTS_TO_TON_RATE} Points = 1 TON`;
-        });
-        document.getElementById('closeConvertModalBtn').addEventListener('click', () => document.getElementById('convertModalOverlay').classList.remove('show'));
-
-        document.getElementById('pointsToConvertInput').addEventListener('input', (e) => {
-            const points = parseInt(e.target.value, 10);
-            if(isNaN(points) || points <= 0) {
-                document.getElementById('tonToReceive').textContent = '0.0000 TON';
-                return;
-            }
-            const tonAmount = points * POINTS_TO_TON_RATE;
-            document.getElementById('tonToReceive').textContent = `${tonAmount.toFixed(4)} TON`;
-        });
-
-        document.getElementById('convertPointsBtn').addEventListener('click', async () => {
-            const convertBtn = document.getElementById('convertPointsBtn');
-            const pointsToConvert = parseInt(document.getElementById('pointsToConvertInput').value, 10);
-
-            if (isNaN(pointsToConvert)) { alert("Please enter a valid number of points."); return; }
-            if (pointsToConvert < MIN_POINTS_TO_CONVERT) { alert(`You must convert at least ${MIN_POINTS_TO_CONVERT} points.`); return; }
-            if (pointsToConvert > (currentUser.pointBalance || 0)) { alert("Insufficient point balance."); return; }
-
-            convertBtn.disabled = true; convertBtn.textContent = "Converting...";
-
-            try {
-                const tonToReceive = pointsToConvert * POINTS_TO_TON_RATE;
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    t.update(userRef, {
-                        pointBalance: increment(-pointsToConvert),
-                        tonBalance: increment(tonToReceive)
-                    });
-                });
-                await addDoc(collection(db, 'transactions'), {
-                    userId: currentUser.id, type: 'Conversion',
-                    details: `${pointsToConvert} Points to ${tonToReceive.toFixed(4)} TON`,
-                    status: 'Completed', createdAt: serverTimestamp()
-                });
-
-                showSuccessModal("Conversion Successful!", `You converted ${pointsToConvert} points to ${tonToReceive.toFixed(4)} TON.`);
-                document.getElementById('convertModalOverlay').classList.remove('show');
-                await fetchAndUpdateCurrentUser();
-                setupWithdrawalUI();
-
-            } catch (error) {
-                console.error("Conversion failed:", error);
-                alert("An error occurred during conversion. Please try again.");
-            } finally {
-                convertBtn.disabled = false; convertBtn.textContent = "Convert";
-            }
-        });
-
-
         document.getElementById('submitWithdrawalBtn').addEventListener('click', () => {
             if(isSubmittingWithdrawal) return;
 
@@ -1125,40 +1088,41 @@
 
             if (!details) { alert('Please enter your account details.'); return; }
             if (isNaN(amount) || amount <= 0) { alert('Please enter a valid amount.'); return; }
-            if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min.toFixed(2)} TON.`); return; }
-            if ((currentUser.tonBalance || 0) < amount) { alert('Insufficient TON balance.'); return; }
+            if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
+            if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient point balance.'); return; }
 
             showWithdrawalConfirmationModal(amount, method, details, config.fee);
         });
 
         function showWithdrawalConfirmationModal(amount, method, details, fee) {
             const modal = document.getElementById('withdrawConfirmModalOverlay');
-            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount.toFixed(4)} TON to ${method} (${details})? A fee of ${fee.toFixed(4)} TON will be applied.`;
+            const receiveAmount = (amount - fee) * POINTS_TO_TON_RATE;
+            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method} (${details})? A fee of ${fee} Points will be applied. You will receive approximately ${receiveAmount.toFixed(4)} TON.`;
 
             const cancelBtn = document.getElementById('withdrawConfirmCancelBtn');
             const confirmBtn = document.getElementById('withdrawConfirmSubmitBtn');
             const close = () => modal.classList.remove('show');
 
-            const handleConfirm = async () => { close(); await processTonWithdrawal(amount, method, details, fee); };
+            const handleConfirm = async () => { close(); await processWithdrawal(amount, method, details, fee); };
             cancelBtn.onclick = close; confirmBtn.onclick = handleConfirm;
             modal.classList.add('show');
         }
 
-        async function processTonWithdrawal(amount, method, details, fee) {
+        async function processWithdrawal(amount, method, details, fee) {
             isSubmittingWithdrawal = true;
             try {
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const userDoc = await t.get(userRef);
-                    if ((userDoc.data().tonBalance || 0) < amount) throw new Error(`Insufficient balance.`);
+                    if ((userDoc.data().pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
 
                     const requestData = {
                         userId: currentUser.id, telegramUsername: currentUser.telegramUsername,
                         method, details, status: 'pending', createdAt: serverTimestamp(),
-                        fee, totalDeducted: amount, tonAmount: amount - fee
+                        fee, totalDeducted: amount, pointAmount: amount
                     };
                     t.set(doc(collection(db, 'withdrawals')), requestData);
-                    t.update(userRef, { tonBalance: increment(-amount) });
+                    t.update(userRef, { pointBalance: increment(-amount) });
                 });
                 await fetchAndUpdateCurrentUser();
                 document.getElementById('withdrawalForm').reset();
@@ -1170,6 +1134,44 @@
                 setupWithdrawalUI();
             }
         }
+        
+        document.getElementById('promo-code-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const promoCodeInput = document.getElementById('promo-code-input');
+            const promoCode = promoCodeInput.value.trim();
+            if (!promoCode) return;
+            const claimBtn = e.target.querySelector('button');
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Verifying...';
+        
+            try {
+                const promoRef = doc(db, 'promoCodes', promoCode);
+                const promoSnap = await getDoc(promoRef);
+        
+                if (!promoSnap.exists() || !promoSnap.data().isActive) {
+                    throw new Error('Invalid or expired promo code.');
+                }
+        
+                const promoData = promoSnap.data();
+                if (promoData.claimedBy?.includes(currentUser.id)) {
+                    throw new Error('You have already claimed this promo code.');
+                }
+        
+                // Show a random ad before granting the reward
+                await showRandomAdFrom(['monetag', 'gigapub']);
+        
+                await grantReward({ points: promoData.rewardPoints }, { type: 'Promo Code', details: `Claimed code: ${promoCode}` });
+                await updateDoc(promoRef, { claimedBy: arrayUnion(currentUser.id) });
+        
+                showSuccessModal('Promo Code Claimed!', `You have received ${promoData.rewardPoints} points.`);
+                promoCodeInput.value = '';
+            } catch (error) {
+                alert(`Failed to claim promo code: ${error.message}`);
+            } finally {
+                claimBtn.disabled = false;
+                claimBtn.textContent = 'Claim Reward';
+            }
+        });
 
         async function showCombinedHistory() {
             const historyContainer = document.getElementById('combined-history-list');
@@ -1206,7 +1208,7 @@
                     let status = data.status || 'Completed'; let statusClass = `status-${status.toLowerCase()}`;
 
                     if (title === 'Withdrawal') {
-                        amountStr = `- ${(data.totalDeducted || 0).toFixed(4)} TON`; amountClass = 'amount-negative';
+                        amountStr = `- ${(data.pointAmount || 0)} Points`; amountClass = 'amount-negative';
                     } else if (data.pointAmount) {
                         amountStr = `+ ${data.pointAmount} Points`; amountClass = 'amount-positive';
                     } else if (title === 'Conversion') {
@@ -1241,6 +1243,20 @@
                     try { await fallbackProvider(); } catch(fallbackErr) { console.error("Fallback ad provider also failed:", fallbackErr); throw fallbackErr; }
                 } else { throw err; }
             }
+        }
+        
+        async function showRandomAdFrom(providers) {
+            const adMap = {
+                'monetag': showMonetagAd,
+                'gigapub': showGigaPubAd,
+                'adextra': showAdextraAd
+            };
+            const adFunctions = providers.map(p => adMap[p]).filter(Boolean);
+            if (adFunctions.length === 0) {
+                throw new Error("No valid ad providers specified.");
+            }
+            const randomAdFunction = adFunctions[Math.floor(Math.random() * adFunctions.length)];
+            await randomAdFunction();
         }
 
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
@@ -1394,7 +1410,7 @@
 
                 setupUserIdDisplay(currentUser.id);
 
-                if (initStatus.isNewUser && !initStatus.isActivated) {
+                if (!initStatus.isActivated) {
                     showActivationModal();
                 } else {
                     renderHomeUI();
