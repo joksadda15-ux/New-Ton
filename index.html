@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>NEW TON - Watch & Earn</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <!-- Adexium Ads SDK -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
@@ -19,9 +19,10 @@
         });
     </script>
 
-    <!-- Other Ad Libraries (Required for the Ads System) -->
+    <!-- Other Ad Libraries -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
+    <!-- Adextra Ad Script -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,8 +71,8 @@
 
         .header-right { display: flex; align-items: center; gap: 10px; }
         .balance-display { background-color: rgba(255, 193, 7, 0.15); color: var(--text-dark); padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9em; text-align: right; }
-        .balance-display .point-balance { font-weight: 700; }
-        .balance-display .ton-balance-est { font-size: 0.8em; color: var(--text-muted); display: block; }
+        .balance-display .ton-label { color: var(--primary-accent-color); font-weight: 700; }
+        .balance-display .point-balance { font-size: 0.8em; color: var(--text-muted); display: block; }
 
         .header-icon-btn { position: relative; cursor: pointer; background: none; border: none; color: var(--text-dark); padding: 5px; }
         .header-icon-btn svg { width: 26px; height: 26px; }
@@ -130,9 +131,9 @@
         .section-title { font-size: 1.6em; margin-bottom: 25px; padding-bottom: 10px; color: var(--text-dark); border-bottom: 2px solid var(--border-color); font-weight: 600; }
         .sub-section-title { font-size: 1.2em; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top: 40px; margin-bottom: 20px; font-weight: 500; }
 
-        .ad-task-card, .task-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .withdraw-package-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         .ad-task-card-info { padding: 15px; flex-grow: 1; text-align:center;}
-        .ad-task-card h4 { margin: 0 0 8px; font-size: 1.1em; line-height: 1.3; }
+        .ad-task-card h4, .ad-package-card h4, .user-ad-item h4 { margin: 0 0 8px; font-size: 1.1em; line-height: 1.3; }
 
         .ad-task-card p { margin: 8px 0 15px; color: var(--text-muted); font-weight: bold; }
         .task-reward-points { color: var(--success-color); }
@@ -145,7 +146,7 @@
         .card h3 { margin-top: 0; font-size: 1.4em; } .card p { color: var(--text-muted); line-height: 1.6; }
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
-        .form-group input, .form-group select { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--light-bg); color: var(--text-dark); font-size: 1em; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--light-bg); color: var(--text-dark); font-size: 1em; }
         .form-button { width: 100%; padding: 14px; border: none; border-radius: 8px; background-color: var(--primary-accent-color); color: #000; font-weight: bold; font-size: 1em; cursor: pointer; transition: background-color 0.2s; }
         .form-button:hover:not(:disabled) { background-color: var(--primary-accent-hover-color); }
         .form-button:disabled { background-color: var(--disabled-color); cursor: not-allowed; color: var(--disabled-text-color); }
@@ -161,18 +162,19 @@
         @keyframes icon-pop-in { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
         .modal-content h3 { margin: 0 0 10px; font-size: 1.6em; }
         .modal-content p { margin: 0; color: var(--text-muted); font-size: 1em; white-space: pre-wrap;}
-        .history-modal, .task-modal, .task-confirm-modal, .activation-modal { background-color: var(--card-bg); color: var(--text-dark); padding: 20px; border-radius: 15px; text-align: left; width: 90%; max-height: 90vh; display: flex; flex-direction: column; }
-        .history-modal, .task-modal, .task-confirm-modal, .activation-modal { max-width: 500px; }
-        .history-modal h3, .task-modal h3, .task-confirm-modal h3, .activation-modal h3 { text-align: center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        #combined-history-list, .task-modal .modal-body, .task-confirm-modal .modal-body, .activation-modal .modal-body { overflow-y: auto; flex-grow: 1; margin-bottom: 15px; }
-        .task-confirm-modal .modal-body, .activation-modal .modal-body { text-align: center; }
+        .history-modal, .task-modal, .task-confirm-modal, .activation-modal, .convert-modal { background-color: var(--card-bg); color: var(--text-dark); padding: 20px; border-radius: 15px; text-align: left; width: 90%; max-height: 90vh; display: flex; flex-direction: column; }
+        .history-modal, .task-modal, .task-confirm-modal, .activation-modal, .convert-modal { max-width: 500px; }
+        .history-modal h3, .task-modal h3, .task-confirm-modal h3, .activation-modal h3, .convert-modal h3 { text-align: center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        #combined-history-list, .task-modal .modal-body, .task-confirm-modal .modal-body, .activation-modal .modal-body, .convert-modal .modal-body { overflow-y: auto; flex-grow: 1; margin-bottom: 15px; }
+        .task-confirm-modal .modal-body, .activation-modal .modal-body, .convert-modal .modal-body { text-align: center; }
         .task-confirm-modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
         .task-confirm-modal-buttons button { flex: 1; }
+
         .info-text { font-size: 0.9em; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
 
         .task-card { background-color: var(--card-bg); border-radius: 8px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 15px; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; border: 1px solid var(--border-color); }
         .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15); }
-        #ad-task-list.item-grid, #task-list.item-grid { grid-template-columns: 1fr; gap: 15px; display: grid;}
+        #ad-task-list.item-grid, #task-list.item-grid, #my-ads-list.item-grid { grid-template-columns: 1fr; gap: 15px; display: grid;}
         .task-card-info { padding: 0; flex-grow: 1; text-align: left; }
         .task-card-info h4 { margin: 0 0 5px; font-size: 1em;}
         .task-card-info p { margin: 5px 0 0; font-size: 0.9em; }
@@ -192,11 +194,24 @@
         .history-item-right .status-pending { color: #ffc107; font-weight: 600; }
         .history-item-right .status-failed, .history-item-right .status-rejected { color: #dc3545; font-weight: 600; }
 
+        .ad-package-card { padding: 15px; text-align: center; cursor: pointer; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
+        .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; }
+        .ad-package-card p { margin: 0; font-weight: 600; color: var(--primary-accent-color); }
+        .ad-package-card.selected { border-color: var(--primary-accent-color); background-color: rgba(255, 193, 7, 0.1); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2); }
+        .user-ad-item { padding: 20px; text-align: left; }
+        .user-ad-item .progress-text { font-weight: bold; color: var(--primary-accent-color); margin-top: 10px; display: block; }
+        .user-ad-item .status-text { font-weight: 600; margin-top: 5px; display: block; }
+        .user-ad-item .status-text.completed { color: var(--success-color); }
+        .user-ad-item .status-text.active { color: var(--primary-accent-color); }
+        #ad-package-grid { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        @media (max-width: 600px) { #ad-package-grid { grid-template-columns: repeat(2, 1fr); } }
+
         #withdraw-content .card { max-width: 600px; }
         .withdraw-summary { margin-top: 20px; padding: 15px; background-color: var(--light-bg); border-radius: 8px; text-align: left; font-size: 0.9em; }
         .withdraw-summary p { margin: 8px 0; display: flex; justify-content: space-between; }
         .withdraw-summary strong { color: var(--text-dark); }
-        .conversion-rate-display { font-weight: bold; color: var(--text-muted); text-align: center; margin: -10px 0 25px; background: #f0f0f0; padding: 8px; border-radius: 8px; }
+        .conversion-rate-display { font-size: 0.9em; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
+
 
         #support-content .card { text-align: left; max-width: 700px; }
         #support-content ul { padding-left: 20px; list-style-type: '✓ '; color: var(--text-muted); }
@@ -257,8 +272,8 @@
         </div>
         <div class="header-right">
             <div class="balance-display">
-                <div><span class="point-balance"><span id="userPointBalanceDisplay">0</span> Points</span></div>
-                <div class="ton-balance-est">≈ <span id="userTONBalanceDisplay">0.0000</span> TON</div>
+                <div><span class="ton-label">TON</span> <span id="userTONBalanceDisplay">0.0000</span></div>
+                <div class="point-balance"><span id="userPointBalanceDisplay">0</span> Points</div>
             </div>
             <button class="header-icon-btn" id="history-btn" title="History">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
@@ -291,7 +306,7 @@
                  </div>
              </div>
 
-             <h3 class="sub-section-title">Daily Website Visit</h3>
+             <h3 class="sub-section-title">Daily Rewards</h3>
              <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
                  <!-- Daily tasks will be rendered here by JS -->
              </div>
@@ -302,29 +317,32 @@
              <div id="ad-task-list" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;"></div>
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
-        
+
         <section id="task-content" class="content-section">
             <h3 class="section-title">Complete Tasks to Earn</h3>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 20px;">
+                <h3 class="sub-section-title" style="margin: 0; border: none; padding: 0; font-size: 1.1em;">Available Tasks</h3>
+                <button id="show-create-task-btn" class="task-button">Add Task +</button>
+            </div>
             <div id="task-list" class="item-grid"></div>
+             <div id="my-ads-section-container">
+                <h3 class="sub-section-title">My Advertisements</h3>
+                <div id="my-ads-list" class="item-grid"></div>
+            </div>
         </section>
 
         <section id="withdraw-content" class="content-section">
              <div class="card">
-                <h3 class="section-title" style="border: none; margin-bottom: 10px; text-align: center;">Withdraw Points</h3>
+                <h3 class="section-title" style="border: none; margin-bottom: 10px; text-align: center;">Withdraw Funds</h3>
                 <p>Your Balance: <strong id="withdrawPointBalance" style="color: var(--success-color); font-size: 1.2em;">0 Points</strong></p>
-                 <p class="conversion-rate-display">
-                    10,000 Points = 1 TON <br>
-                    100 Points = 0.01 TON
-                </p>
-                <p class="info-text" style="text-align: center; margin-bottom: 25px;">
-                    Withdrawals are processed within 1-5 hours.
-                </p>
+                <p class="conversion-rate-display">100 Points = 0.01 TON | 10,000 Points = 1 TON</p>
                 <form id="withdrawalForm" style="margin-top: 20px;">
                      <div class="form-group">
                         <label for="withdrawalMethod">1. Select Payment Method</label>
                         <select id="withdrawalMethod" required>
                             <option value="Tonkeeper">Tonkeeper</option>
-                            <option value="Bkash">bKash</option>
+                            <option value="Bkash">Bkash</option>
                         </select>
                      </div>
                      <div class="form-group">
@@ -333,12 +351,11 @@
                      </div>
                      <div class="form-group">
                         <label for="accountDetails">3. Enter Account Details</label>
-                        <input type="text" id="accountDetails" placeholder="Your Tonkeeper Address or bKash Number" required>
+                        <input type="text" id="accountDetails" placeholder="Your Tonkeeper Address or Bkash Number" required>
                      </div>
                      <div id="withdraw-summary" class="withdraw-summary" style="display: none;">
                         <p><span>Minimum Withdrawal:</span> <strong id="summary-min"></strong></p>
-                        <p><span>Withdrawal Fee:</span> <strong id="summary-fee"></strong></p>
-                        <p><span>You Will Receive (in TON):</span> <strong id="summary-receive"></strong></p>
+                        <p><span>You Will Receive (approx):</span> <strong id="summary-receive"></strong></p>
                      </div>
                 </form>
                 <button id="submitWithdrawalBtn" class="form-button" style="margin-top: 20px;">Submit Withdrawal Request</button>
@@ -397,7 +414,35 @@
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="history-modal"><h3>History</h3><div id="combined-history-list" class="history-list-container"></div><button id="closeHistoryBtn" class="form-button" style="margin-top: 15px;">Close</button></div>
     </div>
-    
+
+    <div id="createTaskModalOverlay" class="modal-overlay">
+        <div class="task-modal">
+            <h3>Create New Task Advertisement</h3>
+            <div class="modal-body">
+                <p class="info-text" style="text-align: center; margin-bottom: 20px;">
+                    Purchase tasks using your TON balance. Your task will be shown to thousands of our active users.<br>
+                    <strong>For manual deposits or promotions, contact admin: <a href="https://t.me/NEWTUBE12_admin" target="_blank" style="color: var(--primary-accent-color);">@NEWTUBE12_admin</a></strong>
+                </p>
+                <form id="create-task-form">
+                    <div class="form-group">
+                        <label>1. Select a Package</label>
+                        <div id="ad-package-grid" class="item-grid"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-title-input">2. Task Title</label>
+                        <input type="text" id="task-title-input" placeholder="e.g., Join My Telegram Channel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-url-input">3. Task URL</label>
+                        <input type="url" id="task-url-input" placeholder="https://t.me/your_channel" required>
+                    </div>
+                    <button type="submit" class="form-button">Create Task</button>
+                </form>
+            </div>
+            <button id="closeTaskModalBtn" class="form-button" style="margin-top: 15px; background-color: var(--text-muted);">Close</button>
+        </div>
+    </div>
+
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
             <h3>Welcome to NEW TON!</h3>
@@ -435,7 +480,7 @@
         <div class="task-confirm-modal">
             <h3>Confirm Withdrawal</h3>
             <div class="modal-body">
-                <p id="withdrawConfirmText">Are you sure you want to withdraw?</p>
+                <p id="withdrawConfirmText">Are you sure you want to withdraw X Points?</p>
                 <p class="info-text">The amount will be sent to the account details you provided. This action cannot be undone.</p>
                 <div class="task-confirm-modal-buttons">
                     <button id="withdrawConfirmCancelBtn" class="form-button" style="background-color: var(--text-muted);">Cancel</button>
@@ -444,10 +489,28 @@
             </div>
         </div>
     </div>
+    
+    <div id="convertModalOverlay" class="modal-overlay">
+        <div class="convert-modal">
+            <h3>Convert Points to TON</h3>
+            <div class="modal-body">
+                <p>Your Points: <strong id="convertPointsBalance" style="color: var(--primary-accent-color); font-size: 1.1em;">0</span></p>
+                <p class="conversion-rate-display" id="conversionRateText">Conversion Rate: 1000 Points = 0.01 TON</p>
+                <div class="form-group">
+                    <label for="pointsToConvertInput">Points to Convert</label>
+                    <input type="number" id="pointsToConvertInput" placeholder="Min 200">
+                </div>
+                <p class="info-text" style="text-align: center;">You will receive: <strong id="tonToReceive" style="color: var(--success-color);">0.0000 TON</strong></p>
+            </div>
+            <button id="convertPointsBtn" class="form-button">Convert</button>
+            <button id="closeConvertModalBtn" class="form-button" style="margin-top: 10px; background-color: var(--text-muted);">Close</button>
+        </div>
+    </div>
+
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
         
         const firebaseConfig = {
             apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
@@ -459,36 +522,39 @@
             appId: "1:41011548816:web:9c27139d9487b144ecbe15",
             measurementId: "G-EVVHZY2HD7"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const tg = window.Telegram.WebApp;
 
         let currentUser = null;
         let isSubmittingWithdrawal = false;
+        let selectedAdPackage = null;
 
         // --- CONSTANTS ---
         const REFERRAL_REWARD_POINTS = 20;
         const USER_CREATED_TASK_REWARD_POINTS = 10;
-        const POINTS_TO_TON_RATE = 0.0001; // 10,000 points = 1 TON
+        const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
 
-        // Ad System Config
-        const AD_REWARD_MONETAG = 4;
-        const AD_LIMIT_MONETAG = 5;
-        const AD_REWARD_GIGAPUB = 4;
-        const AD_LIMIT_GIGAPUB = 5;
-        const AD_REWARD_RANDOM = 3;
-        const AD_LIMIT_RANDOM = 20;
-        
-        // Withdrawal Config (in Points)
         const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 200, fee: 50 },
-            'Bkash': { min: 700, fee: 100 },
+            'Tonkeeper': { min: 200 },
+            'Bkash': { min: 700 }, // Values in Points
+        };
+
+        const adPackages = [
+            { id: 1, tasks: 100, price: 0.05 }, { id: 2, tasks: 200, price: 0.08 },
+            { id: 3, tasks: 500, price: 0.15 }, { id: 4, tasks: 1000, price: 0.25 },
+            { id: 5, tasks: 2000, price: 0.40 }, { id: 6, tasks: 5000, price: 0.80 }
+        ];
+
+        const AD_TASKS_CONFIG = {
+            'ad1': { title: 'Watch Ads 1', reward: 4, limit: 5, provider: 'monetag' },
+            'ad2': { title: 'Watch Ads 2', reward: 4, limit: 5, provider: 'gigapub' },
+            'ad3': { title: 'Watch Ads 3', reward: 3, limit: 20, provider: 'random' },
         };
 
         function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center;"><div class="card"><h3>Account Banned</h3><p style="color: #ffc107;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
-        async function getUser(userId) {
+        async function cleanupAndGetUser(userId) {
             const userRef = doc(db, 'users', userId);
             const userSnap = await getDoc(userRef);
             if (!userSnap.exists()) return null;
@@ -498,12 +564,12 @@
         async function fetchAndUpdateCurrentUser() {
             if (!currentUser?.id) return;
             try {
-                const updatedUser = await getUser(currentUser.id);
+                const updatedUser = await cleanupAndGetUser(currentUser.id);
                 if (updatedUser) {
                     currentUser = updatedUser;
-                    updateBalanceUI(currentUser.pointBalance);
+                    updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
                 }
-            } catch (error) { console.error("Error fetching current user:", error); }
+            } catch (error) { console.error("Error fetching/cleaning current user:", error); }
         }
 
         async function checkAndResetDailies() {
@@ -517,10 +583,11 @@
                 const updates = {
                     'lastDailyReset': serverTimestamp(),
                     'claimedDailyRewards': [],
-                    'dailyWebsiteVisit1Completed': false,
-                    'dailyAdViews_monetag': 0,
-                    'dailyAdViews_gigapub': 0,
-                    'dailyAdViews_random': 0,
+                    'dailyAdViews_ad1': 0,
+                    'dailyAdViews_ad2': 0,
+                    'dailyAdViews_ad3': 0,
+                    'dailyBrowseVisit1Completed': false,
+                    'dailyBrowseVisit2Completed': false,
                 };
                 try {
                     const userRef = doc(db, 'users', currentUser.id);
@@ -529,7 +596,7 @@
                 } catch (error) { console.error("Error resetting daily limits:", error); }
             }
         }
-        
+
         async function initializeUser(tgUser, referrerCode) {
             const userId = String(tgUser.id);
             const userRef = doc(db, 'users', userId);
@@ -539,16 +606,15 @@
             if (!userSnap.exists()) {
                 isNewUser = true;
                 const defaultUserData = {
-                    pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, completedTasks: [],
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
-                    isBanned: false, isActivated: false,
-                    // Daily Tracking Fields
+                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
+                    completedTasks: [],
                     lastDailyReset: serverTimestamp(),
+                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
+                    isBanned: false,
+                    isActivated: false,
                     claimedDailyRewards: [],
-                    dailyWebsiteVisit1Completed: false,
-                    dailyAdViews_monetag: 0,
-                    dailyAdViews_gigapub: 0,
-                    dailyAdViews_random: 0,
+                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0,
+                    dailyBrowseVisit1Completed: false, dailyBrowseVisit2Completed: false,
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -560,37 +626,37 @@
             const userData = userSnap.data();
             if (userData?.isBanned === true) { showBanScreen(); return null; }
             
-            // Backwards compatibility check for users who don't have the new ad fields
             const updates = {};
+            if (userData.tonBalance === undefined) updates.tonBalance = 0;
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
-            if (userData.dailyAdViews_monetag === undefined) updates.dailyAdViews_monetag = 0;
-            if (userData.dailyAdViews_gigapub === undefined) updates.dailyAdViews_gigapub = 0;
-            if (userData.dailyAdViews_random === undefined) updates.dailyAdViews_random = 0;
-
-            if (Object.keys(updates).length > 0) {
-                await updateDoc(userRef, updates);
-                userSnap = await getDoc(userRef); // Re-fetch after update
+            if (userData.isActivated === undefined) updates.isActivated = false;
+            if (userData.dailyAdViews_ad1 === undefined) {
+                 updates.dailyAdViews_ad1 = 0;
+                 updates.dailyAdViews_ad2 = 0;
+                 updates.dailyAdViews_ad3 = 0;
             }
 
-            currentUser = { id: userSnap.id, ...userSnap.data() };
-            
+            if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
+
+            currentUser = { id: userSnap.id };
+            await fetchAndUpdateCurrentUser();
+
             if(currentUser.isActivated) {
                 await checkAndResetDailies();
             }
+
             generateReferralLink(currentUser.id);
+
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        function updateBalanceUI(pointBalance) {
-            const points = Math.floor(pointBalance || 0);
-            document.getElementById('userPointBalanceDisplay').textContent = points;
-            document.getElementById('userTONBalanceDisplay').textContent = (points * POINTS_TO_TON_RATE).toFixed(4);
+        function updateBalanceUI(tonBalance, pointBalance) {
+            document.getElementById('userTONBalanceDisplay').textContent = parseFloat(tonBalance || 0).toFixed(4);
+            document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
         }
 
         function generateReferralLink(userId) {
-            const botUsername = "NewTube12_bot";
-            const webAppShortName = "TonFREE";
-            const referralLink = `https://t.me/${botUsername}/${webAppShortName}?startapp=${userId}`;
+            const referralLink = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             document.getElementById('popoverReferralLinkInput').value = referralLink;
             document.getElementById('homeReferralLinkInput').value = referralLink;
         }
@@ -616,6 +682,7 @@
                 };
                 await addDoc(collection(db, 'transactions'), transactionData);
              }
+
              await fetchAndUpdateCurrentUser();
         }
 
@@ -624,14 +691,9 @@
             container.innerHTML = '';
             if (!currentUser) return;
 
-            const adTasks = [
-                { id: 'monetag', title: '1️⃣ Watch Ads 1 (Monetag)', reward: AD_REWARD_MONETAG, viewsToday: currentUser.dailyAdViews_monetag || 0, limit: AD_LIMIT_MONETAG },
-                { id: 'gigapub', title: '2️⃣ Watch Ads 2 (Gigapub)', reward: AD_REWARD_GIGAPUB, viewsToday: currentUser.dailyAdViews_gigapub || 0, limit: AD_LIMIT_GIGAPUB },
-                { id: 'random', title: '3️⃣ Watch Ads 3 (Random)', reward: AD_REWARD_RANDOM, viewsToday: currentUser.dailyAdViews_random || 0, limit: AD_LIMIT_RANDOM },
-            ];
-
-            adTasks.forEach(task => {
-                const viewsLeft = task.limit - task.viewsToday;
+            Object.entries(AD_TASKS_CONFIG).forEach(([key, task]) => {
+                const viewsToday = currentUser[`dailyAdViews_${key}`] || 0;
+                const viewsLeft = task.limit - viewsToday;
                 const isCompleted = viewsLeft <= 0;
                 const card = document.createElement('div');
                 card.className = 'ad-task-card';
@@ -639,9 +701,9 @@
                     <div class="ad-task-card-info">
                         <h4>${task.title}</h4>
                         <p>Reward: <span class="task-reward-points">${task.reward} Points</span> per ad</p>
-                        <p>Progress: ${task.viewsToday} / ${task.limit} ads watched</p>
+                        <p>Progress: ${viewsToday} / ${task.limit} ads watched</p>
                     </div>
-                    <button class="ad-task-button" data-ad-type="${task.id}" ${isCompleted ? 'disabled' : ''}>
+                    <button class="ad-task-button" data-task-id="${key}" ${isCompleted ? 'disabled' : ''}>
                         ${isCompleted ? 'Completed Today' : `View Ad (${viewsLeft} left)`}
                     </button>`;
                 container.appendChild(card);
@@ -652,37 +714,14 @@
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
 
-            const adType = button.dataset.adType;
+            const taskId = button.dataset.taskId;
+            const taskConfig = AD_TASKS_CONFIG[taskId];
             button.disabled = true; button.textContent = 'Loading Ad...';
-
-            let adProviderFunction;
-            let rewardPoints;
-            let updateField;
-
-            switch (adType) {
-                case 'monetag':
-                    adProviderFunction = showMonetagAd;
-                    rewardPoints = AD_REWARD_MONETAG;
-                    updateField = 'dailyAdViews_monetag';
-                    break;
-                case 'gigapub':
-                    adProviderFunction = showGigaPubAd;
-                    rewardPoints = AD_REWARD_GIGAPUB;
-                    updateField = 'dailyAdViews_gigapub';
-                    break;
-                case 'random':
-                    adProviderFunction = showRandomAd;
-                    rewardPoints = AD_REWARD_RANDOM;
-                    updateField = 'dailyAdViews_random';
-                    break;
-                default:
-                    setupAdsToEarn(); // Reset UI if something is wrong
-                    return;
-            }
 
             let adTimer = null; let adSuccess = false; let countdown = 10;
 
             const startTimer = () => {
+                if (adTimer) clearInterval(adTimer);
                 adTimer = setInterval(async () => {
                     countdown--;
                     button.textContent = `Wait ${countdown}s`;
@@ -690,7 +729,8 @@
                         adSuccess = true; clearInterval(adTimer);
                         button.textContent = 'Processing...';
                         try {
-                            await grantReward({ points: rewardPoints }, { type: 'Ad Reward', details: `Watched Ad (${adType})`});
+                            const updateField = `dailyAdViews_${taskId}`;
+                            await grantReward({ points: taskConfig.reward }, { type: 'Ad Reward', details: `Watched Ad from ${taskConfig.title}`});
                             await updateDoc(doc(db, 'users', currentUser.id), { [updateField]: increment(1) });
                             await fetchAndUpdateCurrentUser();
                             setupAdsToEarn();
@@ -711,7 +751,11 @@
                         setupAdsToEarn();
                     }
                 };
-                await adProviderFunction();
+                
+                if (taskConfig.provider === 'monetag') await showMonetagAd();
+                else if (taskConfig.provider === 'gigapub') await showGigaPubAd();
+                else if (taskConfig.provider === 'random') await showRandomAd();
+                
                 button.textContent = `Wait ${countdown}s`;
                 startTimer();
             } catch (err) {
@@ -722,37 +766,43 @@
             }
         });
 
-
-        async function fetchAndRenderTasks() {
-            const taskListContainer = document.getElementById('task-list');
+        async function fetchAndRenderTasks(containerId, count) {
+            const taskListContainer = document.getElementById(containerId);
             taskListContainer.innerHTML = '<div class="loader"></div>';
             if (!currentUser) return;
             try {
-                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(50));
+                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(count));
                 const snapshot = await getDocs(q);
                 taskListContainer.innerHTML = '';
-                if(snapshot.empty) {
-                     taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">No new tasks available for you right now.</p>';
-                     return;
-                }
+
+                let tasksRendered = 0;
                 snapshot.forEach(docSnap => {
                     const task = docSnap.data();
-                    if (!currentUser.completedTasks?.includes(docSnap.id)) {
-                        const card = document.createElement('div');
-                        card.className = 'task-card';
-                        card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${USER_CREATED_TASK_REWARD_POINTS} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
-                        taskListContainer.appendChild(card);
-                    }
+                    if (task.creatorId === currentUser.id || currentUser.completedTasks?.includes(docSnap.id)) return;
+                    const isLimitReached = (task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit;
+                    if (isLimitReached) return;
+
+                    const card = document.createElement('div');
+                    card.className = 'task-card';
+                    card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${(task.rewardPoints || 0)} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
+                    taskListContainer.appendChild(card);
+                    tasksRendered++;
                 });
+
+                if (tasksRendered === 0) {
+                    taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">No new tasks available for you right now.</p>';
+                }
+
             } catch (error) {
                 console.error("Error fetching tasks:", error);
                 taskListContainer.innerHTML = '<p style="color:red; text-align:center; grid-column: 1 / -1;">Could not load tasks.</p>';
             }
         }
-        
+
         document.getElementById('task-list').addEventListener('click', async (e) => {
             const button = e.target.closest('.task-button');
             if (!button || button.disabled) return;
+
             const { taskId, taskUrl, state } = button.dataset;
 
             if (state === 'start') {
@@ -775,7 +825,9 @@
             const modal = document.getElementById('taskConfirmModalOverlay');
             const goBackButton = document.getElementById('taskConfirmGoBackBtn');
             const submitButton = document.getElementById('taskConfirmSubmitBtn');
+
             goBackButton.onclick = () => { tg.openLink(taskUrl); modal.classList.remove('show'); };
+
             submitButton.onclick = async () => {
                 modal.classList.remove('show');
                 await processTaskClaim(taskId, buttonElement);
@@ -786,15 +838,26 @@
         async function processTaskClaim(taskId, button) {
             const taskCard = button.closest('.task-card');
             button.disabled = true; button.textContent = 'Verifying...';
+
             try {
+                const taskDocSnap = await getDoc(doc(db, 'tasks', taskId));
+                if (!taskDocSnap.exists()) throw new Error("Task not found.");
+                const taskData = taskDocSnap.data();
+                const rewardAmount = taskData.rewardPoints || 0;
+                if (rewardAmount <= 0) throw new Error("Task has no reward.");
+
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
+                    const taskRef = doc(db, 'tasks', taskId);
                     const userDoc = await t.get(userRef);
                     if (userDoc.data().completedTasks?.includes(taskId)) throw "ALREADY_COMPLETED";
                     t.update(userRef, { completedTasks: arrayUnion(taskId) });
+                    t.update(taskRef, { completionCount: increment(1) });
                 });
-                await grantReward({ points: USER_CREATED_TASK_REWARD_POINTS }, { type: 'Task Reward', details: 'Completed user-created task' });
-                showSuccessModal("Task Verified!", `${USER_CREATED_TASK_REWARD_POINTS} Points have been added to your balance.`);
+
+                await grantReward({ points: rewardAmount }, { type: 'Task Reward', details: 'Completed user-created task' });
+                showSuccessModal("Task Verified!", `${rewardAmount} Points have been added to your balance.`);
+
                 if (taskCard) taskCard.remove();
                 await fetchAndUpdateCurrentUser();
 
@@ -803,14 +866,15 @@
                 button.disabled = false; button.textContent = 'Claim Reward';
             }
         }
-        
+
         function renderDailyTasks() {
             const container = document.getElementById('daily-tasks-grid');
             if (!currentUser) { container.innerHTML = ''; return; }
 
             const claimedDaily = currentUser.claimedDailyRewards || [];
             const tasks = [
-                { id: 'web_visit_1', type: 'visit', title: 'Visit Partner Website', reward: 15, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyWebsiteVisit1Completed, visitTime: 15 },
+                { id: 'web_1', type: 'visit', title: 'Visit Website 1', reward: 15, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit1Completed, visitTime: 15 },
+                { id: 'web_2', type: 'visit', title: 'Visit Website 2', reward: 15, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit2Completed, visitTime: 15 },
             ];
 
             container.innerHTML = tasks.map(task => {
@@ -832,7 +896,7 @@
                     </div>`;
             }).join('');
         }
-        
+
         document.getElementById('daily-tasks-grid').addEventListener('click', async (e) => {
             const button = e.target.closest('.daily-task-button');
             if (!button || button.disabled) return;
@@ -857,7 +921,9 @@
                     countdown--; button.textContent = `Wait ${countdown}s`;
                     if (countdown <= 0) {
                         clearInterval(timer); button.textContent = `Processing...`;
-                        const updateField = { 'web_visit_1': 'dailyWebsiteVisit1Completed' }[taskId];
+                        const updateField = {
+                            'web_1': 'dailyBrowseVisit1Completed', 'web_2': 'dailyBrowseVisit2Completed'
+                        }[taskId];
                         if (updateField) {
                             await updateDoc(userRef, { [updateField]: true });
                             await fetchAndUpdateCurrentUser();
@@ -867,7 +933,82 @@
                 }, 1000);
             }
         });
-        
+
+        function renderTaskPackages() {
+            const grid = document.getElementById('ad-package-grid');
+            grid.innerHTML = adPackages.map(pkg => `
+                <div class="ad-package-card" data-package-id="${pkg.id}">
+                    <h4>${pkg.tasks} Tasks</h4>
+                    <p>${pkg.price.toFixed(2)} TON</p>
+                </div>`).join('');
+        }
+
+        document.getElementById('ad-package-grid').addEventListener('click', (e) => {
+            const card = e.target.closest('.ad-package-card');
+            if (!card) return;
+            document.querySelectorAll('#ad-package-grid .ad-package-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedAdPackage = adPackages.find(p => p.id === parseInt(card.dataset.packageId, 10));
+        });
+
+        async function renderMyAds() {
+            const container = document.getElementById('my-ads-list');
+            container.innerHTML = '<div class="loader"></div>';
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, 'tasks'), where("creatorId", "==", currentUser.id), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) { container.innerHTML = '<p style="text-align:center;">You have not created any task advertisements yet.</p>'; return; }
+                container.innerHTML = snapshot.docs.map(docSnap => {
+                    const ad = docSnap.data();
+                    const isCompleted = (ad.completionCount || 0) >= (ad.limit || 0);
+                    return `
+                    <div class="user-ad-item task-card">
+                        <div>
+                           <h4>${ad.title}</h4>
+                           <p class="info-text" style="word-break: break-all;">URL: ${ad.url}</p>
+                           <p class="progress-text">Progress: ${(ad.completionCount || 0)} / ${ad.limit}</p>
+                        </div>
+                        <p class="status-text ${isCompleted ? 'completed' : 'active'}">${isCompleted ? 'Completed ✅' : 'Active'}</p>
+                    </div>`;
+                }).join('');
+            } catch (error) {
+                console.error("Error fetching my ads:", error);
+                container.innerHTML = '<p style="text-align:center; color: red;">Could not load your ads.</p>';
+            }
+        }
+
+        document.getElementById('create-task-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (!selectedAdPackage) { alert('Please select a task package.'); return; }
+            const title = document.getElementById('task-title-input').value.trim();
+            const url = document.getElementById('task-url-input').value.trim();
+            if (!title || !url) { alert('Please provide both a title and a URL for your task.'); return; }
+            if ((currentUser.tonBalance || 0) < selectedAdPackage.price) { alert('Insufficient TON balance to purchase this package.'); return; }
+
+            submitBtn.disabled = true; submitBtn.textContent = 'Processing...';
+            try {
+                await runTransaction(db, async (t) => {
+                    const userRef = doc(db, 'users', currentUser.id);
+                    t.update(userRef, { tonBalance: increment(-selectedAdPackage.price) });
+                    const newTaskData = { title, url, rewardPoints: USER_CREATED_TASK_REWARD_POINTS, limit: selectedAdPackage.tasks, completionCount: 0, creatorId: currentUser.id, isApproved: true, createdAt: serverTimestamp() };
+                    t.set(doc(collection(db, 'tasks')), newTaskData);
+                });
+                showSuccessModal("Task Created!", "Your new task is now live for other users to complete.");
+                e.target.reset();
+                document.querySelectorAll('#ad-package-grid .ad-package-card.selected').forEach(c => c.classList.remove('selected'));
+                selectedAdPackage = null;
+                document.getElementById('createTaskModalOverlay').classList.remove('show');
+                await fetchAndUpdateCurrentUser();
+                await renderMyAds();
+            } catch (error) {
+                alert(`Failed to create task: ${error.message}`);
+            } finally {
+                submitBtn.disabled = false; submitBtn.textContent = 'Create Task';
+            }
+        });
+
         function showSuccessModal(title, message) {
             document.getElementById('successModalTitle').textContent = title;
             document.getElementById('successModalMessage').innerHTML = message;
@@ -877,32 +1018,33 @@
         }
         
         // --- WITHDRAWAL ---
+
         function setupWithdrawalUI() {
             if (!currentUser) return;
-            document.getElementById('withdrawPointBalance').textContent = `${Math.floor(currentUser.pointBalance || 0)} Points`;
+            const balance = currentUser.pointBalance || 0;
+            document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
             const amountInput = document.getElementById('withdrawalAmount');
 
             const updateSummary = () => {
                 const method = methodSelect.value;
-                const amount = parseInt(amountInput.value, 10);
+                const amount = parseFloat(amountInput.value);
                 const config = WITHDRAWAL_CONFIG[method];
                 const summaryBox = document.getElementById('withdraw-summary');
 
                 if (!config) { summaryBox.style.display = 'none'; return; }
 
                 document.getElementById('summary-min').textContent = `${config.min} Points`;
-                document.getElementById('summary-fee').textContent = `${config.fee} Points`;
-
+                
                 if (!isNaN(amount) && amount > 0) {
-                    const receiveAmountPoints = amount - config.fee;
-                    const receiveAmountTon = receiveAmountPoints * POINTS_TO_TON_RATE;
-                    document.getElementById('summary-receive').textContent = `${receiveAmountTon > 0 ? receiveAmountTon.toFixed(4) : '0.0000'} TON`;
+                    const receiveAmount = amount * POINTS_TO_TON_RATE;
+                    document.getElementById('summary-receive').textContent = `${receiveAmount.toFixed(4)} TON`;
                 } else {
                     document.getElementById('summary-receive').textContent = '0.0000 TON';
                 }
                 summaryBox.style.display = 'block';
             };
+
             methodSelect.addEventListener('change', updateSummary);
             amountInput.addEventListener('input', updateSummary);
             updateSummary();
@@ -912,49 +1054,48 @@
             if(isSubmittingWithdrawal) return;
 
             const method = document.getElementById('withdrawalMethod').value;
-            const amount = parseInt(document.getElementById('withdrawalAmount').value, 10);
+            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
             const details = document.getElementById('accountDetails').value.trim();
             const config = WITHDRAWAL_CONFIG[method];
 
             if (!details) { alert('Please enter your account details.'); return; }
-            if (isNaN(amount) || amount <= 0) { alert('Please enter a valid amount of points.'); return; }
-            if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} points.`); return; }
-            if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient point balance.'); return; }
+            if (isNaN(amount) || amount <= 0) { alert('Please enter a valid amount.'); return; }
+            if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
+            if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient Points balance.'); return; }
 
-            showWithdrawalConfirmationModal(amount, method, details, config.fee);
+            showWithdrawalConfirmationModal(amount, method, details);
         });
 
-        function showWithdrawalConfirmationModal(amount, method, details, fee) {
+        function showWithdrawalConfirmationModal(amount, method, details) {
             const modal = document.getElementById('withdrawConfirmModalOverlay');
-            const receiveTon = (amount - fee) * POINTS_TO_TON_RATE;
-            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method}? This is approx. ${receiveTon.toFixed(4)} TON.`;
+            const tonAmount = (amount * POINTS_TO_TON_RATE).toFixed(4);
+            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method} (${details})? You will receive approximately ${tonAmount} TON.`;
 
             const cancelBtn = document.getElementById('withdrawConfirmCancelBtn');
             const confirmBtn = document.getElementById('withdrawConfirmSubmitBtn');
             const close = () => modal.classList.remove('show');
 
-            const handleConfirm = async () => { close(); await processPointsWithdrawal(amount, method, details, fee); };
+            const handleConfirm = async () => { close(); await processWithdrawal(amount, method, details); };
             cancelBtn.onclick = close; confirmBtn.onclick = handleConfirm;
             modal.classList.add('show');
         }
 
-        async function processPointsWithdrawal(amountPoints, method, details, feePoints) {
+        async function processWithdrawal(amount, method, details) {
             isSubmittingWithdrawal = true;
             try {
+                const tonAmount = amount * POINTS_TO_TON_RATE;
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const userDoc = await t.get(userRef);
-                    if ((userDoc.data().pointBalance || 0) < amountPoints) throw new Error(`Insufficient balance.`);
+                    if ((userDoc.data().pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
 
                     const requestData = {
                         userId: currentUser.id, telegramUsername: currentUser.telegramUsername,
                         method, details, status: 'pending', createdAt: serverTimestamp(),
-                        pointsAmount: amountPoints, feeInPoints: feePoints,
-                        totalPointsDeducted: amountPoints,
-                        tonAmount: (amountPoints - feePoints) * POINTS_TO_TON_RATE,
+                        pointAmount: amount, tonAmount: tonAmount
                     };
                     t.set(doc(collection(db, 'withdrawals')), requestData);
-                    t.update(userRef, { pointBalance: increment(-amountPoints) });
+                    t.update(userRef, { pointBalance: increment(-amount) });
                 });
                 await fetchAndUpdateCurrentUser();
                 document.getElementById('withdrawalForm').reset();
@@ -966,7 +1107,7 @@
                 setupWithdrawalUI();
             }
         }
-        
+
         async function showCombinedHistory() {
             const historyContainer = document.getElementById('combined-history-list');
             const modal = document.getElementById('historyModalOverlay');
@@ -1002,9 +1143,9 @@
                     let status = data.status || 'Completed'; let statusClass = `status-${status.toLowerCase()}`;
 
                     if (title === 'Withdrawal') {
-                        amountStr = `- ${(data.totalPointsDeducted || 0)} Pts`; amountClass = 'amount-negative';
+                        amountStr = `- ${(data.pointAmount || 0)} Points`; amountClass = 'amount-negative';
                     } else if (data.pointAmount) {
-                        amountStr = `+ ${data.pointAmount} Pts`; amountClass = 'amount-positive';
+                        amountStr = `+ ${data.pointAmount} Points`; amountClass = 'amount-positive';
                     }
 
                     return `${dateHeaderHtml}
@@ -1019,8 +1160,7 @@
                 historyContainer.innerHTML = '<p style="color:red;text-align:center;">Error loading history.</p>';
             }
         }
-        
-        // --- AD PROVIDER FUNCTIONS ---
+
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
         const showAdextraAd = () => new Promise((res, rej) => typeof p_adextra === 'function' ? p_adextra({ onSuccess: res, onError: (e) => rej(new Error("Adextra ad failed: " + e)) }) : rej('Adextra SDK missing'));
@@ -1038,9 +1178,10 @@
             }
         }
 
-        // --- UI & NAVIGATION ---
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
         document.getElementById('closeHistoryBtn').addEventListener('click', () => document.getElementById('historyModalOverlay').classList.remove('show'));
+        document.getElementById('show-create-task-btn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.add('show'));
+        document.getElementById('closeTaskModalBtn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.remove('show'));
 
         document.querySelectorAll('.bottom-nav-item').forEach(link => {
             link.addEventListener('click', async (e) => {
@@ -1049,18 +1190,24 @@
                 if (!currentUser || document.querySelector(targetId)?.classList.contains('active')) return;
 
                 document.querySelectorAll('.bottom-nav-item.active, .content-section.active').forEach(el => el.classList.remove('active'));
+
                 link.classList.add('active');
                 document.querySelector(targetId).classList.add('active');
 
                 switch(targetId) {
                     case '#home-content': renderHomeUI(); renderDailyTasks(); break;
                     case '#ads-content': setupAdsToEarn(); break;
-                    case '#task-content': await fetchAndRenderTasks(); break;
+                    case '#task-content':
+                        renderTaskPackages();
+                        await renderMyAds();
+                        await fetchAndRenderTasks('task-list', 50);
+                        break;
                     case '#withdraw-content': setupWithdrawalUI(); break;
+                    case '#support-content': break;
                 }
             });
         });
-        
+
         function setupUserIdDisplay(userId) {
             const userIdContainer = document.getElementById('header-user-id');
             userIdContainer.querySelector('span').textContent = `ID: ${userId}`;
@@ -1081,13 +1228,22 @@
 
         const profileBtn = document.getElementById('profile-info-btn');
         const popover = document.getElementById('profile-popover');
-        profileBtn.addEventListener('click', (e) => { e.stopPropagation(); updateProfilePopover(); popover.classList.toggle('show'); });
-        document.addEventListener('click', (e) => { if (!popover.contains(e.target) && !profileBtn.contains(e.target)) popover.classList.remove('show'); });
-        
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateProfilePopover();
+            popover.classList.toggle('show');
+        });
+        document.addEventListener('click', (e) => {
+            if (!popover.contains(e.target) && !profileBtn.contains(e.target)) {
+                popover.classList.remove('show');
+            }
+        });
         document.getElementById('popoverCopyRefLinkBtn').addEventListener('click', (e) => {
-            e.stopPropagation(); const copyButton = e.target;
+            e.stopPropagation();
+            const copyButton = e.target;
             navigator.clipboard.writeText(copyButton.previousElementSibling.value).then(() => {
-                copyButton.textContent = 'Copied!'; if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                copyButton.textContent = 'Copied!';
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
             });
         });
@@ -1100,12 +1256,12 @@
         document.getElementById('homeCopyReferralLinkBtn').addEventListener('click', () => {
             const copyButton = document.getElementById('homeCopyReferralLinkBtn');
             navigator.clipboard.writeText(copyButton.previousElementSibling.value).then(() => {
-                copyButton.textContent = 'Copied!'; if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                copyButton.textContent = 'Copied!';
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
             });
         });
 
-        // --- ACTIVATION FLOW ---
         function showActivationModal() {
             document.getElementById('activationModalOverlay').classList.add('show');
             document.querySelector('main').style.display = 'none';
@@ -1114,6 +1270,78 @@
 
         async function handleUserActivation() {
             const activateBtn = document.getElementById('activateAccountBtn');
-            activateBtn.disabled = true; activateBtn.textContent = 'Activating...';
+            activateBtn.disabled = true;
+            activateBtn.textContent = 'Activating...';
+
             try {
-                await updateDoc(
+                const userRef = doc(db, 'users', currentUser.id);
+                await updateDoc(userRef, { isActivated: true });
+                currentUser.isActivated = true;
+
+                if (currentUser.referredBy) {
+                    const referrerRef = doc(db, 'users', currentUser.referredBy);
+                    await runTransaction(db, async (transaction) => {
+                        const referrerDoc = await transaction.get(referrerRef);
+                        if (!referrerDoc.exists() || !referrerDoc.data().isActivated) {
+                            console.log("Referrer not found or not activated.");
+                            return;
+                        }
+                        transaction.update(referrerRef, {
+                            referralCount: increment(1),
+                            pointBalance: increment(REFERRAL_REWARD_POINTS)
+                        });
+                         await addDoc(collection(db, 'transactions'), {
+                            userId: currentUser.referredBy,
+                            type: 'Referral Reward',
+                            details: `For new user ${currentUser.id}`,
+                            pointAmount: REFERRAL_REWARD_POINTS,
+                            status: 'Completed',
+                            createdAt: serverTimestamp()
+                        });
+                    });
+                }
+
+                document.getElementById('activationModalOverlay').classList.remove('show');
+                document.querySelector('main').style.display = 'block';
+                document.querySelector('.bottom-nav').style.display = 'flex';
+                showSuccessModal("Account Activated!", "Welcome to NEW TON! You can now start earning.");
+                await checkAndResetDailies();
+                renderHomeUI();
+                renderDailyTasks();
+
+            } catch (error) {
+                console.error("Activation failed:", error);
+                alert("Account activation failed. Please try again or contact support.");
+                activateBtn.disabled = false;
+                activateBtn.textContent = 'I\'ve Joined, Activate My Account';
+            }
+        }
+        document.getElementById('activateAccountBtn').addEventListener('click', handleUserActivation);
+
+        async function main() {
+            try {
+                if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>This app can only be launched from Telegram.</p></div>`; return; }
+                tg.ready(); tg.expand();
+
+                const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
+                if (!initStatus) return;
+
+                setupUserIdDisplay(currentUser.id);
+
+                if (!initStatus.isActivated) {
+                    showActivationModal();
+                } else {
+                    renderHomeUI();
+                    renderDailyTasks();
+                }
+
+            } catch (error) {
+                console.error("Initialization failed:", error);
+                document.body.innerHTML = `<div class="card"><h3>Application Error</h3><p>Could not initialize. Please restart.</p><p style="font-size: 0.8em; color: #888;">Error: ${error.message}</p></div>`;
+            }
+        }
+        main();
+    </script>
+
+</body>
+</html>
