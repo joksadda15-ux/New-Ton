@@ -43,10 +43,20 @@
             --success-color: #28a745;
             --disabled-color: #E9ECEF;
             --disabled-text-color: #6c757d;
+
+            /* New Dark Theme Variables based on Quest Bux image */
+            --dark-bg: #1F1F1F; /* Dark background */
+            --dark-card-bg: #2A2A2A; /* Darker card background */
+            --dark-text: #E0E0E0; /* Light text for dark theme */
+            --dark-muted-text: #9E9E9E; /* Muted text for dark theme */
+            --dark-border-color: #424242; /* Darker border color */
+            --dark-button-bg: #00BFB2; /* Cyan/Teal button color */
+            --dark-button-hover: #00A397; /* Darker cyan/teal */
         }
+        
         body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
+            background-color: var(--dark-bg); /* Changed to dark theme */
+            color: var(--dark-text); /* Changed to dark theme */
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 70px 0 90px;
@@ -54,182 +64,424 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
         .main-header {
-            background-color: var(--header-bg);
+            background-color: var(--dark-card-bg); /* Changed to dark theme */
             padding: 10px 15px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--dark-border-color); /* Changed to dark theme */
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
             height: 50px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Darker shadow */
         }
         .header-left { display: flex; align-items: center; gap: 10px; }
         .site-branding { display: flex; flex-direction: column; align-items: flex-start; }
-        .site-title { font-size: 1.4em; color: var(--primary-accent-color); font-weight: 700; margin: 0; line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        .user-id-display { font-size: 0.65em; color: var(--text-muted); font-family: 'Roboto Mono', monospace; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 2px 4px; border-radius: 4px; transition: background-color .2s;}
-        .user-id-display:hover { background-color: #f0f0f0; }
-        .user-id-display .copy-icon { width: 12px; height: 12px; }
+        .site-title { font-size: 1.4em; color: var(--primary-accent-color); font-weight: 700; margin: 0; line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .user-id-display { font-size: 0.65em; color: var(--dark-muted-text); font-family: 'Roboto Mono', monospace; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 2px 4px; border-radius: 4px; transition: background-color .2s;}
+        .user-id-display:hover { background-color: #3A3A3A; } /* Darker hover */
+        .user-id-display .copy-icon { width: 12px; height: 12px; fill: var(--dark-muted-text); } /* Dark theme icon */
 
         .header-right { display: flex; align-items: center; gap: 10px; }
-        .balance-display { background-color: rgba(255, 193, 7, 0.15); color: var(--text-dark); padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9em; text-align: right; }
+        .balance-display { background-color: rgba(255, 193, 7, 0.15); color: var(--dark-text); padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9em; text-align: right; }
         .balance-display .ton-label { color: var(--primary-accent-color); font-weight: 700; }
-        .balance-display .point-balance { font-size: 0.8em; color: var(--text-muted); display: block; }
+        .balance-display .point-balance { font-size: 0.8em; color: var(--dark-muted-text); display: block; }
 
-        .header-icon-btn { position: relative; cursor: pointer; background: none; border: none; color: var(--text-dark); padding: 5px; }
-        .header-icon-btn svg { width: 26px; height: 26px; }
+        .header-icon-btn { position: relative; cursor: pointer; background: none; border: none; color: var(--dark-text); padding: 5px; } /* Dark theme icon */
+        .header-icon-btn svg { width: 26px; height: 26px; fill: var(--dark-text); } /* Dark theme icon */
 
         .profile-popover {
             position: absolute;
             top: 50px;
             left: 0;
-            background-color: var(--card-bg);
+            background-color: var(--dark-card-bg); /* Changed to dark theme */
             border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3); /* Darker shadow */
             padding: 15px;
             width: 300px;
             max-width: 90vw;
             z-index: 1001;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--dark-border-color); /* Changed to dark theme */
             display: none;
             flex-direction: column;
             gap: 12px;
             animation: fadeInDown 0.3s ease-out;
+            color: var(--dark-text); /* Dark theme text */
         }
         .profile-popover.show { display: flex; }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .profile-popover-item { font-size: 0.9em; }
-        .profile-popover-item strong { font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 2px; }
-        .profile-popover-item span, .profile-popover-item input { font-family: 'Roboto Mono', monospace; color: var(--text-muted); }
+        .profile-popover-item strong { font-weight: 600; color: var(--dark-text); display: block; margin-bottom: 2px; }
+        .profile-popover-item span, .profile-popover-item input { font-family: 'Roboto Mono', monospace; color: var(--dark-muted-text); }
         .popover-ref-link { display: flex; gap: 8px; }
-        .popover-ref-link input { flex-grow: 1; border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 8px; font-size: 0.9em; background-color: var(--light-bg); }
-        .popover-ref-link button { padding: 6px 10px; border: none; border-radius: 6px; background-color: var(--primary-accent-color); color: #000; font-weight: 600; cursor: pointer; font-size: 0.8em; }
+        .popover-ref-link input { flex-grow: 1; border: 1px solid var(--dark-border-color); border-radius: 6px; padding: 6px 8px; font-size: 0.9em; background-color: var(--dark-bg); color: var(--dark-text); } /* Dark theme input */
+        .popover-ref-link button { padding: 6px 10px; border: none; border-radius: 6px; background-color: var(--dark-button-bg); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.8em; } /* Dark theme button */
 
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-color);
+            background-color: var(--dark-card-bg); /* Changed to dark theme */
+            border-top: 1px solid var(--dark-border-color); /* Changed to dark theme */
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
             z-index: 1000;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2); /* Darker shadow */
         }
         .bottom-nav-item {
             display: flex; flex-direction: column; align-items: center;
-            gap: 4px; color: var(--text-muted); text-decoration: none;
+            gap: 4px; color: var(--dark-muted-text); text-decoration: none; /* Dark theme text */
             font-size: 0.75rem; font-weight: 500;
             padding: 5px 10px; border-radius: 8px;
             transition: color 0.2s, background-color 0.2s;
         }
-        .bottom-nav-item svg { width: 24px; height: 24px; }
+        .bottom-nav-item svg { width: 24px; height: 24px; fill: var(--dark-muted-text); } /* Dark theme icon */
         .bottom-nav-item:hover { color: var(--primary-accent-color); }
         .bottom-nav-item.active { color: var(--primary-accent-color); }
+        .bottom-nav-item.active svg { fill: var(--primary-accent-color); }
 
         .content-section { display: none; padding-top: 25px; }
         .content-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .section-title { font-size: 1.6em; margin-bottom: 25px; padding-bottom: 10px; color: var(--text-dark); border-bottom: 2px solid var(--border-color); font-weight: 600; }
-        .sub-section-title { font-size: 1.2em; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top: 40px; margin-bottom: 20px; font-weight: 500; }
+        .section-title { font-size: 1.6em; margin-bottom: 25px; padding-bottom: 10px; color: var(--dark-text); border-bottom: 2px solid var(--dark-border-color); font-weight: 600; }
+        .sub-section-title { font-size: 1.2em; border-bottom: 1px solid var(--dark-border-color); padding-bottom: 8px; margin-top: 40px; margin-bottom: 20px; font-weight: 500; }
 
-        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .withdraw-package-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .withdraw-package-card, .card {
+            background-color: var(--dark-card-bg); /* Changed to dark theme */
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--dark-border-color); /* Changed to dark theme */
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Darker shadow */
+            color: var(--dark-text);
+        }
         .ad-task-card-info { padding: 15px; flex-grow: 1; text-align:center;}
-        .ad-task-card h4, .ad-package-card h4, .user-ad-item h4 { margin: 0 0 8px; font-size: 1.1em; line-height: 1.3; }
+        .ad-task-card h4, .ad-package-card h4, .user-ad-item h4 { margin: 0 0 8px; font-size: 1.1em; line-height: 1.3; color: var(--dark-text); }
 
-        .ad-task-card p { margin: 8px 0 15px; color: var(--text-muted); font-weight: bold; }
-        .task-reward-points { color: var(--success-color); }
-        .ad-task-button { width: 100%; padding: 12px; border: none; border-radius: 0 0 10px 10px; font-weight: bold; cursor: pointer; background-color: var(--primary-accent-color); color: #000; transition: background-color .2s; margin-top: auto; font-size: 1em;}
-        .task-button, .daily-task-button { width: auto; flex-shrink: 0; padding: 10px 20px; font-size: 0.9em; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; background-color: var(--primary-accent-color); color: #000; transition: background-color .2s; margin-top: 0; }
-        .task-button:disabled, .ad-task-button:disabled, .daily-task-button:disabled { background-color: var(--disabled-color); color: var(--disabled-text-color); cursor: not-allowed; }
+        .ad-task-card p { margin: 8px 0 15px; color: var(--dark-muted-text); font-weight: bold; }
+        .task-reward-points { color: var(--primary-accent-color); } /* Changed from success to accent */
+        .ad-task-button { width: 100%; padding: 12px; border: none; border-radius: 0 0 10px 10px; font-weight: bold; cursor: pointer; background-color: var(--dark-button-bg); color: #fff; transition: background-color .2s; margin-top: auto; font-size: 1em;}
+        .ad-task-button:hover:not(:disabled) { background-color: var(--dark-button-hover); }
+        .task-button, .daily-task-button { width: auto; flex-shrink: 0; padding: 10px 20px; font-size: 0.9em; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; background-color: var(--dark-button-bg); color: #fff; transition: background-color .2s; margin-top: 0; }
+        .task-button:hover:not(:disabled), .daily-task-button:hover:not(:disabled) { background-color: var(--dark-button-hover); }
 
-        .card { max-width: 500px; margin: 20px auto; background-color: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .task-button:disabled, .ad-task-button:disabled, .daily-task-button:disabled { background-color: var(--dark-border-color); color: var(--dark-muted-text); cursor: not-allowed; }
+
+        .card { max-width: 500px; margin: 20px auto; padding: 30px; text-align: center; }
         .card-icon { width: 50px; height: 50px; margin: 0 auto 15px; color: var(--primary-accent-color); }
-        .card h3 { margin-top: 0; font-size: 1.4em; } .card p { color: var(--text-muted); line-height: 1.6; }
+        .card h3 { margin-top: 0; font-size: 1.4em; color: var(--dark-text); } .card p { color: var(--dark-muted-text); line-height: 1.6; }
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--light-bg); color: var(--text-dark); font-size: 1em; }
-        .form-button { width: 100%; padding: 14px; border: none; border-radius: 8px; background-color: var(--primary-accent-color); color: #000; font-weight: bold; font-size: 1em; cursor: pointer; transition: background-color 0.2s; }
-        .form-button:hover:not(:disabled) { background-color: var(--primary-accent-hover-color); }
-        .form-button:disabled { background-color: var(--disabled-color); cursor: not-allowed; color: var(--disabled-text-color); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--dark-muted-text); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--dark-border-color); background-color: var(--dark-bg); color: var(--dark-text); font-size: 1em; } /* Dark theme form inputs */
+        .form-button { width: 100%; padding: 14px; border: none; border-radius: 8px; background-color: var(--dark-button-bg); color: #fff; font-weight: bold; font-size: 1em; cursor: pointer; transition: background-color 0.2s; }
+        .form-button:hover:not(:disabled) { background-color: var(--dark-button-hover); }
+        .form-button:disabled { background-color: var(--dark-border-color); cursor: not-allowed; color: var(--dark-muted-text); }
 
-        .loader { border: 4px solid var(--border-color); border-top: 4px solid var(--primary-accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader { border: 4px solid var(--dark-border-color); border-top: 4px solid var(--primary-accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-overlay.show { display: flex; }
-        .modal-content { background-color: var(--card-bg); color: var(--text-dark); padding: 30px 40px; border-radius: 15px; text-align: center; transform: scale(0.9); opacity: 0; animation: modal-pop-in 0.3s forwards; max-width: 90%; width: 450px; border: 1px solid var(--border-color); }
-        @keyframes modal-pop-in { to { transform: scale(1); opacity: 1; } }
-        .success-modal-icon { width: 70px; height: 70px; border-radius: 50%; background-color: var(--success-color); display: flex; justify-content: center; align-items: center; font-size: 40px; font-weight: bold; color: white; margin: 0 auto 20px; animation: icon-pop-in 0.5s 0.2s backwards; }
-        @keyframes icon-pop-in { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .modal-content h3 { margin: 0 0 10px; font-size: 1.6em; }
-        .modal-content p { margin: 0; color: var(--text-muted); font-size: 1em; white-space: pre-wrap;}
-        .history-modal, .task-modal, .task-confirm-modal, .activation-modal, .convert-modal { background-color: var(--card-bg); color: var(--text-dark); padding: 20px; border-radius: 15px; text-align: left; width: 90%; max-height: 90vh; display: flex; flex-direction: column; }
-        .history-modal, .task-modal, .task-confirm-modal, .activation-modal, .convert-modal { max-width: 500px; }
-        .history-modal h3, .task-modal h3, .task-confirm-modal h3, .activation-modal h3, .convert-modal h3 { text-align: center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        #combined-history-list, .task-modal .modal-body, .task-confirm-modal .modal-body, .activation-modal .modal-body, .convert-modal .modal-body { overflow-y: auto; flex-grow: 1; margin-bottom: 15px; }
-        .task-confirm-modal .modal-body, .activation-modal .modal-body, .convert-modal .modal-body { text-align: center; }
-        .task-confirm-modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-overlay { background: rgba(0,0,0,0.7); } /* Darker overlay */
+        .modal-content, .history-modal, .task-modal, .task-confirm-modal, .activation-modal, .convert-modal {
+            background-color: var(--dark-card-bg); /* Dark theme modals */
+            color: var(--dark-text);
+            border: 1px solid var(--dark-border-color);
+        }
+        .success-modal-icon { background-color: var(--dark-button-bg); } /* Dark theme success icon */
+        .modal-content h3 { color: var(--dark-text); }
+        .modal-content p { color: var(--dark-muted-text); }
+        .history-modal h3, .task-modal h3, .task-confirm-modal h3, .activation-modal h3, .convert-modal h3 { border-bottom: 1px solid var(--dark-border-color); }
         .task-confirm-modal-buttons button { flex: 1; }
 
-        .info-text { font-size: 0.9em; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
+        .info-text { font-size: 0.9em; color: var(--dark-muted-text); margin-top: 10px; line-height: 1.5; }
 
-        .task-card { background-color: var(--card-bg); border-radius: 8px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 15px; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; border: 1px solid var(--border-color); }
-        .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15); }
+        .task-card {
+            background-color: var(--dark-card-bg);
+            border-radius: 8px;
+            display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 15px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; border: 1px solid var(--dark-border-color);
+        }
+        .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.25); } /* Slightly stronger hover shadow */
         #ad-task-list.item-grid, #task-list.item-grid, #my-ads-list.item-grid { grid-template-columns: 1fr; gap: 15px; display: grid;}
         .task-card-info { padding: 0; flex-grow: 1; text-align: left; }
-        .task-card-info h4 { margin: 0 0 5px; font-size: 1em;}
-        .task-card-info p { margin: 5px 0 0; font-size: 0.9em; }
+        .task-card-info h4 { margin: 0 0 5px; font-size: 1em; color: var(--dark-text); }
+        .task-card-info p { margin: 5px 0 0; font-size: 0.9em; color: var(--dark-muted-text); }
 
         .history-list-container { display: flex; flex-direction: column; gap: 0; }
-        .history-date-header { padding: 15px 5px 5px; color: var(--text-muted); font-weight: 600; font-size: 0.9em; }
-        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; border-bottom: 1px solid var(--border-color); }
+        .history-date-header { padding: 15px 5px 5px; color: var(--dark-muted-text); font-weight: 600; font-size: 0.9em; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; border-bottom: 1px solid var(--dark-border-color); }
         .history-list-container .history-item:last-child { border-bottom: none; }
-        .history-item-left strong { font-size: 1em; font-weight: 500; color: var(--text-dark); }
-        .history-item-left small { font-size: 0.85em; color: var(--text-muted); display: block; margin-top: 4px; }
+        .history-item-left strong { font-size: 1em; font-weight: 500; color: var(--dark-text); }
+        .history-item-left small { font-size: 0.85em; color: var(--dark-muted-text); display: block; margin-top: 4px; }
         .history-item-right { text-align: right; }
         .history-item-right strong { font-size: 1em; font-weight: bold; }
         .history-item-right small { font-size: 0.85em; display: block; margin-top: 4px; text-transform: capitalize; }
-        .history-item-right .amount-positive { color: var(--success-color); }
-        .history-item-right .amount-negative { color: #dc3545; }
-        .history-item-right .status-success { color: var(--success-color); font-weight: 600; }
-        .history-item-right .status-pending { color: #ffc107; font-weight: 600; }
-        .history-item-right .status-failed, .history-item-right .status-rejected { color: #dc3545; font-weight: 600; }
+        .history-item-right .amount-positive { color: var(--dark-button-bg); } /* Changed to dark button color */
+        .history-item-right .amount-negative { color: #FF6F61; } /* Softer red for dark theme */
+        .history-item-right .status-success { color: var(--dark-button-bg); font-weight: 600; }
+        .history-item-right .status-pending { color: var(--primary-accent-color); font-weight: 600; }
+        .history-item-right .status-failed, .history-item-right .status-rejected { color: #FF6F61; font-weight: 600; }
 
-        .ad-package-card { padding: 15px; text-align: center; cursor: pointer; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
-        .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; }
+        .ad-package-card { padding: 15px; text-align: center; cursor: pointer; border: 2px solid var(--dark-border-color); transition: all 0.2s ease-in-out; }
+        .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; color: var(--dark-text); }
         .ad-package-card p { margin: 0; font-weight: 600; color: var(--primary-accent-color); }
         .ad-package-card.selected { border-color: var(--primary-accent-color); background-color: rgba(255, 193, 7, 0.1); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2); }
         .user-ad-item { padding: 20px; text-align: left; }
         .user-ad-item .progress-text { font-weight: bold; color: var(--primary-accent-color); margin-top: 10px; display: block; }
         .user-ad-item .status-text { font-weight: 600; margin-top: 5px; display: block; }
-        .user-ad-item .status-text.completed { color: var(--success-color); }
+        .user-ad-item .status-text.completed { color: var(--dark-button-bg); }
         .user-ad-item .status-text.active { color: var(--primary-accent-color); }
         #ad-package-grid { grid-template-columns: repeat(3, 1fr); gap: 15px; }
         @media (max-width: 600px) { #ad-package-grid { grid-template-columns: repeat(2, 1fr); } }
 
         #withdraw-content .card { max-width: 600px; }
-        .withdraw-summary { margin-top: 20px; padding: 15px; background-color: var(--light-bg); border-radius: 8px; text-align: left; font-size: 0.9em; }
+        .withdraw-summary { margin-top: 20px; padding: 15px; background-color: var(--dark-bg); border-radius: 8px; text-align: left; font-size: 0.9em; color: var(--dark-muted-text); } /* Dark theme summary */
         .withdraw-summary p { margin: 8px 0; display: flex; justify-content: space-between; }
-        .withdraw-summary strong { color: var(--text-dark); }
-        .conversion-rate-display { font-size: 0.9em; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
+        .withdraw-summary strong { color: var(--dark-text); }
+        .conversion-rate-display { font-size: 0.9em; color: var(--dark-muted-text); text-align: center; margin-bottom: 20px; }
 
 
         #support-content .card { text-align: left; max-width: 700px; }
-        #support-content ul { padding-left: 20px; list-style-type: '✓ '; color: var(--text-muted); }
+        #support-content ul { padding-left: 20px; list-style-type: '✓ '; color: var(--dark-muted-text); }
         #support-content li { margin-bottom: 10px; line-height: 1.6; }
         #support-content .admin-contact { font-weight: 600; color: var(--primary-accent-color); }
 
-        .home-referral-card { background-color: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .home-referral-card h4 { margin-top: 0; margin-bottom: 15px; font-size: 1.2em; text-align: left;}
-        .referral-link-wrapper { display: flex; gap: 10px; margin-bottom: 15px; }
-        .referral-link-wrapper input { flex-grow: 1; text-align: center; }
-        .referral-link-wrapper button { width: auto; flex-shrink: 0; padding: 0 15px; }
-        .stat-item { text-align: left; font-size: 1em; }
-        .stat-item strong { color: var(--primary-accent-color); font-size: 1.2em; }
-        .activation-box { margin-top: 20px; padding: 15px; background: rgba(255, 193, 7, 0.1); border-radius: 8px; text-align: center; }
-        .activation-box p { font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px; }
-        .channel-buttons { display: flex; gap: 15px; justify-content: center; }
-        .channel-btn { flex: 1; padding: 10px; background-color: #2AABEE; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        /* Referral Card Styling - Based on Quest Bux Image */
+        .home-referral-card {
+            background-color: var(--dark-card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-align: center; /* Center content like the image */
+        }
+        .home-referral-card img.quest-bux-ducks { /* Added image styling */
+            width: 100px; /* Adjust size as needed */
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .home-referral-card h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--primary-accent-color); /* Matches "Invite Friends" color in image */
+            text-align: center; /* Centered */
+            display: flex; /* For icon */
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .home-referral-card h4 svg {
+            fill: var(--primary-accent-color);
+            width: 24px;
+            height: 24px;
+        }
+        .home-referral-card > p { /* Slogan below title */
+            color: var(--dark-muted-text);
+            font-size: 0.9em;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        .referral-stats-grid { /* Grid for Your Referrals & Lifetime Earned */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-box {
+            background-color: var(--dark-bg); /* Darker background for stat boxes */
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--dark-border-color);
+        }
+        .stat-box h5 {
+            margin: 0 0 8px;
+            font-size: 0.9em;
+            color: var(--dark-muted-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .stat-box h5 svg {
+            fill: var(--dark-muted-text);
+            width: 18px;
+            height: 18px;
+        }
+        .stat-box strong {
+            display: block;
+            font-size: 1.5em; /* Larger number */
+            font-weight: 700;
+            color: var(--primary-accent-color); /* Yellow for numbers */
+        }
+
+        .claimable-bonus-card { /* Claimable Bonus section */
+            background-color: var(--dark-bg);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border: 1px solid var(--dark-border-color);
+        }
+        .claimable-bonus-card h5 {
+            margin: 0;
+            font-size: 0.9em;
+            color: var(--dark-muted-text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .claimable-bonus-card h5 svg {
+            fill: var(--dark-muted-text);
+            width: 18px;
+            height: 18px;
+        }
+        .claimable-bonus-card span {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary-accent-color);
+        }
+        .claimable-bonus-card button {
+            background-color: var(--dark-button-bg);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .claimable-bonus-card button:hover { background-color: var(--dark-button-hover); }
+
+        .referral-link-wrapper { display: flex; gap: 10px; margin-bottom: 15px; }
+        .referral-link-wrapper input {
+            flex-grow: 1;
+            text-align: center;
+            background-color: var(--dark-bg);
+            border: 1px solid var(--dark-border-color);
+            color: var(--dark-text);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .referral-link-wrapper .copy-button { /* Specific style for copy button next to input */
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            background-color: var(--dark-button-bg);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .referral-link-wrapper .copy-button:hover { background-color: var(--dark-button-hover); }
+        .referral-link-wrapper .copy-button svg {
+            fill: #fff;
+            width: 22px;
+            height: 22px;
+        }
+
+        .invite-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--dark-button-bg);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 25px; /* Spacing below invite button */
+        }
+        .invite-button:hover { background-color: var(--dark-button-hover); }
+
+        /* Promo Code Section */
+        .promo-code-section {
+            background-color: var(--dark-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border: 1px solid var(--dark-border-color);
+            text-align: center;
+        }
+        .promo-code-section h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: var(--dark-text);
+        }
+        .promo-code-input-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .promo-code-input-wrapper input {
+            flex-grow: 1;
+            background-color: var(--dark-card-bg); /* Use card bg for input to contrast */
+            border: 1px solid var(--dark-border-color);
+            color: var(--dark-text);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .promo-code-input-wrapper button {
+            background-color: var(--primary-accent-color); /* Yellow button for promo code */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .promo-code-input-wrapper button:hover { background-color: var(--primary-accent-hover-color); }
+        .promo-code-section .info-text {
+            font-size: 0.8em;
+            color: var(--dark-muted-text);
+        }
+
+        /* Activation Modal specific overrides for dark theme */
+        #activationModalOverlay .activation-modal {
+            background-color: var(--dark-card-bg);
+            color: var(--dark-text);
+        }
+        #activationModalOverlay .activation-modal h3 {
+            color: var(--primary-accent-color); /* Yellow for the welcome title */
+        }
+        #activationModalOverlay .activation-modal p {
+            color: var(--dark-muted-text);
+        }
+        #activationModalOverlay .channel-btn {
+            background-color: #2AABEE; /* Telegram blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+        }
+        #activationModalOverlay .channel-btn:hover {
+            background-color: #238ACD;
+        }
+        #activationModalOverlay .form-button {
+            background-color: var(--dark-button-bg); /* Teal activate button */
+            color: #fff;
+        }
+        #activationModalOverlay .form-button:hover {
+            background-color: var(--dark-button-hover);
+        }
     </style>
 </head>
 <body>
@@ -282,34 +534,68 @@
     </header>
 
     <main class="container">
-        <!-- Home / Main Section -->
+        <!-- Home / Main Section - Updated to match Quest Bux structure -->
         <section id="home-content" class="content-section active">
-             <div class="home-referral-card">
-                 <h4>Invite Friends & Earn</h4>
-                 <div class="referral-link-wrapper">
-                    <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
-                    <button id="homeCopyReferralLinkBtn" class="form-button">Copy</button>
-                 </div>
-                 <div class="stat-item">
-                    Total Referrals: <strong id="homeTotalReferrals">0</strong>
-                 </div>
-                 <div class="activation-box">
-                    <p>To activate your referral rewards, please join both official NEW TON channels below. You’ll earn 20 Points per verified referral after joining.</p>
-                    <div class="channel-buttons">
-                        <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="channel-btn">
-                            <i class="fab fa-telegram-plane"></i> Official Channel
-                        </a>
-                        <a href="https://t.me/payment_new_ton" target="_blank" class="channel-btn">
-                            <i class="fab fa-telegram-plane"></i> Payment Channel
-                        </a>
-                    </div>
-                 </div>
-             </div>
+            <div class="home-referral-card">
+                <img src="https://i.imgur.com/your-ducks-image.png" alt="Ducks" class="quest-bux-ducks"> <!-- Placeholder for ducks image -->
+                <h4>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S13.66 5 12 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zM16 13c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/></svg>
+                    Invite friends
+                </h4>
+                <p>Invite your friends and earn a <strong style="color: var(--primary-accent-color);">25% commission</strong> on their completed tasks, forever!</p>
 
-             <h3 class="sub-section-title">Daily Rewards</h3>
-             <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
-                 <!-- Daily tasks will be rendered here by JS -->
-             </div>
+                <div class="referral-stats-grid">
+                    <div class="stat-box">
+                        <h5>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            Your Referrals
+                        </h5>
+                        <strong id="homeTotalReferrals">0</strong>
+                        <span style="color: var(--dark-muted-text); font-size: 0.8em;">Referrals</span>
+                    </div>
+                    <div class="stat-box">
+                        <h5>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                            Lifetime Earned
+                        </h5>
+                        <strong id="homeLifetimeEarned">0</strong>
+                        <span style="color: var(--dark-muted-text); font-size: 0.8em;">Points</span>
+                    </div>
+                </div>
+
+                <div class="claimable-bonus-card">
+                    <h5>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 18v-2h-2v2h-2v-2h-2v2h-2v-2H7v2H5v-2H3v2c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm0-4h2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2zm-7-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>
+                        Claimable Bonus
+                    </h5>
+                    <span id="homeClaimableBonus">0 Points</span>
+                    <button id="homeClaimBonusBtn">Claim</button>
+                </div>
+
+                <p style="color: var(--dark-muted-text); font-size: 0.9em; margin-bottom: 10px;">Share your referral link:</p>
+                <div class="referral-link-wrapper">
+                    <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
+                    <button id="homeCopyReferralLinkBtn" class="copy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    </button>
+                </div>
+                <button id="homeInviteFriendBtn" class="invite-button">Invite a friend</button>
+            </div>
+
+            <!-- Promo Code Section -->
+            <div class="promo-code-section">
+                <h4>Have a Promo Code?</h4>
+                <div class="promo-code-input-wrapper">
+                    <input type="text" id="promoCodeInput" placeholder="Enter promo code here">
+                    <button id="applyPromoCodeBtn">Apply</button>
+                </div>
+                <p class="info-text">Enter a valid promo code to receive bonus points or TON!</p>
+            </div>
+
+            <h3 class="sub-section-title">Daily Rewards</h3>
+            <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
+                <!-- Daily tasks will be rendered here by JS -->
+            </div>
         </section>
 
         <section id="ads-content" class="content-section">
@@ -321,7 +607,7 @@
         <section id="task-content" class="content-section">
             <h3 class="section-title">Complete Tasks to Earn</h3>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--dark-border-color); padding-bottom: 8px; margin-bottom: 20px;">
                 <h3 class="sub-section-title" style="margin: 0; border: none; padding: 0; font-size: 1.1em;">Available Tasks</h3>
                 <button id="show-create-task-btn" class="task-button">Add Task +</button>
             </div>
@@ -335,7 +621,7 @@
         <section id="withdraw-content" class="content-section">
              <div class="card">
                 <h3 class="section-title" style="border: none; margin-bottom: 10px; text-align: center;">Withdraw Funds</h3>
-                <p>Your Balance: <strong id="withdrawPointBalance" style="color: var(--success-color); font-size: 1.2em;">0 Points</strong></p>
+                <p>Your Balance: <strong id="withdrawPointBalance" style="color: var(--primary-accent-color); font-size: 1.2em;">0 Points</strong></p>
                 <p class="conversion-rate-display">100 Points = 0.01 TON | 10,000 Points = 1 TON</p>
                 <form id="withdrawalForm" style="margin-top: 20px;">
                      <div class="form-group">
@@ -469,7 +755,7 @@
                 <p>Have you completed the task correctly? If not, please go back and complete it now.</p>
                 <p class="info-text">Note: Your submission may be reviewed. Failure to complete tasks honestly can result in account suspension.</p>
                 <div class="task-confirm-modal-buttons">
-                    <button id="taskConfirmGoBackBtn" class="form-button" style="background-color: var(--text-muted);">Go Back to Task</button>
+                    <button id="taskConfirmGoBackBtn" class="form-button" style="background-color: var(--dark-border-color);">Go Back to Task</button>
                     <button id="taskConfirmSubmitBtn" class="form-button">Yes, I Completed It</button>
                 </div>
             </div>
@@ -483,7 +769,7 @@
                 <p id="withdrawConfirmText">Are you sure you want to withdraw X Points?</p>
                 <p class="info-text">The amount will be sent to the account details you provided. This action cannot be undone.</p>
                 <div class="task-confirm-modal-buttons">
-                    <button id="withdrawConfirmCancelBtn" class="form-button" style="background-color: var(--text-muted);">Cancel</button>
+                    <button id="withdrawConfirmCancelBtn" class="form-button" style="background-color: var(--dark-border-color);">Cancel</button>
                     <button id="withdrawConfirmSubmitBtn" class="form-button">Confirm & Withdraw</button>
                 </div>
             </div>
@@ -500,10 +786,10 @@
                     <label for="pointsToConvertInput">Points to Convert</label>
                     <input type="number" id="pointsToConvertInput" placeholder="Min 200">
                 </div>
-                <p class="info-text" style="text-align: center;">You will receive: <strong id="tonToReceive" style="color: var(--success-color);">0.0000 TON</strong></p>
+                <p class="info-text" style="text-align: center;">You will receive: <strong id="tonToReceive" style="color: var(--dark-button-bg);">0.0000 TON</strong></p>
             </div>
             <button id="convertPointsBtn" class="form-button">Convert</button>
-            <button id="closeConvertModalBtn" class="form-button" style="margin-top: 10px; background-color: var(--text-muted);">Close</button>
+            <button id="closeConvertModalBtn" class="form-button" style="margin-top: 10px; background-color: var(--dark-border-color);">Close</button>
         </div>
     </div>
 
@@ -552,7 +838,7 @@
             'ad3': { title: 'Watch Ads 3', reward: 3, limit: 20, provider: 'random' },
         };
 
-        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center;"><div class="card"><h3>Account Banned</h3><p style="color: #ffc107;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
+        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center;"><div class="card"><h3>Account Banned</h3><p style="color: #ff6f61;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
         async function cleanupAndGetUser(userId) {
             const userRef = doc(db, 'users', userId);
@@ -635,6 +921,7 @@
                  updates.dailyAdViews_ad2 = 0;
                  updates.dailyAdViews_ad3 = 0;
             }
+            if (userData.lifetimePointsEarned === undefined) updates.lifetimePointsEarned = 0; // Ensure this exists
 
             if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
 
@@ -653,6 +940,10 @@
         function updateBalanceUI(tonBalance, pointBalance) {
             document.getElementById('userTONBalanceDisplay').textContent = parseFloat(tonBalance || 0).toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
+            
+            // Update home section stats
+            document.getElementById('homeLifetimeEarned').textContent = Math.floor(currentUser.lifetimePointsEarned || 0);
+            document.getElementById('homeClaimableBonus').textContent = `${Math.floor(currentUser.pointBalance || 0)} Points`; // Assuming claimable bonus is current points
         }
 
         function generateReferralLink(userId) {
@@ -670,6 +961,10 @@
                  updates.pointBalance = increment(rewards.points);
                  updates.lifetimePointsEarned = increment(rewards.points);
              }
+             if (rewards.ton && rewards.ton > 0) {
+                 updates.tonBalance = increment(rewards.ton);
+             }
+
 
              if (Object.keys(updates).length > 0) {
                 await updateDoc(userRef, updates);
@@ -678,7 +973,7 @@
              if (transactionInfo.type) {
                  const transactionData = {
                     userId: currentUser.id, type: transactionInfo.type, details: transactionInfo.details || '',
-                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points
+                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points, tonAmount: rewards.ton
                 };
                 await addDoc(collection(db, 'transactions'), transactionData);
              }
@@ -1146,7 +1441,10 @@
                         amountStr = `- ${(data.pointAmount || 0)} Points`; amountClass = 'amount-negative';
                     } else if (data.pointAmount) {
                         amountStr = `+ ${data.pointAmount} Points`; amountClass = 'amount-positive';
+                    } else if (data.tonAmount) { // Handle TON amounts if applicable
+                        amountStr = `+ ${data.tonAmount.toFixed(4)} TON`; amountClass = 'amount-positive';
                     }
+
 
                     return `${dateHeaderHtml}
                         <div class="history-item">
@@ -1251,6 +1549,8 @@
         function renderHomeUI() {
             if (!currentUser) return;
             document.getElementById('homeTotalReferrals').textContent = currentUser.referralCount || 0;
+            document.getElementById('homeLifetimeEarned').textContent = Math.floor(currentUser.lifetimePointsEarned || 0);
+            document.getElementById('homeClaimableBonus').textContent = `${Math.floor(currentUser.pointBalance || 0)} Points`;
         }
 
         document.getElementById('homeCopyReferralLinkBtn').addEventListener('click', () => {
@@ -1262,10 +1562,76 @@
             });
         });
 
+        // Claim bonus button in home section
+        document.getElementById('homeClaimBonusBtn').addEventListener('click', async () => {
+            // This button would typically claim earned referral commissions or similar.
+            // For now, it could just be a placeholder or claim current points if that's the intention.
+            alert('Claiming bonus is not yet implemented.');
+        });
+
+        // Promo Code Logic
+        document.getElementById('applyPromoCodeBtn').addEventListener('click', async () => {
+            const promoCodeInput = document.getElementById('promoCodeInput');
+            const promoCode = promoCodeInput.value.trim();
+            if (!promoCode) {
+                alert('Please enter a promo code.');
+                return;
+            }
+
+            // In a real scenario, you'd check a 'promoCodes' collection in Firestore.
+            // For now, let's simulate a check.
+            try {
+                const promoCodeRef = doc(db, 'promoCodes', promoCode);
+                const promoCodeSnap = await getDoc(promoCodeRef);
+
+                if (promoCodeSnap.exists()) {
+                    const promoData = promoCodeSnap.data();
+
+                    // Check if already used by this user
+                    if (promoData.usedBy && promoData.usedBy.includes(currentUser.id)) {
+                        alert('You have already used this promo code.');
+                        return;
+                    }
+
+                    // Apply reward
+                    const rewardPoints = promoData.points || 0;
+                    const rewardTon = promoData.ton || 0;
+
+                    if (rewardPoints > 0 || rewardTon > 0) {
+                        await runTransaction(db, async (t) => {
+                            const userRef = doc(db, 'users', currentUser.id);
+                            t.update(userRef, {
+                                pointBalance: increment(rewardPoints),
+                                tonBalance: increment(rewardTon)
+                            });
+                            t.update(promoCodeRef, {
+                                usedBy: arrayUnion(currentUser.id),
+                                usageCount: increment(1)
+                            });
+                        });
+                        await grantReward({ points: rewardPoints, ton: rewardTon }, { type: 'Promo Code', details: `Used promo code: ${promoCode}` });
+                        showSuccessModal("Promo Code Applied!", `You received +${rewardPoints} Points and +${rewardTon} TON.`);
+                        promoCodeInput.value = ''; // Clear input
+                        await fetchAndUpdateCurrentUser();
+                    } else {
+                        alert('This promo code does not offer any rewards.');
+                    }
+
+                } else {
+                    alert('Invalid or expired promo code.');
+                }
+            } catch (error) {
+                console.error("Error applying promo code:", error);
+                alert('Failed to apply promo code. Please try again.');
+            }
+        });
+
+
         function showActivationModal() {
             document.getElementById('activationModalOverlay').classList.add('show');
             document.querySelector('main').style.display = 'none';
             document.querySelector('.bottom-nav').style.display = 'none';
+            document.querySelector('.main-header').style.display = 'none'; // Hide header as well
         }
 
         async function handleUserActivation() {
@@ -1283,7 +1649,7 @@
                     await runTransaction(db, async (transaction) => {
                         const referrerDoc = await transaction.get(referrerRef);
                         if (!referrerDoc.exists() || !referrerDoc.data().isActivated) {
-                            console.log("Referrer not found or not activated.");
+                            console.log("Referrer not found or not activated, skipping referral reward.");
                             return;
                         }
                         transaction.update(referrerRef, {
@@ -1304,6 +1670,7 @@
                 document.getElementById('activationModalOverlay').classList.remove('show');
                 document.querySelector('main').style.display = 'block';
                 document.querySelector('.bottom-nav').style.display = 'flex';
+                document.querySelector('.main-header').style.display = 'flex'; // Show header again
                 showSuccessModal("Account Activated!", "Welcome to NEW TON! You can now start earning.");
                 await checkAndResetDailies();
                 renderHomeUI();
