@@ -325,6 +325,10 @@
         <section id="home-content" class="content-section active">
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
+                 <!-- UPDATE 1: ADDED REWARD CAPTION -->
+                 <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
+                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points FREE</span> + <span style="color: var(--success-color); font-weight: bold;">10% Referral Commission</span>.
+                 </p>
                  <div class="referral-link-wrapper">
                     <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
                     <button id="homeCopyReferralLinkBtn" class="form-button">Copy</button>
@@ -334,7 +338,7 @@
                  </div>
              </div>
 
-             <!-- PROMO CODE SECTION (New) -->
+             <!-- PROMO CODE SECTION -->
              <div class="home-referral-card">
                 <h4>Promo Code</h4>
                 <div class="form-group" style="margin-bottom: 10px;">
@@ -1048,10 +1052,24 @@
                     });
                     
                     return promoData; // Return data to be used outside transaction
-                }).then((promoData) => {
+                }).then(async (promoData) => {
                     showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${promoData.rewardType.toUpperCase()}!`);
                     input.value = "";
                     fetchAndUpdateCurrentUser();
+
+                    // UPDATE 2: TRIGGER RANDOM AD (Monetag OR GigaPub)
+                    try {
+                        const adChance = Math.random();
+                        if (adChance < 0.5) {
+                            // 50% chance for Monetag
+                            if (typeof showMonetagAd === 'function') await showMonetagAd();
+                        } else {
+                            // 50% chance for GigaPub
+                            if (typeof showGigaPubAd === 'function') await showGigaPubAd();
+                        }
+                    } catch (adError) {
+                        console.warn("Promo code ad failed to load:", adError);
+                    }
                 });
 
             } catch (error) {
