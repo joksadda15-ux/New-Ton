@@ -220,16 +220,17 @@
         .history-item-right .status-pending { color: #FFC107; font-weight: 600; }
         .history-item-right .status-failed, .history-item-right .status-rejected { color: #ff4d4d; font-weight: 600; }
 
-        .ad-package-card { padding: 15px; text-align: center; cursor: pointer; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
+        .ad-package-card { padding: 15px; text-align: center; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
         .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; }
         .ad-package-card p { margin: 0; font-weight: 600; color: var(--primary-accent-color); }
-        .ad-package-card.selected { border-color: var(--primary-accent-color); background-color: rgba(0, 234, 255, 0.1); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0, 234, 255, 0.2); }
+        /* Removed selected style as we are just listing them */
+        
         .user-ad-item { padding: 20px; text-align: left; }
         .user-ad-item .progress-text { font-weight: bold; color: var(--primary-accent-color); margin-top: 10px; display: block; }
         .user-ad-item .status-text { font-weight: 600; margin-top: 5px; display: block; }
         .user-ad-item .status-text.completed { color: var(--success-color); }
         .user-ad-item .status-text.active { color: var(--primary-accent-color); }
-        #ad-package-grid { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        #ad-package-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } /* Changed to 2 col for better fit */
         @media (max-width: 600px) { #ad-package-grid { grid-template-columns: repeat(2, 1fr); } }
 
         #withdraw-content .card { max-width: 600px; }
@@ -427,27 +428,24 @@
 
     <div id="createTaskModalOverlay" class="modal-overlay">
         <div class="task-modal">
-            <h3>Create New Task Advertisement</h3>
+            <h3>Buy Traffic / Create Task</h3>
             <div class="modal-body">
                 <p class="info-text" style="text-align: center; margin-bottom: 20px;">
-                    Purchase tasks using your TON balance. Your task will be shown to thousands of our active users.<br>
-                    <strong>For manual deposits or promotions, contact admin: <a href="https://t.me/NEWTUBE12_admin" target="_blank" style="color: var(--primary-accent-color);">@NEWTUBE12_admin</a></strong>
+                    <b>Buy Real Traffic for your Channel or Bot</b><br>
+                    Direct Deposit: <b>Tonkeeper</b> & <b>Bkash</b>.<br>
+                    Task Reward for users: <b>4 Points</b>.
                 </p>
-                <form id="create-task-form">
-                    <div class="form-group">
-                        <label>1. Select a Package</label>
-                        <div id="ad-package-grid" class="item-grid"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-title-input">2. Task Title</label>
-                        <input type="text" id="task-title-input" placeholder="e.g., Join My Telegram Channel" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-url-input">3. Task URL</label>
-                        <input type="url" id="task-url-input" placeholder="https://t.me/your_channel" required>
-                    </div>
-                    <button type="submit" class="form-button">Create Task</button>
-                </form>
+
+                <div id="ad-package-grid" class="item-grid" style="margin-bottom: 20px;">
+                    <!-- JS will inject new packages here -->
+                </div>
+
+                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color);">
+                    <p style="margin-top:0; color: white; margin-bottom: 10px;">To purchase, message Admin:</p>
+                    <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
+                        <i class="fab fa-telegram"></i> Message @Your_Admin11
+                    </a>
+                </div>
             </div>
             <button id="closeTaskModalBtn" class="form-button" style="margin-top: 15px; background-color: var(--text-muted);">Close</button>
         </div>
@@ -458,7 +456,7 @@
         <div class="activation-modal">
             <h3>Welcome to NEW TON!</h3>
             <div class="modal-body">
-                <p>To activate your referral rewards, please join both official NEW TON channels below. You’ll earn 20 Points per verified referral after joining.</p>
+                <p>To activate your referral rewards, please join both official NEW TON channels below. You’ll earn 30 Points per verified referral after joining.</p>
                 <div class="channel-buttons" style="flex-direction: column; margin: 20px 0;">
                     <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="channel-btn">
                         <i class="fab fa-telegram-plane"></i> Join Official Channel
@@ -540,11 +538,10 @@
 
         let currentUser = null;
         let isSubmittingWithdrawal = false;
-        let selectedAdPackage = null;
-
+        
         // --- CONSTANTS ---
-        const REFERRAL_REWARD_POINTS = 20;
-        const USER_CREATED_TASK_REWARD_POINTS = 10;
+        const REFERRAL_REWARD_POINTS = 30; // Updated to 30 Points
+        const USER_CREATED_TASK_REWARD_POINTS = 4; // Updated to 4 Points
         const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
 
         const WITHDRAWAL_CONFIG = {
@@ -552,10 +549,14 @@
             'Bkash': { min: 700 }, // Values in Points
         };
 
+        // NEW TASK PRICING LIST
         const adPackages = [
-            { id: 1, tasks: 100, price: 0.05 }, { id: 2, tasks: 200, price: 0.08 },
-            { id: 3, tasks: 500, price: 0.15 }, { id: 4, tasks: 1000, price: 0.25 },
-            { id: 5, tasks: 2000, price: 0.40 }, { id: 6, tasks: 5000, price: 0.80 }
+            { id: 1, tasks: 150, price: 0.1 }, 
+            { id: 2, tasks: 300, price: 0.2 },
+            { id: 3, tasks: 500, price: 0.4 }, 
+            { id: 4, tasks: 1000, price: 0.7 },
+            { id: 5, tasks: 2000, price: 1.2 }, 
+            { id: 6, tasks: 5000, price: 3.0 }
         ];
 
         // UPDATED ADS CONFIG (3 Points Reward)
@@ -952,19 +953,11 @@
         function renderTaskPackages() {
             const grid = document.getElementById('ad-package-grid');
             grid.innerHTML = adPackages.map(pkg => `
-                <div class="ad-package-card" data-package-id="${pkg.id}">
+                <div class="ad-package-card">
                     <h4>${pkg.tasks} Tasks</h4>
-                    <p>${pkg.price.toFixed(2)} TON</p>
+                    <p>${pkg.price.toFixed(1)} TON</p>
                 </div>`).join('');
         }
-
-        document.getElementById('ad-package-grid').addEventListener('click', (e) => {
-            const card = e.target.closest('.ad-package-card');
-            if (!card) return;
-            document.querySelectorAll('#ad-package-grid .ad-package-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            selectedAdPackage = adPackages.find(p => p.id === parseInt(card.dataset.packageId, 10));
-        });
 
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
@@ -993,36 +986,8 @@
             }
         }
 
-        document.getElementById('create-task-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            if (!selectedAdPackage) { alert('Please select a task package.'); return; }
-            const title = document.getElementById('task-title-input').value.trim();
-            const url = document.getElementById('task-url-input').value.trim();
-            if (!title || !url) { alert('Please provide both a title and a URL for your task.'); return; }
-            if ((currentUser.tonBalance || 0) < selectedAdPackage.price) { alert('Insufficient TON balance to purchase this package.'); return; }
-
-            submitBtn.disabled = true; submitBtn.textContent = 'Processing...';
-            try {
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    t.update(userRef, { tonBalance: increment(-selectedAdPackage.price) });
-                    const newTaskData = { title, url, rewardPoints: USER_CREATED_TASK_REWARD_POINTS, limit: selectedAdPackage.tasks, completionCount: 0, creatorId: currentUser.id, isApproved: true, createdAt: serverTimestamp() };
-                    t.set(doc(collection(db, 'tasks')), newTaskData);
-                });
-                showSuccessModal("Task Created!", "Your new task is now live for other users to complete.");
-                e.target.reset();
-                document.querySelectorAll('#ad-package-grid .ad-package-card.selected').forEach(c => c.classList.remove('selected'));
-                selectedAdPackage = null;
-                document.getElementById('createTaskModalOverlay').classList.remove('show');
-                await fetchAndUpdateCurrentUser();
-                await renderMyAds();
-            } catch (error) {
-                alert(`Failed to create task: ${error.message}`);
-            } finally {
-                submitBtn.disabled = false; submitBtn.textContent = 'Create Task';
-            }
-        });
+        // REMOVED: Automatic task creation listener.
+        // Users now contact admin manually.
 
         function showSuccessModal(title, message) {
             document.getElementById('successModalTitle').textContent = title;
