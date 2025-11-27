@@ -220,7 +220,8 @@
         .history-item-right .status-pending { color: #FFC107; font-weight: 600; }
         .history-item-right .status-failed, .history-item-right .status-rejected { color: #ff4d4d; font-weight: 600; }
 
-        .ad-package-card { padding: 15px; text-align: center; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
+        .ad-package-card { padding: 15px; text-align: center; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; cursor: pointer;}
+        .ad-package-card.selected { border-color: var(--primary-accent-color); background-color: rgba(0, 234, 255, 0.1); }
         .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; }
         .ad-package-card p { margin: 0; font-weight: 600; color: var(--primary-accent-color); }
         
@@ -333,6 +334,21 @@
             font-size: 24px;
             margin-left: 4px; /* optical adjustment */
         }
+        /* Promo History */
+        #promo-history-list {
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid var(--border-color);
+            margin-top: 15px;
+            padding-top: 10px;
+        }
+        .promo-history-item {
+            font-size: 0.85em;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
     </style>
 </head>
@@ -398,7 +414,7 @@
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
                  <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
-                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points FREE</span> + <span style="color: var(--success-color); font-weight: bold;">10% Referral Commission</span>.
+                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> when your friend watches 10 Ads.
                  </p>
                  <div class="referral-link-wrapper">
                     <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
@@ -416,11 +432,12 @@
                     <input type="text" id="promoCodeInput" placeholder="Enter Promo Code" style="text-align: center;">
                 </div>
                 <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-             </div>
-
-             <h3 class="sub-section-title">Daily Rewards</h3>
-             <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
-                 <!-- Daily tasks will be rendered here by JS -->
+                
+                <h5 style="margin: 15px 0 5px; color: var(--text-muted); font-size: 0.9em;">Claim History</h5>
+                <div id="promo-history-list">
+                    <!-- Promo history injected here -->
+                    <p style="text-align:center; color:#777; font-size:0.8em;">No claims yet.</p>
+                </div>
              </div>
         </section>
         
@@ -538,18 +555,39 @@
             <div class="modal-body">
                 <p class="info-text" style="text-align: center; margin-bottom: 20px;">
                     <b>Buy Real Traffic for your Channel or Bot</b><br>
-                    Direct Deposit: <b>Tonkeeper</b> & <b>Bkash</b>.<br>
-                    Task Reward for users: <b>4 Points</b>.
+                    Select a Package, Type, and enter your URL.<br>
+                    Task Reward for users: <b>3 Points</b>.
                 </p>
 
-                <div id="ad-package-grid" class="item-grid" style="margin-bottom: 20px;">
-                    <!-- JS will inject new packages here -->
+                <div class="form-group">
+                    <label>1. Select Package (Tasks)</label>
+                    <div id="ad-package-grid" class="item-grid">
+                        <!-- JS will inject new packages here -->
+                    </div>
                 </div>
 
-                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color);">
-                    <p style="margin-top:0; color: white; margin-bottom: 10px;">To purchase, message Admin:</p>
-                    <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
-                        <i class="fab fa-telegram"></i> Message @Your_Admin11
+                <div class="form-group">
+                     <label>2. Select Task Type</label>
+                     <select id="newTaskType">
+                         <option value="Telegram Bot">Telegram Bot</option>
+                         <option value="Telegram Channel">Telegram Channel</option>
+                         <option value="Telegram Group">Telegram Group</option>
+                         <option value="Facebook Like/Follow">Facebook Like/Follow</option>
+                         <option value="X (Twitter) Follow">X (Twitter) Follow</option>
+                         <option value="YouTube Subscribe">YouTube Subscribe</option>
+                         <option value="YouTube Watch">YouTube Watch</option>
+                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label>3. Enter URL</label>
+                    <input type="text" id="newTaskUrl" placeholder="https://t.me/your_channel">
+                </div>
+
+                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-top: 15px;">
+                    <p style="margin-top:0; color: white; margin-bottom: 10px;">Click below to send details to Admin:</p>
+                    <a id="msgAdminBtn" href="#" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
+                        <i class="fab fa-telegram"></i> Message Admin
                     </a>
                 </div>
             </div>
@@ -562,7 +600,7 @@
         <div class="activation-modal">
             <h3>Welcome to NEW TON!</h3>
             <div class="modal-body">
-                <p>To activate your referral rewards, please join both official NEW TON channels below. You’ll earn 30 Points per verified referral after joining.</p>
+                <p>To activate your account, please join both official NEW TON channels below.</p>
                 <div class="channel-buttons" style="flex-direction: column; margin: 20px 0;">
                     <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="channel-btn">
                         <i class="fab fa-telegram-plane"></i> Join Official Channel
@@ -648,13 +686,14 @@
         let isSubmittingWithdrawal = false;
         
         // --- CONSTANTS ---
-        const REFERRAL_REWARD_POINTS = 30; // Updated to 30 Points
-        const USER_CREATED_TASK_REWARD_POINTS = 4; // Updated to 4 Points
+        const REFERRAL_REWARD_POINTS = 30; 
+        const USER_CREATED_TASK_REWARD_POINTS = 3; // Updated to 3 Points
         const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
 
+        // UPDATE 5: Withdrawal Min Update
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 200 },
-            'Bkash': { min: 700 }, // Values in Points
+            'Bkash': { min: 1000 }, // Updated to 1000
         };
 
         // NEW TASK PRICING LIST
@@ -667,11 +706,11 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATED ADS CONFIG (3 Points Reward)
+        // UPDATE 1: Ads Section Update
         const AD_TASKS_CONFIG = {
-            'ad1': { title: 'Watch Ads 1', reward: 3, limit: 5, provider: 'monetag' },
-            'ad2': { title: 'Watch Ads 2', reward: 3, limit: 5, provider: 'gigapub' },
-            'ad3': { title: 'Watch Ads 3', reward: 3, limit: 20, provider: 'random' },
+            'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, // 2 Points
+            'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, // 2 Points
+            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, // 2 Points, Limit 10
         };
 
         // --- YOUTUBE & MINING VARIABLES ---
@@ -680,7 +719,6 @@
         let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
         let watchTimeSeconds = 0; // To track 10 minute intervals
         const MINING_CLAIM_THRESHOLD = 5;
-        // 1 Point per Hour = 1 / 3600 points per second
         const POINTS_PER_SECOND = 1 / 3600; 
 
         function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: #121212;"><div class="card"><h3>Account Banned</h3><p style="color: #ffc107;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
@@ -716,9 +754,7 @@
                     'claimedDailyRewards': [],
                     'dailyAdViews_ad1': 0,
                     'dailyAdViews_ad2': 0,
-                    'dailyAdViews_ad3': 0,
-                    'dailyBrowseVisit1Completed': false,
-                    'dailyBrowseVisit2Completed': false,
+                    'dailyAdViews_ad3': 0
                 };
                 try {
                     const userRef = doc(db, 'users', currentUser.id);
@@ -743,9 +779,9 @@
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
                     isBanned: false,
                     isActivated: false,
+                    lifetimeAdsWatched: 0, // Track ads for referral
                     claimedDailyRewards: [],
-                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0,
-                    dailyBrowseVisit1Completed: false, dailyBrowseVisit2Completed: false,
+                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -761,6 +797,7 @@
             if (userData.tonBalance === undefined) updates.tonBalance = 0;
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
             if (userData.isActivated === undefined) updates.isActivated = false;
+            if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
             if (userData.dailyAdViews_ad1 === undefined) {
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
@@ -841,7 +878,7 @@
             });
         }
 
-        // UPDATED ADS CLICK LOGIC (Blocking + 5s Timer + Auto Reward)
+        // UPDATED ADS CLICK LOGIC (Includes Referral Check)
         document.getElementById('ad-task-list').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
@@ -851,12 +888,10 @@
             const blockingOverlay = document.getElementById('adBlockingOverlay');
             const timerDisplay = document.getElementById('adOverlayTimer');
 
-            // 1. Show Blocking Overlay
             blockingOverlay.style.display = 'flex';
             let countdown = 5;
             timerDisplay.textContent = countdown;
 
-            // 2. Trigger Ad
             try {
                 if (taskConfig.provider === 'monetag') await showMonetagAd();
                 else if (taskConfig.provider === 'gigapub') await showGigaPubAd();
@@ -865,27 +900,53 @@
                 console.error("Ad load error:", err);
             }
 
-            // 3. Start Blocking Timer
             const blockingTimer = setInterval(async () => {
                 countdown--;
                 timerDisplay.textContent = countdown;
 
                 if (countdown <= 0) {
                     clearInterval(blockingTimer);
-                    blockingOverlay.style.display = 'none'; // Unblock
+                    blockingOverlay.style.display = 'none'; 
 
-                    // 4. Auto Reward on completion
                     button.textContent = 'Claiming...';
                     button.disabled = true;
 
                     try {
                         const updateField = `dailyAdViews_${taskId}`;
                         await grantReward({ points: taskConfig.reward }, { type: 'Ad Reward', details: `Watched Ad from ${taskConfig.title}`});
-                        await updateDoc(doc(db, 'users', currentUser.id), { [updateField]: increment(1) });
-                        await fetchAndUpdateCurrentUser();
                         
-                        // Success Message
-                        showSuccessModal("Congratulations", "You have Earn 3 point");
+                        // Increment Daily and Lifetime Stats
+                        const userRef = doc(db, 'users', currentUser.id);
+                        await updateDoc(userRef, { 
+                            [updateField]: increment(1),
+                            lifetimeAdsWatched: increment(1) 
+                        });
+                        
+                        // UPDATE 4: Check for Referral Reward (10 Ads)
+                        const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
+                        if (currentAds === 10 && currentUser.referredBy) {
+                            const referrerRef = doc(db, 'users', currentUser.referredBy);
+                            await runTransaction(db, async (t) => {
+                                const rDoc = await t.get(referrerRef);
+                                if(rDoc.exists()) {
+                                    t.update(referrerRef, { 
+                                        pointBalance: increment(REFERRAL_REWARD_POINTS),
+                                        referralCount: increment(1)
+                                    });
+                                    t.set(doc(collection(db, 'transactions')), {
+                                        userId: currentUser.referredBy,
+                                        type: 'Referral Reward',
+                                        details: `User ${currentUser.id} watched 10 ads`,
+                                        pointAmount: REFERRAL_REWARD_POINTS,
+                                        status: 'Completed',
+                                        createdAt: serverTimestamp()
+                                    });
+                                }
+                            });
+                        }
+
+                        await fetchAndUpdateCurrentUser();
+                        showSuccessModal("Congratulations", "You have Earn 2 point");
                         setupAdsToEarn();
                     } catch (error) {
                         console.error("Error updating ad views:", error);
@@ -997,81 +1058,54 @@
             }
         }
 
+        // UPDATE 2: Removed Daily Website Tasks
         function renderDailyTasks() {
+            // Function cleared as per request to remove website visits
             const container = document.getElementById('daily-tasks-grid');
-            if (!currentUser) { container.innerHTML = ''; return; }
-
-            const claimedDaily = currentUser.claimedDailyRewards || [];
-            const tasks = [
-                { id: 'web_1', type: 'visit', title: 'Visit Website 1', reward: 4, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit1Completed, visitTime: 10 },
-                { id: 'web_2', type: 'visit', title: 'Visit Website 2', reward: 4, url: 'https://suggestbingo.com/qr4ys636p?key=0098a30fe6a07c76104029fc8045e1bd', completed: currentUser.dailyBrowseVisit2Completed, visitTime: 10 },
-            ];
-
-            container.innerHTML = tasks.map(task => {
-                let buttonHtml = '';
-                if (claimedDaily.includes(task.id)) {
-                    buttonHtml = `<button class="daily-task-button" disabled>Claimed</button>`;
-                } else if (task.completed) {
-                     buttonHtml = `<button class="daily-task-button" data-task-id="${task.id}" data-reward="${task.reward}" data-action="claim-visit">Claim</button>`;
-                } else {
-                    buttonHtml = `<button class="daily-task-button" data-task-id="${task.id}" data-url="${task.url}" data-time="${task.visitTime}" data-action="visit">Go</button>`;
-                }
-                return `
-                    <div class="task-card">
-                        <div class="task-card-info">
-                            <h4>${task.title}</h4>
-                            <p>Reward: <span class="task-reward-points">${task.reward} Points</span></p>
-                        </div>
-                        ${buttonHtml}
-                    </div>`;
-            }).join('');
+            if (container) container.innerHTML = '';
         }
 
-        document.getElementById('daily-tasks-grid').addEventListener('click', async (e) => {
-            const button = e.target.closest('.daily-task-button');
-            if (!button || button.disabled) return;
-
-            const { taskId, reward, action, url, time } = button.dataset;
-            const userRef = doc(db, 'users', currentUser.id);
-
-            if (action === 'claim-visit') {
-                button.disabled = true; button.textContent = "Claiming...";
-                try {
-                    await grantReward({ points: parseInt(reward) }, { type: 'Daily Reward', details: `Claimed for daily task ${taskId}` });
-                    await updateDoc(userRef, { claimedDailyRewards: arrayUnion(taskId) });
-                    showSuccessModal("Reward Claimed!", `+${reward} Points added to your balance.`);
-                    await fetchAndUpdateCurrentUser();
-                    renderDailyTasks();
-                } catch (err) { alert('Failed to claim reward.'); button.disabled = false; button.textContent = "Claim"; }
-            } else if (action === 'visit') {
-                tg.openLink(url);
-                button.disabled = true; let countdown = parseInt(time, 10);
-                button.textContent = `Wait ${countdown}s`;
-                const timer = setInterval(async () => {
-                    countdown--; button.textContent = `Wait ${countdown}s`;
-                    if (countdown <= 0) {
-                        clearInterval(timer); button.textContent = `Processing...`;
-                        const updateField = {
-                            'web_1': 'dailyBrowseVisit1Completed', 'web_2': 'dailyBrowseVisit2Completed'
-                        }[taskId];
-                        if (updateField) {
-                            await updateDoc(userRef, { [updateField]: true });
-                            await fetchAndUpdateCurrentUser();
-                            renderDailyTasks();
-                        }
-                    }
-                }, 1000);
-            }
-        });
+        // UPDATE 3: Task Packages & UI
+        let selectedPackage = null;
 
         function renderTaskPackages() {
             const grid = document.getElementById('ad-package-grid');
             grid.innerHTML = adPackages.map(pkg => `
-                <div class="ad-package-card">
+                <div class="ad-package-card" data-pkg-id="${pkg.id}" data-tasks="${pkg.tasks}" data-price="${pkg.price}">
                     <h4>${pkg.tasks} Tasks</h4>
                     <p>${pkg.price.toFixed(1)} TON</p>
                 </div>`).join('');
+            
+            // Add click listeners for selection
+            grid.querySelectorAll('.ad-package-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    selectedPackage = {
+                        tasks: card.dataset.tasks,
+                        price: card.dataset.price
+                    };
+                    updateAdminMessageLink();
+                });
+            });
         }
+        
+        function updateAdminMessageLink() {
+             const type = document.getElementById('newTaskType').value;
+             const url = document.getElementById('newTaskUrl').value;
+             const btn = document.getElementById('msgAdminBtn');
+             
+             let msg = "Hello Admin, I want to create a task.\n";
+             if(selectedPackage) msg += `Package: ${selectedPackage.tasks} Tasks for ${selectedPackage.price} TON\n`;
+             msg += `Type: ${type}\n`;
+             msg += `URL: ${url ? url : '[Link Pending]'}`;
+             
+             btn.href = `https://t.me/Your_Admin11?text=${encodeURIComponent(msg)}`;
+        }
+
+        // Listeners for inputs to update link
+        document.getElementById('newTaskType').addEventListener('change', updateAdminMessageLink);
+        document.getElementById('newTaskUrl').addEventListener('input', updateAdminMessageLink);
 
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
@@ -1109,6 +1143,25 @@
         }
         
         // --- PROMO CODE LOGIC ---
+        // UPDATE 2: Add Promo History & Ad Trigger
+        async function fetchPromoHistory() {
+            const list = document.getElementById('promo-history-list');
+            if(!currentUser) return;
+            try {
+                 const q = query(collection(db, 'transactions'), where('userId', '==', currentUser.id), where('type', '==', 'Promo Code'), orderBy('createdAt', 'desc'), limit(5));
+                 const snap = await getDocs(q);
+                 if(snap.empty) {
+                     list.innerHTML = '<p style="text-align:center; color:#777; font-size:0.8em;">No claims yet.</p>';
+                     return;
+                 }
+                 list.innerHTML = snap.docs.map(d => {
+                     const data = d.data();
+                     const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : '';
+                     return `<div class="promo-history-item"><span>${data.details}</span><span style="color:var(--success-color);">+${data.amount} ${data.currency}</span></div>`;
+                 }).join('');
+            } catch(e) { console.error(e); }
+        }
+
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
             const input = document.getElementById('promoCodeInput');
             const code = input.value.trim();
@@ -1163,14 +1216,11 @@
                     showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${promoData.rewardType.toUpperCase()}!`);
                     input.value = "";
                     fetchAndUpdateCurrentUser();
+                    fetchPromoHistory(); // Refresh history
 
+                    // Play Random Ad after success
                     try {
-                        const adChance = Math.random();
-                        if (adChance < 0.5) {
-                            if (typeof showMonetagAd === 'function') await showMonetagAd();
-                        } else {
-                            if (typeof showGigaPubAd === 'function') await showGigaPubAd();
-                        }
+                        await showRandomAd();
                     } catch (adError) {
                         console.warn("Promo code ad failed to load:", adError);
                     }
@@ -1355,7 +1405,10 @@
                 document.querySelector(targetId).classList.add('active');
 
                 switch(targetId) {
-                    case '#home-content': renderHomeUI(); renderDailyTasks(); break;
+                    case '#home-content': 
+                        renderHomeUI(); 
+                        fetchPromoHistory();
+                        break;
                     case '#video-content': initializeVideoSection(); break;
                     case '#ads-content': setupAdsToEarn(); break;
                     case '#task-content':
@@ -1560,6 +1613,7 @@
             document.querySelector('.bottom-nav').style.display = 'none';
         }
 
+        // UPDATE 4: Activation no longer gives immediate reward
         async function handleUserActivation() {
             const activateBtn = document.getElementById('activateAccountBtn');
             activateBtn.disabled = true;
@@ -1570,28 +1624,8 @@
                 await updateDoc(userRef, { isActivated: true });
                 currentUser.isActivated = true;
 
-                if (currentUser.referredBy) {
-                    const referrerRef = doc(db, 'users', currentUser.referredBy);
-                    await runTransaction(db, async (transaction) => {
-                        const referrerDoc = await transaction.get(referrerRef);
-                        if (!referrerDoc.exists() || !referrerDoc.data().isActivated) {
-                            console.log("Referrer not found or not activated.");
-                            return;
-                        }
-                        transaction.update(referrerRef, {
-                            referralCount: increment(1),
-                            pointBalance: increment(REFERRAL_REWARD_POINTS)
-                        });
-                         await addDoc(collection(db, 'transactions'), {
-                            userId: currentUser.referredBy,
-                            type: 'Referral Reward',
-                            details: `For new user ${currentUser.id}`,
-                            pointAmount: REFERRAL_REWARD_POINTS,
-                            status: 'Completed',
-                            createdAt: serverTimestamp()
-                        });
-                    });
-                }
+                // Removed Immediate Referral Reward block here.
+                // Reward now happens in Ad click listener.
 
                 document.getElementById('activationModalOverlay').classList.remove('show');
                 document.querySelector('main').style.display = 'block';
@@ -1599,7 +1633,6 @@
                 showSuccessModal("Account Activated!", "Welcome to NEW TON! You can now start earning.");
                 await checkAndResetDailies();
                 renderHomeUI();
-                renderDailyTasks();
 
             } catch (error) {
                 console.error("Activation failed:", error);
@@ -1626,7 +1659,7 @@
                     showActivationModal();
                 } else {
                     renderHomeUI();
-                    renderDailyTasks();
+                    fetchPromoHistory();
                 }
 
             } catch (error) {
