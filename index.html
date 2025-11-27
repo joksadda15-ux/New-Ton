@@ -223,14 +223,13 @@
         .ad-package-card { padding: 15px; text-align: center; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; }
         .ad-package-card h4 { font-size: 1.1em; margin-bottom: 5px; }
         .ad-package-card p { margin: 0; font-weight: 600; color: var(--primary-accent-color); }
-        /* Removed selected style as we are just listing them */
         
         .user-ad-item { padding: 20px; text-align: left; }
         .user-ad-item .progress-text { font-weight: bold; color: var(--primary-accent-color); margin-top: 10px; display: block; }
         .user-ad-item .status-text { font-weight: 600; margin-top: 5px; display: block; }
         .user-ad-item .status-text.completed { color: var(--success-color); }
         .user-ad-item .status-text.active { color: var(--primary-accent-color); }
-        #ad-package-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } /* Changed to 2 col for better fit */
+        #ad-package-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
         @media (max-width: 600px) { #ad-package-grid { grid-template-columns: repeat(2, 1fr); } }
 
         #withdraw-content .card { max-width: 600px; }
@@ -261,6 +260,79 @@
         .blocking-overlay h2 { color: var(--primary-accent-color); margin-bottom: 20px; font-size: 2em; }
         .blocking-overlay p { font-size: 1.2em; color: #ccc; }
         .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; }
+
+        /* --- VIDEO SECTION STYLES --- */
+        .mining-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 234, 255, 0.1);
+            text-align: center;
+        }
+        .loot-box {
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+        .loot-box span {
+            font-size: 1.2em;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 10px;
+        }
+        .loot-box b {
+            color: var(--primary-accent-color);
+            font-size: 1.4em;
+        }
+        #video-player-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        #video-player-container iframe, #video-thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #video-thumbnail-overlay {
+            z-index: 2;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #video-thumbnail-overlay img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .play-btn-overlay {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--primary-accent-color);
+            box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+        }
+        .play-btn-overlay i {
+            color: var(--primary-accent-color);
+            font-size: 24px;
+            margin-left: 4px; /* optical adjustment */
+        }
 
     </style>
 </head>
@@ -325,7 +397,6 @@
         <section id="home-content" class="content-section active">
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
-                 <!-- UPDATE 1: ADDED REWARD CAPTION -->
                  <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
                      Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points FREE</span> + <span style="color: var(--success-color); font-weight: bold;">10% Referral Commission</span>.
                  </p>
@@ -351,6 +422,33 @@
              <div id="daily-tasks-grid" class="item-grid" style="grid-template-columns: 1fr; gap: 15px;">
                  <!-- Daily tasks will be rendered here by JS -->
              </div>
+        </section>
+        
+        <!-- NEW VIDEO SECTION -->
+        <section id="video-content" class="content-section">
+             <h3 class="section-title">Watch Video & Mine</h3>
+             
+             <div class="mining-card">
+                 <div class="loot-box">
+                    <span>Loot Box (Mining)</span>
+                    <span><b id="minedPointsDisplay">0.0000</b> Points</span>
+                    <p style="font-size:0.8em; color: #777;">Rate: 1 Point / Hour while watching</p>
+                 </div>
+                 <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 5 Points)</button>
+             </div>
+
+             <div id="video-player-container">
+                 <div id="video-thumbnail-overlay">
+                     <img id="custom-thumbnail-img" src="" alt="Video Thumbnail">
+                     <div class="play-btn-overlay"><i class="fas fa-play"></i></div>
+                 </div>
+                 <div id="yt-player"></div>
+             </div>
+             
+             <p class="info-text" style="text-align: center; margin-top: 20px;">
+                 Watch video to mine points. Do not close the app.<br>
+                 An Ad will appear every 10 minutes.
+             </p>
         </section>
 
         <section id="ads-content" class="content-section">
@@ -409,6 +507,10 @@
         <a href="#" class="bottom-nav-item active" data-tab-target="#home-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Home
+        </a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#video-content">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"/></svg>
+            Video
         </a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8 11H6V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>
@@ -521,6 +623,8 @@
         </div>
     </div>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -569,6 +673,15 @@
             'ad2': { title: 'Watch Ads 2', reward: 3, limit: 5, provider: 'gigapub' },
             'ad3': { title: 'Watch Ads 3', reward: 3, limit: 20, provider: 'random' },
         };
+
+        // --- YOUTUBE & MINING VARIABLES ---
+        let player;
+        let isVideoPlaying = false;
+        let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
+        let watchTimeSeconds = 0; // To track 10 minute intervals
+        const MINING_CLAIM_THRESHOLD = 5;
+        // 1 Point per Hour = 1 / 3600 points per second
+        const POINTS_PER_SECOND = 1 / 3600; 
 
         function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: #121212;"><div class="card"><h3>Account Banned</h3><p style="color: #ffc107;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
@@ -750,8 +863,6 @@
                 else if (taskConfig.provider === 'random') await showRandomAd();
             } catch (err) {
                 console.error("Ad load error:", err);
-                // If ad fails, we still start timer or close? 
-                // Let's assume we proceed with timer to not break user flow entirely, or just fallback.
             }
 
             // 3. Start Blocking Timer
@@ -886,7 +997,6 @@
             }
         }
 
-        // UPDATED DAILY TASKS (Reward 4 Points, 10 Seconds)
         function renderDailyTasks() {
             const container = document.getElementById('daily-tasks-grid');
             if (!currentUser) { container.innerHTML = ''; return; }
@@ -990,9 +1100,6 @@
             }
         }
 
-        // REMOVED: Automatic task creation listener.
-        // Users now contact admin manually.
-
         function showSuccessModal(title, message) {
             document.getElementById('successModalTitle').textContent = title;
             document.getElementById('successModalMessage').innerHTML = message;
@@ -1051,20 +1158,17 @@
                         createdAt: serverTimestamp()
                     });
                     
-                    return promoData; // Return data to be used outside transaction
+                    return promoData; 
                 }).then(async (promoData) => {
                     showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${promoData.rewardType.toUpperCase()}!`);
                     input.value = "";
                     fetchAndUpdateCurrentUser();
 
-                    // UPDATE 2: TRIGGER RANDOM AD (Monetag OR GigaPub)
                     try {
                         const adChance = Math.random();
                         if (adChance < 0.5) {
-                            // 50% chance for Monetag
                             if (typeof showMonetagAd === 'function') await showMonetagAd();
                         } else {
-                            // 50% chance for GigaPub
                             if (typeof showGigaPubAd === 'function') await showGigaPubAd();
                         }
                     } catch (adError) {
@@ -1081,7 +1185,6 @@
         });
         
         // --- WITHDRAWAL ---
-
         function setupWithdrawalUI() {
             if (!currentUser) return;
             const balance = currentUser.pointBalance || 0;
@@ -1229,16 +1332,10 @@
         const showAdextraAd = () => new Promise((res, rej) => typeof p_adextra === 'function' ? p_adextra({ onSuccess: res, onError: (e) => rej(new Error("Adextra ad failed: " + e)) }) : rej('Adextra SDK missing'));
 
         async function showRandomAd() {
-            const adProviders = [showMonetagAd, showGigaPubAd, showAdextraAd];
+            const adProviders = [showMonetagAd, showGigaPubAd]; // Randomly choose between these
             const randomAdProvider = adProviders[Math.floor(Math.random() * adProviders.length)];
             try { await randomAdProvider(); }
-            catch(err) { console.warn("An ad provider failed, trying another one...", err);
-                const otherProviders = adProviders.filter(p => p !== randomAdProvider);
-                if (otherProviders.length > 0) {
-                    const fallbackProvider = otherProviders[Math.floor(Math.random() * otherProviders.length)];
-                    try { await fallbackProvider(); } catch(fallbackErr) { console.error("Fallback ad provider also failed:", fallbackErr); throw fallbackErr; }
-                } else { throw err; }
-            }
+            catch(err) { console.warn("An ad provider failed", err); }
         }
 
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
@@ -1259,6 +1356,7 @@
 
                 switch(targetId) {
                     case '#home-content': renderHomeUI(); renderDailyTasks(); break;
+                    case '#video-content': initializeVideoSection(); break;
                     case '#ads-content': setupAdsToEarn(); break;
                     case '#task-content':
                         renderTaskPackages();
@@ -1269,6 +1367,138 @@
                 }
             });
         });
+
+        // --- VIDEO SECTION LOGIC ---
+        
+        function updateMiningUI() {
+            document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
+            const claimBtn = document.getElementById('claimMinedPointsBtn');
+            if (minedBalance >= MINING_CLAIM_THRESHOLD) {
+                claimBtn.disabled = false;
+                claimBtn.textContent = `Claim ${minedBalance.toFixed(2)} Points`;
+            } else {
+                claimBtn.disabled = true;
+                claimBtn.textContent = `Claim (Min ${MINING_CLAIM_THRESHOLD} Points)`;
+            }
+        }
+
+        function extractVideoID(url) {
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            var match = url.match(regExp);
+            return (match && match[7].length == 11) ? match[7] : false;
+        }
+
+        async function initializeVideoSection() {
+            updateMiningUI();
+            
+            // Fetch video config from Firebase
+            try {
+                const docRef = doc(db, 'settings', 'video_config');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const thumbnailImg = document.getElementById('custom-thumbnail-img');
+                    thumbnailImg.src = data.thumbnailUrl;
+
+                    const videoId = extractVideoID(data.videoUrl);
+                    if (videoId && !player) {
+                        // Initialize YouTube Player
+                        window.onYouTubeIframeAPIReady = function() {
+                            player = new YT.Player('yt-player', {
+                                height: '100%',
+                                width: '100%',
+                                videoId: videoId,
+                                playerVars: {
+                                    'playsinline': 1,
+                                    'controls': 1
+                                },
+                                events: {
+                                    'onStateChange': onPlayerStateChange
+                                }
+                            });
+                        };
+                        // Manually trigger if API is already ready
+                        if(window.YT && window.YT.Player) {
+                             player = new YT.Player('yt-player', {
+                                height: '100%',
+                                width: '100%',
+                                videoId: videoId,
+                                playerVars: { 'playsinline': 1 },
+                                events: { 'onStateChange': onPlayerStateChange }
+                            });
+                        }
+                    } else if (player && videoId) {
+                        // Load new video if player exists
+                        player.cueVideoById(videoId);
+                    }
+
+                    // Handle Overlay Click
+                    document.getElementById('video-thumbnail-overlay').onclick = function() {
+                        this.style.display = 'none';
+                        if(player && player.playVideo) player.playVideo();
+                    };
+                }
+            } catch (e) {
+                console.error("Error loading video config:", e);
+            }
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                isVideoPlaying = true;
+            } else {
+                isVideoPlaying = false;
+            }
+        }
+
+        // Mining Loop
+        setInterval(() => {
+            if (isVideoPlaying) {
+                // Add points
+                minedBalance += POINTS_PER_SECOND;
+                localStorage.setItem('minedBalance', minedBalance);
+                updateMiningUI();
+
+                // Track watch time for ads
+                watchTimeSeconds++;
+
+                // Every 10 minutes (600 seconds), trigger Ad
+                if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) {
+                    if(player && player.pauseVideo) player.pauseVideo();
+                    showRandomAd().then(() => {
+                        // Optional: Auto resume or let user resume
+                    });
+                }
+            }
+        }, 1000);
+
+        document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
+            if (minedBalance < MINING_CLAIM_THRESHOLD) return;
+            
+            const btn = document.getElementById('claimMinedPointsBtn');
+            btn.disabled = true;
+            btn.textContent = "Claiming...";
+
+            try {
+                const pointsToClaim = Math.floor(minedBalance); // Claim integer part
+                const remaining = minedBalance - pointsToClaim;
+
+                await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
+                
+                minedBalance = remaining;
+                localStorage.setItem('minedBalance', minedBalance);
+                updateMiningUI();
+                
+                showSuccessModal("Claimed!", `+${pointsToClaim} Points added to main balance.`);
+            } catch (e) {
+                console.error(e);
+                alert("Error claiming points.");
+                btn.disabled = false;
+            }
+        });
+
+
+        // --- INIT ---
 
         function setupUserIdDisplay(userId) {
             const userIdContainer = document.getElementById('header-user-id');
