@@ -620,16 +620,26 @@
         <div class="history-modal"><h3>History</h3><div id="combined-history-list" class="history-list-container"></div><button id="closeHistoryBtn" class="form-button" style="margin-top: 15px;">Close</button></div>
     </div>
 
+    <!-- UPDATED: Create Task Modal Structure -->
     <div id="createTaskModalOverlay" class="modal-overlay">
         <div class="task-modal">
             <h3>Buy Traffic / Create Task</h3>
             <div class="modal-body">
-                <p class="info-text" style="text-align: center; margin-bottom: 20px;">
-                    <b>Buy Real Traffic for your Channel or Bot</b><br>
-                    Select a Package, Type, and enter your URL.<br>
-                    Task Reward for users: <b>3 Points</b>.
+                
+                <!-- 1. Admin / Deposit Section MOVED TO TOP -->
+                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-bottom: 20px;">
+                    <p style="margin-top:0; color: white; margin-bottom: 10px; font-size: 0.9em;">Need TON balance? Message Admin to Deposit.</p>
+                    <a id="msgAdminBtn" href="https://t.me/Your_Admin11?text=Hello%20Admin,%20I%20want%20to%20deposit%20TON%20for%20ads." target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000; font-size: 0.9em;">
+                        <i class="fab fa-telegram"></i> Deposit TON
+                    </a>
+                </div>
+
+                <p class="info-text" style="text-align: center; margin-bottom: 10px;">
+                    <b>Create your Task</b><br>
+                    Select Package, Enter Title & URL.
                 </p>
 
+                <!-- Package Grid -->
                 <div class="form-group">
                     <label>1. Select Package (Tasks)</label>
                     <div id="ad-package-grid" class="item-grid">
@@ -637,8 +647,15 @@
                     </div>
                 </div>
 
+                <!-- NEW: Title Input -->
                 <div class="form-group">
-                     <label>2. Select Task Type</label>
+                    <label>2. Task Title</label>
+                    <input type="text" id="newTaskTitle" placeholder="e.g., Join My Channel">
+                </div>
+
+                <!-- Type Selection -->
+                <div class="form-group">
+                     <label>3. Select Task Type</label>
                      <select id="newTaskType">
                          <option value="Telegram Bot">Telegram Bot</option>
                          <option value="Telegram Channel">Telegram Channel</option>
@@ -650,17 +667,15 @@
                      </select>
                 </div>
 
+                <!-- URL Input -->
                 <div class="form-group">
-                    <label>3. Enter URL</label>
+                    <label>4. Enter URL</label>
                     <input type="text" id="newTaskUrl" placeholder="https://t.me/your_channel">
                 </div>
 
-                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-top: 15px;">
-                    <p style="margin-top:0; color: white; margin-bottom: 10px;">Click below to send details to Admin:</p>
-                    <a id="msgAdminBtn" href="#" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
-                        <i class="fab fa-telegram"></i> Message Admin
-                    </a>
-                </div>
+                <!-- Confirm Button (Automated System) -->
+                <button id="confirmCreateTaskBtn" class="form-button" style="margin-top: 10px; background-color: var(--success-color);">Confirm & Create Task</button>
+
             </div>
             <button id="closeTaskModalBtn" class="form-button" style="margin-top: 15px; background-color: var(--text-muted);">Close</button>
         </div>
@@ -1153,29 +1168,98 @@
                     grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     selectedPackage = {
-                        tasks: card.dataset.tasks,
-                        price: card.dataset.price
+                        tasks: parseInt(card.dataset.tasks),
+                        price: parseFloat(card.dataset.price)
                     };
-                    updateAdminMessageLink();
                 });
             });
         }
         
-        function updateAdminMessageLink() {
-             const type = document.getElementById('newTaskType').value;
-             const url = document.getElementById('newTaskUrl').value;
-             const btn = document.getElementById('msgAdminBtn');
-             
-             let msg = "Hello Admin, I want to create a task.\n";
-             if(selectedPackage) msg += `Package: ${selectedPackage.tasks} Tasks for ${selectedPackage.price} TON\n`;
-             msg += `Type: ${type}\n`;
-             msg += `URL: ${url ? url : '[Link Pending]'}`;
-             
-             btn.href = `https://t.me/Your_Admin11?text=${encodeURIComponent(msg)}`;
-        }
+        // --- NEW: Automated Task Creation Logic ---
+        document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('confirmCreateTaskBtn');
+            const title = document.getElementById('newTaskTitle').value.trim();
+            const type = document.getElementById('newTaskType').value;
+            const url = document.getElementById('newTaskUrl').value.trim();
 
-        document.getElementById('newTaskType').addEventListener('change', updateAdminMessageLink);
-        document.getElementById('newTaskUrl').addEventListener('input', updateAdminMessageLink);
+            if (!currentUser) return;
+            
+            // Validate Inputs
+            if (!selectedPackage) {
+                alert("Please select a package.");
+                return;
+            }
+            if (!title) {
+                alert("Please enter a Title.");
+                return;
+            }
+            if (!url) {
+                alert("Please enter a URL.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "Processing...";
+
+            try {
+                await runTransaction(db, async (t) => {
+                    const userRef = doc(db, 'users', currentUser.id);
+                    const userDoc = await t.get(userRef);
+                    
+                    const currentTon = userDoc.data().tonBalance || 0;
+                    
+                    // Check if user has enough TON (that Admin deposited)
+                    if (currentTon < selectedPackage.price) {
+                        throw new Error(`Insufficient TON Balance. You have ${currentTon.toFixed(4)} TON, but this package costs ${selectedPackage.price} TON. Please message Admin to deposit.`);
+                    }
+
+                    // 1. Deduct TON
+                    t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
+
+                    // 2. Create Task (Already Approved because they paid)
+                    const taskRef = doc(collection(db, 'tasks'));
+                    const newTaskData = {
+                        creatorId: currentUser.id,
+                        title: title,
+                        type: type,
+                        url: url,
+                        limit: selectedPackage.tasks,
+                        completionCount: 0,
+                        rewardPoints: 3, // Fixed reward as per request
+                        isApproved: true,
+                        createdAt: serverTimestamp()
+                    };
+                    t.set(taskRef, newTaskData);
+
+                    // 3. Log Transaction
+                    const transRef = doc(collection(db, 'transactions'));
+                    t.set(transRef, {
+                        userId: currentUser.id,
+                        type: 'Buy Task',
+                        details: `Created Task: ${title} (${selectedPackage.tasks} views)`,
+                        tonAmount: -selectedPackage.price,
+                        status: 'Completed',
+                        createdAt: serverTimestamp()
+                    });
+                });
+
+                await fetchAndUpdateCurrentUser();
+                document.getElementById('createTaskModalOverlay').classList.remove('show');
+                showSuccessModal("Task Created!", "Your task is now live and users can see it.");
+                
+                // Reset Fields
+                document.getElementById('newTaskTitle').value = '';
+                document.getElementById('newTaskUrl').value = '';
+                // Render My Ads to show new task immediately
+                renderMyAds();
+
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Confirm & Create Task";
+            }
+        });
 
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
