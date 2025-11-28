@@ -431,8 +431,9 @@
         <section id="home-content" class="content-section active">
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
+                 <!-- UPDATED INVITE DESCRIPTION -->
                  <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
-                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> when your friend watches 10 Ads.
+                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> and <span style="color: var(--primary-accent-color); font-weight: bold;">10% Commission</span>. Build your network and earn more!
                  </p>
                  <div class="referral-link-wrapper">
                     <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
@@ -571,25 +572,40 @@
         <div class="history-modal"><h3>History</h3><div id="combined-history-list" class="history-list-container"></div><button id="closeHistoryBtn" class="form-button" style="margin-top: 15px;">Close</button></div>
     </div>
 
+    <!-- UPDATED CREATE TASK MODAL -->
     <div id="createTaskModalOverlay" class="modal-overlay">
         <div class="task-modal">
             <h3>Buy Traffic / Create Task</h3>
             <div class="modal-body">
+                <!-- Admin Contact Button Moved to Top -->
+                <div style="text-align: center; margin-bottom: 20px; background: rgba(0,234,255,0.1); padding: 10px; border-radius: 8px;">
+                     <p style="margin:0 0 5px; font-size:0.85em; color: var(--text-muted);">Need TON Balance? Contact Admin:</p>
+                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
+                        <i class="fab fa-telegram"></i> Deposit TON
+                    </a>
+                </div>
+
                 <p class="info-text" style="text-align: center; margin-bottom: 20px;">
-                    <b>Buy Real Traffic for your Channel or Bot</b><br>
-                    Select a Package, Type, and enter your URL.<br>
+                    <b>Create your task</b><br>
+                    Select a Package, enter Title and URL.<br>
                     Task Reward for users: <b>3 Points</b>.
                 </p>
 
                 <div class="form-group">
                     <label>1. Select Package (Tasks)</label>
                     <div id="ad-package-grid" class="item-grid">
-                        <!-- JS will inject new packages here -->
+                        <!-- JS will inject packages here -->
                     </div>
                 </div>
 
+                <!-- ADDED TASK TITLE INPUT -->
                 <div class="form-group">
-                     <label>2. Select Task Type</label>
+                    <label>2. Task Title</label>
+                    <input type="text" id="newTaskTitle" placeholder="e.g., Join my Channel">
+                </div>
+
+                <div class="form-group">
+                     <label>3. Select Task Type</label>
                      <select id="newTaskType">
                          <option value="Telegram Bot">Telegram Bot</option>
                          <option value="Telegram Channel">Telegram Channel</option>
@@ -602,18 +618,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label>3. Enter URL</label>
+                    <label>4. Enter URL</label>
                     <input type="text" id="newTaskUrl" placeholder="https://t.me/your_channel">
                 </div>
-
-                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-top: 15px;">
-                    <p style="margin-top:0; color: white; margin-bottom: 10px;">Click below to send details to Admin:</p>
-                    <a id="msgAdminBtn" href="#" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
-                        <i class="fab fa-telegram"></i> Message Admin
-                    </a>
-                </div>
             </div>
-            <button id="closeTaskModalBtn" class="form-button" style="margin-top: 15px; background-color: var(--text-muted);">Close</button>
+            
+            <!-- BUTTON CHANGED TO CONFIRM TASK -->
+            <button id="confirmCreateTaskBtn" class="form-button">Confirm Task</button>
+            <button id="closeTaskModalBtn" class="form-button" style="margin-top: 10px; background-color: var(--text-muted);">Close</button>
         </div>
     </div>
 
@@ -1097,30 +1109,91 @@
                     grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     selectedPackage = {
-                        tasks: card.dataset.tasks,
-                        price: card.dataset.price
+                        tasks: parseInt(card.dataset.tasks),
+                        price: parseFloat(card.dataset.price)
                     };
-                    updateAdminMessageLink();
                 });
             });
         }
         
-        function updateAdminMessageLink() {
+        // NEW CONFIRM TASK LOGIC
+        document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
              const type = document.getElementById('newTaskType').value;
-             const url = document.getElementById('newTaskUrl').value;
-             const btn = document.getElementById('msgAdminBtn');
+             const url = document.getElementById('newTaskUrl').value.trim();
+             const title = document.getElementById('newTaskTitle').value.trim();
+             const btn = document.getElementById('confirmCreateTaskBtn');
              
-             let msg = "Hello Admin, I want to create a task.\n";
-             if(selectedPackage) msg += `Package: ${selectedPackage.tasks} Tasks for ${selectedPackage.price} TON\n`;
-             msg += `Type: ${type}\n`;
-             msg += `URL: ${url ? url : '[Link Pending]'}`;
+             if(!selectedPackage) {
+                 alert("Please select a package.");
+                 return;
+             }
+             if(!title || !url) {
+                 alert("Please enter a Title and URL.");
+                 return;
+             }
              
-             btn.href = `https://t.me/Your_Admin11?text=${encodeURIComponent(msg)}`;
-        }
-
-        // Listeners for inputs to update link
-        document.getElementById('newTaskType').addEventListener('change', updateAdminMessageLink);
-        document.getElementById('newTaskUrl').addEventListener('input', updateAdminMessageLink);
+             if(currentUser.tonBalance < selectedPackage.price) {
+                 alert("Insufficient TON Balance. Please message Admin to deposit.");
+                 return;
+             }
+             
+             btn.disabled = true;
+             btn.textContent = "Creating...";
+             
+             try {
+                 await runTransaction(db, async (t) => {
+                     const userRef = doc(db, 'users', currentUser.id);
+                     const userDoc = await t.get(userRef);
+                     
+                     if(userDoc.data().tonBalance < selectedPackage.price) throw new Error("Insufficient Balance");
+                     
+                     // Deduct TON
+                     t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
+                     
+                     // Create Transaction Record
+                     const transRef = doc(collection(db, 'transactions'));
+                     t.set(transRef, {
+                         userId: currentUser.id,
+                         type: 'Task Creation',
+                         details: `Purchased ${selectedPackage.tasks} tasks for ${selectedPackage.price} TON`,
+                         amount: -selectedPackage.price,
+                         createdAt: serverTimestamp()
+                     });
+                     
+                     // Create Task
+                     const taskRef = doc(collection(db, 'tasks'));
+                     t.set(taskRef, {
+                         creatorId: currentUser.id,
+                         title: title,
+                         type: type,
+                         url: url,
+                         limit: selectedPackage.tasks,
+                         completionCount: 0,
+                         rewardPoints: USER_CREATED_TASK_REWARD_POINTS,
+                         isApproved: true, // Auto-approve or set false for admin review
+                         createdAt: serverTimestamp()
+                     });
+                 });
+                 
+                 // Success
+                 await fetchAndUpdateCurrentUser();
+                 showSuccessModal("Task Created!", "Your task is now live and users can see it.");
+                 document.getElementById('createTaskModalOverlay').classList.remove('show');
+                 renderMyAds();
+                 
+                 // Clear inputs
+                 document.getElementById('newTaskTitle').value = "";
+                 document.getElementById('newTaskUrl').value = "";
+                 selectedPackage = null;
+                 
+             } catch(e) {
+                 alert("Error creating task: " + e.message);
+                 console.error(e);
+             } finally {
+                 btn.disabled = false;
+                 btn.textContent = "Confirm Task";
+             }
+        });
 
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
