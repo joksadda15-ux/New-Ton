@@ -1,3 +1,5 @@
+<!-- --- START OF FILE index.html --- -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +48,7 @@
             --disabled-color: #3a3a3a;
             --disabled-text-color: #757575;
             --input-bg: #2c2c2c;
+            --spin-gradient: linear-gradient(135deg, #ff00cc, #333399);
         }
 
         body {
@@ -123,11 +126,11 @@
         .bottom-nav-item {
             display: flex; flex-direction: column; align-items: center;
             gap: 4px; color: var(--text-muted); text-decoration: none;
-            font-size: 0.75rem; font-weight: 500;
-            padding: 5px 10px; border-radius: 8px;
+            font-size: 0.70rem; font-weight: 500;
+            padding: 5px 8px; border-radius: 8px;
             transition: color 0.2s, background-color 0.2s;
         }
-        .bottom-nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .bottom-nav-item svg { width: 22px; height: 22px; fill: currentColor; }
         .bottom-nav-item:hover { color: var(--primary-accent-color); }
         .bottom-nav-item.active { color: var(--primary-accent-color); text-shadow: 0 0 8px rgba(0, 234, 255, 0.4); }
 
@@ -350,6 +353,50 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
+        /* --- SPIN SECTION STYLES --- */
+        .spin-wheel-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 2px solid var(--primary-accent-color);
+            box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+            margin-bottom: 25px;
+        }
+        .spin-display-box {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.5em;
+            background: #000;
+            color: var(--success-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px auto;
+            border: 2px solid #444;
+            max-width: 200px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--success-color);
+        }
+        .spin-btn {
+            background: var(--spin-gradient);
+            color: white;
+            font-size: 1.2em;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.4);
+            transition: transform 0.2s;
+            width: 80%;
+        }
+        .spin-btn:hover { transform: scale(1.05); }
+        .spin-btn:disabled { background: #555; transform: none; box-shadow: none; }
+        .spin-count-display {
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
     </style>
 </head>
 <body>
@@ -414,7 +461,7 @@
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
                  <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
-                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> when your friend watches 10 Ads.
+                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> + <span style="color: #ff00cc; font-weight:bold;">1 Free Spin</span> when your friend watches 10 Ads.
                  </p>
                  <div class="referral-link-wrapper">
                     <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
@@ -466,6 +513,25 @@
                  Watch video to mine points. Do not close the app.<br>
                  An Ad will appear every 10 minutes.
              </p>
+        </section>
+        
+        <!-- SPIN SECTION (NEW) -->
+        <section id="spin-content" class="content-section">
+             <h3 class="section-title">Lucky Spin</h3>
+             
+             <div class="spin-wheel-container">
+                <p style="color: #ff00cc; font-weight: bold; font-size: 1.1em; margin-bottom: 5px;">If you are lucky you can get up to 10K points!</p>
+                <p style="font-size: 0.9em; color: #aaa; margin-top: 0;">(Rewards: 0.01 - 2.00 Points)</p>
+                
+                <div class="spin-display-box" id="spinResultDisplay">0.00</div>
+                
+                <button id="userSpinBtn" class="spin-btn">SPIN (0 Free)</button>
+                <div class="spin-count-display">Available Spins: <strong id="userSpinsAvailable" style="color: white;">0</strong></div>
+             </div>
+
+             <div class="card" style="margin-top: 20px;">
+                 <p style="font-size: 0.9em;">Refer friends to earn more spins! You get 1 Spin when your referral watches 10 ads.</p>
+             </div>
         </section>
 
         <section id="ads-content" class="content-section">
@@ -528,6 +594,11 @@
         <a href="#" class="bottom-nav-item" data-tab-target="#video-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"/></svg>
             Video
+        </a>
+        <!-- NEW SPIN NAV -->
+        <a href="#" class="bottom-nav-item" data-tab-target="#spin-content">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"/></svg>
+            Spin
         </a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8 11H6V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>
@@ -687,13 +758,13 @@
         
         // --- CONSTANTS ---
         const REFERRAL_REWARD_POINTS = 30; 
-        const USER_CREATED_TASK_REWARD_POINTS = 3; // Updated to 3 Points
+        const USER_CREATED_TASK_REWARD_POINTS = 3; 
         const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
 
-        // UPDATE 5: Withdrawal Min Update
+        // Withdrawal Min Update
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 200 },
-            'Bkash': { min: 1000 }, // Updated to 1000
+            'Bkash': { min: 1000 }, 
         };
 
         // NEW TASK PRICING LIST
@@ -706,11 +777,11 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATE 1: Ads Section Update
+        // Ads Section Update
         const AD_TASKS_CONFIG = {
-            'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, // 2 Points
-            'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, // 2 Points
-            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, // 2 Points, Limit 10
+            'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, 
+            'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, 
+            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, 
         };
 
         // --- YOUTUBE & MINING VARIABLES ---
@@ -779,7 +850,8 @@
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
                     isBanned: false,
                     isActivated: false,
-                    lifetimeAdsWatched: 0, // Track ads for referral
+                    lifetimeAdsWatched: 0, 
+                    spinsAvailable: 0, // NEW: Spin count
                     claimedDailyRewards: [],
                     dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
                 };
@@ -798,6 +870,7 @@
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
             if (userData.isActivated === undefined) updates.isActivated = false;
             if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
+            if (userData.spinsAvailable === undefined) updates.spinsAvailable = 0; // Update for existing users
             if (userData.dailyAdViews_ad1 === undefined) {
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
@@ -878,7 +951,7 @@
             });
         }
 
-        // UPDATED ADS CLICK LOGIC (Includes Referral Check)
+        // UPDATED ADS CLICK LOGIC (Includes Referral Check & New Spin Reward)
         document.getElementById('ad-task-list').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
@@ -922,7 +995,7 @@
                             lifetimeAdsWatched: increment(1) 
                         });
                         
-                        // UPDATE 4: Check for Referral Reward (10 Ads)
+                        // Referral Reward Check (10 Ads = 30 Pts + 1 Spin)
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
@@ -931,7 +1004,8 @@
                                 if(rDoc.exists()) {
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS),
-                                        referralCount: increment(1)
+                                        referralCount: increment(1),
+                                        spinsAvailable: increment(1) // Grant Free Spin
                                     });
                                     t.set(doc(collection(db, 'transactions')), {
                                         userId: currentUser.referredBy,
@@ -1058,14 +1132,12 @@
             }
         }
 
-        // UPDATE 2: Removed Daily Website Tasks
         function renderDailyTasks() {
             // Function cleared as per request to remove website visits
             const container = document.getElementById('daily-tasks-grid');
             if (container) container.innerHTML = '';
         }
 
-        // UPDATE 3: Task Packages & UI
         let selectedPackage = null;
 
         function renderTaskPackages() {
@@ -1076,7 +1148,6 @@
                     <p>${pkg.price.toFixed(1)} TON</p>
                 </div>`).join('');
             
-            // Add click listeners for selection
             grid.querySelectorAll('.ad-package-card').forEach(card => {
                 card.addEventListener('click', () => {
                     grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
@@ -1103,7 +1174,6 @@
              btn.href = `https://t.me/Your_Admin11?text=${encodeURIComponent(msg)}`;
         }
 
-        // Listeners for inputs to update link
         document.getElementById('newTaskType').addEventListener('change', updateAdminMessageLink);
         document.getElementById('newTaskUrl').addEventListener('input', updateAdminMessageLink);
 
@@ -1143,7 +1213,6 @@
         }
         
         // --- PROMO CODE LOGIC ---
-        // UPDATE 2: Add Promo History & Ad Trigger
         async function fetchPromoHistory() {
             const list = document.getElementById('promo-history-list');
             if(!currentUser) return;
@@ -1410,6 +1479,7 @@
                         fetchPromoHistory();
                         break;
                     case '#video-content': initializeVideoSection(); break;
+                    case '#spin-content': setupSpinUI(); break; // NEW SPIN UI
                     case '#ads-content': setupAdsToEarn(); break;
                     case '#task-content':
                         renderTaskPackages();
@@ -1421,8 +1491,7 @@
             });
         });
 
-        // --- VIDEO SECTION LOGIC ---
-        
+        // --- VIDEO SECTION LOGIC (UPDATED: FETCH FROM COLLECTION) ---
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1444,12 +1513,14 @@
         async function initializeVideoSection() {
             updateMiningUI();
             
-            // Fetch video config from Firebase
+            // FETCH VIDEO FROM COLLECTION 'watch_videos' (New Admin Logic)
             try {
-                const docRef = doc(db, 'settings', 'video_config');
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
+                // Get the latest added video
+                const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(1));
+                const snap = await getDocs(q);
+                
+                if (!snap.empty) {
+                    const data = snap.docs[0].data();
                     const thumbnailImg = document.getElementById('custom-thumbnail-img');
                     thumbnailImg.src = data.thumbnailUrl;
 
@@ -1507,48 +1578,110 @@
         // Mining Loop
         setInterval(() => {
             if (isVideoPlaying) {
-                // Add points
                 minedBalance += POINTS_PER_SECOND;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
-
-                // Track watch time for ads
                 watchTimeSeconds++;
-
-                // Every 10 minutes (600 seconds), trigger Ad
                 if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) {
                     if(player && player.pauseVideo) player.pauseVideo();
-                    showRandomAd().then(() => {
-                        // Optional: Auto resume or let user resume
-                    });
+                    showRandomAd().then(() => {});
                 }
             }
         }, 1000);
 
         document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
             if (minedBalance < MINING_CLAIM_THRESHOLD) return;
-            
             const btn = document.getElementById('claimMinedPointsBtn');
-            btn.disabled = true;
-            btn.textContent = "Claiming...";
-
+            btn.disabled = true; btn.textContent = "Claiming...";
             try {
-                const pointsToClaim = Math.floor(minedBalance); // Claim integer part
+                const pointsToClaim = Math.floor(minedBalance); 
                 const remaining = minedBalance - pointsToClaim;
-
                 await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
-                
                 minedBalance = remaining;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
-                
                 showSuccessModal("Claimed!", `+${pointsToClaim} Points added to main balance.`);
             } catch (e) {
-                console.error(e);
-                alert("Error claiming points.");
-                btn.disabled = false;
+                console.error(e); alert("Error claiming points."); btn.disabled = false;
             }
         });
+
+        // --- SPIN LOGIC (NEW) ---
+        function setupSpinUI() {
+            if(!currentUser) return;
+            document.getElementById('userSpinsAvailable').textContent = currentUser.spinsAvailable || 0;
+            const btn = document.getElementById('userSpinBtn');
+            
+            // Enable button text
+            btn.textContent = `SPIN (${currentUser.spinsAvailable || 0} Free)`;
+            btn.disabled = false;
+        }
+
+        document.getElementById('userSpinBtn').addEventListener('click', async () => {
+             if(!currentUser) return;
+             
+             // Check Spins
+             if((currentUser.spinsAvailable || 0) <= 0) {
+                 alert("You don't have enough free spins. Invite friends to get more!");
+                 return;
+             }
+
+             const btn = document.getElementById('userSpinBtn');
+             const display = document.getElementById('spinResultDisplay');
+             btn.disabled = true;
+
+             // Animation
+             let count = 0;
+             const interval = setInterval(() => {
+                 display.textContent = (Math.random() * 2).toFixed(2);
+                 count++;
+                 if(count > 20) {
+                     clearInterval(interval);
+                     processSpinResult(display, btn);
+                 }
+             }, 80);
+        });
+
+        async function processSpinResult(displayElement, btnElement) {
+            try {
+                // Calculate Reward: 0.01 to 2.00
+                const reward = parseFloat((Math.random() * 1.99 + 0.01).toFixed(2));
+                displayElement.textContent = reward.toFixed(2);
+
+                await runTransaction(db, async (t) => {
+                    const userRef = doc(db, 'users', currentUser.id);
+                    const userDoc = await t.get(userRef);
+                    const currentSpins = userDoc.data().spinsAvailable || 0;
+                    
+                    if(currentSpins <= 0) throw new Error("No spins left.");
+
+                    t.update(userRef, {
+                        spinsAvailable: increment(-1),
+                        pointBalance: increment(reward)
+                    });
+
+                    // Log Transaction
+                    const transRef = doc(collection(db, 'transactions'));
+                    t.set(transRef, {
+                        userId: currentUser.id,
+                        type: 'Lucky Spin',
+                        details: 'Won from Lucky Wheel',
+                        pointAmount: reward,
+                        status: 'Completed',
+                        createdAt: serverTimestamp()
+                    });
+                });
+
+                await fetchAndUpdateCurrentUser();
+                setupSpinUI();
+                showSuccessModal("You Won!", `+${reward} Points added to your balance.`);
+
+            } catch (error) {
+                console.error(error);
+                alert("Spin failed: " + error.message);
+                setupSpinUI(); // Reset UI
+            }
+        }
 
 
         // --- INIT ---
@@ -1613,7 +1746,6 @@
             document.querySelector('.bottom-nav').style.display = 'none';
         }
 
-        // UPDATE 4: Activation no longer gives immediate reward
         async function handleUserActivation() {
             const activateBtn = document.getElementById('activateAccountBtn');
             activateBtn.disabled = true;
@@ -1623,9 +1755,6 @@
                 const userRef = doc(db, 'users', currentUser.id);
                 await updateDoc(userRef, { isActivated: true });
                 currentUser.isActivated = true;
-
-                // Removed Immediate Referral Reward block here.
-                // Reward now happens in Ad click listener.
 
                 document.getElementById('activationModalOverlay').classList.remove('show');
                 document.querySelector('main').style.display = 'block';
@@ -1647,14 +1776,13 @@
             try {
                 if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>This app can only be launched from Telegram.</p></div>`; return; }
                 tg.ready(); tg.expand();
-                tg.setHeaderColor('#1e1e1e'); // Dark Header for Telegram App
+                tg.setHeaderColor('#1e1e1e'); 
 
                 const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
                 if (!initStatus) return;
 
                 setupUserIdDisplay(currentUser.id);
 
-                // Activation Logic: Only show Modal if not activated. Not on Home screen.
                 if (!initStatus.isActivated) {
                     showActivationModal();
                 } else {
