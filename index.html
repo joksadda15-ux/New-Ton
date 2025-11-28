@@ -1,5 +1,3 @@
-<!-- --- START OF FILE index.html --- -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +46,6 @@
             --disabled-color: #3a3a3a;
             --disabled-text-color: #757575;
             --input-bg: #2c2c2c;
-            --spin-gradient: linear-gradient(135deg, #ff00cc, #333399);
         }
 
         body {
@@ -126,11 +123,11 @@
         .bottom-nav-item {
             display: flex; flex-direction: column; align-items: center;
             gap: 4px; color: var(--text-muted); text-decoration: none;
-            font-size: 0.70rem; font-weight: 500;
-            padding: 5px 8px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 500;
+            padding: 5px 10px; border-radius: 8px;
             transition: color 0.2s, background-color 0.2s;
         }
-        .bottom-nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+        .bottom-nav-item svg { width: 24px; height: 24px; fill: currentColor; }
         .bottom-nav-item:hover { color: var(--primary-accent-color); }
         .bottom-nav-item.active { color: var(--primary-accent-color); text-shadow: 0 0 8px rgba(0, 234, 255, 0.4); }
 
@@ -203,7 +200,7 @@
         /* Task Lists */
         .task-card { background-color: var(--card-bg); border-radius: 8px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 15px; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; border: 1px solid var(--border-color); }
         .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 234, 255, 0.15); border-color: var(--primary-accent-color); }
-        #ad-task-list.item-grid, #task-list.item-grid, #my-ads-list.item-grid { grid-template-columns: 1fr; gap: 15px; display: grid;}
+        #ad-task-list.item-grid, #task-list.item-grid, #my-ads-list.item-grid, #video-list-container.item-grid { grid-template-columns: 1fr; gap: 15px; display: grid;}
         .task-card-info { padding: 0; flex-grow: 1; text-align: left; }
         .task-card-info h4 { margin: 0 0 5px; font-size: 1em;}
         .task-card-info p { margin: 5px 0 0; font-size: 0.9em; }
@@ -292,51 +289,69 @@
             color: var(--primary-accent-color);
             font-size: 1.4em;
         }
-        #video-player-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            background-color: #000;
+        
+        /* Updated Video Player & List Styles */
+        #active-video-player-wrapper {
+            position: sticky;
+            top: 60px; /* Adjust based on header height */
+            z-index: 900;
+            background: #000;
+            margin-bottom: 20px;
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--primary-accent-color);
+            box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            display: none; /* Hidden until a video is clicked */
         }
-        #video-player-container iframe, #video-thumbnail-overlay {
+        #yt-player {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
         }
-        #video-thumbnail-overlay {
-            z-index: 2;
+        
+        .video-list-item {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
-        #video-thumbnail-overlay img {
+        .video-thumb {
             width: 100%;
-            height: 100%;
+            height: 140px;
             object-fit: cover;
+            position: relative;
         }
-        .play-btn-overlay {
+        .video-play-icon {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid var(--primary-accent-color);
-            box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            text-shadow: 0 0 10px black;
+            opacity: 0.8;
         }
-        .play-btn-overlay i {
-            color: var(--primary-accent-color);
-            font-size: 24px;
-            margin-left: 4px; /* optical adjustment */
+        .video-info {
+            padding: 10px;
+            text-align: center;
         }
+        .video-info button {
+            background: var(--primary-accent-color);
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
         /* Promo History */
         #promo-history-list {
             max-height: 150px;
@@ -351,50 +366,6 @@
             justify-content: space-between;
             padding: 5px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* --- SPIN SECTION STYLES --- */
-        .spin-wheel-container {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            border: 2px solid var(--primary-accent-color);
-            box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
-            margin-bottom: 25px;
-        }
-        .spin-display-box {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 2.5em;
-            background: #000;
-            color: var(--success-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px auto;
-            border: 2px solid #444;
-            max-width: 200px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--success-color);
-        }
-        .spin-btn {
-            background: var(--spin-gradient);
-            color: white;
-            font-size: 1.2em;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 204, 0.4);
-            transition: transform 0.2s;
-            width: 80%;
-        }
-        .spin-btn:hover { transform: scale(1.05); }
-        .spin-btn:disabled { background: #555; transform: none; box-shadow: none; }
-        .spin-count-display {
-            color: var(--text-muted);
-            margin-top: 15px;
-            font-size: 0.9em;
         }
 
     </style>
@@ -461,7 +432,7 @@
              <div class="home-referral-card">
                  <h4>Invite Friends & Earn</h4>
                  <p style="color: #b0b3b8; font-size: 0.9em; margin-bottom: 15px;">
-                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> + <span style="color: #ff00cc; font-weight:bold;">1 Free Spin</span> when your friend watches 10 Ads.
+                     Invite your friends! Get <span style="color: var(--primary-accent-color); font-weight: bold;">30 Points</span> when your friend watches 10 Ads.
                  </p>
                  <div class="referral-link-wrapper">
                     <input type="text" id="homeReferralLinkInput" readonly value="Generating link...">
@@ -488,7 +459,7 @@
              </div>
         </section>
         
-        <!-- NEW VIDEO SECTION -->
+        <!-- NEW VIDEO SECTION (Updated for Multiple Videos) -->
         <section id="video-content" class="content-section">
              <h3 class="section-title">Watch Video & Mine</h3>
              
@@ -501,36 +472,21 @@
                  <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 5 Points)</button>
              </div>
 
-             <div id="video-player-container">
-                 <div id="video-thumbnail-overlay">
-                     <img id="custom-thumbnail-img" src="" alt="Video Thumbnail">
-                     <div class="play-btn-overlay"><i class="fas fa-play"></i></div>
-                 </div>
+             <!-- Player Container (Sticky) -->
+             <div id="active-video-player-wrapper">
                  <div id="yt-player"></div>
              </div>
              
-             <p class="info-text" style="text-align: center; margin-top: 20px;">
-                 Watch video to mine points. Do not close the app.<br>
+             <p class="info-text" style="text-align: center; margin-bottom: 20px;">
+                 Select a video below to start mining. Do not close the app.<br>
                  An Ad will appear every 10 minutes.
              </p>
-        </section>
-        
-        <!-- SPIN SECTION (NEW) -->
-        <section id="spin-content" class="content-section">
-             <h3 class="section-title">Lucky Spin</h3>
-             
-             <div class="spin-wheel-container">
-                <p style="color: #ff00cc; font-weight: bold; font-size: 1.1em; margin-bottom: 5px;">If you are lucky you can get up to 10K points!</p>
-                <p style="font-size: 0.9em; color: #aaa; margin-top: 0;">(Rewards: 0.01 - 2.00 Points)</p>
-                
-                <div class="spin-display-box" id="spinResultDisplay">0.00</div>
-                
-                <button id="userSpinBtn" class="spin-btn">SPIN (0 Free)</button>
-                <div class="spin-count-display">Available Spins: <strong id="userSpinsAvailable" style="color: white;">0</strong></div>
-             </div>
 
-             <div class="card" style="margin-top: 20px;">
-                 <p style="font-size: 0.9em;">Refer friends to earn more spins! You get 1 Spin when your referral watches 10 ads.</p>
+             <!-- Video List Grid -->
+             <h4 class="sub-section-title" style="margin-top: 10px;">Available Videos</h4>
+             <div id="video-list-container" class="item-grid">
+                 <!-- Videos from Admin Panel will load here -->
+                 <div class="loader"></div>
              </div>
         </section>
 
@@ -595,11 +551,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"/></svg>
             Video
         </a>
-        <!-- NEW SPIN NAV -->
-        <a href="#" class="bottom-nav-item" data-tab-target="#spin-content">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"/></svg>
-            Spin
-        </a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8 11H6V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>
             Ads
@@ -620,26 +571,16 @@
         <div class="history-modal"><h3>History</h3><div id="combined-history-list" class="history-list-container"></div><button id="closeHistoryBtn" class="form-button" style="margin-top: 15px;">Close</button></div>
     </div>
 
-    <!-- UPDATED: Create Task Modal Structure -->
     <div id="createTaskModalOverlay" class="modal-overlay">
         <div class="task-modal">
             <h3>Buy Traffic / Create Task</h3>
             <div class="modal-body">
-                
-                <!-- 1. Admin / Deposit Section MOVED TO TOP -->
-                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-bottom: 20px;">
-                    <p style="margin-top:0; color: white; margin-bottom: 10px; font-size: 0.9em;">Need TON balance? Message Admin to Deposit.</p>
-                    <a id="msgAdminBtn" href="https://t.me/Your_Admin11?text=Hello%20Admin,%20I%20want%20to%20deposit%20TON%20for%20ads." target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000; font-size: 0.9em;">
-                        <i class="fab fa-telegram"></i> Deposit TON
-                    </a>
-                </div>
-
-                <p class="info-text" style="text-align: center; margin-bottom: 10px;">
-                    <b>Create your Task</b><br>
-                    Select Package, Enter Title & URL.
+                <p class="info-text" style="text-align: center; margin-bottom: 20px;">
+                    <b>Buy Real Traffic for your Channel or Bot</b><br>
+                    Select a Package, Type, and enter your URL.<br>
+                    Task Reward for users: <b>3 Points</b>.
                 </p>
 
-                <!-- Package Grid -->
                 <div class="form-group">
                     <label>1. Select Package (Tasks)</label>
                     <div id="ad-package-grid" class="item-grid">
@@ -647,15 +588,8 @@
                     </div>
                 </div>
 
-                <!-- NEW: Title Input -->
                 <div class="form-group">
-                    <label>2. Task Title</label>
-                    <input type="text" id="newTaskTitle" placeholder="e.g., Join My Channel">
-                </div>
-
-                <!-- Type Selection -->
-                <div class="form-group">
-                     <label>3. Select Task Type</label>
+                     <label>2. Select Task Type</label>
                      <select id="newTaskType">
                          <option value="Telegram Bot">Telegram Bot</option>
                          <option value="Telegram Channel">Telegram Channel</option>
@@ -667,15 +601,17 @@
                      </select>
                 </div>
 
-                <!-- URL Input -->
                 <div class="form-group">
-                    <label>4. Enter URL</label>
+                    <label>3. Enter URL</label>
                     <input type="text" id="newTaskUrl" placeholder="https://t.me/your_channel">
                 </div>
 
-                <!-- Confirm Button (Automated System) -->
-                <button id="confirmCreateTaskBtn" class="form-button" style="margin-top: 10px; background-color: var(--success-color);">Confirm & Create Task</button>
-
+                <div style="text-align: center; background: rgba(0,234,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-accent-color); margin-top: 15px;">
+                    <p style="margin-top:0; color: white; margin-bottom: 10px;">Click below to send details to Admin:</p>
+                    <a id="msgAdminBtn" href="#" target="_blank" class="form-button" style="display: block; text-decoration: none; line-height: 20px; color: #000;">
+                        <i class="fab fa-telegram"></i> Message Admin
+                    </a>
+                </div>
             </div>
             <button id="closeTaskModalBtn" class="form-button" style="margin-top: 15px; background-color: var(--text-muted);">Close</button>
         </div>
@@ -774,12 +710,12 @@
         // --- CONSTANTS ---
         const REFERRAL_REWARD_POINTS = 30; 
         const USER_CREATED_TASK_REWARD_POINTS = 3; 
-        const POINTS_TO_TON_RATE = 0.0001; // 100 points = 0.01 TON
+        const POINTS_TO_TON_RATE = 0.0001; 
 
-        // Withdrawal Min Update
+        // UPDATE 5: Withdrawal Min Update
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 200 },
-            'Bkash': { min: 1000 }, 
+            'Bkash': { min: 1000 },
         };
 
         // NEW TASK PRICING LIST
@@ -792,7 +728,7 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // Ads Section Update
+        // ADS Section Update
         const AD_TASKS_CONFIG = {
             'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, 
             'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, 
@@ -865,8 +801,7 @@
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
                     isBanned: false,
                     isActivated: false,
-                    lifetimeAdsWatched: 0, 
-                    spinsAvailable: 0, // NEW: Spin count
+                    lifetimeAdsWatched: 0, // Track ads for referral
                     claimedDailyRewards: [],
                     dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
                 };
@@ -885,7 +820,6 @@
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
             if (userData.isActivated === undefined) updates.isActivated = false;
             if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
-            if (userData.spinsAvailable === undefined) updates.spinsAvailable = 0; // Update for existing users
             if (userData.dailyAdViews_ad1 === undefined) {
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
@@ -966,7 +900,7 @@
             });
         }
 
-        // UPDATED ADS CLICK LOGIC (Includes Referral Check & New Spin Reward)
+        // UPDATED ADS CLICK LOGIC
         document.getElementById('ad-task-list').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
@@ -1010,7 +944,7 @@
                             lifetimeAdsWatched: increment(1) 
                         });
                         
-                        // Referral Reward Check (10 Ads = 30 Pts + 1 Spin)
+                        // Referral Reward (10 Ads)
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
@@ -1019,8 +953,7 @@
                                 if(rDoc.exists()) {
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS),
-                                        referralCount: increment(1),
-                                        spinsAvailable: increment(1) // Grant Free Spin
+                                        referralCount: increment(1)
                                     });
                                     t.set(doc(collection(db, 'transactions')), {
                                         userId: currentUser.referredBy,
@@ -1147,12 +1080,7 @@
             }
         }
 
-        function renderDailyTasks() {
-            // Function cleared as per request to remove website visits
-            const container = document.getElementById('daily-tasks-grid');
-            if (container) container.innerHTML = '';
-        }
-
+        // UPDATE 3: Task Packages & UI
         let selectedPackage = null;
 
         function renderTaskPackages() {
@@ -1163,103 +1091,36 @@
                     <p>${pkg.price.toFixed(1)} TON</p>
                 </div>`).join('');
             
+            // Add click listeners for selection
             grid.querySelectorAll('.ad-package-card').forEach(card => {
                 card.addEventListener('click', () => {
                     grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     selectedPackage = {
-                        tasks: parseInt(card.dataset.tasks),
-                        price: parseFloat(card.dataset.price)
+                        tasks: card.dataset.tasks,
+                        price: card.dataset.price
                     };
+                    updateAdminMessageLink();
                 });
             });
         }
         
-        // --- NEW: Automated Task Creation Logic ---
-        document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('confirmCreateTaskBtn');
-            const title = document.getElementById('newTaskTitle').value.trim();
-            const type = document.getElementById('newTaskType').value;
-            const url = document.getElementById('newTaskUrl').value.trim();
+        function updateAdminMessageLink() {
+             const type = document.getElementById('newTaskType').value;
+             const url = document.getElementById('newTaskUrl').value;
+             const btn = document.getElementById('msgAdminBtn');
+             
+             let msg = "Hello Admin, I want to create a task.\n";
+             if(selectedPackage) msg += `Package: ${selectedPackage.tasks} Tasks for ${selectedPackage.price} TON\n`;
+             msg += `Type: ${type}\n`;
+             msg += `URL: ${url ? url : '[Link Pending]'}`;
+             
+             btn.href = `https://t.me/Your_Admin11?text=${encodeURIComponent(msg)}`;
+        }
 
-            if (!currentUser) return;
-            
-            // Validate Inputs
-            if (!selectedPackage) {
-                alert("Please select a package.");
-                return;
-            }
-            if (!title) {
-                alert("Please enter a Title.");
-                return;
-            }
-            if (!url) {
-                alert("Please enter a URL.");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = "Processing...";
-
-            try {
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const userDoc = await t.get(userRef);
-                    
-                    const currentTon = userDoc.data().tonBalance || 0;
-                    
-                    // Check if user has enough TON (that Admin deposited)
-                    if (currentTon < selectedPackage.price) {
-                        throw new Error(`Insufficient TON Balance. You have ${currentTon.toFixed(4)} TON, but this package costs ${selectedPackage.price} TON. Please message Admin to deposit.`);
-                    }
-
-                    // 1. Deduct TON
-                    t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
-
-                    // 2. Create Task (Already Approved because they paid)
-                    const taskRef = doc(collection(db, 'tasks'));
-                    const newTaskData = {
-                        creatorId: currentUser.id,
-                        title: title,
-                        type: type,
-                        url: url,
-                        limit: selectedPackage.tasks,
-                        completionCount: 0,
-                        rewardPoints: 3, // Fixed reward as per request
-                        isApproved: true,
-                        createdAt: serverTimestamp()
-                    };
-                    t.set(taskRef, newTaskData);
-
-                    // 3. Log Transaction
-                    const transRef = doc(collection(db, 'transactions'));
-                    t.set(transRef, {
-                        userId: currentUser.id,
-                        type: 'Buy Task',
-                        details: `Created Task: ${title} (${selectedPackage.tasks} views)`,
-                        tonAmount: -selectedPackage.price,
-                        status: 'Completed',
-                        createdAt: serverTimestamp()
-                    });
-                });
-
-                await fetchAndUpdateCurrentUser();
-                document.getElementById('createTaskModalOverlay').classList.remove('show');
-                showSuccessModal("Task Created!", "Your task is now live and users can see it.");
-                
-                // Reset Fields
-                document.getElementById('newTaskTitle').value = '';
-                document.getElementById('newTaskUrl').value = '';
-                // Render My Ads to show new task immediately
-                renderMyAds();
-
-            } catch (error) {
-                alert(error.message);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "Confirm & Create Task";
-            }
-        });
+        // Listeners for inputs to update link
+        document.getElementById('newTaskType').addEventListener('change', updateAdminMessageLink);
+        document.getElementById('newTaskUrl').addEventListener('input', updateAdminMessageLink);
 
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
@@ -1563,7 +1424,6 @@
                         fetchPromoHistory();
                         break;
                     case '#video-content': initializeVideoSection(); break;
-                    case '#spin-content': setupSpinUI(); break; // NEW SPIN UI
                     case '#ads-content': setupAdsToEarn(); break;
                     case '#task-content':
                         renderTaskPackages();
@@ -1575,7 +1435,8 @@
             });
         });
 
-        // --- VIDEO SECTION LOGIC (UPDATED: FETCH FROM COLLECTION) ---
+        // --- VIDEO SECTION LOGIC (MULTIPLE VIDEOS) ---
+        
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1597,57 +1458,67 @@
         async function initializeVideoSection() {
             updateMiningUI();
             
-            // FETCH VIDEO FROM COLLECTION 'watch_videos' (New Admin Logic)
+            const videoListContainer = document.getElementById('video-list-container');
+            videoListContainer.innerHTML = '<div class="loader"></div>';
+
             try {
-                // Get the latest added video
-                const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(1));
+                // Fetch videos from collection (Limit 25)
+                const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(25));
                 const snap = await getDocs(q);
-                
-                if (!snap.empty) {
-                    const data = snap.docs[0].data();
-                    const thumbnailImg = document.getElementById('custom-thumbnail-img');
-                    thumbnailImg.src = data.thumbnailUrl;
 
-                    const videoId = extractVideoID(data.videoUrl);
-                    if (videoId && !player) {
-                        // Initialize YouTube Player
-                        window.onYouTubeIframeAPIReady = function() {
-                            player = new YT.Player('yt-player', {
-                                height: '100%',
-                                width: '100%',
-                                videoId: videoId,
-                                playerVars: {
-                                    'playsinline': 1,
-                                    'controls': 1
-                                },
-                                events: {
-                                    'onStateChange': onPlayerStateChange
-                                }
-                            });
-                        };
-                        // Manually trigger if API is already ready
-                        if(window.YT && window.YT.Player) {
-                             player = new YT.Player('yt-player', {
-                                height: '100%',
-                                width: '100%',
-                                videoId: videoId,
-                                playerVars: { 'playsinline': 1 },
-                                events: { 'onStateChange': onPlayerStateChange }
-                            });
-                        }
-                    } else if (player && videoId) {
-                        // Load new video if player exists
-                        player.cueVideoById(videoId);
-                    }
-
-                    // Handle Overlay Click
-                    document.getElementById('video-thumbnail-overlay').onclick = function() {
-                        this.style.display = 'none';
-                        if(player && player.playVideo) player.playVideo();
-                    };
+                videoListContainer.innerHTML = '';
+                if (snap.empty) {
+                    videoListContainer.innerHTML = '<p style="text-align:center; color:#777; width:100%;">No videos available to watch.</p>';
+                    return;
                 }
+
+                snap.forEach(docSnap => {
+                    const vid = docSnap.data();
+                    const videoId = extractVideoID(vid.videoUrl);
+                    if(!videoId) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'video-list-item';
+                    div.innerHTML = `
+                        <div class="video-thumb">
+                            <img src="${vid.thumbnailUrl}" alt="Thumbnail" style="width:100%; height:100%; object-fit:cover;">
+                            <i class="fas fa-play video-play-icon"></i>
+                        </div>
+                        <div class="video-info">
+                            <button>Watch Now</button>
+                        </div>
+                    `;
+                    // Click Handler
+                    div.addEventListener('click', () => {
+                        loadVideoPlayer(videoId);
+                        // Scroll to player
+                        document.getElementById('active-video-player-wrapper').scrollIntoView({ behavior: 'smooth' });
+                    });
+                    videoListContainer.appendChild(div);
+                });
+
             } catch (e) {
-                console.error("Error loading video config:", e);
+                console.error("Error loading video list:", e);
+                videoListContainer.innerHTML = '<p style="color:red; text-align:center;">Error loading videos.</p>';
+            }
+        }
+
+        function loadVideoPlayer(videoId) {
+            const wrapper = document.getElementById('active-video-player-wrapper');
+            wrapper.style.display = 'block'; // Show player container
+
+            if (!player) {
+                // Initialize YouTube Player
+                player = new YT.Player('yt-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: videoId,
+                    playerVars: { 'playsinline': 1, 'autoplay': 1 },
+                    events: { 'onStateChange': onPlayerStateChange }
+                });
+            } else {
+                // Load new video if player exists
+                player.loadVideoById(videoId);
             }
         }
 
@@ -1662,110 +1533,48 @@
         // Mining Loop
         setInterval(() => {
             if (isVideoPlaying) {
+                // Add points
                 minedBalance += POINTS_PER_SECOND;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
+
+                // Track watch time for ads
                 watchTimeSeconds++;
+
+                // Every 10 minutes (600 seconds), trigger Ad
                 if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) {
                     if(player && player.pauseVideo) player.pauseVideo();
-                    showRandomAd().then(() => {});
+                    showRandomAd().then(() => {
+                        // Optional: Auto resume or let user resume
+                    });
                 }
             }
         }, 1000);
 
         document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
             if (minedBalance < MINING_CLAIM_THRESHOLD) return;
+            
             const btn = document.getElementById('claimMinedPointsBtn');
-            btn.disabled = true; btn.textContent = "Claiming...";
+            btn.disabled = true;
+            btn.textContent = "Claiming...";
+
             try {
-                const pointsToClaim = Math.floor(minedBalance); 
+                const pointsToClaim = Math.floor(minedBalance); // Claim integer part
                 const remaining = minedBalance - pointsToClaim;
+
                 await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
+                
                 minedBalance = remaining;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
+                
                 showSuccessModal("Claimed!", `+${pointsToClaim} Points added to main balance.`);
             } catch (e) {
-                console.error(e); alert("Error claiming points."); btn.disabled = false;
+                console.error(e);
+                alert("Error claiming points.");
+                btn.disabled = false;
             }
         });
-
-        // --- SPIN LOGIC (NEW) ---
-        function setupSpinUI() {
-            if(!currentUser) return;
-            document.getElementById('userSpinsAvailable').textContent = currentUser.spinsAvailable || 0;
-            const btn = document.getElementById('userSpinBtn');
-            
-            // Enable button text
-            btn.textContent = `SPIN (${currentUser.spinsAvailable || 0} Free)`;
-            btn.disabled = false;
-        }
-
-        document.getElementById('userSpinBtn').addEventListener('click', async () => {
-             if(!currentUser) return;
-             
-             // Check Spins
-             if((currentUser.spinsAvailable || 0) <= 0) {
-                 alert("You don't have enough free spins. Invite friends to get more!");
-                 return;
-             }
-
-             const btn = document.getElementById('userSpinBtn');
-             const display = document.getElementById('spinResultDisplay');
-             btn.disabled = true;
-
-             // Animation
-             let count = 0;
-             const interval = setInterval(() => {
-                 display.textContent = (Math.random() * 2).toFixed(2);
-                 count++;
-                 if(count > 20) {
-                     clearInterval(interval);
-                     processSpinResult(display, btn);
-                 }
-             }, 80);
-        });
-
-        async function processSpinResult(displayElement, btnElement) {
-            try {
-                // Calculate Reward: 0.01 to 2.00
-                const reward = parseFloat((Math.random() * 1.99 + 0.01).toFixed(2));
-                displayElement.textContent = reward.toFixed(2);
-
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const userDoc = await t.get(userRef);
-                    const currentSpins = userDoc.data().spinsAvailable || 0;
-                    
-                    if(currentSpins <= 0) throw new Error("No spins left.");
-
-                    t.update(userRef, {
-                        spinsAvailable: increment(-1),
-                        pointBalance: increment(reward)
-                    });
-
-                    // Log Transaction
-                    const transRef = doc(collection(db, 'transactions'));
-                    t.set(transRef, {
-                        userId: currentUser.id,
-                        type: 'Lucky Spin',
-                        details: 'Won from Lucky Wheel',
-                        pointAmount: reward,
-                        status: 'Completed',
-                        createdAt: serverTimestamp()
-                    });
-                });
-
-                await fetchAndUpdateCurrentUser();
-                setupSpinUI();
-                showSuccessModal("You Won!", `+${reward} Points added to your balance.`);
-
-            } catch (error) {
-                console.error(error);
-                alert("Spin failed: " + error.message);
-                setupSpinUI(); // Reset UI
-            }
-        }
 
 
         // --- INIT ---
