@@ -209,16 +209,18 @@
         .history-date-header { padding: 15px 5px 5px; color: var(--primary-accent-color); font-weight: 600; font-size: 0.9em; }
         .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; border-bottom: 1px solid var(--border-color); }
         .history-list-container .history-item:last-child { border-bottom: none; }
-        .history-item-left strong { font-size: 1em; font-weight: 500; color: var(--text-dark); }
+        
+        /* --- UPDATED HISTORY ITEM STYLES --- */
+        .history-item-left strong { font-size: 1em; font-weight: 500; /* color controlled by class */ }
         .history-item-left small { font-size: 0.85em; color: var(--text-muted); display: block; margin-top: 4px; }
         .history-item-right { text-align: right; }
-        .history-item-right strong { font-size: 1em; font-weight: bold; }
+        .history-item-right strong { font-size: 1em; font-weight: bold; /* color controlled by class */ }
         .history-item-right small { font-size: 0.85em; display: block; margin-top: 4px; text-transform: capitalize; }
-        .history-item-right .amount-positive { color: var(--success-color); }
-        .history-item-right .amount-negative { color: #ff4d4d; }
-        .history-item-right .status-success { color: var(--success-color); font-weight: 600; }
-        .history-item-right .status-pending { color: #FFC107; font-weight: 600; }
-        .history-item-right .status-failed, .history-item-right .status-rejected { color: #ff4d4d; font-weight: 600; }
+        
+        /* New Color Utility Classes for History */
+        .text-red { color: #ff4d4d !important; }
+        .text-green { color: #00ff88 !important; }
+        .text-white { color: #ffffff !important; }
 
         .ad-package-card { padding: 15px; text-align: center; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; cursor: pointer;}
         .ad-package-card.selected { border-color: var(--primary-accent-color); background-color: rgba(0, 234, 255, 0.1); }
@@ -1411,11 +1413,13 @@
             }
         }
 
+        // --- UPDATED HISTORY FUNCTION ---
         async function showCombinedHistory() {
             const historyContainer = document.getElementById('combined-history-list');
             const modal = document.getElementById('historyModalOverlay');
             modal.classList.add('show');
             historyContainer.innerHTML = '<div class="loader"></div>';
+            
             try {
                 const withdrawalsQuery = query(collection(db, "withdrawals"), where("userId", "==", currentUser.id), orderBy("createdAt", "desc"), limit(25));
                 const transactionsQuery = query(collection(db, "transactions"), where("userId", "==", currentUser.id), orderBy("createdAt", "desc"), limit(25));
@@ -1423,13 +1427,18 @@
                 const [withdrawalsSnap, transactionsSnap] = await Promise.all([ getDocs(withdrawalsQuery), getDocs(transactionsQuery) ]);
                 let combinedList = [];
 
-                withdrawalsSnap.forEach(doc => combinedList.push({ ...doc.data(), type: 'Withdrawal', timestamp: doc.data().createdAt }));
-                transactionsSnap.forEach(doc => combinedList.push({ ...doc.data(), timestamp: doc.data().createdAt }));
+                // Mark withdrawals specifically to identify them later
+                withdrawalsSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: true, timestamp: doc.data().createdAt }));
+                transactionsSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: false, timestamp: doc.data().createdAt }));
+                
+                // Sort by Date
                 combinedList.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
 
                 if (combinedList.length === 0) { historyContainer.innerHTML = '<p style="text-align:center;">No history found.</p>'; return; }
 
                 let lastDate = null;
+                
+                // Render List
                 historyContainer.innerHTML = combinedList.map(data => {
                     if (!data.timestamp) return '';
                     const date = data.timestamp.toDate();
@@ -1442,19 +1451,55 @@
                         lastDate = formattedDate;
                     }
 
-                    let title = data.type; let amountStr = ''; let amountClass = '';
-                    let status = data.status || 'Completed'; let statusClass = `status-${status.toLowerCase()}`;
-
-                    if (title === 'Withdrawal') {
-                        amountStr = `- ${(data.pointAmount || 0)} Points`; amountClass = 'amount-negative';
-                    } else if (data.pointAmount) {
-                        amountStr = `+ ${data.pointAmount} Points`; amountClass = 'amount-positive';
+                    // --- LOGIC FOR TEXT & COLORS ---
+                    let leftTitle = "";
+                    let rightAmount = "";
+                    let leftStyleClass = "text-white"; // Default White
+                    let rightStyleClass = "text-green"; // Default Green for earnings
+                    let subText = data.details || formattedTime;
+                    
+                    // CHECK IF IT IS A WITHDRAWAL
+                    if (data.isWithdrawalDoc || data.type === 'Withdrawal') {
+                        const amount = data.pointAmount || 0;
+                        
+                        if (data.status === 'completed' || data.status === 'success') {
+                            // SCENARIO: Withdraw Successful (GREEN)
+                            leftTitle = "Withdraw successfully ✅";
+                            rightAmount = `${amount} Points`;
+                            leftStyleClass = "text-green";
+                            rightStyleClass = "text-green";
+                        } else if (data.status === 'pending') {
+                            // SCENARIO: Withdraw Request (RED)
+                            leftTitle = "Withdraw request";
+                            rightAmount = `${amount} Points`;
+                            leftStyleClass = "text-red";
+                            rightStyleClass = "text-red";
+                        } else {
+                            // Failed/Rejected (RED)
+                            leftTitle = "Withdraw Failed ❌";
+                            rightAmount = `${amount} Points`;
+                            leftStyleClass = "text-red";
+                            rightStyleClass = "text-red";
+                        }
+                    } else {
+                        // SCENARIO: Normal Transactions (Ad, Task, etc.) - WHITE Title
+                        leftTitle = data.type || "Transaction";
+                        rightAmount = `+ ${data.pointAmount} Points`;
+                        leftStyleClass = "text-white"; // White Front
+                        rightStyleClass = "text-green"; // Amount Green
                     }
 
-                    return `${dateHeaderHtml}
+                    return `
+                        ${dateHeaderHtml}
                         <div class="history-item">
-                            <div class="history-item-left"><strong>${title}</strong><small>${data.details || formattedTime}</small></div>
-                            <div class="history-item-right"><strong class="${amountClass}">${amountStr}</strong><small class="${statusClass}">${status}</small></div>
+                            <div class="history-item-left">
+                                <strong class="${leftStyleClass}">${leftTitle}</strong>
+                                <small style="color: #777;">${subText}</small>
+                            </div>
+                            <div class="history-item-right">
+                                <strong class="${rightStyleClass}">${rightAmount}</strong>
+                                <small class="${rightStyleClass}" style="opacity: 0.8;">${data.status || 'Completed'}</small>
+                            </div>
                         </div>`;
                 }).join('');
 
