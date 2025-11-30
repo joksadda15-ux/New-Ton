@@ -1456,30 +1456,32 @@
                     let rightAmount = "";
                     let leftStyleClass = "text-white"; // Default White
                     let rightStyleClass = "text-green"; // Default Green for earnings
-                    let subText = data.details || formattedTime;
+                    let subText = "";
                     
                     // CHECK IF IT IS A WITHDRAWAL
                     if (data.isWithdrawalDoc || data.type === 'Withdrawal') {
+                        // PRIVACY: Hide Address, show time only
+                        subText = formattedTime;
                         const amount = data.pointAmount || 0;
                         
-                        if (data.status === 'completed' || data.status === 'success') {
-                            // SCENARIO: Withdraw Successful (GREEN)
-                            leftTitle = "Withdraw successfully ✅";
-                            rightAmount = `${amount} Points`;
-                            leftStyleClass = "text-green";
-                            rightStyleClass = "text-green";
-                        } else if (data.status === 'pending') {
+                        if (data.status === 'pending') {
                             // SCENARIO: Withdraw Request (RED)
-                            leftTitle = "Withdraw request";
-                            rightAmount = `${amount} Points`;
+                            leftTitle = "Withdraw Request";
                             leftStyleClass = "text-red";
                             rightStyleClass = "text-red";
+                            rightAmount = `${amount} Points`;
+                        } else if (data.status === 'completed' || data.status === 'success') {
+                            // SCENARIO: Withdraw Successful (GREEN)
+                            leftTitle = "Withdraw Successful ✅";
+                            leftStyleClass = "text-green";
+                            rightStyleClass = "text-green";
+                            rightAmount = `${amount} Points`;
                         } else {
                             // Failed/Rejected (RED)
                             leftTitle = "Withdraw Failed ❌";
-                            rightAmount = `${amount} Points`;
                             leftStyleClass = "text-red";
                             rightStyleClass = "text-red";
+                            rightAmount = `${amount} Points`;
                         }
                     } else {
                         // SCENARIO: Normal Transactions (Ad, Task, etc.) - WHITE Title
@@ -1487,6 +1489,7 @@
                         rightAmount = `+ ${data.pointAmount} Points`;
                         leftStyleClass = "text-white"; // White Front
                         rightStyleClass = "text-green"; // Amount Green
+                        subText = data.details || formattedTime; // Show details for non-withdrawals
                     }
 
                     return `
