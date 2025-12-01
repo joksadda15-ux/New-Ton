@@ -1464,13 +1464,16 @@
                         subText = formattedTime;
                         const amount = data.pointAmount || 0;
                         
-                        if (data.status === 'pending') {
+                        // FIX: Normalize status to handle "Approved", "Paid", "Success", etc.
+                        const status = (data.status || '').toLowerCase();
+                        
+                        if (status === 'pending') {
                             // SCENARIO: Withdraw Request (RED)
                             leftTitle = "Withdraw Request";
                             leftStyleClass = "text-red";
                             rightStyleClass = "text-red";
                             rightAmount = `${amount} Points`;
-                        } else if (data.status === 'completed' || data.status === 'success') {
+                        } else if (status === 'completed' || status === 'success' || status === 'approved' || status === 'paid') {
                             // SCENARIO: Withdraw Successful (GREEN)
                             leftTitle = "Withdraw Successful ✅";
                             leftStyleClass = "text-green";
