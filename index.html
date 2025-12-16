@@ -32,17 +32,15 @@
 
     <style>
         :root {
-            /* --- THEME UPDATE: DARK & LIGHTING BLUE --- */
-            --primary-accent-color: #00eaff; /* Lighting Blue / Cyan */
+            --primary-accent-color: #00eaff;
             --primary-accent-hover-color: #00c4d6; 
-            --light-bg: #121212; /* Dark Background */
-            --card-bg: #1e1e1e; /* Darker Grey for cards */
+            --light-bg: #121212;
+            --card-bg: #1e1e1e;
             --header-bg: #1e1e1e;
-            --text-dark: #ffffff; /* White text */
-            --text-muted: #b0b3b8; /* Light Grey text */
-            --border-color: #333333; /* Dark Border */
-            
-            --success-color: #00ff88; /* Neon Green */
+            --text-dark: #ffffff;
+            --text-muted: #b0b3b8;
+            --border-color: #333333;
+            --success-color: #00ff88;
             --disabled-color: #3a3a3a;
             --disabled-text-color: #757575;
             --input-bg: #2c2c2c;
@@ -65,7 +63,7 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
             height: 50px;
-            box-shadow: 0 2px 15px rgba(0, 234, 255, 0.1); /* Blue Glow */
+            box-shadow: 0 2px 15px rgba(0, 234, 255, 0.1);
         }
         .header-left { display: flex; align-items: center; gap: 10px; }
         .site-branding { display: flex; flex-direction: column; align-items: flex-start; }
@@ -1296,13 +1294,14 @@
                         type: 'Promo Code',
                         details: `Code: ${code}`,
                         amount: promoData.rewardAmount,
-                        currency: promoData.rewardType,
+                        currency: promoData.rewardType || 'point', // ✅ FIX: Auto-detect 'point' if missing
                         createdAt: serverTimestamp()
                     });
                     
                     return promoData; 
                 }).then(async (promoData) => {
-                    showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${promoData.rewardType.toUpperCase()}!`);
+                    const rType = promoData.rewardType || 'point'; // Handle display
+                    showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${rType.toUpperCase()}!`);
                     input.value = "";
                     fetchAndUpdateCurrentUser();
                     fetchPromoHistory(); // Refresh history
