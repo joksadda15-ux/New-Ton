@@ -24,8 +24,6 @@
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     <!-- Adextra Ad Script -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
-    <!-- Tads Script -->
-    <script async src="https://tads.me/static/tads.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -378,10 +376,6 @@
     <div id="adBlockingOverlay" class="blocking-overlay">
         <h2>Watching Ad...</h2>
         <p>Please wait <span id="adOverlayTimer" class="timer-count">5</span> seconds</p>
-        
-        <!-- TADS WIDGET CONTAINER (Visible only in overlay) -->
-        <div id="tads-widget-8031" style="margin: 20px 0; max-width: 90%;"></div>
-        
         <p style="font-size: 0.9em; color: #777;">Do not close the app.</p>
     </div>
 
@@ -703,18 +697,6 @@
 
     <!-- YouTube IFrame API -->
     <script src="https://www.youtube.com/iframe_api"></script>
-    <!-- TADS INITIALIZATION -->
-    <script>
-        // Init Tads Widget
-        if(typeof tadsWidget === 'function') {
-            tadsWidget({
-                element: "tads-widget-8031",
-                id: 8031,
-                type: "tgb_static",
-                limit: 3
-            });
-        }
-    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -758,12 +740,11 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // ADS Section Update (Updated for Ad 3 Limit & New Ad 4)
+        // ADS Section Update
         const AD_TASKS_CONFIG = {
             'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, 
             'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, 
-            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 15, provider: 'random' }, 
-            'ad4': { title: 'Watch Ads 4 (Tads)', reward: 2, limit: 5, provider: 'tads' }, // New Tads Only Button
+            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, 
         };
 
         // --- YOUTUBE & MINING VARIABLES ---
@@ -807,8 +788,7 @@
                     'claimedDailyRewards': [],
                     'dailyAdViews_ad1': 0,
                     'dailyAdViews_ad2': 0,
-                    'dailyAdViews_ad3': 0,
-                    'dailyAdViews_ad4': 0 // Reset Ad 4
+                    'dailyAdViews_ad3': 0
                 };
                 try {
                     const userRef = doc(db, 'users', currentUser.id);
@@ -835,7 +815,7 @@
                     isActivated: false,
                     lifetimeAdsWatched: 0, // Track ads for referral
                     claimedDailyRewards: [],
-                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0, dailyAdViews_ad4: 0
+                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -856,7 +836,6 @@
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
                  updates.dailyAdViews_ad3 = 0;
-                 updates.dailyAdViews_ad4 = 0;
             }
 
             if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
@@ -950,7 +929,6 @@
             try {
                 if (taskConfig.provider === 'monetag') await showMonetagAd();
                 else if (taskConfig.provider === 'gigapub') await showGigaPubAd();
-                else if (taskConfig.provider === 'tads') await showTadsAd(); // New Explicit Tads
                 else if (taskConfig.provider === 'random') await showRandomAd();
             } catch (err) {
                 console.error("Ad load error:", err);
@@ -1539,26 +1517,9 @@
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
         const showAdextraAd = () => new Promise((res, rej) => typeof p_adextra === 'function' ? p_adextra({ onSuccess: res, onError: (e) => rej(new Error("Adextra ad failed: " + e)) }) : rej('Adextra SDK missing'));
-        
-        // NEW TADS AD LOGIC
-        const showTadsAd = () => new Promise((res, rej) => {
-            // Tads logic: Since the user provided code is a static widget initialization,
-            // we assume the widget is rendered in the Overlay.
-            // We verify the function exists and then resolve immediately
-            // so the 5 second timer counts down while the user sees the widget.
-             try {
-                 if(typeof tadsWidget === 'function') {
-                     // Since tadsWidget was called in init, we just ensure SDK is there.
-                     res();
-                 } else {
-                     rej("Tads SDK not loaded");
-                 }
-             } catch(e) { rej(e); }
-        });
 
         async function showRandomAd() {
-            // Updated Random Logic: Monetag, GigaPub, or Tads
-            const adProviders = [showMonetagAd, showGigaPubAd, showTadsAd]; 
+            const adProviders = [showMonetagAd, showGigaPubAd]; // Randomly choose between these
             const randomAdProvider = adProviders[Math.floor(Math.random() * adProviders.length)];
             try { await randomAdProvider(); }
             catch(err) { console.warn("An ad provider failed", err); }
