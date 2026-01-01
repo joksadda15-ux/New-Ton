@@ -14,9 +14,7 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- --- AD INTEGRATIONS FROM INDEX.HTML --- -->
-
-    <!-- 1. Adexium Ads -->
+    <!-- --- AD INTEGRATIONS --- -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
@@ -28,41 +26,34 @@
             }
         });
     </script>
-
-    <!-- 2. Monetag Script -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
-
-    <!-- 3. Giga Pub Script -->
     <script src="https://ad.gigapub.tech/script?id=846"></script>
-
-    <!-- 4. Adextra Ad Script -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
-
     <!-- --- AD INTEGRATIONS END --- -->
 
     <style>
-        /* --- PREMIUM THEME: DEEP BLACK & TON BLUE (From ai_studio_code 19) --- */
+        /* --- UPDATE 1: PREMIUM WHITE THEME --- */
         :root {
-            --bg-color: #0B0E13;       /* Deep Black/Blue Background */
-            --card-bg: #151A23;        /* Dark Grey/Blue Card */
-            --header-bg: #151A23;      /* Matching Header */
+            --bg-color: #F2F4F8;       /* Light Grey Background */
+            --card-bg: #FFFFFF;        /* Pure White Card */
+            --header-bg: #FFFFFF;      /* White Header */
             
-            --primary-color: #0098EA;  /* TON Blue (Action Buttons) */
+            --primary-color: #0098EA;  /* TON Blue */
             --primary-hover: #007acc;
             
-            --text-title: #FFFFFF;     /* White for Headings */
-            --text-body: #B0B8C1;      /* Muted Blue-Grey for Text */
+            --text-title: #1F2937;     /* Dark Grey/Black for Headings */
+            --text-body: #6B7280;      /* Medium Grey for Body */
             --text-highlight: #0098EA; 
             
-            --border-subtle: rgba(255, 255, 255, 0.08); /* Very subtle border */
-            --input-bg: #1E2530;
+            --border-subtle: #E5E7EB;  /* Light Grey Border */
+            --input-bg: #F9FAFB;       /* Very Light Grey for Inputs */
             
-            --success-color: #2ECC71;
-            --danger-color: #E53935;   /* Soft Red for specific alerts only */
-            --disabled-bg: #2C3440;
-            --disabled-text: #5A6474;
+            --success-color: #10B981;
+            --danger-color: #EF4444;   
+            --disabled-bg: #E5E7EB;
+            --disabled-text: #9CA3AF;
 
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25); 
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.05); 
             --radius-card: 16px;
             --radius-btn: 12px;
         }
@@ -72,7 +63,7 @@
             color: var(--text-body);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 70px 0 90px; /* Space for fixed header/footer */
+            padding: 70px 0 90px;
             min-height: 100vh;
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
@@ -88,7 +79,7 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
             height: 64px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
         
         .header-left { display: flex; align-items: center; gap: 12px; }
@@ -97,14 +88,14 @@
         .user-id-display { 
             font-size: 0.75rem; color: var(--text-body); 
             font-family: 'Roboto Mono', monospace; 
-            background: rgba(255,255,255,0.05);
+            background: var(--input-bg);
             padding: 2px 8px; border-radius: 6px;
             margin-top: 2px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+            border: 1px solid var(--border-subtle);
         }
         
         .header-right { display: flex; align-items: center; gap: 12px; }
         
-        /* Premium Balance Display in Header */
         .balance-badge {
             display: flex; flex-direction: column; align-items: flex-end;
             line-height: 1.2;
@@ -117,13 +108,14 @@
         }
 
         .header-icon-btn { 
-            background: rgba(255,255,255,0.05); 
-            border: none; color: var(--text-title); 
+            background: var(--input-bg); 
+            border: 1px solid var(--border-subtle); 
+            color: var(--text-title); 
             width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: background 0.2s;
         }
-        .header-icon-btn:hover { background: rgba(255,255,255,0.1); }
+        .header-icon-btn:hover { background: #e5e7eb; }
         .header-icon-btn i { font-size: 1.1rem; }
 
         /* --- CARDS --- */
@@ -157,6 +149,7 @@
             transition: background-color 0.2s, transform 0.1s; 
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 152, 234, 0.2);
         }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
         
@@ -167,6 +160,7 @@
             background-color: var(--disabled-bg); 
             color: var(--disabled-text); 
             cursor: not-allowed; 
+            box-shadow: none;
         }
 
         /* --- FORMS & INPUTS --- */
@@ -183,12 +177,12 @@
             font-family: 'Inter', sans-serif;
             transition: border-color 0.2s;
         }
-        input:focus { border-color: var(--primary-color); }
-        input:read-only { background-color: rgba(255,255,255,0.02); color: var(--text-body); border-color: transparent; }
+        input:focus { border-color: var(--primary-color); background-color: #fff; }
+        input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
 
-        /* --- REFERRAL & PROMO --- */
+        /* --- REFERRAL --- */
         .home-referral-card h4 { margin: 0 0 12px; font-size: 1.2rem; color: var(--text-title); }
-        .referral-copy { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+        .referral-copy { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; color: var(--text-body); }
         .referral-copy b { color: var(--primary-color); }
 
         .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -196,7 +190,7 @@
         .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
 
         .stat-row { display: flex; justify-content: space-between; background: var(--input-bg); padding: 12px 16px; border-radius: 12px; margin-top: 10px; }
-        .stat-row span { font-size: 0.9rem; }
+        .stat-row span { font-size: 0.9rem; color: var(--text-body); }
         .stat-row strong { color: var(--text-title); }
 
         /* --- BOTTOM NAV --- */
@@ -205,12 +199,12 @@
             background-color: var(--header-bg);
             border-top: 1px solid var(--border-subtle);
             display: flex; justify-content: space-around;
-            padding: 10px 0 20px; /* Extra padding for iOS home bar */
+            padding: 10px 0 20px; 
             z-index: 1000;
         }
         .bottom-nav-item {
             display: flex; flex-direction: column; align-items: center;
-            gap: 6px; color: var(--text-body); text-decoration: none;
+            gap: 6px; color: var(--disabled-text); text-decoration: none;
             font-size: 0.7rem; font-weight: 500;
             width: 20%;
             transition: color 0.2s;
@@ -224,11 +218,26 @@
         .content-section.active { display: block; }
         @keyframes fadeEffect { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* --- WITHDRAW LOCK --- */
+        .withdraw-lock-overlay {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.9);
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 10;
+            border-radius: var(--radius-card);
+            text-align: center;
+            padding: 20px;
+        }
+        .withdraw-lock-overlay.active { display: flex; }
+        .withdraw-lock-icon { font-size: 3rem; color: var(--text-body); margin-bottom: 10px; opacity: 0.6; }
+
         /* --- SPECIFIC COMPONENTS --- */
         .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Task List */
         .item-grid { display: grid; gap: 16px; }
         .task-card, .user-ad-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; }
         .task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
@@ -237,43 +246,36 @@
         .ad-task-card-info p { margin: 0; font-size: 0.85rem; color: var(--text-body); }
         .task-reward-points { color: var(--success-color); font-weight: bold; }
         
-        /* Video List */
         .video-list-item { padding: 0; overflow: hidden; border: none; display: block; }
         .video-thumb { position: relative; height: 160px; }
         .video-play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 3rem; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .video-info { padding: 16px; }
         .video-info button { width: 100%; padding: 10px; background: var(--primary-color); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; }
 
-        /* Withdraw */
         .conversion-rate-display { background: rgba(0, 152, 234, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; }
         
-        /* Modals */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
         .modal-overlay.show { display: flex; }
-        .modal-content, .task-modal, .activation-modal, .task-confirm-modal { background-color: var(--card-bg); color: var(--text-title); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; }
+        .modal-content, .task-modal, .activation-modal, .task-confirm-modal { background-color: var(--card-bg); color: var(--text-title); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column; max-height: 80vh; }
         .task-modal, .activation-modal { text-align: left; }
         .modal-body { overflow-y: auto; padding-right: 5px; margin-bottom: 10px; }
         
-        /* History Items */
         .history-item { border-bottom: 1px solid var(--border-subtle); padding: 12px 0; }
         .history-date-header { color: var(--text-body); font-size: 0.8rem; margin-top: 15px; font-weight: 600; text-transform: uppercase; }
         .text-green { color: var(--success-color) !important; }
         .text-red { color: var(--danger-color) !important; }
-        .text-white { color: var(--text-title) !important; }
+        .text-primary { color: var(--text-title) !important; }
 
-        /* Profile Popover */
-        .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .profile-popover.show { display: block; }
         .popover-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
         .popover-item strong { color: var(--text-body); }
         .popover-item span { color: var(--text-title); font-weight: 600; }
 
-        /* Responsive Grid */
         #ad-package-grid { grid-template-columns: repeat(2, 1fr); }
         .ad-package-card { text-align: center; cursor: pointer; border: 2px solid transparent; background: var(--input-bg); }
         .ad-package-card.selected { border-color: var(--primary-color); background: rgba(0, 152, 234, 0.05); }
 
-        /* Blocking Overlay for Ads */
         .blocking-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 3000;
@@ -283,7 +285,6 @@
         .blocking-overlay h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
         .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; }
 
-        /* User Ad Item */
         .user-ad-item { flex-direction: column; align-items: flex-start; }
         .user-ad-item .progress-text { font-size: 0.85rem; color: var(--text-body); margin-top: 5px; }
         .user-ad-item .status-text { margin-top: 10px; font-weight: bold; font-size: 0.8rem; }
@@ -294,7 +295,7 @@
 </head>
 <body>
 
-    <!-- BLOCKING OVERLAY FOR ADS (Logic from Index.html) -->
+    <!-- BLOCKING OVERLAY FOR ADS -->
     <div id="adBlockingOverlay" class="blocking-overlay">
         <h2>Watching Ad...</h2>
         <p>Please wait <span id="adOverlayTimer" class="timer-count">5</span> seconds</p>
@@ -343,14 +344,14 @@
     <main class="container">
         <!-- HOME SECTION -->
         <section id="home-content" class="content-section active">
-             <!-- Referral Card -->
+             <!-- Referral Card UPDATE 3: TEXT -->
              <div class="home-referral-card">
                  <div style="text-align: center; margin-bottom: 15px;">
                      <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
                      <h4>Invite Friends & Earn</h4>
                  </div>
-                 <p class="referral-copy" style="text-align: center; color: var(--text-body);">
-                     Invite your friends! Get <b>30 Points</b> instantly + <b>10% Commission</b>. Build your network and earn more!
+                 <p class="referral-copy" style="text-align: center;">
+                     Invite your friends! Get <b>40 Points</b> instantly + <b>10% Commission</b>. Build your network and earn more!
                  </p>
                  <div class="input-group">
                     <input type="text" id="homeReferralLinkInput" readonly value="Loading...">
@@ -372,9 +373,7 @@
                 </div>
                 <button id="claimPromoBtn" class="form-button">Claim Reward</button>
                 
-                <div id="promo-history-list" style="margin-top: 20px;">
-                    <!-- Promo history injected here via JS -->
-                </div>
+                <div id="promo-history-list" style="margin-top: 20px;"></div>
              </div>
         </section>
         
@@ -405,10 +404,7 @@
         <!-- ADS SECTION -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Watch Ads</h3>
-             <div id="ad-task-list" class="item-grid">
-                 <!-- Ads Injected via JS -->
-             </div>
-             <!-- Adextra Placement from index.html -->
+             <div id="ad-task-list" class="item-grid"></div>
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
 
@@ -429,9 +425,17 @@
              <div id="my-ads-list" class="item-grid"></div>
         </section>
 
-        <!-- WITHDRAW SECTION -->
+        <!-- WITHDRAW SECTION UPDATE 2: LOCK LOGIC -->
         <section id="withdraw-content" class="content-section">
-             <div class="card" style="text-align: center;">
+             <div class="card" style="text-align: center; position: relative; overflow: hidden;">
+                <!-- Lock Overlay -->
+                <div id="withdraw-lock-screen" class="withdraw-lock-overlay">
+                    <i class="fas fa-lock withdraw-lock-icon"></i>
+                    <h3 style="color: var(--text-title); margin: 0 0 10px;">Withdrawal Locked</h3>
+                    <p style="color: var(--text-body); margin: 0 0 20px;">You need <b>1 New Referral</b> to unlock this withdrawal.</p>
+                    <button class="form-button" onclick="document.querySelector('[data-tab-target=\'#home-content\']').click()">Go Invite Friend</button>
+                </div>
+
                 <i class="fas fa-wallet" style="font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.5;"></i>
                 <h2 style="margin: 0 0 5px; color: var(--text-title); font-size: 2rem;" id="withdrawPointBalance">0 Points</h2>
                 <p class="conversion-rate-display">10,000 Points = 1.00 TON</p>
@@ -502,7 +506,7 @@
         <div class="modal-content" style="max-height: 80vh; padding: 20px;">
             <h3 style="margin-top:0;">History</h3>
             <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
-            <button id="closeHistoryBtn" class="form-button" style="margin-top: 15px; background: var(--disabled-bg);">Close</button>
+            <button id="closeHistoryBtn" class="form-button" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
         </div>
     </div>
 
@@ -572,7 +576,7 @@
                 <p style="color: var(--text-body);">Did you complete the task correctly? Fake claims lead to bans.</p>
             </div>
             <div style="display:flex; gap:10px; margin-top:10px;">
-                <button id="taskConfirmGoBackBtn" class="form-button" style="background:var(--disabled-bg);">Back</button>
+                <button id="taskConfirmGoBackBtn" class="form-button" style="background:var(--disabled-bg); color: var(--text-body);">Back</button>
                 <button id="taskConfirmSubmitBtn" class="form-button">Yes, Completed</button>
             </div>
         </div>
@@ -584,7 +588,7 @@
             <h3>Confirm Withdraw</h3>
             <p id="withdrawConfirmText" style="color: var(--text-body); margin-bottom: 20px;">...</p>
             <div style="display:flex; gap:10px;">
-                <button id="withdrawConfirmCancelBtn" class="form-button" style="background:var(--disabled-bg);">Cancel</button>
+                <button id="withdrawConfirmCancelBtn" class="form-button" style="background:var(--disabled-bg); color: var(--text-body);">Cancel</button>
                 <button id="withdrawConfirmSubmitBtn" class="form-button">Confirm</button>
             </div>
         </div>
@@ -593,7 +597,6 @@
     <!-- Youtube API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
-    <!-- FIREBASE AND APP LOGIC FROM INDEX.HTML -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
@@ -616,17 +619,16 @@
         let isSubmittingWithdrawal = false;
         
         // --- CONSTANTS ---
-        const REFERRAL_REWARD_POINTS = 30; 
+        // UPDATE 3: INCREASED TO 40
+        const REFERRAL_REWARD_POINTS = 40; 
         const USER_CREATED_TASK_REWARD_POINTS = 3; 
         const POINTS_TO_TON_RATE = 0.0001; 
 
-        // UPDATE 5: Withdrawal Min Update
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 200 },
             'Bkash': { min: 1000 },
         };
 
-        // NEW TASK PRICING LIST
         const adPackages = [
             { id: 1, tasks: 150, price: 0.1 }, 
             { id: 2, tasks: 300, price: 0.2 },
@@ -636,22 +638,20 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // ADS Section Update
         const AD_TASKS_CONFIG = {
             'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, 
             'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, 
             'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, 
         };
 
-        // --- YOUTUBE & MINING VARIABLES ---
         let player;
         let isVideoPlaying = false;
         let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
-        let watchTimeSeconds = 0; // To track 10 minute intervals
+        let watchTimeSeconds = 0; 
         const MINING_CLAIM_THRESHOLD = 5;
         const POINTS_PER_SECOND = 1 / 3600; 
 
-        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: #050505; color: #fff;"><div class="card"><h3>Account Banned</h3><p style="color: #ff4d4d;">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
+        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: var(--bg-color); color: var(--text-title);"><div class="card"><h3>Account Banned</h3><p style="color: var(--danger-color);">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
         async function cleanupAndGetUser(userId) {
             const userRef = doc(db, 'users', userId);
@@ -704,12 +704,13 @@
                 isNewUser = true;
                 const defaultUserData = {
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
+                    spentReferrals: 0, // UPDATE 2: For withdraw lock
                     completedTasks: [],
                     lastDailyReset: serverTimestamp(),
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
                     isBanned: false,
                     isActivated: false,
-                    lifetimeAdsWatched: 0, // Track ads for referral
+                    lifetimeAdsWatched: 0, 
                     claimedDailyRewards: [],
                     dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
                 };
@@ -728,6 +729,7 @@
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
             if (userData.isActivated === undefined) updates.isActivated = false;
             if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
+            if (userData.spentReferrals === undefined) updates.spentReferrals = 0; // UPDATE 2
             if (userData.dailyAdViews_ad1 === undefined) {
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
@@ -808,7 +810,6 @@
             });
         }
 
-        // UPDATED ADS CLICK LOGIC
         document.getElementById('ad-task-list').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-task-button');
             if (!button || button.disabled) return;
@@ -852,13 +853,17 @@
                             lifetimeAdsWatched: increment(1) 
                         });
                         
-                        // Referral Reward (10 Ads)
+                        // UPDATE 3: REFERRAL LOGIC
+                        // Simply grant 40 points to referrer on the 10th ad watch of the user (as an activation trigger)
+                        // Or just trigger strictly on referral count. 
+                        // To keep it clean with existing logic:
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
                             await runTransaction(db, async (t) => {
                                 const rDoc = await t.get(referrerRef);
                                 if(rDoc.exists()) {
+                                    // NO 10% COMMISSION LOGIC HERE, JUST FLAT REWARD
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS),
                                         referralCount: increment(1)
@@ -866,7 +871,7 @@
                                     t.set(doc(collection(db, 'transactions')), {
                                         userId: currentUser.referredBy,
                                         type: 'Referral Reward',
-                                        details: `User ${currentUser.id} watched 10 ads`,
+                                        details: `User ${currentUser.id} activated (watched 10 ads)`,
                                         pointAmount: REFERRAL_REWARD_POINTS,
                                         status: 'Completed',
                                         createdAt: serverTimestamp()
@@ -988,7 +993,6 @@
             }
         }
 
-        // UPDATE 3: Task Packages & UI
         let selectedPackage = null;
 
         function renderTaskPackages() {
@@ -999,7 +1003,6 @@
                     <p style="margin:5px 0 0;color:var(--primary-color);font-weight:bold;">${pkg.price.toFixed(1)} TON</p>
                 </div>`).join('');
             
-            // Add click listeners for selection
             grid.querySelectorAll('.ad-package-card').forEach(card => {
                 card.addEventListener('click', () => {
                     grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected'));
@@ -1012,7 +1015,6 @@
             });
         }
         
-        // NEW CONFIRM TASK LOGIC
         document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
              const type = document.getElementById('newTaskType').value;
              const url = document.getElementById('newTaskUrl').value.trim();
@@ -1043,10 +1045,8 @@
                      
                      if(userDoc.data().tonBalance < selectedPackage.price) throw new Error("Insufficient Balance");
                      
-                     // Deduct TON
                      t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
                      
-                     // Create Transaction Record
                      const transRef = doc(collection(db, 'transactions'));
                      t.set(transRef, {
                          userId: currentUser.id,
@@ -1056,7 +1056,6 @@
                          createdAt: serverTimestamp()
                      });
                      
-                     // Create Task
                      const taskRef = doc(collection(db, 'tasks'));
                      t.set(taskRef, {
                          creatorId: currentUser.id,
@@ -1066,18 +1065,16 @@
                          limit: selectedPackage.tasks,
                          completionCount: 0,
                          rewardPoints: USER_CREATED_TASK_REWARD_POINTS,
-                         isApproved: true, // Auto-approve or set false for admin review
+                         isApproved: true, 
                          createdAt: serverTimestamp()
                      });
                  });
                  
-                 // Success
                  await fetchAndUpdateCurrentUser();
                  showSuccessModal("Task Created!", "Your task is now live.");
                  document.getElementById('createTaskModalOverlay').classList.remove('show');
                  renderMyAds();
                  
-                 // Clear inputs
                  document.getElementById('newTaskTitle').value = "";
                  document.getElementById('newTaskUrl').value = "";
                  selectedPackage = null;
@@ -1125,7 +1122,6 @@
             setTimeout(() => { document.getElementById('successModalOverlay').classList.remove('show'); }, 3000);
         }
         
-        // --- PROMO CODE LOGIC ---
         async function fetchPromoHistory() {
             const list = document.getElementById('promo-history-list');
             if(!currentUser) return;
@@ -1168,39 +1164,35 @@
                     if (promoData.currentUses >= promoData.maxUses) throw new Error("This code has reached its maximum uses.");
                     if (promoData.usersClaimed && promoData.usersClaimed.includes(currentUser.id)) throw new Error("You have already claimed this code.");
 
-                    // Apply Reward
                     if (promoData.rewardType === 'ton') {
                         t.update(userRef, { tonBalance: increment(promoData.rewardAmount) });
                     } else {
                         t.update(userRef, { pointBalance: increment(promoData.rewardAmount) });
                     }
 
-                    // Update Promo Stats
                     t.update(promoRef, { 
                         currentUses: increment(1),
                         usersClaimed: arrayUnion(currentUser.id)
                     });
 
-                    // Log Transaction
                     const transRef = doc(collection(db, 'transactions'));
                     t.set(transRef, {
                         userId: currentUser.id,
                         type: 'Promo Code',
                         details: `Code: ${code}`,
                         amount: promoData.rewardAmount,
-                        currency: promoData.rewardType || 'point', // ✅ FIX: Auto-detect 'point' if missing
+                        currency: promoData.rewardType || 'point',
                         createdAt: serverTimestamp()
                     });
                     
                     return promoData; 
                 }).then(async (promoData) => {
-                    const rType = promoData.rewardType || 'point'; // Handle display
+                    const rType = promoData.rewardType || 'point'; 
                     showSuccessModal("Success!", `You received ${promoData.rewardAmount} ${rType.toUpperCase()}!`);
                     input.value = "";
                     fetchAndUpdateCurrentUser();
-                    fetchPromoHistory(); // Refresh history
+                    fetchPromoHistory(); 
 
-                    // Play Random Ad after success
                     try {
                         await showRandomAd();
                     } catch (adError) {
@@ -1216,13 +1208,28 @@
             }
         });
         
-        // --- WITHDRAWAL ---
+        // --- WITHDRAWAL LOGIC ---
         function setupWithdrawalUI() {
             if (!currentUser) return;
             const balance = currentUser.pointBalance || 0;
             document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
             const amountInput = document.getElementById('withdrawalAmount');
+            const lockScreen = document.getElementById('withdraw-lock-screen');
+
+            // UPDATE 2: LOCK LOGIC
+            // Calculate available withdrawals: total referrals minus spent referrals
+            const totalReferrals = currentUser.referralCount || 0;
+            const spentReferrals = currentUser.spentReferrals || 0;
+            const availableWithdrawals = totalReferrals - spentReferrals;
+
+            if (availableWithdrawals < 1) {
+                // LOCKED
+                lockScreen.classList.add('active');
+            } else {
+                // UNLOCKED
+                lockScreen.classList.remove('active');
+            }
 
             const updateSummary = () => {
                 const method = methodSelect.value;
@@ -1286,7 +1293,14 @@
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const userDoc = await t.get(userRef);
-                    if ((userDoc.data().pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
+                    const uData = userDoc.data();
+
+                    if ((uData.pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
+                    
+                    // UPDATE 2: VERIFY LOCK LOGIC IN TRANSACTION
+                    const totalRef = uData.referralCount || 0;
+                    const spentRef = uData.spentReferrals || 0;
+                    if ((totalRef - spentRef) < 1) throw new Error("Withdrawal Locked. You need 1 new referral.");
 
                     const requestData = {
                         userId: currentUser.id, telegramUsername: currentUser.telegramUsername,
@@ -1294,7 +1308,12 @@
                         pointAmount: amount, tonAmount: tonAmount
                     };
                     t.set(doc(collection(db, 'withdrawals')), requestData);
-                    t.update(userRef, { pointBalance: increment(-amount) });
+                    
+                    // Deduct Points AND Increment Spent Referrals
+                    t.update(userRef, { 
+                        pointBalance: increment(-amount),
+                        spentReferrals: increment(1) 
+                    });
                 });
                 await fetchAndUpdateCurrentUser();
                 document.getElementById('withdrawalForm').reset();
@@ -1303,11 +1322,10 @@
                 alert(`Error: ${error.message}`);
             } finally {
                 isSubmittingWithdrawal = false;
-                setupWithdrawalUI();
+                setupWithdrawalUI(); // Re-check lock status
             }
         }
 
-        // --- UPDATED HISTORY FUNCTION ---
         async function showCombinedHistory() {
             const historyContainer = document.getElementById('combined-history-list');
             const modal = document.getElementById('historyModalOverlay');
@@ -1321,18 +1339,15 @@
                 const [withdrawalsSnap, transactionsSnap] = await Promise.all([ getDocs(withdrawalsQuery), getDocs(transactionsQuery) ]);
                 let combinedList = [];
 
-                // Mark withdrawals specifically to identify them later
                 withdrawalsSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: true, timestamp: doc.data().createdAt }));
                 transactionsSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: false, timestamp: doc.data().createdAt }));
                 
-                // Sort by Date
                 combinedList.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
 
                 if (combinedList.length === 0) { historyContainer.innerHTML = '<p style="text-align:center; color: var(--text-body);">No history found.</p>'; return; }
 
                 let lastDate = null;
                 
-                // Render List
                 historyContainer.innerHTML = combinedList.map(data => {
                     if (!data.timestamp) return '';
                     const date = data.timestamp.toDate();
@@ -1345,10 +1360,9 @@
                         lastDate = formattedDate;
                     }
 
-                    // --- LOGIC FOR TEXT & COLORS ---
                     let leftTitle = "";
                     let rightAmount = "";
-                    let leftStyleClass = "text-white"; 
+                    let leftStyleClass = "text-primary"; 
                     let rightStyleClass = "text-green"; 
                     let subText = "";
                     
@@ -1376,7 +1390,7 @@
                     } else {
                         leftTitle = data.type || "Transaction";
                         rightAmount = `+ ${data.pointAmount}`;
-                        leftStyleClass = "text-white"; 
+                        leftStyleClass = "text-primary"; 
                         rightStyleClass = "text-green"; 
                         subText = data.details || formattedTime; 
                     }
@@ -1403,7 +1417,7 @@
         const showAdextraAd = () => new Promise((res, rej) => typeof p_adextra === 'function' ? p_adextra({ onSuccess: res, onError: (e) => rej(new Error("Adextra ad failed: " + e)) }) : rej('Adextra SDK missing'));
 
         async function showRandomAd() {
-            const adProviders = [showMonetagAd, showGigaPubAd]; // Randomly choose between these
+            const adProviders = [showMonetagAd, showGigaPubAd]; 
             const randomAdProvider = adProviders[Math.floor(Math.random() * adProviders.length)];
             try { await randomAdProvider(); }
             catch(err) { console.warn("An ad provider failed", err); }
@@ -1442,8 +1456,6 @@
             });
         });
 
-        // --- VIDEO SECTION LOGIC (MULTIPLE VIDEOS) ---
-        
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1469,7 +1481,6 @@
             videoListContainer.innerHTML = '<div class="loader"></div>';
 
             try {
-                // Fetch videos from collection (Limit 25)
                 const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(25));
                 const snap = await getDocs(q);
 
@@ -1495,10 +1506,8 @@
                             <button>Watch Now</button>
                         </div>
                     `;
-                    // Click Handler
                     div.addEventListener('click', () => {
                         loadVideoPlayer(videoId);
-                        // Scroll to player
                         document.getElementById('active-video-player-wrapper').style.display = 'block';
                         document.getElementById('active-video-player-wrapper').scrollIntoView({ behavior: 'smooth' });
                     });
@@ -1516,7 +1525,6 @@
             wrapper.style.display = 'block'; 
 
             if (!player) {
-                // Initialize YouTube Player
                 player = new YT.Player('yt-player', {
                     height: '100%',
                     width: '100%',
@@ -1525,7 +1533,6 @@
                     events: { 'onStateChange': onPlayerStateChange }
                 });
             } else {
-                // Load new video if player exists
                 player.loadVideoById(videoId);
             }
         }
@@ -1538,22 +1545,17 @@
             }
         }
 
-        // Mining Loop
         setInterval(() => {
             if (isVideoPlaying) {
-                // Add points
                 minedBalance += POINTS_PER_SECOND;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
 
-                // Track watch time for ads
                 watchTimeSeconds++;
 
-                // Every 10 minutes (600 seconds), trigger Ad
                 if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) {
                     if(player && player.pauseVideo) player.pauseVideo();
                     showRandomAd().then(() => {
-                        // Optional: Auto resume or let user resume
                     });
                 }
             }
@@ -1567,7 +1569,7 @@
             btn.textContent = "Claiming...";
 
             try {
-                const pointsToClaim = Math.floor(minedBalance); // Claim integer part
+                const pointsToClaim = Math.floor(minedBalance); 
                 const remaining = minedBalance - pointsToClaim;
 
                 await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
@@ -1584,8 +1586,6 @@
             }
         });
 
-
-        // --- INIT ---
 
         function setupUserIdDisplay(userId) {
             const userIdContainer = document.getElementById('header-user-id');
@@ -1682,7 +1682,7 @@
                     return; 
                 }
                 tg.ready(); tg.expand();
-                tg.setHeaderColor('#151A23'); 
+                tg.setHeaderColor('#FFFFFF'); 
 
                 const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
                 if (!initStatus) return;
