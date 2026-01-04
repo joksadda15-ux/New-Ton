@@ -3,1217 +3,797 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Coinly Tix - Dark Nexus</title>
+    <title>Coinly Dark</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Telegram Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- 1. ADEXIUM ADS -->
+    <!-- AD SCRIPTS (ADS 1, 2, 3) -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                const adexiumWidget = new AdexiumWidget({wid: 'a1a296e8-82a8-4686-8740-2ecd055c403d', adFormat: 'interstitial'});
-                adexiumWidget.autoMode();
-            } catch(e) { console.log("Adexium error", e); }
-        });
-    </script>
-
-    <!-- 2. GIGAPUB ADS -->
     <script src="https://ad.gigapub.tech/script?id=4088"></script>
-    
-    <!-- 3. MONETAG ADS -->
     <script src='//libtl.com/sdk.js' data-zone='10135525' data-sdk='show_10135525'></script>
 
     <style>
         :root {
-            /* DARK THEME VARS */
-            --bg-color: #050505;
-            --card-bg: #141414;
-            --card-border: #2a2a2a;
-            --text-color: #e0e0e0;
+            /* DARK THEME COLORS */
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --border-color: #333333;
+            --text-color: #ffffff;
             --text-muted: #888888;
             
-            --primary-cyan: #00f2ff;
-            --primary-dark-cyan: #0098a1;
+            /* NEON ACCENTS */
+            --primary-color: #00e5ff; /* Cyan for TON */
+            --usdt-color: #00ff88;    /* Green for USDT */
+            --danger-color: #ff2a2a;
             
-            --usdt-green: #2ecc71;
-            --ton-blue: #00aeff;
+            --glow-cyan: 0 0 10px rgba(0, 229, 255, 0.6);
+            --glow-green: 0 0 10px rgba(0, 255, 136, 0.4);
             
-            --neon-glow: 0 0 10px rgba(0, 242, 255, 0.4);
-            --danger-color: #ff3b30;
-            --font-family: 'Poppins', sans-serif;
-            --title-font: 'Rajdhani', sans-serif;
+            --font-main: 'Poppins', sans-serif;
+            --font-head: 'Rajdhani', sans-serif;
         }
 
         body {
-            font-family: var(--font-family);
-            margin: 0;
-            padding: 90px 0 100px 0;
-            color: var(--text-color);
+            font-family: var(--font-main);
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #050505 50%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 80px 0 100px 0;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- Header --- */
+        /* --- HEADER --- */
         .header {
-            background-color: rgba(20, 20, 20, 0.95);
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
             padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            box-sizing: border-box;
-            z-index: 100;
-            border-bottom: 1px solid var(--card-border);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 100; box-sizing: border-box;
         }
-        
         .user-info { display: flex; align-items: center; gap: 10px; }
         .profile-pic {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--ton-blue), #0044ff);
-            color: white; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), #0077ff);
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 16px;
-            box-shadow: 0 0 10px rgba(0, 174, 255, 0.5);
+            font-weight: bold; font-size: 18px; color: #000;
+            box-shadow: var(--glow-cyan);
         }
-        .user-details { display: flex; flex-direction: column; }
-        .user-name { font-weight: 700; font-size: 14px; color: #fff; }
-        .user-id-display { font-size: 10px; color: var(--text-muted); font-weight: 600; background: #222; padding: 2px 6px; border-radius: 4px; margin-top: 2px; width: fit-content;}
+        .user-details span { display: block; }
+        .user-name { font-weight: 700; font-size: 14px; }
+        .user-id { font-size: 10px; color: var(--text-muted); }
 
-        .balance-group { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-        .balance-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; font-family: var(--title-font); }
-        .bal-ton { color: var(--ton-blue); text-shadow: 0 0 5px rgba(0, 174, 255, 0.3); }
-        .bal-usdt { color: var(--usdt-green); text-shadow: 0 0 5px rgba(46, 204, 113, 0.3); }
+        .balance-area { text-align: right; }
+        .bal-row { display: flex; align-items: center; justify-content: flex-end; gap: 5px; font-family: var(--font-head); }
+        .bal-usdt { font-size: 18px; color: var(--usdt-color); text-shadow: var(--glow-green); font-weight: 700; }
+        .bal-ton { font-size: 12px; color: var(--primary-color); font-weight: 600; }
 
-        /* --- Layout --- */
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        .section { display: none; animation: fadeIn 0.3s ease; }
+        /* --- LAYOUT --- */
+        .container { padding: 15px; max-width: 500px; margin: 0 auto; }
+        .section { display: none; animation: fadeUp 0.3s ease; }
         .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .page-title {
-            font-family: var(--title-font);
-            font-size: 26px; font-weight: 700; margin-bottom: 20px;
-            color: #fff; text-transform: uppercase; letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+            font-family: var(--font-head);
+            font-size: 28px; text-transform: uppercase;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* --- Cards --- */
-        .card-box {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 20px; margin-bottom: 20px;
-            position: relative; overflow: hidden;
+        /* --- CARDS --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        /* --- Exchange Section --- */
-        .exchange-card {
-            background: linear-gradient(145deg, #1a1a1a, #111);
-            border: 1px solid #333;
-        }
-        .exchange-header { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-muted); font-size: 12px; }
-        .exchange-rate { color: var(--primary-cyan); font-weight: bold; }
-        
-        .ex-input-group {
-            background: #090909; border: 1px solid #333; border-radius: 12px;
-            padding: 10px; display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .ex-input-group input {
-            background: transparent; border: none; color: white; font-size: 18px; font-weight: bold; width: 60%;
-        }
-        .ex-input-group input:focus { outline: none; }
-        .currency-badge {
-            background: #222; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: bold;
-            display: flex; align-items: center; gap: 5px;
-        }
-        .btn-swap {
-            width: 40px; height: 40px; background: #333; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin: -5px auto -5px;
-            border: 2px solid #1a1a1a; cursor: pointer; color: var(--primary-cyan); z-index: 2; position: relative;
-            transition: transform 0.3s;
-        }
-        .btn-swap:active { transform: rotate(180deg); }
-        .fee-info { font-size: 10px; color: #666; text-align: center; margin-top: 10px; }
-
-        /* --- Activation Card --- */
-        .activation-card {
-            background: rgba(255, 59, 48, 0.05); border: 1px solid rgba(255, 59, 48, 0.2);
-            border-radius: 16px; padding: 20px; margin-bottom: 20px;
+        /* --- ACTIVATION --- */
+        .activation-box {
+            background: #1a0505; border: 1px solid var(--danger-color);
             text-align: center;
         }
-        .activation-card.active-account {
-            background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.2);
+        .activation-box.active {
+            background: #051a05; border: 1px solid var(--usdt-color);
         }
         .status-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 20px;
-            font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;
+            display: inline-block; padding: 5px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: bold; text-transform: uppercase;
+            margin-bottom: 10px;
         }
-        .status-inactive { background: rgba(255, 59, 48, 0.2); color: var(--danger-color); }
-        .status-active { background: rgba(46, 204, 113, 0.2); color: var(--usdt-green); }
+        .st-inactive { background: var(--danger-color); color: white; }
+        .st-active { background: var(--usdt-color); color: black; box-shadow: var(--glow-green); }
+
+        .progress-bar { width: 100%; height: 6px; background: #333; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: var(--usdt-color); transition: width 0.3s; }
+
+        /* --- EXCHANGE (NEW) --- */
+        .exchange-container {
+            background: linear-gradient(160deg, #111, #1a1a1a);
+            border: 1px solid #444; position: relative;
+        }
+        .ex-header { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
+        .ex-input {
+            background: #000; border: 1px solid #333; padding: 12px;
+            border-radius: 10px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px;
+        }
+        .ex-input input { background: none; border: none; color: white; font-size: 20px; width: 60%; font-weight: bold; }
+        .ex-input input:focus { outline: none; }
+        .ex-badge { font-size: 12px; font-weight: bold; padding: 5px 8px; border-radius: 6px; display: flex; align-items: center; gap: 5px; }
+        .badge-ton { background: rgba(0, 229, 255, 0.2); color: var(--primary-color); }
+        .badge-usdt { background: rgba(0, 255, 136, 0.2); color: var(--usdt-color); }
         
-        .progress-container { width: 100%; background: #333; border-radius: 10px; margin-top: 10px; height: 6px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--usdt-green); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--usdt-green); }
-        
-        /* --- Video Cards (High Color Grading) --- */
+        .swap-icon {
+            width: 35px; height: 35px; border-radius: 50%; background: #222; border: 1px solid #444;
+            display: flex; align-items: center; justify-content: center; margin: -15px auto -5px;
+            position: relative; z-index: 5; cursor: pointer; color: var(--primary-color);
+        }
+
+        /* --- VIDEO & MINING --- */
         .video-card {
-            background: #151515; border-radius: 16px; overflow: hidden;
-            margin-bottom: 20px; border: 1px solid #333;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-            position: relative;
+            background: #000; border: 1px solid #333; border-radius: 12px;
+            overflow: hidden; margin-bottom: 20px; position: relative;
         }
-        /* Neon Glow Border */
+        /* Neon Border Effect */
         .video-card::before {
-            content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 1px;
-            background: linear-gradient(45deg, transparent, var(--primary-cyan), transparent);
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            border-radius: 12px; padding: 1px;
+            background: linear-gradient(45deg, var(--primary-color), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
         }
+        .video-thumb { width: 100%; aspect-ratio: 16/9; position: relative; background: #111; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .play-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            font-size: 40px; color: white; text-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .loot-box {
+            background: radial-gradient(circle at center, #1a0b2e, #000);
+            border: 1px solid #5e00ff; text-align: center;
+        }
+        .loot-bal { font-size: 30px; font-weight: 700; color: #d000ff; text-shadow: 0 0 10px #d000ff; font-family: var(--font-head); }
+
+        /* --- WITHDRAW & TABS --- */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: #222; padding: 5px; border-radius: 10px; }
+        .tab {
+            flex: 1; padding: 10px; background: transparent; border: none; color: #888;
+            font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.3s;
+        }
+        .tab.active-usdt { background: #000; color: var(--usdt-color); border: 1px solid var(--usdt-color); box-shadow: var(--glow-green); }
+        .tab.active-ton { background: #000; color: var(--primary-color); border: 1px solid var(--primary-color); box-shadow: var(--glow-cyan); }
+
+        .w-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .w-box {
+            background: #111; border: 1px solid #333; padding: 15px;
+            border-radius: 10px; text-align: center; cursor: pointer;
+        }
+        .w-box.selected-usdt { border-color: var(--usdt-color); background: rgba(0, 255, 136, 0.1); }
+        .w-box.selected-ton { border-color: var(--primary-color); background: rgba(0, 229, 255, 0.1); }
+        .w-amt { font-size: 18px; font-weight: bold; color: white; font-family: var(--font-head); }
+        .w-req { font-size: 10px; color: #666; margin-top: 5px; }
+
+        /* --- BUTTONS --- */
+        .btn-main {
+            width: 100%; padding: 15px; border: none; border-radius: 12px;
+            background: linear-gradient(90deg, var(--primary-color), #0077ff);
+            color: #000; font-weight: 700; font-size: 16px; cursor: pointer;
+            box-shadow: var(--glow-cyan); text-transform: uppercase;
+        }
+        .btn-sec { background: #333; color: white; width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+        input, select {
+            width: 100%; padding: 14px; background: #090909; border: 1px solid #333;
+            border-radius: 10px; color: white; box-sizing: border-box; margin-bottom: 10px;
+        }
+        input:focus { outline: none; border-color: var(--primary-color); }
+
+        /* --- NAV --- */
+        .nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #000; border-top: 1px solid #333;
+            display: flex; justify-content: space-around; padding: 10px 0 20px;
+            z-index: 99;
+        }
+        .nav-item { background: none; border: none; color: #666; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; }
+        .nav-item i { font-size: 20px; margin-bottom: 2px; }
+        .nav-item.active { color: var(--primary-color); text-shadow: var(--glow-cyan); }
         
-        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; cursor: pointer; }
-        .video-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
-        .video-wrapper:hover img { opacity: 1; }
-        .play-button-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; background: rgba(0, 242, 255, 0.2);
-            backdrop-filter: blur(5px); border: 1px solid var(--primary-cyan);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 20px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
-            pointer-events: none;
-        }
+        /* Overlays */
+        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:2000; display:none; align-items:center; justify-content:center; }
+        .timer-circle { width:80px; height:80px; border-radius:50%; border:4px solid var(--usdt-color); display:flex; align-items:center; justify-content:center; font-size:30px; color:var(--usdt-color); margin-bottom:20px; }
 
-        /* --- Loot Box --- */
-        .loot-box-card {
-            background: linear-gradient(135deg, #111, #1a0525);
-            border: 1px solid #4a0072; text-align: center;
-            padding: 25px; border-radius: 16px; margin-bottom: 25px;
-            position: relative; overflow: hidden;
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
-        }
-        .loot-icon { font-size: 40px; color: #d500f9; margin-bottom: 5px; text-shadow: 0 0 10px #d500f9; }
-        .loot-balance { font-family: var(--title-font); font-size: 32px; font-weight: 700; color: #fff; margin: 5px 0; }
-        .btn-loot {
-            background: linear-gradient(90deg, #aa00ff, #d500f9); border: none;
-            color: white; padding: 10px 25px; border-radius: 20px; font-weight: bold;
-            box-shadow: 0 0 15px rgba(213, 0, 249, 0.5); cursor: pointer; width: 100%; max-width: 200px;
-        }
-        .btn-loot:disabled { background: #333; color: #666; box-shadow: none; cursor: not-allowed; }
-
-        /* --- Withdraw Grid & Tabs --- */
-        .tab-container { display: flex; gap: 10px; margin-bottom: 20px; background: #111; padding: 5px; border-radius: 12px; border: 1px solid #333; }
-        .tab-btn {
-            flex: 1; padding: 12px; background: transparent; border: none; color: #666;
-            font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s;
-        }
-        .tab-btn.active { background: #222; color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .tab-btn.active.usdt-tab { color: var(--usdt-green); border: 1px solid rgba(46, 204, 113, 0.3); }
-        .tab-btn.active.ton-tab { color: var(--ton-blue); border: 1px solid rgba(0, 174, 255, 0.3); }
-
-        .withdraw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .withdraw-box {
-            background: #151515; border: 1px solid #333;
-            border-radius: 12px; padding: 15px; text-align: center;
-            cursor: pointer; transition: all 0.2s; position: relative;
-        }
-        .withdraw-box.selected { transform: translateY(-2px); }
-        .withdraw-box.selected-usdt { border-color: var(--usdt-green); background: rgba(46, 204, 113, 0.1); }
-        .withdraw-box.selected-ton { border-color: var(--ton-blue); background: rgba(0, 174, 255, 0.1); }
-        
-        .w-amount { font-size: 20px; font-weight: 800; color: #fff; font-family: var(--title-font); }
-        .w-req { font-size: 11px; color: #666; margin-top: 5px; }
-
-        .wallet-select {
-            width: 100%; padding: 12px; background: #090909; border: 1px solid #333;
-            color: white; border-radius: 10px; margin-bottom: 15px; font-size: 14px;
-        }
-
-        /* --- Buttons --- */
-        .btn-primary {
-            width: 100%; padding: 14px; border: none; border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary-dark-cyan), var(--primary-cyan));
-            color: #000; font-size: 16px; font-weight: 700;
-            cursor: pointer; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-            text-transform: uppercase;
-        }
-        .btn-action {
-            background: #222; color: #fff; border: 1px solid #333;
-            padding: 10px; border-radius: 8px; width: 100%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-weight: 600; margin-top: 10px;
-        }
-        
-        /* --- Bottom Nav --- */
-        .bottom-nav {
-            display: grid; grid-template-columns: repeat(5, 1fr);
-            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(10px);
-            padding: 10px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%;
-            border-top: 1px solid var(--card-border); z-index: 99;
-        }
-        .nav-btn {
-            background: none; border: none; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-            color: #666; transition: color 0.3s;
-        }
-        .nav-btn i { font-size: 20px; transition: transform 0.2s; }
-        .nav-btn span { font-size: 10px; font-weight: 500; }
-        .nav-btn.active { color: var(--primary-cyan); text-shadow: 0 0 8px var(--primary-cyan); }
-        .nav-btn.active i { transform: translateY(-2px); }
-
-        /* --- Overlays --- */
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .modal {
-            background: #1a1a1a; width: 90%; max-width: 400px; border: 1px solid #333;
-            border-radius: 20px; padding: 25px; text-align: center; color: white;
-        }
-        .spinner {
-            width: 40px; height: 40px; border: 4px solid #333;
-            border-top: 4px solid var(--primary-cyan); border-radius: 50%;
-            animation: spin 1s linear infinite; margin: 0 auto 15px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Timer Overlay */
-        .timer-circle {
-            width: 100px; height: 100px; border-radius: 50%;
-            border: 4px solid var(--usdt-green);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 40px; font-weight: bold; color: var(--usdt-green);
-            margin: 0 auto 20px; box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
-        }
-
-        input { background: #090909; color: white; border: 1px solid #333; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; }
-        input:focus { outline: none; border-color: var(--primary-cyan); }
-
-        .stat-card {
-            background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #333; text-align: center;
-        }
-        .stat-card h3 { color: #888; font-size: 12px; margin: 0; }
-        .stat-card p { font-size: 18px; font-weight: bold; color: #fff; margin: 5px 0 0; }
-
-        .task-item {
-            background: #1a1a1a; border: 1px solid #333; padding: 15px;
-            border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header class="header">
         <div class="user-info">
-            <div class="profile-pic" id="profile-pic">U</div>
+            <div class="profile-pic" id="u-pic">U</div>
             <div class="user-details">
-                <span class="user-name" id="user-name">Loading...</span>
-                <span class="user-id-display" id="user-id-display">ID: ...</span>
+                <span class="user-name" id="u-name">Loading...</span>
+                <span class="user-id" id="u-id">ID: ...</span>
             </div>
         </div>
-        <div class="balance-group">
-            <div class="balance-item">
-                <span id="balance-usdt" class="bal-usdt">0.00</span> USDT
+        <div class="balance-area">
+            <div class="bal-row">
+                <span id="bal-usdt" class="bal-usdt">0.00</span> USDT
             </div>
-            <div class="balance-item" style="font-size:12px;">
-                <span id="balance" class="bal-ton">0.0000</span> TON
+            <div class="bal-row">
+                <span id="bal-ton" class="bal-ton">0.0000</span> TON
             </div>
         </div>
     </header>
 
     <div class="container">
         
-        <!-- 1. HOME SECTION -->
-        <div id="section-home" class="section active">
+        <!-- HOME SECTION -->
+        <div id="sec-home" class="section active">
             <div class="page-title">Dashboard</div>
-            
-            <!-- Activation / Verification -->
-            <div class="activation-card" id="activation-card">
-                <div class="status-badge status-inactive" id="status-badge">Inactive 🔴</div>
-                
-                <div id="activation-text">
-                    <h3 style="margin:5px 0; font-size:16px; color:white;">Verify Account</h3>
-                    <p style="margin:5px 0 10px; font-size:12px; color:#aaa;">
-                        Watch 20 ads to verify. <br>
-                        <span style="color:var(--usdt-green)">Reward: 0.02 USDT / Ad</span>
+
+            <!-- Verification Card -->
+            <div class="card activation-box" id="act-card">
+                <div class="status-badge st-inactive" id="act-badge">Inactive 🔴</div>
+                <div id="act-content">
+                    <h3 style="margin:5px 0;">Verify Account</h3>
+                    <p style="font-size:12px; color:#aaa; margin:5px 0 15px;">
+                        Watch 20 ads to unlock Withdraw.<br>
+                        <span style="color:var(--usdt-color);">Earn 0.02 USDT per Ad</span>
                     </p>
-                    
-                    <button class="btn-action" onclick="watchVerificationAd()">
-                        <i class="fa-solid fa-play" style="color:var(--primary-cyan)"></i> Watch Ad (+0.02 USDT)
+                    <button class="btn-sec" onclick="watchVerifyAd()">
+                        <i class="fa-solid fa-play"></i> Watch Ad
                     </button>
-                    
-                    <div class="progress-container">
-                        <div class="progress-bar" id="verify-progress-bar"></div>
-                    </div>
-                    <div class="progress-text" id="verify-progress-text" style="font-size:10px; color:#666; margin-top:5px;">0 / 20 Ads</div>
+                    <div class="progress-bar"><div class="progress-fill" id="act-prog"></div></div>
+                    <div style="font-size:10px; margin-top:5px; color:#888;" id="act-text">0 / 20</div>
                 </div>
-
-                <div id="active-text" style="display:none;">
-                    <h3 style="margin:5px 0; font-size:16px; color:var(--usdt-green);">Verified Account</h3>
-                    <p style="margin:5px 0; font-size:12px; color:#888;">Withdrawals Enabled.</p>
+                <div id="act-done" style="display:none; color:var(--usdt-color);">
+                    <h3><i class="fa-solid fa-check-circle"></i> Verified</h3>
+                    <p>You can now withdraw funds.</p>
                 </div>
             </div>
 
-            <!-- Exchange Card -->
-            <div class="card-box exchange-card">
-                <div class="exchange-header">
-                    <span><i class="fa-solid fa-arrow-right-arrow-left"></i> EXCHANGE</span>
-                    <span class="exchange-rate">1 TON = 1.5$</span>
+            <!-- EXCHANGE SYSTEM (New) -->
+            <div class="card exchange-container">
+                <div class="ex-header">
+                    <span>EXCHANGE</span>
+                    <span style="color:var(--primary-color);">1 TON = $1.5 USDT</span>
+                </div>
+                
+                <!-- From -->
+                <div class="ex-input">
+                    <input type="number" id="ex-from" placeholder="0" oninput="calcSwap()">
+                    <div class="ex-badge badge-ton" id="badge-from">TON</div>
                 </div>
 
-                <div class="ex-input-group">
-                    <input type="number" id="ex-from-amount" placeholder="0" oninput="calculateExchange()">
-                    <div class="currency-badge" id="ex-from-badge">
-                        <i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON
-                    </div>
+                <!-- Swap Button -->
+                <div class="swap-icon" onclick="toggleSwap()">
+                    <i class="fa-solid fa-arrow-down-up"></i>
                 </div>
 
-                <div class="btn-swap" onclick="toggleExchangeDirection()">
-                    <i class="fa-solid fa-arrow-down"></i>
+                <!-- To -->
+                <div class="ex-input">
+                    <input type="number" id="ex-to" placeholder="0" readonly style="color:var(--usdt-color);">
+                    <div class="ex-badge badge-usdt" id="badge-to">USDT</div>
                 </div>
 
-                <div class="ex-input-group">
-                    <input type="number" id="ex-to-amount" placeholder="0" readonly style="color:var(--usdt-green)">
-                    <div class="currency-badge" id="ex-to-badge">
-                        <i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT
-                    </div>
-                </div>
-
-                <p class="fee-info" id="ex-fee-text">Fee: 0.08 TON</p>
-                <button class="btn-primary" style="margin-top:10px; background:white; color:black;" onclick="executeExchange()">CONVERT</button>
+                <p style="text-align:center; font-size:11px; color:#666;" id="swap-fee">Fee: 0.08 TON</p>
+                <button class="btn-main" onclick="doSwap()" style="margin-top:10px;">CONVERT NOW</button>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
-                <div class="stat-card">
-                    <i class="fa-solid fa-users" style="color:var(--primary-cyan); font-size:20px; margin-bottom:5px;"></i>
-                    <h3>Ref Count</h3>
-                    <p id="ref-count">0</p>
+            <!-- Stats -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div class="card" style="text-align:center; padding:15px;">
+                    <i class="fa-solid fa-users" style="color:var(--primary-color); font-size:24px;"></i>
+                    <h3 style="font-size:12px; margin:5px 0 0; color:#888;">Referrals</h3>
+                    <p id="st-ref" style="font-size:18px; margin:0; font-weight:bold;">0</p>
                 </div>
-                <div class="stat-card">
-                    <i class="fa-solid fa-wallet" style="color:var(--usdt-green); font-size:20px; margin-bottom:5px;"></i>
-                    <h3>Total Earned</h3>
-                    <p id="total-earned-display">$0.00</p>
+                <div class="card" style="text-align:center; padding:15px;">
+                    <i class="fa-solid fa-wallet" style="color:var(--usdt-color); font-size:24px;"></i>
+                    <h3 style="font-size:12px; margin:5px 0 0; color:#888;">Total Earned</h3>
+                    <p id="st-earn" style="font-size:18px; margin:0; font-weight:bold;">$0.00</p>
                 </div>
             </div>
         </div>
 
-        <!-- 2. VIDEO SECTION -->
-        <div id="section-video" class="section">
+        <!-- VIDEO SECTION -->
+        <div id="sec-video" class="section">
             <div class="page-title">Cinema Mine</div>
             
-            <!-- Loot Box -->
-            <div class="loot-box-card">
-                <div style="position:relative; z-index:2;">
-                    <i class="fa-solid fa-box-open loot-icon"></i>
-                    <h3 style="margin:0; color:#e0e0e0;">Mining Pool</h3>
-                    <div class="loot-balance" id="loot-balance">0.0000</div>
-                    <p style="font-size:11px; color:#aaa; margin-bottom:15px;">Min Claim: 0.25 TON</p>
-                    <button class="btn-loot" id="btn-claim-loot" onclick="claimLootBox()">
-                        CLAIM TON
+            <div class="card loot-box">
+                <i class="fa-solid fa-gem" style="font-size:40px; color:#d000ff;"></i>
+                <h3 style="margin:5px 0;">Mining Pool</h3>
+                <div class="loot-bal" id="loot-bal">0.0000</div>
+                <p style="font-size:11px; color:#aaa;">Min: 0.25 TON to Claim</p>
+                <button class="btn-main" style="background:#d000ff; color:white;" onclick="claimLoot()">CLAIM TON</button>
+            </div>
+
+            <div style="background:#222; padding:10px; border-radius:10px; margin-bottom:20px; font-size:12px; display:flex; gap:10px; align-items:center;">
+                <i class="fa-solid fa-bolt" style="color:#ffcc00;"></i>
+                <span>Rate: 0.05 TON / Hour while watching.</span>
+            </div>
+
+            <div id="vid-list">Loading...</div>
+        </div>
+
+        <!-- REFERRAL SECTION -->
+        <div id="sec-refer" class="section">
+            <div class="page-title">Refer & Earn</div>
+            <div class="card" style="text-align:center;">
+                <h2 style="color:var(--usdt-color); margin:0;">0.1 USDT</h2>
+                <p style="font-size:12px; color:#aaa;">Per active referral (Must complete 20 ads)</p>
+                <input type="text" id="ref-link" readonly value="..." style="text-align:center;">
+                <button class="btn-main" onclick="copyRef()">Copy Link</button>
+            </div>
+            
+            <h3 style="font-size:16px;">Referral History</h3>
+            <div id="ref-list"></div>
+        </div>
+
+        <!-- TASK SECTION -->
+        <div id="sec-task" class="section">
+            <div class="page-title">Daily Task</div>
+            <div class="card" style="text-align:center;">
+                <h3>Watch Ads</h3>
+                <p style="color:var(--usdt-color); font-size:12px;">+0.02 USDT per Ad</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px;">
+                    <button class="btn-sec" onclick="watchDailyAd('giga')">
+                        Ad Network 1<br><span style="font-size:10px; color:#888;" id="cnt-giga">0/15</span>
+                    </button>
+                    <button class="btn-sec" onclick="watchDailyAd('monetag')">
+                        Ad Network 2<br><span style="font-size:10px; color:#888;" id="cnt-monetag">0/15</span>
                     </button>
                 </div>
             </div>
-
-            <div style="background:#111; border:1px solid #333; padding:15px; border-radius:12px; margin-bottom:20px; display:flex; gap:15px; align-items:center;">
-                <i class="fa-solid fa-robot" style="color:var(--ton-blue); font-size:24px;"></i>
-                <div>
-                    <strong style="color:white;">Auto-Miner Active</strong><br>
-                    <span style="font-size:11px; color:#888;">Rate: 0.05 TON/Hour while watching.</span>
-                </div>
-            </div>
-
-            <div id="video-list-container">
-                <p style="text-align:center; color:#666;">Loading videos...</p>
-            </div>
         </div>
 
-        <!-- 3. REFERRAL SECTION -->
-        <div id="section-refer" class="section">
-            <div class="page-title">Affiliate</div>
-            <div class="card-box">
-                <i class="fa-solid fa-user-plus" style="font-size:30px; color:var(--usdt-green); margin-bottom:10px;"></i>
-                <h3 style="margin:0; color:white;">Invite & Earn USDT</h3>
-                <p style="color: var(--usdt-green); font-size: 24px; margin:10px 0;">0.1 USDT</p>
-                <p style="color: #666; font-size: 12px; line-height:1.4;">
-                    Per valid referral.<br>
-                    <span style="color:var(--danger-color)">Note:</span> Friend must complete Verification (20 Ads) to count.
-                </p>
-                
-                <div style="margin-top: 20px;">
-                    <input type="text" id="referral-link" readonly value="Loading..." style="text-align:center; margin-bottom:10px;">
-                    <button class="btn-primary" onclick="copyReferralLink()">
-                        Copy Link
-                    </button>
-                </div>
-            </div>
-
-            <div style="background:#1a1a1a; border:1px solid #333; padding:15px; border-radius:12px; margin-top:20px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:white;">
-                    <strong>Buy Referrals</strong>
-                    <span style="color:var(--ton-blue)">0.20 TON / Ref</span>
-                </div>
-                <div style="display:flex; gap:10px;">
-                    <input type="number" id="buy-ref-amount" placeholder="Qty" style="margin-bottom:0;">
-                    <button class="btn-action" style="width:auto; margin:0; background:var(--ton-blue); border:none;" onclick="buyReferrals()">Buy</button>
-                </div>
-            </div>
-            
-            <h3 style="margin-top:20px; color:#fff; font-size:16px;">History</h3>
-            <div id="referral-list"></div>
-        </div>
-
-        <!-- 4. TASK SECTION -->
-        <div id="section-task" class="section">
-            <div class="page-title">Daily Ops</div>
-            
-            <div class="card-box" style="text-align:center;">
-                <h3 style="margin:0; color:white;">Ad Tasks</h3>
-                <p style="margin:5px 0 15px; color:#666; font-size:11px;">Earn 0.02 USDT per ad</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="btn-action" id="btn-ads-1" style="flex-direction:column; padding:15px;">
-                        <i class="fa-solid fa-play" style="color:var(--primary-cyan); font-size:20px;"></i>
-                        <span>Ad Network 1</span>
-                        <div class="ad-count" id="count-giga" style="font-size:10px; color:#666;">0 / 15</div>
-                    </div>
-                    <div class="btn-action" id="btn-ads-2" style="flex-direction:column; padding:15px;">
-                        <i class="fa-solid fa-play" style="color:var(--primary-cyan); font-size:20px;"></i>
-                        <span>Ad Network 2</span>
-                        <div class="ad-count" id="count-monetag" style="font-size:10px; color:#666;">0 / 15</div>
-                    </div>
-                </div>
-            </div>
-
-            <h3 style="color:#fff; font-size:16px;">One-Time Tasks</h3>
-            <div id="task-list-container"></div>
-        </div>
-
-        <!-- 5. WITHDRAW SECTION -->
-        <div id="section-withdraw" class="section">
+        <!-- WITHDRAW SECTION -->
+        <div id="sec-withdraw" class="section">
             <div class="page-title">Withdraw</div>
             
-            <div class="tab-container">
-                <button class="tab-btn active usdt-tab" onclick="switchWithdrawTab('usdt')">USDT</button>
-                <button class="tab-btn ton-tab" onclick="switchWithdrawTab('ton')">TON</button>
+            <div class="tabs">
+                <button class="tab active-usdt" onclick="setWType('usdt')">USDT (BEP20)</button>
+                <button class="tab" onclick="setWType('ton')">TON</button>
             </div>
 
-            <!-- USDT SECTION -->
-            <div id="withdraw-usdt-panel">
-                <p style="text-align:center; font-size:11px; color:#666; margin-bottom:10px;">Select Wallet & Amount</p>
-                
-                <select id="usdt-wallet-type" class="wallet-select">
-                    <option value="binance">Binance (BEP20)</option>
-                    <option value="payeer">Payeer</option>
+            <!-- USDT UI -->
+            <div id="ui-usdt">
+                <select id="w-method-usdt">
+                    <option value="Binance">Binance (BEP20)</option>
+                    <option value="Payeer">Payeer</option>
                 </select>
-
-                <div class="withdraw-grid">
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 1.5, 20)">
-                        <div class="w-amount" style="color:var(--usdt-green)">$1.50</div>
-                        <div class="w-req">Req: 20 Refs</div>
+                <div class="w-grid">
+                    <div class="w-box" onclick="pickPlan('usdt', 1.5, 20)">
+                        <div class="w-amt" style="color:var(--usdt-color);">$1.50</div>
+                        <div class="w-req">20 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 3.0, 35)">
-                        <div class="w-amount" style="color:var(--usdt-green)">$3.00</div>
-                        <div class="w-req">Req: 35 Refs</div>
+                    <div class="w-box" onclick="pickPlan('usdt', 3.0, 35)">
+                        <div class="w-amt" style="color:var(--usdt-color);">$3.00</div>
+                        <div class="w-req">35 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 7.5, 70)">
-                        <div class="w-amount" style="color:var(--usdt-green)">$7.50</div>
-                        <div class="w-req">Req: 70 Refs</div>
+                    <div class="w-box" onclick="pickPlan('usdt', 7.5, 70)">
+                        <div class="w-amt" style="color:var(--usdt-color);">$7.50</div>
+                        <div class="w-req">70 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 15.0, 130)">
-                        <div class="w-amount" style="color:var(--usdt-green)">$15.00</div>
-                        <div class="w-req">Req: 130 Refs</div>
+                    <div class="w-box" onclick="pickPlan('usdt', 15.0, 130)">
+                        <div class="w-amt" style="color:var(--usdt-color);">$15.00</div>
+                        <div class="w-req">130 Refs</div>
                     </div>
                 </div>
             </div>
 
-            <!-- TON SECTION -->
-            <div id="withdraw-ton-panel" style="display:none;">
-                <p style="text-align:center; font-size:11px; color:#666; margin-bottom:10px;">Withdraw to TON Keeper</p>
-                
-                <select disabled class="wallet-select" style="opacity:0.7;">
-                    <option>TON Keeper Wallet</option>
-                </select>
-
-                <div class="withdraw-grid">
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 1, 20)">
-                        <div class="w-amount" style="color:var(--ton-blue)">1 TON</div>
-                        <div class="w-req">Req: 20 Refs</div>
+            <!-- TON UI -->
+            <div id="ui-ton" style="display:none;">
+                <select disabled><option>TON Keeper Wallet</option></select>
+                <div class="w-grid">
+                    <div class="w-box" onclick="pickPlan('ton', 1, 20)">
+                        <div class="w-amt" style="color:var(--primary-color);">1 TON</div>
+                        <div class="w-req">20 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 2, 35)">
-                        <div class="w-amount" style="color:var(--ton-blue)">2 TON</div>
-                        <div class="w-req">Req: 35 Refs</div>
+                    <div class="w-box" onclick="pickPlan('ton', 2, 35)">
+                        <div class="w-amt" style="color:var(--primary-color);">2 TON</div>
+                        <div class="w-req">35 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 5, 70)">
-                        <div class="w-amount" style="color:var(--ton-blue)">5 TON</div>
-                        <div class="w-req">Req: 70 Refs</div>
+                    <div class="w-box" onclick="pickPlan('ton', 5, 70)">
+                        <div class="w-amt" style="color:var(--primary-color);">5 TON</div>
+                        <div class="w-req">70 Refs</div>
                     </div>
-                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 10, 130)">
-                        <div class="w-amount" style="color:var(--ton-blue)">10 TON</div>
-                        <div class="w-req">Req: 130 Refs</div>
+                    <div class="w-box" onclick="pickPlan('ton', 10, 130)">
+                        <div class="w-amt" style="color:var(--primary-color);">10 TON</div>
+                        <div class="w-req">130 Refs</div>
                     </div>
                 </div>
             </div>
 
-            <div id="withdraw-confirm-area" style="display:none; background:#1a1a1a; padding:15px; border-radius:12px; border:1px solid #333; margin-top:20px;">
-                <h4 style="margin-top:0; color:white;">Confirm Withdrawal</h4>
-                <p id="selected-plan-text" style="font-size:13px; color:#aaa;">...</p>
-                <input type="text" id="wallet-address" placeholder="Enter Wallet Address" required>
-                <button class="btn-primary" onclick="submitWithdraw()">
-                    Confirm & Withdraw
-                </button>
-                <button class="btn-action" style="background:#333;" onclick="cancelWithdraw()">Cancel</button>
+            <!-- Confirm Box -->
+            <div id="w-confirm" style="display:none; margin-top:20px; background:#1a1a1a; padding:15px; border-radius:12px; border:1px solid #444;">
+                <h4 style="margin-top:0;">Confirm Request</h4>
+                <p id="w-plan-txt" style="font-size:12px; color:#aaa;"></p>
+                <input type="text" id="w-addr" placeholder="Wallet Address">
+                <button class="btn-main" onclick="submitW()">Submit</button>
+                <button class="btn-sec" style="margin-top:10px;" onclick="document.getElementById('w-confirm').style.display='none'">Cancel</button>
             </div>
-            
-            <h3 style="color:#fff; font-size:16px; margin-top:25px;">Transactions</h3>
-            <div id="withdraw-history"></div>
+
+            <h3 style="margin-top:20px;">History</h3>
+            <div id="w-history"></div>
         </div>
 
     </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <button class="nav-btn active" onclick="navTo('home', this)">
-            <i class="fa-solid fa-house"></i> <span>Home</span>
-        </button>
-        <button class="nav-btn" onclick="navTo('video', this)">
-            <i class="fa-brands fa-youtube"></i> <span>Cinema</span>
-        </button>
-        <button class="nav-btn" onclick="navTo('refer', this)">
-            <i class="fa-solid fa-users"></i> <span>Refer</span>
-        </button>
-        <button class="nav-btn" onclick="navTo('task', this)">
-            <i class="fa-solid fa-clipboard-check"></i> <span>Task</span>
-        </button>
-        <button class="nav-btn" onclick="navTo('withdraw', this)">
-            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
-        </button>
+    <!-- Navigation -->
+    <nav class="nav">
+        <button class="nav-item active" onclick="nav('home', this)"><i class="fa-solid fa-house"></i>Home</button>
+        <button class="nav-item" onclick="nav('video', this)"><i class="fa-brands fa-youtube"></i>Cinema</button>
+        <button class="nav-item" onclick="nav('refer', this)"><i class="fa-solid fa-users"></i>Refer</button>
+        <button class="nav-item" onclick="nav('task', this)"><i class="fa-solid fa-list-check"></i>Task</button>
+        <button class="nav-item" onclick="nav('withdraw', this)"><i class="fa-solid fa-wallet"></i>Wallet</button>
     </nav>
 
-    <!-- Loaders & Overlays -->
-    <div class="overlay" id="loading-overlay">
-        <div class="modal">
-            <div class="spinner"></div>
-            <p id="loading-text">Processing...</p>
+    <!-- Overlay & Popups -->
+    <div class="overlay" id="loading">
+        <div style="color:white; font-family:var(--font-head);">PROCESSING...</div>
+    </div>
+
+    <div class="overlay" id="ad-timer">
+        <div style="text-align:center;">
+            <div class="timer-circle" id="timer-count">7</div>
+            <h3 style="color:white;">Verifying...</h3>
         </div>
     </div>
 
-    <div class="overlay" id="ad-timer-overlay">
-        <div class="modal" style="background:transparent; border:none; box-shadow:none;">
-            <div class="timer-circle" id="ad-timer-count">7</div>
-            <h3>Verifying Ad...</h3>
-            <p>Please wait.</p>
-        </div>
-    </div>
-
-    <div class="overlay" id="join-popup-overlay" style="z-index: 3000;">
-        <div class="modal">
-            <i class="fa-brands fa-telegram" style="font-size: 50px; color: #0088cc; margin-bottom: 15px;"></i>
-            <h3>Join Community</h3>
-            <p style="color:#aaa; font-size:13px;">Join our official channel to continue.</p>
-            <a href="https://t.me/coinlyTix_ton" target="_blank" class="btn-action" style="background:#0088cc; text-decoration:none;">
-                Join Channel
-            </a>
-            <button class="btn-primary" onclick="confirmJoin()" style="margin-top:10px;">
-                I Have Joined
-            </button>
-        </div>
-    </div>
-
-    <!-- Logic -->
+    <!-- JS LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, increment, collection, addDoc, serverTimestamp, query, where, orderBy, arrayUnion, limit } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, updateDoc, increment, collection, addDoc, serverTimestamp, query, where, orderBy, limit, setDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
-        const firebaseConfig = {
+        // FIREBASE CONFIG
+        const app = initializeApp({
             apiKey: "AIzaSyD9emTmYE9e64M-2S-ZLxyw-iGvjgNZjSo",
             authDomain: "coinly-tix-ton.firebaseapp.com",
             databaseURL: "https://coinly-tix-ton-default-rtdb.firebaseio.com",
             projectId: "coinly-tix-ton",
             storageBucket: "coinly-tix-ton.firebasestorage.app",
             messagingSenderId: "15585403987",
-            appId: "1:15585403987:web:0893a235f80303906612a6",
-            measurementId: "G-PRHPZ9BYM6"
-        };
-
-        const app = initializeApp(firebaseConfig);
+            appId: "1:15585403987:web:0893a235f80303906612a6"
+        });
         const db = getFirestore(app);
         const tg = window.Telegram.WebApp;
 
-        tg.ready(); tg.expand();
-        tg.setHeaderColor('#050505'); tg.setBackgroundColor('#050505');
-
-        // YouTube API
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        let userId = null;
-        let userRef = null;
-        let userData = {};
+        tg.expand();
+        tg.setHeaderColor('#000000');
         
-        let currentPlayingVideoId = null; 
-        let currentYTPlayer = null; 
-        let miningInterval = null;
-        let sessionEarning = 0;
-        let totalWatchedSeconds = 0; 
-        const MINING_RATE_PER_SEC = 0.05 / 3600; 
-        const MAX_DAILY_ADS = 15;
-        let allVideosData = {};
-        let exchangeDirection = 'ton-to-usdt'; // or 'usdt-to-ton'
+        // YOUTUBE
+        const tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
 
-        const showLoader = (msg) => {
-            document.getElementById('loading-text').innerText = msg;
-            document.getElementById('loading-overlay').style.display = 'flex';
-        };
-        const hideLoader = () => { document.getElementById('loading-overlay').style.display = 'none'; };
-        const formatVal = (num) => parseFloat(num).toFixed(4);
-        const formatMoney = (num) => parseFloat(num).toFixed(2);
+        // VARS
+        let userId, userRef, userData;
+        let swapMode = 'ton-usdt'; // ton-usdt or usdt-ton
+        let miningInt, sessionEarn = 0;
+        let curWType = 'usdt', selPlan = null;
 
-        if (tg.initDataUnsafe?.user) {
-            const user = tg.initDataUnsafe.user;
-            userId = user.id.toString();
+        // INIT
+        if(tg.initDataUnsafe?.user) {
+            userId = tg.initDataUnsafe.user.id.toString();
             userRef = doc(db, "users", userId);
-            const startParam = tg.initDataUnsafe.start_param;
-
-            onSnapshot(userRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    userData = docSnap.data();
-                    if(userData.isBanned) return document.body.innerHTML = "<h1>Banned</h1>";
-                    updateUI(userData);
-                    updateAdCounters(userData);
-                    
-                    if (!userData.hasJoinedChannel) document.getElementById('join-popup-overlay').style.display = 'flex';
-                    else document.getElementById('join-popup-overlay').style.display = 'none';
+            
+            onSnapshot(userRef, (snap) => {
+                if(snap.exists()) {
+                    userData = snap.data();
+                    if(userData.banned) document.body.innerHTML="BANNED";
+                    else updateUI();
                 } else {
-                    const newUser = {
+                    // NEW USER
+                    setDoc(userRef, {
                         userId: userId,
-                        firstName: user.first_name,
-                        username: user.username || 'N/A',
-                        balance: 0.0000, // TON Balance
-                        balanceUSDT: 0.00, // USDT Balance
-                        lootBoxBalance: 0.0000,
-                        referrals: 0,
-                        referredBy: startParam || null,
-                        totalEarned: 0.0000,
-                        isBanned: false,
-                        joinDate: serverTimestamp(),
-                        completedTasks: [],
-                        watchedVideos: [],
-                        lastAdDate: new Date().toISOString().split('T')[0],
-                        gigaAdsCount: 0,
-                        monetagAdsCount: 0,
-                        lastWithdrawDate: null,
-                        isAccountActive: false, 
-                        verificationAdsWatched: 0,
-                        hasJoinedChannel: false
-                    };
-                    setDoc(userRef, newUser);
+                        name: tg.initDataUnsafe.user.first_name,
+                        balTON: 0.0000,
+                        balUSDT: 0.00,
+                        loot: 0.0000,
+                        refs: 0,
+                        refBy: tg.initDataUnsafe.start_param || null,
+                        isActive: false,
+                        verAds: 0,
+                        date: serverTimestamp()
+                    });
                 }
             });
-
+            
             loadVideos();
-            loadTasks();
             loadHistory();
-
         } else {
-            document.body.innerHTML = "<h3 style='color:white; text-align:center;'>Open in Telegram</h3>";
+            document.body.innerHTML = "<h3 style='color:white;text-align:center;margin-top:50px;'>Open in Telegram Bot</h3>";
         }
 
-        function updateUI(data) {
-            document.getElementById('user-name').innerText = data.firstName;
-            document.getElementById('user-id-display').innerText = "ID: " + data.userId;
+        // UI UPDATES
+        function updateUI() {
+            document.getElementById('u-name').innerText = userData.name;
+            document.getElementById('u-id').innerText = "ID: " + userData.userId;
             
-            // Dual Balance
-            document.getElementById('balance').innerText = formatVal(data.balance || 0);
-            document.getElementById('balance-usdt').innerText = formatMoney(data.balanceUSDT || 0);
+            // Balance
+            document.getElementById('bal-ton').innerText = (userData.balTON || 0).toFixed(4);
+            document.getElementById('bal-usdt').innerText = (userData.balUSDT || 0).toFixed(2);
+            document.getElementById('loot-bal').innerText = (userData.loot || 0).toFixed(4);
             
-            document.getElementById('ref-count').innerText = data.referrals || 0;
-            // Total earned usually tracks one currency, lets show estimate in USD
-            const approxTotal = (data.totalEarned || 0) * 1.5 + (data.totalEarnedUSDT || 0); 
-            document.getElementById('total-earned-display').innerText = "$" + formatMoney(approxTotal);
-            
-            document.getElementById('referral-link').value = `https://t.me/Coinlytix_bot/coinlyTon?startapp=${userId}`;
+            // Stats
+            document.getElementById('st-ref').innerText = userData.refs || 0;
+            // Total earned approx in USD
+            let total = (userData.balUSDT||0) + ((userData.balTON||0)*1.5);
+            document.getElementById('st-earn').innerText = "$" + total.toFixed(2);
 
-            const lootBal = data.lootBoxBalance || 0;
-            document.getElementById('loot-balance').innerText = formatVal(lootBal);
-            
-            const lootBtn = document.getElementById('btn-claim-loot');
-            if (lootBal >= 0.25) {
-                lootBtn.disabled = false; lootBtn.innerText = "CLAIM TON"; lootBtn.style.opacity = '1';
-            } else {
-                lootBtn.disabled = true; lootBtn.innerText = `Need 0.25 TON`; lootBtn.style.opacity = '0.5';
-            }
+            document.getElementById('ref-link').value = `https://t.me/Coinlytix_bot/coinlyTon?startapp=${userId}`;
 
             // Verification
-            const watched = data.verificationAdsWatched || 0;
-            const target = 20;
-            const pct = Math.min((watched / target) * 100, 100);
-            document.getElementById('verify-progress-bar').style.width = `${pct}%`;
-            document.getElementById('verify-progress-text').innerText = `${watched} / ${target} Ads`;
+            let v = userData.verAds || 0;
+            let pct = (v/20)*100;
+            if(pct>100) pct=100;
+            document.getElementById('act-prog').style.width = pct+"%";
+            document.getElementById('act-text').innerText = v + " / 20 Ads";
 
-            if (data.isAccountActive) {
-                document.getElementById('status-badge').className = 'status-badge status-active';
-                document.getElementById('status-badge').innerText = 'Active 🟢';
-                document.getElementById('activation-card').classList.add('active-account');
-                document.getElementById('activation-text').style.display = 'none';
-                document.getElementById('active-text').style.display = 'block';
+            if(userData.isActive) {
+                document.getElementById('act-card').classList.add('active');
+                document.getElementById('act-badge').className = "status-badge st-active";
+                document.getElementById('act-badge').innerText = "Active 🟢";
+                document.getElementById('act-content').style.display = 'none';
+                document.getElementById('act-done').style.display = 'block';
             }
         }
 
-        // --- EXCHANGE LOGIC ---
-        window.toggleExchangeDirection = function() {
-            exchangeDirection = exchangeDirection === 'ton-to-usdt' ? 'usdt-to-ton' : 'ton-to-usdt';
-            const fromBadge = document.getElementById('ex-from-badge');
-            const toBadge = document.getElementById('ex-to-badge');
-            const feeText = document.getElementById('ex-fee-text');
-            const fromInp = document.getElementById('ex-from-amount');
-            
-            if(exchangeDirection === 'ton-to-usdt') {
-                fromBadge.innerHTML = '<i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON';
-                toBadge.innerHTML = '<i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT';
-                feeText.innerText = 'Fee: 0.08 TON';
-            } else {
-                fromBadge.innerHTML = '<i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT';
-                toBadge.innerHTML = '<i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON';
-                feeText.innerText = 'Fee: 0.10 USDT';
-            }
-            fromInp.value = '';
-            calculateExchange();
-        };
-
-        window.calculateExchange = function() {
-            const input = parseFloat(document.getElementById('ex-from-amount').value);
-            const outputField = document.getElementById('ex-to-amount');
-            
-            if(!input || input <= 0) { outputField.value = ''; return; }
-
-            if(exchangeDirection === 'ton-to-usdt') {
-                // Fee 0.08 TON. Rate 1.5
-                if(input <= 0.08) { outputField.value = '0'; return; }
-                const net = input - 0.08;
-                outputField.value = (net * 1.5).toFixed(2);
-            } else {
-                // Fee 0.1 USDT. Rate 1.5$ = 1 TON (so divide by 1.5)
-                if(input <= 0.1) { outputField.value = '0'; return; }
-                const net = input - 0.1;
-                outputField.value = (net / 1.5).toFixed(4);
-            }
-        };
-
-        window.executeExchange = async function() {
-            const input = parseFloat(document.getElementById('ex-from-amount').value);
-            if(!input || input <= 0) return;
-            
-            if(exchangeDirection === 'ton-to-usdt') {
-                if((userData.balance || 0) < input) return tg.showAlert("Insufficient TON");
-                const usdtAmt = parseFloat(document.getElementById('ex-to-amount').value);
-                if(usdtAmt <= 0) return tg.showAlert("Amount too low for fees");
-                
-                if(!confirm(`Swap ${input} TON to ${usdtAmt} USDT?`)) return;
-                showLoader("Swapping...");
-                try {
-                    await updateDoc(userRef, {
-                        balance: increment(-input),
-                        balanceUSDT: increment(usdtAmt)
-                    });
-                    hideLoader(); tg.showAlert("Success!"); document.getElementById('ex-from-amount').value = '';
-                } catch(e) { hideLoader(); tg.showAlert("Error"); }
-                
-            } else {
-                if((userData.balanceUSDT || 0) < input) return tg.showAlert("Insufficient USDT");
-                const tonAmt = parseFloat(document.getElementById('ex-to-amount').value);
-                if(tonAmt <= 0) return tg.showAlert("Amount too low");
-
-                if(!confirm(`Swap ${input} USDT to ${tonAmt} TON?`)) return;
-                showLoader("Swapping...");
-                try {
-                    await updateDoc(userRef, {
-                        balanceUSDT: increment(-input),
-                        balance: increment(tonAmt)
-                    });
-                    hideLoader(); tg.showAlert("Success!"); document.getElementById('ex-from-amount').value = '';
-                } catch(e) { hideLoader(); tg.showAlert("Error"); }
-            }
-        };
-
-        // --- VERIFICATION ADS & REFERRAL REWARD ---
-        window.watchVerificationAd = function() {
-            if (userData.isAccountActive || (userData.verificationAdsWatched || 0) >= 20) return;
-
-            // Timer UI
-            let secondsLeft = 7;
-            const overlay = document.getElementById('ad-timer-overlay');
-            const timerText = document.getElementById('ad-timer-count');
-            overlay.style.display = 'flex';
-            timerText.innerText = secondsLeft;
-
-            // Show Ad
-            const isGiga = Math.random() > 0.5;
-            try {
-                if(isGiga && typeof window.showGiga === 'function') window.showGiga().catch(e=>{});
-                else if (typeof window.show_10135525 === 'function') window.show_10135525().catch(e=>{});
-            } catch(e){}
-
-            const timerInterval = setInterval(async () => {
-                secondsLeft--;
-                timerText.innerText = secondsLeft;
-
-                if (secondsLeft <= 0) {
-                    clearInterval(timerInterval);
-                    overlay.style.display = 'none';
-                    
-                    try {
-                        const newCount = (userData.verificationAdsWatched || 0) + 1;
-                        // Reward user 0.02 USDT per ad
-                        let updateData = { 
-                            verificationAdsWatched: increment(1),
-                            balanceUSDT: increment(0.02) 
-                        };
-                        
-                        // ACTIVATION LOGIC
-                        if (newCount >= 20) {
-                            updateData.isAccountActive = true;
-                            tg.showAlert("Verified! You can now withdraw.");
-                            
-                            // CREDIT REFERRER
-                            if(userData.referredBy && userData.referredBy !== userId) {
-                                const uplinerRef = doc(db, "users", userData.referredBy);
-                                // Upliner gets 0.1 USDT and +1 Ref count (Ref count logic usually done at start, but payment here)
-                                // If we already incremented ref count at start, just pay here. 
-                                // Let's check init logic: I removed payment from init.
-                                updateDoc(uplinerRef, {
-                                    balanceUSDT: increment(0.10),
-                                    referrals: increment(1) // Increment count ONLY when active
-                                });
-                            }
-                        } else {
-                            tg.showAlert(`Ad watched! +0.02 USDT. (${newCount}/20)`);
-                        }
-
-                        await updateDoc(userRef, updateData);
-                        
-                    } catch (e) { console.log(e); }
+        // --- VERIFICATION ADS ---
+        window.watchVerifyAd = function() {
+            if(userData.isActive) return;
+            showAdLogic(async () => {
+                let u = { verAds: increment(1), balUSDT: increment(0.02) };
+                if((userData.verAds || 0) + 1 >= 20) {
+                    u.isActive = true;
+                    // Reward Referrer
+                    if(userData.refBy) {
+                        updateDoc(doc(db,"users",userData.refBy), {
+                            balUSDT: increment(0.1),
+                            refs: increment(1)
+                        });
+                    }
+                    alert("Account Verified! Withdrawals Unlocked.");
+                } else {
+                    alert("+0.02 USDT Added!");
                 }
-            }, 1000);
-        };
-
-        window.confirmJoin = async function() {
-            showLoader("Checking...");
-            setTimeout(async () => {
-                await updateDoc(userRef, { hasJoinedChannel: true });
-                hideLoader();
-            }, 1000);
+                await updateDoc(userRef, u);
+            });
         };
 
         // --- DAILY ADS ---
-        document.getElementById('btn-ads-1').onclick = () => watchDailyAd('gigaAdsCount', window.showGiga);
-        document.getElementById('btn-ads-2').onclick = () => watchDailyAd('monetagAdsCount', window.show_10135525);
+        window.watchDailyAd = function(type) {
+            // Check limits logic here if needed
+            showAdLogic(async () => {
+                await updateDoc(userRef, { balUSDT: increment(0.02) });
+                alert("+0.02 USDT Added!");
+            });
+        };
 
-        async function watchDailyAd(field, adFunc) {
-            const today = new Date().toISOString().split('T')[0];
-            if (userData[field] >= MAX_DAILY_ADS && userData.lastAdDate === today) return tg.showAlert("Daily limit reached");
-
-            if (typeof adFunc === 'function') {
-                showLoader("Loading Ad...");
-                adFunc().then(() => { hideLoader(); processAdReward(field); })
-                .catch(() => { hideLoader(); tg.showAlert("Ad failed load."); });
-            } else { tg.showAlert("Ad not ready."); }
-        }
-
-        async function processAdReward(field) {
-            const today = new Date().toISOString().split('T')[0];
-            let updates = {
-                balanceUSDT: increment(0.02), // Reward USDT now
-                lastAdDate: today
-            };
-            if(userData.lastAdDate !== today) { updates.gigaAdsCount=0; updates.monetagAdsCount=0; updates[field]=1; }
-            else { updates[field] = increment(1); }
+        function showAdLogic(callback) {
+            document.getElementById('ad-timer').style.display = 'flex';
+            let t = 7;
+            document.getElementById('timer-count').innerText = t;
             
-            await updateDoc(userRef, updates);
-            tg.showAlert("+0.02 USDT");
+            // Call random ad script
+            try {
+                if(Math.random()>0.5 && window.showGiga) window.showGiga();
+                else if(window.show_10135525) window.show_10135525();
+            } catch(e){}
+
+            let int = setInterval(() => {
+                t--;
+                document.getElementById('timer-count').innerText = t;
+                if(t<=0) {
+                    clearInterval(int);
+                    document.getElementById('ad-timer').style.display = 'none';
+                    callback();
+                }
+            }, 1000);
         }
 
-        function updateAdCounters(data) {
-            const today = new Date().toISOString().split('T')[0];
-            let g = data.gigaAdsCount || 0, m = data.monetagAdsCount || 0;
-            if(data.lastAdDate !== today) { g=0; m=0; }
-            document.getElementById('count-giga').innerText = `${g} / ${MAX_DAILY_ADS}`;
-            document.getElementById('count-monetag').innerText = `${m} / ${MAX_DAILY_ADS}`;
-        }
+        // --- EXCHANGE ---
+        window.toggleSwap = function() {
+            swapMode = swapMode === 'ton-usdt' ? 'usdt-ton' : 'ton-usdt';
+            if(swapMode === 'ton-usdt') {
+                document.getElementById('badge-from').innerText = "TON"; document.getElementById('badge-from').className = "ex-badge badge-ton";
+                document.getElementById('badge-to').innerText = "USDT"; document.getElementById('badge-to').className = "ex-badge badge-usdt";
+                document.getElementById('swap-fee').innerText = "Fee: 0.08 TON";
+            } else {
+                document.getElementById('badge-from').innerText = "USDT"; document.getElementById('badge-from').className = "ex-badge badge-usdt";
+                document.getElementById('badge-to').innerText = "TON"; document.getElementById('badge-to').className = "ex-badge badge-ton";
+                document.getElementById('swap-fee').innerText = "Fee: 0.10 USDT";
+            }
+            document.getElementById('ex-from').value = "";
+            document.getElementById('ex-to').value = "";
+        };
 
-        // --- VIDEO MINING ---
+        window.calcSwap = function() {
+            let val = parseFloat(document.getElementById('ex-from').value);
+            if(!val) return;
+            let res = 0;
+            if(swapMode === 'ton-usdt') {
+                // 1 TON = 1.5 USDT. Fee 0.08
+                if(val > 0.08) res = (val - 0.08) * 1.5;
+            } else {
+                // 1.5 USDT = 1 TON. Fee 0.10
+                if(val > 0.10) res = (val - 0.10) / 1.5;
+            }
+            document.getElementById('ex-to').value = res > 0 ? res.toFixed(4) : 0;
+        };
+
+        window.doSwap = async function() {
+            let inp = parseFloat(document.getElementById('ex-from').value);
+            let out = parseFloat(document.getElementById('ex-to').value);
+            if(!inp || out <= 0) return alert("Invalid Amount");
+
+            document.getElementById('loading').style.display = 'flex';
+            try {
+                if(swapMode === 'ton-usdt') {
+                    if(userData.balTON < inp) throw "Low TON";
+                    await updateDoc(userRef, { balTON: increment(-inp), balUSDT: increment(out) });
+                } else {
+                    if(userData.balUSDT < inp) throw "Low USDT";
+                    await updateDoc(userRef, { balUSDT: increment(-inp), balTON: increment(out) });
+                }
+                alert("Swap Success!");
+                document.getElementById('ex-from').value = "";
+            } catch(e) { alert(e); }
+            document.getElementById('loading').style.display = 'none';
+        };
+
+        // --- VIDEO ---
         function loadVideos() {
-            const container = document.getElementById('video-list-container');
-            onSnapshot(collection(db, "videos"), (snapshot) => {
-                container.innerHTML = '';
-                if(snapshot.empty) return container.innerHTML='<p>No videos.</p>';
-                snapshot.forEach(doc => {
-                    const vid = doc.data();
-                    const ytId = getYouTubeID(vid.videoUrl);
-                    if(!ytId) return;
-                    allVideosData[doc.id] = { ...vid, ytId };
-                    
-                    const div = document.createElement('div');
-                    div.className = 'video-card';
-                    div.innerHTML = `
-                        <div id="wrapper-${doc.id}" class="video-wrapper" onclick="playVideo('${doc.id}')">
-                            <img src="${vid.thumbnail}">
-                            <div class="play-button-overlay"><i class="fa-solid fa-play"></i></div>
+            onSnapshot(collection(db, "videos"), (snap) => {
+                let h = "";
+                snap.forEach(d => {
+                    let v = d.data();
+                    let y = v.videoUrl.split('v=')[1] || v.videoUrl.split('/').pop();
+                    h += `<div class="video-card">
+                        <div class="video-thumb" id="yt-${d.id}" onclick="playVid('${d.id}','${y}')">
+                            <img src="${v.thumbnail}">
+                            <div class="play-btn"><i class="fa-solid fa-circle-play"></i></div>
                         </div>
-                        <div style="padding:10px;">
-                            <h4 style="margin:0 0 5px; color:#fff; font-size:14px;">${vid.title}</h4>
-                            <div id="status-${doc.id}" style="font-size:11px; color:#888;">Tap to Mine</div>
-                        </div>`;
-                    container.appendChild(div);
+                    </div>`;
                 });
+                document.getElementById('vid-list').innerHTML = h || "No videos.";
             });
         }
 
-        window.playVideo = function(id) {
-            if(currentPlayingVideoId === id) return;
-            if(currentPlayingVideoId) {
-                // reset old
-                if(currentYTPlayer) currentYTPlayer.destroy();
-                stopMining();
-                const oldWrap = document.getElementById(`wrapper-${currentPlayingVideoId}`);
-                if(oldWrap) oldWrap.innerHTML = `<img src="${allVideosData[currentPlayingVideoId].thumbnail}"><div class="play-button-overlay"><i class="fa-solid fa-play"></i></div>`;
-                document.getElementById(`status-${currentPlayingVideoId}`).innerText = "Stopped";
-                document.getElementById(`status-${currentPlayingVideoId}`).style.color = "#888";
-            }
-            
-            currentPlayingVideoId = id;
-            const wrap = document.getElementById(`wrapper-${id}`);
-            wrap.innerHTML = `<div id="yt-player-${id}" style="width:100%; height:100%;"></div>`;
-            wrap.onclick = null;
-            
-            currentYTPlayer = new YT.Player(`yt-player-${id}`, {
-                videoId: allVideosData[id].ytId,
-                playerVars: { autoplay:1, playsinline:1, rel:0 },
+        window.playVid = function(id, ytId) {
+            document.getElementById(`yt-${id}`).innerHTML = `<div id="p-${id}" style="width:100%;height:100%"></div>`;
+            new YT.Player(`p-${id}`, {
+                videoId: ytId,
+                playerVars: { autoplay:1, playsinline:1 },
                 events: {
                     onStateChange: (e) => {
-                        const status = document.getElementById(`status-${id}`);
-                        if(e.data === 1) { // Playing
-                            startMining();
-                            status.innerText = "Mining Active ⚡"; status.style.color = "var(--ton-blue)";
-                        } else {
-                            stopMining();
-                            status.innerText = "Paused"; status.style.color = "#e74c3c";
-                        }
+                        if(e.data == 1) startMine();
+                        else stopMine();
                     }
                 }
             });
         };
 
-        function startMining() {
-            if(miningInterval) return;
-            miningInterval = setInterval(() => {
-                sessionEarning += MINING_RATE_PER_SEC;
-                document.getElementById('loot-balance').innerText = (parseFloat(document.getElementById('loot-balance').innerText) + MINING_RATE_PER_SEC).toFixed(6);
-                totalWatchedSeconds++;
-                if(totalWatchedSeconds % 600 === 0) {
-                    // Random ad popup logic if needed
-                }
-                if(totalWatchedSeconds % 10 === 0) {
-                    updateDoc(userRef, { lootBoxBalance: increment(sessionEarning) });
-                    sessionEarning = 0;
+        function startMine() {
+            if(miningInt) return;
+            miningInt = setInterval(() => {
+                // 0.05 TON / 3600 sec
+                let r = 0.05/3600;
+                sessionEarn += r;
+                document.getElementById('loot-bal').innerText = (parseFloat(document.getElementById('loot-bal').innerText)+r).toFixed(6);
+                
+                // Save every 10s
+                if(sessionEarn > 0.0001) {
+                    updateDoc(userRef, { loot: increment(sessionEarn) });
+                    sessionEarn = 0;
                 }
             }, 1000);
         }
+        function stopMine() { clearInterval(miningInt); miningInt=null; updateDoc(userRef, { loot: increment(sessionEarn) }); sessionEarn=0; }
 
-        function stopMining() {
-            clearInterval(miningInterval); miningInterval=null;
-            if(sessionEarning > 0) updateDoc(userRef, { lootBoxBalance: increment(sessionEarning) });
-            sessionEarning = 0;
-        }
-
-        window.claimLootBox = async () => {
-            if((userData.lootBoxBalance||0) < 0.25) return tg.showAlert("Need 0.25 TON");
-            await updateDoc(userRef, { balance: increment(userData.lootBoxBalance), lootBoxBalance: 0 });
-            tg.showAlert("Claimed!");
+        window.claimLoot = async function() {
+            if(userData.loot < 0.25) return alert("Min 0.25 TON");
+            await updateDoc(userRef, { balTON: increment(userData.loot), loot: 0 });
+            alert("Claimed!");
         };
 
-        const getYouTubeID = (url) => { const m = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/); return (m&&m[2].length===11)?m[2]:null; };
-
-        // --- WITHDRAW LOGIC ---
-        let currentWithdrawType = 'usdt'; // or 'ton'
-        let selectedPlan = null;
-
-        window.switchWithdrawTab = (type) => {
-            currentWithdrawType = type;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            if(type === 'usdt') {
-                document.querySelector('.usdt-tab').classList.add('active');
-                document.getElementById('withdraw-usdt-panel').style.display = 'block';
-                document.getElementById('withdraw-ton-panel').style.display = 'none';
+        // --- WITHDRAW ---
+        window.setWType = function(t) {
+            curWType = t;
+            document.querySelectorAll('.tab').forEach(x => x.classList.remove('active-usdt','active-ton'));
+            if(t==='usdt') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active-usdt');
+                document.getElementById('ui-usdt').style.display='block';
+                document.getElementById('ui-ton').style.display='none';
             } else {
-                document.querySelector('.ton-tab').classList.add('active');
-                document.getElementById('withdraw-usdt-panel').style.display = 'none';
-                document.getElementById('withdraw-ton-panel').style.display = 'block';
+                document.querySelector('.tab:nth-child(2)').classList.add('active-ton');
+                document.getElementById('ui-usdt').style.display='none';
+                document.getElementById('ui-ton').style.display='block';
             }
-            cancelWithdraw();
         };
 
-        window.selectWithdrawPlan = (type, amount, refs) => {
-            if(!userData.isAccountActive) return tg.showAlert("Account Inactive. Watch 20 Ads.");
-            
-            document.querySelectorAll('.withdraw-box').forEach(b => {
-                b.classList.remove('selected', 'selected-usdt', 'selected-ton');
-            });
-            // highlight logic handled loosely here, ideally pass event
-            
-            selectedPlan = { type, amount, refs };
-            document.getElementById('withdraw-confirm-area').style.display = 'block';
-            document.getElementById('selected-plan-text').innerText = `Withdraw: ${amount} ${type.toUpperCase()}`;
-            
-            const walletInput = document.getElementById('wallet-address');
-            if(type === 'ton') walletInput.placeholder = "TON Keeper Address (UQ...)";
-            else walletInput.placeholder = "USDT (BEP20) or Payeer Address";
+        window.pickPlan = function(t, amt, r) {
+            if(!userData.isActive) return alert("Please verify account first (20 Ads).");
+            selPlan = { t, amt, r };
+            document.getElementById('w-confirm').style.display = 'block';
+            document.getElementById('w-plan-txt').innerText = `Withdraw ${amt} ${t.toUpperCase()}`;
+            document.getElementById('w-addr').placeholder = t==='ton' ? "TON Address" : "USDT Address";
         };
 
-        window.cancelWithdraw = () => {
-            document.getElementById('withdraw-confirm-area').style.display = 'none';
-            selectedPlan = null;
-        };
-
-        window.submitWithdraw = async () => {
-            if(!selectedPlan) return;
-            const wallet = document.getElementById('wallet-address').value;
-            if(wallet.length < 5) return tg.showAlert("Invalid Wallet");
+        window.submitW = async function() {
+            if(!selPlan) return;
+            let addr = document.getElementById('w-addr').value;
+            if(!addr) return alert("Enter Address");
             
-            if(selectedPlan.type === 'ton') {
-                if((userData.balance||0) < selectedPlan.amount) return tg.showAlert("Insufficient TON");
-            } else {
-                if((userData.balanceUSDT||0) < selectedPlan.amount) return tg.showAlert("Insufficient USDT");
-            }
-            
-            if((userData.referrals||0) < selectedPlan.refs) return tg.showAlert(`Need ${selectedPlan.refs} Referrals`);
+            if(selPlan.t === 'ton' && userData.balTON < selPlan.amt) return alert("Low Balance");
+            if(selPlan.t === 'usdt' && userData.balUSDT < selPlan.amt) return alert("Low Balance");
+            if(userData.refs < selPlan.r) return alert(`Need ${selPlan.r} Referrals`);
 
-            // Wallet type for USDT
-            let method = "TON Keeper";
-            if(selectedPlan.type === 'usdt') {
-                method = document.getElementById('usdt-wallet-type').value.toUpperCase();
-            }
-
-            showLoader("Submitting...");
+            document.getElementById('loading').style.display = 'flex';
             try {
-                const reqData = {
-                    userId, address: wallet, amount: selectedPlan.amount, currency: selectedPlan.type.toUpperCase(),
-                    method: method, status: "pending", date: serverTimestamp()
-                };
+                let dec = {};
+                dec[selPlan.t === 'ton' ? 'balTON' : 'balUSDT'] = increment(-selPlan.amt);
                 
-                let updateData = {};
-                if(selectedPlan.type === 'ton') updateData.balance = increment(-selectedPlan.amount);
-                else updateData.balanceUSDT = increment(-selectedPlan.amount);
-
-                await addDoc(collection(db, "withdrawals"), reqData);
-                await updateDoc(userRef, updateData);
-                
-                hideLoader(); tg.showAlert("Request Sent!"); cancelWithdraw();
-            } catch(e) { hideLoader(); tg.showAlert("Error"); }
+                await addDoc(collection(db, "withdrawals"), {
+                    uid: userId, amt: selPlan.amt, cur: selPlan.t, addr: addr,
+                    st: "pending", date: serverTimestamp()
+                });
+                await updateDoc(userRef, dec);
+                alert("Request Sent!");
+                document.getElementById('w-confirm').style.display = 'none';
+            } catch(e) { alert("Error"); }
+            document.getElementById('loading').style.display = 'none';
         };
 
         function loadHistory() {
-            const list = document.getElementById('withdraw-history');
-            onSnapshot(query(collection(db, "withdrawals"), where("userId","==",userId), orderBy("date","desc"), limit(10)), (snap) => {
-                list.innerHTML = '';
-                if(snap.empty) return list.innerHTML = '<p style="text-align:center;color:#666;">No transactions.</p>';
-                snap.forEach(d => {
-                    const w = d.data();
-                    const color = w.status === 'pending' ? '#f1c40f' : (w.status === 'paid' ? '#2ecc71' : '#e74c3c');
-                    list.innerHTML += `
-                        <div class="task-item" style="border-left:3px solid ${color}">
-                            <div>
-                                <div style="font-weight:bold; color:white;">${w.amount} ${w.currency}</div>
-                                <div style="font-size:10px; color:#666;">${w.method}</div>
-                            </div>
-                            <span style="color:${color}; font-size:11px; text-transform:uppercase;">${w.status}</span>
-                        </div>`;
+            // Withers
+            onSnapshot(query(collection(db, "withdrawals"), where("uid","==",userId), limit(5)), (s)=>{
+                let h=""; s.forEach(d=>{
+                    let w=d.data();
+                    h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333; font-size:12px;">
+                        <span>${w.amt} ${w.cur.toUpperCase()}</span>
+                        <span style="color:${w.st=='pending'?'orange':'green'}">${w.st}</span>
+                    </div>`;
                 });
+                document.getElementById('w-history').innerHTML = h || "<p style='text-align:center;color:#666'>No History</p>";
             });
-            
-            // Referrals
-            onSnapshot(query(collection(db, "users"), where("referredBy","==",userId), limit(10)), (snap) => {
-                const rList = document.getElementById('referral-list');
-                rList.innerHTML = '';
-                if(snap.empty) return rList.innerHTML = '<p style="text-align:center;color:#666;">No referrals.</p>';
-                snap.forEach(d => {
-                    const u = d.data();
-                    const isActive = u.isAccountActive ? '<span style="color:var(--usdt-green)">Active</span>' : '<span style="color:var(--danger-color)">Pending</span>';
-                    rList.innerHTML += `
-                        <div class="task-item">
-                            <span style="color:white; font-size:13px;">${u.firstName}</span>
-                            <div style="font-size:11px;">${isActive}</div>
-                        </div>`;
+            // Refs
+            onSnapshot(query(collection(db, "users"), where("refBy","==",userId), limit(10)), (s)=>{
+                let h=""; s.forEach(d=>{
+                    let u=d.data();
+                    h+=`<div style="padding:10px; border-bottom:1px solid #333; font-size:12px;">
+                        ${u.name} - ${u.isActive ? '<span style="color:var(--usdt-color)">Active</span>' : '<span style="color:red">Pending</span>'}
+                    </div>`;
                 });
+                document.getElementById('ref-list').innerHTML = h || "<p style='text-align:center;color:#666'>No Refs</p>";
             });
         }
         
-        // Refer link
-        window.copyReferralLink = () => {
-            const inp = document.getElementById('referral-link');
-            inp.select(); navigator.clipboard.writeText(inp.value);
-            tg.showAlert("Copied");
+        window.copyRef = () => {
+            let r = document.getElementById('ref-link');
+            r.select(); navigator.clipboard.writeText(r.value);
+            alert("Copied!");
         };
-        
-        window.buyReferrals = async () => {
-             const amt = parseInt(document.getElementById('buy-ref-amount').value);
-             if(!amt || amt < 1) return;
-             const cost = amt * 0.20; // Cost in TON
-             if((userData.balance||0) < cost) return tg.showAlert("Need more TON");
-             if(!confirm(`Pay ${cost.toFixed(2)} TON for ${amt} refs?`)) return;
-             await updateDoc(userRef, { balance: increment(-cost), referrals: increment(amt) });
-             tg.showAlert("Purchased!");
-        };
-        
-        function loadTasks() {
-             // Task loading logic same as previous, just ensure styling matches
-             const container = document.getElementById('task-list-container');
-             onSnapshot(collection(db, "tasks"), (snap) => {
-                 container.innerHTML = '';
-                 snap.forEach(d => {
-                     if(userData.completedTasks?.includes(d.id)) return;
-                     const t = d.data();
-                     const div = document.createElement('div');
-                     div.className = 'task-item';
-                     div.innerHTML = `
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <i class="${t.icon||'fa-brands fa-telegram'}" style="color:var(--primary-cyan)"></i>
-                            <div><div style="color:white; font-size:13px;">${t.title}</div><div style="color:var(--usdt-green); font-size:10px;">+0.10 TON</div></div>
-                        </div>
-                        <button class="btn-action" style="width:auto; margin:0; padding:5px 10px; font-size:11px;">Start</button>
-                     `;
-                     div.querySelector('button').onclick = () => {
-                         window.open(t.link, '_blank');
-                         // Verification logic simulates here
-                         setTimeout(async()=>{
-                             await updateDoc(userRef, { balance: increment(0.10), completedTasks: arrayUnion(d.id) });
-                             tg.showAlert("Done!");
-                         }, 2000);
-                     };
-                     container.appendChild(div);
-                 });
-             });
-        }
-    </script>
-    
-    <script>
-        function navTo(id, btn) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('section-'+id).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+        // NAVIGATION
+        window.nav = function(id, btn) {
+            document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+            document.getElementById('sec-'+id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
-            if(window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-        }
+        };
     </script>
 </body>
 </html>
