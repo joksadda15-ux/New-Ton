@@ -3,1331 +3,1217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NEW TON - Watch & Earn</title>
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for Icons -->
+    <title>Coinly Tix - Dark Nexus</title>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Telegram Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- --- AD INTEGRATIONS --- -->
+    <!-- 1. ADEXIUM ADS -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
+                const adexiumWidget = new AdexiumWidget({wid: 'a1a296e8-82a8-4686-8740-2ecd055c403d', adFormat: 'interstitial'});
                 adexiumWidget.autoMode();
-            } catch (e) {
-                console.error("Adexium SDK failed to initialize:", e);
-            }
+            } catch(e) { console.log("Adexium error", e); }
         });
     </script>
-    <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
-    <script src="https://ad.gigapub.tech/script?id=846"></script>
-    <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
-    <!-- --- AD INTEGRATIONS END --- -->
+
+    <!-- 2. GIGAPUB ADS -->
+    <script src="https://ad.gigapub.tech/script?id=4088"></script>
+    
+    <!-- 3. MONETAG ADS -->
+    <script src='//libtl.com/sdk.js' data-zone='10135525' data-sdk='show_10135525'></script>
 
     <style>
         :root {
-            --bg-color: #F2F4F8;       
-            --card-bg: #FFFFFF;        
-            --header-bg: #FFFFFF;      
+            /* DARK THEME VARS */
+            --bg-color: #050505;
+            --card-bg: #141414;
+            --card-border: #2a2a2a;
+            --text-color: #e0e0e0;
+            --text-muted: #888888;
             
-            --primary-color: #0098EA;  
-            --primary-hover: #007acc;
+            --primary-cyan: #00f2ff;
+            --primary-dark-cyan: #0098a1;
             
-            --text-title: #1F2937;     
-            --text-body: #6B7280;      
-            --text-highlight: #0098EA; 
+            --usdt-green: #2ecc71;
+            --ton-blue: #00aeff;
             
-            --border-subtle: #E5E7EB;  
-            --input-bg: #F9FAFB;       
-            
-            --success-color: #10B981;
-            --danger-color: #EF4444;   
-            --disabled-bg: #E5E7EB;
-            --disabled-text: #9CA3AF;
-
-            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.05); 
-            --radius-card: 16px;
-            --radius-btn: 12px;
+            --neon-glow: 0 0 10px rgba(0, 242, 255, 0.4);
+            --danger-color: #ff3b30;
+            --font-family: 'Poppins', sans-serif;
+            --title-font: 'Rajdhani', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-body);
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-family);
             margin: 0;
-            padding: 70px 0 90px;
-            min-height: 100vh;
+            padding: 90px 0 100px 0;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #050505 50%);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
             box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
+            z-index: 100;
+            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
         
-        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
-
-        /* --- HEADER --- */
-        .main-header {
-            background-color: var(--header-bg);
-            padding: 0 16px;
-            border-bottom: 1px solid var(--border-subtle);
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            height: 64px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .site-branding { display: flex; flex-direction: column; justify-content: center; }
-        .site-title { font-size: 1.25rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-        .user-id-display { 
-            font-size: 0.75rem; color: var(--text-body); 
-            font-family: 'Roboto Mono', monospace; 
-            background: var(--input-bg);
-            padding: 2px 8px; border-radius: 6px;
-            margin-top: 2px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
-            border: 1px solid var(--border-subtle);
-        }
-        
-        .header-right { display: flex; align-items: center; gap: 12px; }
-        
-        .balance-badge {
-            display: flex; flex-direction: column; align-items: flex-end;
-            line-height: 1.2;
-        }
-        .balance-badge .ton-val {
-            color: var(--text-title); font-weight: 700; font-size: 0.95rem;
-        }
-        .balance-badge .pts-val {
-            font-size: 0.75rem; color: var(--primary-color); font-weight: 500;
-        }
-
-        .header-icon-btn { 
-            background: var(--input-bg); 
-            border: 1px solid var(--border-subtle); 
-            color: var(--text-title); 
-            width: 36px; height: 36px; border-radius: 50%;
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .profile-pic {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--ton-blue), #0044ff);
+            color: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: background 0.2s;
+            font-weight: bold; font-size: 16px;
+            box-shadow: 0 0 10px rgba(0, 174, 255, 0.5);
         }
-        .header-icon-btn:hover { background: #e5e7eb; }
-        .header-icon-btn i { font-size: 1.1rem; }
+        .user-details { display: flex; flex-direction: column; }
+        .user-name { font-weight: 700; font-size: 14px; color: #fff; }
+        .user-id-display { font-size: 10px; color: var(--text-muted); font-weight: 600; background: #222; padding: 2px 6px; border-radius: 4px; margin-top: 2px; width: fit-content;}
 
-        /* --- CARDS --- */
-        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .mining-card, .video-list-item { 
-            background-color: var(--card-bg); 
-            border-radius: var(--radius-card); 
-            padding: 20px; 
-            border: 1px solid var(--border-subtle); 
-            box-shadow: var(--shadow-card);
-            margin-bottom: 20px;
-            transition: transform 0.2s;
+        .balance-group { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+        .balance-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; font-family: var(--title-font); }
+        .bal-ton { color: var(--ton-blue); text-shadow: 0 0 5px rgba(0, 174, 255, 0.3); }
+        .bal-usdt { color: var(--usdt-green); text-shadow: 0 0 5px rgba(46, 204, 113, 0.3); }
+
+        /* --- Layout --- */
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-title {
+            font-family: var(--title-font);
+            font-size: 26px; font-weight: 700; margin-bottom: 20px;
+            color: #fff; text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- Cards --- */
+        .card-box {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
+            position: relative; overflow: hidden;
+        }
+
+        /* --- Exchange Section --- */
+        .exchange-card {
+            background: linear-gradient(145deg, #1a1a1a, #111);
+            border: 1px solid #333;
+        }
+        .exchange-header { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-muted); font-size: 12px; }
+        .exchange-rate { color: var(--primary-cyan); font-weight: bold; }
+        
+        .ex-input-group {
+            background: #090909; border: 1px solid #333; border-radius: 12px;
+            padding: 10px; display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .ex-input-group input {
+            background: transparent; border: none; color: white; font-size: 18px; font-weight: bold; width: 60%;
+        }
+        .ex-input-group input:focus { outline: none; }
+        .currency-badge {
+            background: #222; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: bold;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-swap {
+            width: 40px; height: 40px; background: #333; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: -5px auto -5px;
+            border: 2px solid #1a1a1a; cursor: pointer; color: var(--primary-cyan); z-index: 2; position: relative;
+            transition: transform 0.3s;
+        }
+        .btn-swap:active { transform: rotate(180deg); }
+        .fee-info { font-size: 10px; color: #666; text-align: center; margin-top: 10px; }
+
+        /* --- Activation Card --- */
+        .activation-card {
+            background: rgba(255, 59, 48, 0.05); border: 1px solid rgba(255, 59, 48, 0.2);
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
+            text-align: center;
+        }
+        .activation-card.active-account {
+            background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+        .status-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;
+        }
+        .status-inactive { background: rgba(255, 59, 48, 0.2); color: var(--danger-color); }
+        .status-active { background: rgba(46, 204, 113, 0.2); color: var(--usdt-green); }
+        
+        .progress-container { width: 100%; background: #333; border-radius: 10px; margin-top: 10px; height: 6px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--usdt-green); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--usdt-green); }
+        
+        /* --- Video Cards (High Color Grading) --- */
+        .video-card {
+            background: #151515; border-radius: 16px; overflow: hidden;
+            margin-bottom: 20px; border: 1px solid #333;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
             position: relative;
         }
-        
-        .section-title { 
-            font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); 
-            font-weight: 700; border-left: 4px solid var(--primary-color); 
-            padding-left: 12px; 
+        /* Neon Glow Border */
+        .video-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 1px;
+            background: linear-gradient(45deg, transparent, var(--primary-cyan), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
         }
-        .sub-section-title { font-size: 1.1rem; color: var(--text-title); margin: 24px 0 16px; font-weight: 600; }
+        
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; cursor: pointer; }
+        .video-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
+        .video-wrapper:hover img { opacity: 1; }
+        .play-button-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; background: rgba(0, 242, 255, 0.2);
+            backdrop-filter: blur(5px); border: 1px solid var(--primary-cyan);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 20px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            pointer-events: none;
+        }
 
-        /* --- BUTTONS --- */
-        .form-button, .task-button, .ad-task-button, .daily-task-button, .channel-btn { 
-            width: 100%; 
-            padding: 14px; 
-            border: none; 
-            border-radius: var(--radius-btn); 
-            font-weight: 600; font-size: 0.95rem;
-            cursor: pointer; 
-            background-color: var(--primary-color); 
-            color: #fff; 
-            transition: background-color 0.2s, transform 0.1s; 
+        /* --- Loot Box --- */
+        .loot-box-card {
+            background: linear-gradient(135deg, #111, #1a0525);
+            border: 1px solid #4a0072; text-align: center;
+            padding: 25px; border-radius: 16px; margin-bottom: 25px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+        .loot-icon { font-size: 40px; color: #d500f9; margin-bottom: 5px; text-shadow: 0 0 10px #d500f9; }
+        .loot-balance { font-family: var(--title-font); font-size: 32px; font-weight: 700; color: #fff; margin: 5px 0; }
+        .btn-loot {
+            background: linear-gradient(90deg, #aa00ff, #d500f9); border: none;
+            color: white; padding: 10px 25px; border-radius: 20px; font-weight: bold;
+            box-shadow: 0 0 15px rgba(213, 0, 249, 0.5); cursor: pointer; width: 100%; max-width: 200px;
+        }
+        .btn-loot:disabled { background: #333; color: #666; box-shadow: none; cursor: not-allowed; }
+
+        /* --- Withdraw Grid & Tabs --- */
+        .tab-container { display: flex; gap: 10px; margin-bottom: 20px; background: #111; padding: 5px; border-radius: 12px; border: 1px solid #333; }
+        .tab-btn {
+            flex: 1; padding: 12px; background: transparent; border: none; color: #666;
+            font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s;
+        }
+        .tab-btn.active { background: #222; color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .tab-btn.active.usdt-tab { color: var(--usdt-green); border: 1px solid rgba(46, 204, 113, 0.3); }
+        .tab-btn.active.ton-tab { color: var(--ton-blue); border: 1px solid rgba(0, 174, 255, 0.3); }
+
+        .withdraw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .withdraw-box {
+            background: #151515; border: 1px solid #333;
+            border-radius: 12px; padding: 15px; text-align: center;
+            cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .withdraw-box.selected { transform: translateY(-2px); }
+        .withdraw-box.selected-usdt { border-color: var(--usdt-green); background: rgba(46, 204, 113, 0.1); }
+        .withdraw-box.selected-ton { border-color: var(--ton-blue); background: rgba(0, 174, 255, 0.1); }
+        
+        .w-amount { font-size: 20px; font-weight: 800; color: #fff; font-family: var(--title-font); }
+        .w-req { font-size: 11px; color: #666; margin-top: 5px; }
+
+        .wallet-select {
+            width: 100%; padding: 12px; background: #090909; border: 1px solid #333;
+            color: white; border-radius: 10px; margin-bottom: 15px; font-size: 14px;
+        }
+
+        /* --- Buttons --- */
+        .btn-primary {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-dark-cyan), var(--primary-cyan));
+            color: #000; font-size: 16px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            text-transform: uppercase;
+        }
+        .btn-action {
+            background: #222; color: #fff; border: 1px solid #333;
+            padding: 10px; border-radius: 8px; width: 100%; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 152, 234, 0.2);
+            font-weight: 600; margin-top: 10px;
         }
-        .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
         
-        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); }
-        .form-button:active:not(:disabled) { transform: scale(0.98); }
-        
-        .form-button:disabled, .task-button:disabled, .ad-task-button:disabled { 
-            background-color: var(--disabled-bg); 
-            color: var(--disabled-text); 
-            cursor: not-allowed; 
-            box-shadow: none;
-        }
-
-        /* --- FORMS & INPUTS --- */
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-body); font-size: 0.9rem; }
-        
-        input[type="text"], input[type="number"], select { 
-            width: 100%; padding: 14px; box-sizing: border-box; 
-            border-radius: var(--radius-btn); 
-            border: 1px solid var(--border-subtle); 
-            background-color: var(--input-bg); 
-            color: var(--text-title); 
-            font-size: 0.95rem; outline: none; 
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s;
-        }
-        input:focus { border-color: var(--primary-color); background-color: #fff; }
-        input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
-
-        /* --- REFERRAL --- */
-        .home-referral-card h4 { margin: 0 0 12px; font-size: 1.2rem; color: var(--text-title); }
-        .referral-copy { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; color: var(--text-body); }
-        .referral-copy b { color: var(--primary-color); }
-
-        .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
-        .input-group input { flex-grow: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
-        .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
-
-        .stat-row { display: flex; justify-content: space-between; background: var(--input-bg); padding: 12px 16px; border-radius: 12px; margin-top: 10px; }
-        .stat-row span { font-size: 0.9rem; color: var(--text-body); }
-        .stat-row strong { color: var(--text-title); }
-
-        /* --- BOTTOM NAV --- */
+        /* --- Bottom Nav --- */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-around;
-            padding: 10px 0 20px; 
-            z-index: 1000;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(10px);
+            padding: 10px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%;
+            border-top: 1px solid var(--card-border); z-index: 99;
         }
-        .bottom-nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 6px; color: var(--disabled-text); text-decoration: none;
-            font-size: 0.7rem; font-weight: 500;
-            width: 20%;
-            transition: color 0.2s;
+        .nav-btn {
+            background: none; border: none; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            color: #666; transition: color 0.3s;
         }
-        .bottom-nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
-        .bottom-nav-item:hover { color: var(--text-title); }
-        .bottom-nav-item.active { color: var(--primary-color); }
+        .nav-btn i { font-size: 20px; transition: transform 0.2s; }
+        .nav-btn span { font-size: 10px; font-weight: 500; }
+        .nav-btn.active { color: var(--primary-cyan); text-shadow: 0 0 8px var(--primary-cyan); }
+        .nav-btn.active i { transform: translateY(-2px); }
 
-        /* --- TABS --- */
-        .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
-        .content-section.active { display: block; }
-        @keyframes fadeEffect { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- WITHDRAW LOCK STYLES (UPDATED) --- */
-        .withdraw-lock-overlay {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(2px);
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 50;
-            border-radius: var(--radius-card);
-            text-align: center;
-            padding: 20px;
+        /* --- Overlays --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
         }
-        .withdraw-lock-overlay.active { display: flex; }
-        .withdraw-lock-icon { font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.7; }
-        .withdraw-lock-title { color: var(--danger-color); font-weight: 800; font-size: 1.5rem; margin-bottom: 10px; }
-        .withdraw-lock-msg { color: var(--text-body); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
-
-        /* --- SPECIFIC COMPONENTS --- */
-        .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
+        .modal {
+            background: #1a1a1a; width: 90%; max-width: 400px; border: 1px solid #333;
+            border-radius: 20px; padding: 25px; text-align: center; color: white;
+        }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid #333;
+            border-top: 4px solid var(--primary-cyan); border-radius: 50%;
+            animation: spin 1s linear infinite; margin: 0 auto 15px;
+        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .item-grid { display: grid; gap: 16px; }
-        .task-card, .user-ad-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; }
-        .task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
-        .task-card-info p { margin: 0; font-size: 0.85rem; color: var(--primary-color); font-weight: 500; }
-        .ad-task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
-        .ad-task-card-info p { margin: 0; font-size: 0.85rem; color: var(--text-body); }
-        .task-reward-points { color: var(--success-color); font-weight: bold; }
-        
-        .video-list-item { padding: 0; overflow: hidden; border: none; display: block; }
-        .video-thumb { position: relative; height: 160px; }
-        .video-play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 3rem; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .video-info { padding: 16px; }
-        .video-info button { width: 100%; padding: 10px; background: var(--primary-color); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; }
-
-        .conversion-rate-display { background: rgba(0, 152, 234, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        .modal-overlay.show { display: flex; }
-        .modal-content, .task-modal, .activation-modal, .task-confirm-modal { background-color: var(--card-bg); color: var(--text-title); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column; max-height: 80vh; }
-        .task-modal, .activation-modal { text-align: left; }
-        .modal-body { overflow-y: auto; padding-right: 5px; margin-bottom: 10px; }
-        
-        .history-item { border-bottom: 1px solid var(--border-subtle); padding: 12px 0; }
-        .history-date-header { color: var(--text-body); font-size: 0.8rem; margin-top: 15px; font-weight: 600; text-transform: uppercase; }
-        .text-green { color: var(--success-color) !important; }
-        .text-red { color: var(--danger-color) !important; }
-        .text-primary { color: var(--text-title) !important; }
-
-        .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .profile-popover.show { display: block; }
-        .popover-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
-        .popover-item strong { color: var(--text-body); }
-        .popover-item span { color: var(--text-title); font-weight: 600; }
-
-        #ad-package-grid { grid-template-columns: repeat(2, 1fr); }
-        .ad-package-card { text-align: center; cursor: pointer; border: 2px solid transparent; background: var(--input-bg); }
-        .ad-package-card.selected { border-color: var(--primary-color); background: rgba(0, 152, 234, 0.05); }
-
-        .blocking-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            color: white; text-align: center;
+        /* Timer Overlay */
+        .timer-circle {
+            width: 100px; height: 100px; border-radius: 50%;
+            border: 4px solid var(--usdt-green);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px; font-weight: bold; color: var(--usdt-green);
+            margin: 0 auto 20px; box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
         }
-        .blocking-overlay h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
-        .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; }
 
-        .user-ad-item { flex-direction: column; align-items: flex-start; }
-        .user-ad-item .progress-text { font-size: 0.85rem; color: var(--text-body); margin-top: 5px; }
-        .user-ad-item .status-text { margin-top: 10px; font-weight: bold; font-size: 0.8rem; }
-        .user-ad-item .status-text.completed { color: var(--success-color); }
-        .user-ad-item .status-text.active { color: var(--primary-color); }
+        input { background: #090909; color: white; border: 1px solid #333; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        input:focus { outline: none; border-color: var(--primary-cyan); }
 
+        .stat-card {
+            background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #333; text-align: center;
+        }
+        .stat-card h3 { color: #888; font-size: 12px; margin: 0; }
+        .stat-card p { font-size: 18px; font-weight: bold; color: #fff; margin: 5px 0 0; }
+
+        .task-item {
+            background: #1a1a1a; border: 1px solid #333; padding: 15px;
+            border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- BLOCKING OVERLAY FOR ADS -->
-    <div id="adBlockingOverlay" class="blocking-overlay">
-        <h2>Watching Ad...</h2>
-        <p>Please wait <span id="adOverlayTimer" class="timer-count">5</span> seconds</p>
-        <p style="font-size: 0.9em; color: #777;">Do not close the app.</p>
-    </div>
-
-    <!-- HEADER -->
-    <header class="main-header">
-        <div class="header-left">
-            <div class="site-branding">
-                <h1 class="site-title">NEW TON</h1>
-                <div class="user-id-display" id="header-user-id">
-                    <span>ID: ...</span> <i class="fas fa-copy" style="font-size: 10px;"></i>
-                </div>
-            </div>
-            <div style="position: relative;">
-                <button class="header-icon-btn" id="profile-info-btn">
-                    <i class="fas fa-user-circle"></i>
-                </button>
-                <div id="profile-popover" class="profile-popover">
-                    <h4 style="margin: 0 0 15px; color: var(--text-title);">My Stats</h4>
-                    <div class="popover-item"><strong>Referrals</strong> <span id="popover-total-referrals">0</span></div>
-                    <div class="popover-item"><strong>Points</strong> <span id="popover-total-points-earned">0</span></div>
-                    <div class="popover-item"><strong>Tasks</strong> <span id="popover-total-tasks-done">0</span></div>
-                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
-                         <p style="margin: 0 0 5px; font-size: 0.8rem; color: var(--text-body);">Your Referral Link:</p>
-                         <div class="input-group" style="margin-bottom: 0;">
-                            <input type="text" id="popoverReferralLinkInput" readonly value="..." style="padding: 8px; font-size: 0.8rem;">
-                            <button id="popoverCopyRefLinkBtn" class="form-button" style="padding: 0 10px; width: auto;"><i class="fas fa-copy"></i></button>
-                         </div>
-                    </div>
-                </div>
+    <header class="header">
+        <div class="user-info">
+            <div class="profile-pic" id="profile-pic">U</div>
+            <div class="user-details">
+                <span class="user-name" id="user-name">Loading...</span>
+                <span class="user-id-display" id="user-id-display">ID: ...</span>
             </div>
         </div>
-        <div class="header-right">
-            <div class="balance-badge">
-                <span class="ton-val"><span id="userTONBalanceDisplay">0.0000</span> TON</span>
-                <span class="pts-val"><span id="userPointBalanceDisplay">0</span> Pts</span>
+        <div class="balance-group">
+            <div class="balance-item">
+                <span id="balance-usdt" class="bal-usdt">0.00</span> USDT
             </div>
-            <button class="header-icon-btn" id="history-btn">
-                <i class="fas fa-history"></i>
-            </button>
+            <div class="balance-item" style="font-size:12px;">
+                <span id="balance" class="bal-ton">0.0000</span> TON
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <!-- HOME SECTION -->
-        <section id="home-content" class="content-section active">
-             <!-- Referral Card -->
-             <div class="home-referral-card">
-                 <div style="text-align: center; margin-bottom: 15px;">
-                     <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
-                     <h4>Invite Friends & Earn</h4>
-                 </div>
-                 <p class="referral-copy" style="text-align: center;">
-                     1 Invite = <b>1 Withdrawal Unlock</b>.<br>
-                     Plus, get <b>40 Points</b> when they watch 10 ads!
-                 </p>
-                 <div class="input-group">
-                    <input type="text" id="homeReferralLinkInput" readonly value="Loading...">
-                    <button id="homeCopyReferralLinkBtn" class="form-button">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                 </div>
-                 <div class="stat-row">
-                    <span>Total Referrals</span>
-                    <strong id="homeTotalReferrals">0</strong>
-                 </div>
-             </div>
-
-             <!-- Promo Code Section -->
-             <div class="card">
-                <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-ticket-alt" style="color: var(--primary-color);"></i> Promo Code</h4>
-                <div class="form-group" style="margin-bottom: 12px;">
-                    <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
-                </div>
-                <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-                
-                <div id="promo-history-list" style="margin-top: 20px;"></div>
-             </div>
-        </section>
+    <div class="container">
         
-        <!-- VIDEO SECTION -->
-        <section id="video-content" class="content-section">
-             <h3 class="section-title">Watch & Mine</h3>
-             
-             <div class="mining-card" style="text-align: center;">
-                 <div style="margin-bottom: 15px;">
-                    <i class="fas fa-hammer" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
-                    <h2 style="margin: 0; color: var(--text-title);"><span id="minedPointsDisplay">0.0000</span> Pts</h2>
-                    <p style="margin: 5px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: 1 Point / Hour</p>
-                 </div>
-                 <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 5 Points)</button>
-             </div>
+        <!-- 1. HOME SECTION -->
+        <div id="section-home" class="section active">
+            <div class="page-title">Dashboard</div>
+            
+            <!-- Activation / Verification -->
+            <div class="activation-card" id="activation-card">
+                <div class="status-badge status-inactive" id="status-badge">Inactive 🔴</div>
+                
+                <div id="activation-text">
+                    <h3 style="margin:5px 0; font-size:16px; color:white;">Verify Account</h3>
+                    <p style="margin:5px 0 10px; font-size:12px; color:#aaa;">
+                        Watch 20 ads to verify. <br>
+                        <span style="color:var(--usdt-green)">Reward: 0.02 USDT / Ad</span>
+                    </p>
+                    
+                    <button class="btn-action" onclick="watchVerificationAd()">
+                        <i class="fa-solid fa-play" style="color:var(--primary-cyan)"></i> Watch Ad (+0.02 USDT)
+                    </button>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="verify-progress-bar"></div>
+                    </div>
+                    <div class="progress-text" id="verify-progress-text" style="font-size:10px; color:#666; margin-top:5px;">0 / 20 Ads</div>
+                </div>
 
-             <!-- Player Container -->
-             <div id="active-video-player-wrapper" style="display:none; width:100%; padding-bottom:56.25%; background:#000; position:relative; margin-bottom:20px; border-radius:12px; overflow:hidden; border: 1px solid var(--border-subtle);">
-                 <div id="yt-player" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-             </div>
-             
-             <h4 class="sub-section-title">Available Videos</h4>
-             <div id="video-list-container" class="item-grid">
-                 <div class="loader"></div>
-             </div>
-        </section>
-
-        <!-- ADS SECTION -->
-        <section id="ads-content" class="content-section">
-             <h3 class="section-title">Watch Ads</h3>
-             <div id="ad-task-list" class="item-grid"></div>
-             <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
-        </section>
-
-        <!-- TASKS SECTION -->
-        <section id="task-content" class="content-section">
-            <h3 class="section-title">Earn Tasks</h3>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <span style="color: var(--text-body); font-size: 0.9rem;">Complete tasks for points</span>
-                <button id="show-create-task-btn" class="task-button" style="background: var(--input-bg); border: 1px solid var(--primary-color); color: var(--primary-color);">
-                    <i class="fas fa-plus"></i> Create Task
-                </button>
+                <div id="active-text" style="display:none;">
+                    <h3 style="margin:5px 0; font-size:16px; color:var(--usdt-green);">Verified Account</h3>
+                    <p style="margin:5px 0; font-size:12px; color:#888;">Withdrawals Enabled.</p>
+                </div>
             </div>
 
-            <div id="task-list" class="item-grid"></div>
-            
-             <h3 class="sub-section-title" style="margin-top: 40px;">My Campaigns</h3>
-             <div id="my-ads-list" class="item-grid"></div>
-        </section>
-
-        <!-- WITHDRAW SECTION (UPDATED) -->
-        <section id="withdraw-content" class="content-section">
-             <div class="card" style="text-align: center; position: relative; overflow: hidden;">
-                <!-- LOCK OVERLAY -->
-                <div id="withdraw-lock-screen" class="withdraw-lock-overlay">
-                    <i class="fas fa-lock withdraw-lock-icon"></i>
-                    <div class="withdraw-lock-title">LOCKED</div>
-                    <p class="withdraw-lock-msg">
-                        Withdrawal requires a <b>Referral Fee</b>.<br>
-                        You need <b>1 New Referral</b> to withdraw now.
-                    </p>
-                    <button class="form-button" onclick="document.querySelector('[data-tab-target=\'#home-content\']').click()">
-                        Invite Friend to Unlock
-                    </button>
+            <!-- Exchange Card -->
+            <div class="card-box exchange-card">
+                <div class="exchange-header">
+                    <span><i class="fa-solid fa-arrow-right-arrow-left"></i> EXCHANGE</span>
+                    <span class="exchange-rate">1 TON = 1.5$</span>
                 </div>
 
-                <i class="fas fa-wallet" style="font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.5;"></i>
-                <h2 style="margin: 0 0 5px; color: var(--text-title); font-size: 2rem;" id="withdrawPointBalance">0 Points</h2>
-                <p class="conversion-rate-display">10,000 Points = 1.00 TON</p>
-                
-                <form id="withdrawalForm" style="margin-top: 25px; text-align: left;">
-                     <div class="form-group">
-                        <label>Select Method</label>
-                        <select id="withdrawalMethod" required>
-                            <option value="Tonkeeper">Tonkeeper (Wallet)</option>
-                            <option value="Bkash">Bkash (Mobile Money)</option>
-                        </select>
-                     </div>
-                     <div class="form-group">
-                        <label>Amount (Points)</label>
-                        <input type="number" id="withdrawalAmount" placeholder="Min 200" required>
-                     </div>
-                     <div class="form-group">
-                        <label>Wallet Address / Number</label>
-                        <input type="text" id="accountDetails" placeholder="Enter details correctly" required>
-                     </div>
-                     
-                     <div id="withdraw-summary" style="display: none; background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-                        <div class="stat-row" style="margin: 0; background: transparent; padding: 5px 0;">
-                            <span>Min Withdraw:</span> <strong id="summary-min"></strong>
-                        </div>
-                        <div class="stat-row" style="margin: 0; background: transparent; padding: 5px 0;">
-                            <span>Receive Approx:</span> <strong id="summary-receive" style="color: var(--success-color);">0 TON</strong>
-                        </div>
-                        <div class="stat-row" style="margin: 0; background: transparent; padding: 5px 0;">
-                            <span>Referral Cost:</span> <strong style="color: var(--danger-color);">-1 Referral</strong>
-                        </div>
-                     </div>
-                </form>
-                <button id="submitWithdrawalBtn" class="form-button">Submit Withdrawal</button>
-             </div>
-        </section>
-    </main>
+                <div class="ex-input-group">
+                    <input type="number" id="ex-from-amount" placeholder="0" oninput="calculateExchange()">
+                    <div class="currency-badge" id="ex-from-badge">
+                        <i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON
+                    </div>
+                </div>
 
-    <!-- BOTTOM NAVIGATION -->
+                <div class="btn-swap" onclick="toggleExchangeDirection()">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+
+                <div class="ex-input-group">
+                    <input type="number" id="ex-to-amount" placeholder="0" readonly style="color:var(--usdt-green)">
+                    <div class="currency-badge" id="ex-to-badge">
+                        <i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT
+                    </div>
+                </div>
+
+                <p class="fee-info" id="ex-fee-text">Fee: 0.08 TON</p>
+                <button class="btn-primary" style="margin-top:10px; background:white; color:black;" onclick="executeExchange()">CONVERT</button>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+                <div class="stat-card">
+                    <i class="fa-solid fa-users" style="color:var(--primary-cyan); font-size:20px; margin-bottom:5px;"></i>
+                    <h3>Ref Count</h3>
+                    <p id="ref-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-wallet" style="color:var(--usdt-green); font-size:20px; margin-bottom:5px;"></i>
+                    <h3>Total Earned</h3>
+                    <p id="total-earned-display">$0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. VIDEO SECTION -->
+        <div id="section-video" class="section">
+            <div class="page-title">Cinema Mine</div>
+            
+            <!-- Loot Box -->
+            <div class="loot-box-card">
+                <div style="position:relative; z-index:2;">
+                    <i class="fa-solid fa-box-open loot-icon"></i>
+                    <h3 style="margin:0; color:#e0e0e0;">Mining Pool</h3>
+                    <div class="loot-balance" id="loot-balance">0.0000</div>
+                    <p style="font-size:11px; color:#aaa; margin-bottom:15px;">Min Claim: 0.25 TON</p>
+                    <button class="btn-loot" id="btn-claim-loot" onclick="claimLootBox()">
+                        CLAIM TON
+                    </button>
+                </div>
+            </div>
+
+            <div style="background:#111; border:1px solid #333; padding:15px; border-radius:12px; margin-bottom:20px; display:flex; gap:15px; align-items:center;">
+                <i class="fa-solid fa-robot" style="color:var(--ton-blue); font-size:24px;"></i>
+                <div>
+                    <strong style="color:white;">Auto-Miner Active</strong><br>
+                    <span style="font-size:11px; color:#888;">Rate: 0.05 TON/Hour while watching.</span>
+                </div>
+            </div>
+
+            <div id="video-list-container">
+                <p style="text-align:center; color:#666;">Loading videos...</p>
+            </div>
+        </div>
+
+        <!-- 3. REFERRAL SECTION -->
+        <div id="section-refer" class="section">
+            <div class="page-title">Affiliate</div>
+            <div class="card-box">
+                <i class="fa-solid fa-user-plus" style="font-size:30px; color:var(--usdt-green); margin-bottom:10px;"></i>
+                <h3 style="margin:0; color:white;">Invite & Earn USDT</h3>
+                <p style="color: var(--usdt-green); font-size: 24px; margin:10px 0;">0.1 USDT</p>
+                <p style="color: #666; font-size: 12px; line-height:1.4;">
+                    Per valid referral.<br>
+                    <span style="color:var(--danger-color)">Note:</span> Friend must complete Verification (20 Ads) to count.
+                </p>
+                
+                <div style="margin-top: 20px;">
+                    <input type="text" id="referral-link" readonly value="Loading..." style="text-align:center; margin-bottom:10px;">
+                    <button class="btn-primary" onclick="copyReferralLink()">
+                        Copy Link
+                    </button>
+                </div>
+            </div>
+
+            <div style="background:#1a1a1a; border:1px solid #333; padding:15px; border-radius:12px; margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:white;">
+                    <strong>Buy Referrals</strong>
+                    <span style="color:var(--ton-blue)">0.20 TON / Ref</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="number" id="buy-ref-amount" placeholder="Qty" style="margin-bottom:0;">
+                    <button class="btn-action" style="width:auto; margin:0; background:var(--ton-blue); border:none;" onclick="buyReferrals()">Buy</button>
+                </div>
+            </div>
+            
+            <h3 style="margin-top:20px; color:#fff; font-size:16px;">History</h3>
+            <div id="referral-list"></div>
+        </div>
+
+        <!-- 4. TASK SECTION -->
+        <div id="section-task" class="section">
+            <div class="page-title">Daily Ops</div>
+            
+            <div class="card-box" style="text-align:center;">
+                <h3 style="margin:0; color:white;">Ad Tasks</h3>
+                <p style="margin:5px 0 15px; color:#666; font-size:11px;">Earn 0.02 USDT per ad</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="btn-action" id="btn-ads-1" style="flex-direction:column; padding:15px;">
+                        <i class="fa-solid fa-play" style="color:var(--primary-cyan); font-size:20px;"></i>
+                        <span>Ad Network 1</span>
+                        <div class="ad-count" id="count-giga" style="font-size:10px; color:#666;">0 / 15</div>
+                    </div>
+                    <div class="btn-action" id="btn-ads-2" style="flex-direction:column; padding:15px;">
+                        <i class="fa-solid fa-play" style="color:var(--primary-cyan); font-size:20px;"></i>
+                        <span>Ad Network 2</span>
+                        <div class="ad-count" id="count-monetag" style="font-size:10px; color:#666;">0 / 15</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="color:#fff; font-size:16px;">One-Time Tasks</h3>
+            <div id="task-list-container"></div>
+        </div>
+
+        <!-- 5. WITHDRAW SECTION -->
+        <div id="section-withdraw" class="section">
+            <div class="page-title">Withdraw</div>
+            
+            <div class="tab-container">
+                <button class="tab-btn active usdt-tab" onclick="switchWithdrawTab('usdt')">USDT</button>
+                <button class="tab-btn ton-tab" onclick="switchWithdrawTab('ton')">TON</button>
+            </div>
+
+            <!-- USDT SECTION -->
+            <div id="withdraw-usdt-panel">
+                <p style="text-align:center; font-size:11px; color:#666; margin-bottom:10px;">Select Wallet & Amount</p>
+                
+                <select id="usdt-wallet-type" class="wallet-select">
+                    <option value="binance">Binance (BEP20)</option>
+                    <option value="payeer">Payeer</option>
+                </select>
+
+                <div class="withdraw-grid">
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 1.5, 20)">
+                        <div class="w-amount" style="color:var(--usdt-green)">$1.50</div>
+                        <div class="w-req">Req: 20 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 3.0, 35)">
+                        <div class="w-amount" style="color:var(--usdt-green)">$3.00</div>
+                        <div class="w-req">Req: 35 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 7.5, 70)">
+                        <div class="w-amount" style="color:var(--usdt-green)">$7.50</div>
+                        <div class="w-req">Req: 70 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('usdt', 15.0, 130)">
+                        <div class="w-amount" style="color:var(--usdt-green)">$15.00</div>
+                        <div class="w-req">Req: 130 Refs</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TON SECTION -->
+            <div id="withdraw-ton-panel" style="display:none;">
+                <p style="text-align:center; font-size:11px; color:#666; margin-bottom:10px;">Withdraw to TON Keeper</p>
+                
+                <select disabled class="wallet-select" style="opacity:0.7;">
+                    <option>TON Keeper Wallet</option>
+                </select>
+
+                <div class="withdraw-grid">
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 1, 20)">
+                        <div class="w-amount" style="color:var(--ton-blue)">1 TON</div>
+                        <div class="w-req">Req: 20 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 2, 35)">
+                        <div class="w-amount" style="color:var(--ton-blue)">2 TON</div>
+                        <div class="w-req">Req: 35 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 5, 70)">
+                        <div class="w-amount" style="color:var(--ton-blue)">5 TON</div>
+                        <div class="w-req">Req: 70 Refs</div>
+                    </div>
+                    <div class="withdraw-box" onclick="selectWithdrawPlan('ton', 10, 130)">
+                        <div class="w-amount" style="color:var(--ton-blue)">10 TON</div>
+                        <div class="w-req">Req: 130 Refs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="withdraw-confirm-area" style="display:none; background:#1a1a1a; padding:15px; border-radius:12px; border:1px solid #333; margin-top:20px;">
+                <h4 style="margin-top:0; color:white;">Confirm Withdrawal</h4>
+                <p id="selected-plan-text" style="font-size:13px; color:#aaa;">...</p>
+                <input type="text" id="wallet-address" placeholder="Enter Wallet Address" required>
+                <button class="btn-primary" onclick="submitWithdraw()">
+                    Confirm & Withdraw
+                </button>
+                <button class="btn-action" style="background:#333;" onclick="cancelWithdraw()">Cancel</button>
+            </div>
+            
+            <h3 style="color:#fff; font-size:16px; margin-top:25px;">Transactions</h3>
+            <div id="withdraw-history"></div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="#" class="bottom-nav-item active" data-tab-target="#home-content">
-            <i class="fas fa-home"></i> Home
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#video-content">
-            <i class="fas fa-play-circle"></i> Videos
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
-            <i class="fas fa-ad"></i> Ads
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#task-content">
-            <i class="fas fa-tasks"></i> Tasks
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content">
-            <i class="fas fa-wallet"></i> Withdraw
-        </a>
+        <button class="nav-btn active" onclick="navTo('home', this)">
+            <i class="fa-solid fa-house"></i> <span>Home</span>
+        </button>
+        <button class="nav-btn" onclick="navTo('video', this)">
+            <i class="fa-brands fa-youtube"></i> <span>Cinema</span>
+        </button>
+        <button class="nav-btn" onclick="navTo('refer', this)">
+            <i class="fa-solid fa-users"></i> <span>Refer</span>
+        </button>
+        <button class="nav-btn" onclick="navTo('task', this)">
+            <i class="fa-solid fa-clipboard-check"></i> <span>Task</span>
+        </button>
+        <button class="nav-btn" onclick="navTo('withdraw', this)">
+            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
+        </button>
     </nav>
 
-    <!-- MODALS -->
-
-    <!-- Success Modal -->
-    <div id="successModalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success-color); margin-bottom: 15px;"></i>
-            <h3 id="successModalTitle">Success!</h3>
-            <p id="successModalMessage" style="color: var(--text-body);">Action completed.</p>
+    <!-- Loaders & Overlays -->
+    <div class="overlay" id="loading-overlay">
+        <div class="modal">
+            <div class="spinner"></div>
+            <p id="loading-text">Processing...</p>
         </div>
     </div>
 
-    <!-- History Modal -->
-    <div id="historyModalOverlay" class="modal-overlay">
-        <div class="modal-content" style="max-height: 80vh; padding: 20px;">
-            <h3 style="margin-top:0;">History</h3>
-            <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
-            <button id="closeHistoryBtn" class="form-button" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
+    <div class="overlay" id="ad-timer-overlay">
+        <div class="modal" style="background:transparent; border:none; box-shadow:none;">
+            <div class="timer-circle" id="ad-timer-count">7</div>
+            <h3>Verifying Ad...</h3>
+            <p>Please wait.</p>
         </div>
     </div>
 
-    <!-- Create Task Modal -->
-    <div id="createTaskModalOverlay" class="modal-overlay">
-        <div class="task-modal">
-            <h3 style="text-align: center; margin-top: 0;">Buy Traffic</h3>
-            <div class="modal-body">
-                <!-- Admin Deposit Link -->
-                <div style="text-align: center; margin-bottom: 15px; background: var(--input-bg); padding: 10px; border-radius: 8px;">
-                     <p style="margin:0 0 5px; font-size:0.85em; color: var(--text-body);">Need TON? Contact Admin:</p>
-                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="padding: 8px; font-size: 0.8rem; background: var(--card-bg); border: 1px solid var(--primary-color); color: var(--primary-color);">
-                        <i class="fab fa-telegram"></i> Deposit TON
-                    </a>
-                </div>
-
-                <div class="form-group">
-                    <label>1. Select Package</label>
-                    <div id="ad-package-grid" class="item-grid"></div>
-                </div>
-                <div class="form-group">
-                    <label>2. Task Title</label>
-                    <input type="text" id="newTaskTitle" placeholder="e.g. Join Channel">
-                </div>
-                <div class="form-group">
-                     <label>3. Type</label>
-                     <select id="newTaskType">
-                         <option value="Telegram Bot">Telegram Bot</option>
-                         <option value="Telegram Channel">Telegram Channel</option>
-                         <option value="Telegram Group">Telegram Group</option>
-                         <option value="Facebook Like/Follow">Facebook Like/Follow</option>
-                         <option value="X (Twitter) Follow">X (Twitter) Follow</option>
-                         <option value="YouTube Subscribe">YouTube Subscribe</option>
-                         <option value="YouTube Watch">YouTube Watch</option>
-                     </select>
-                </div>
-                <div class="form-group">
-                    <label>4. Target URL</label>
-                    <input type="text" id="newTaskUrl" placeholder="https://...">
-                </div>
-            </div>
-            <button id="confirmCreateTaskBtn" class="form-button">Confirm Task</button>
-            <button id="closeTaskModalBtn" class="form-button" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-subtle); color: var(--text-body);">Cancel</button>
+    <div class="overlay" id="join-popup-overlay" style="z-index: 3000;">
+        <div class="modal">
+            <i class="fa-brands fa-telegram" style="font-size: 50px; color: #0088cc; margin-bottom: 15px;"></i>
+            <h3>Join Community</h3>
+            <p style="color:#aaa; font-size:13px;">Join our official channel to continue.</p>
+            <a href="https://t.me/coinlyTix_ton" target="_blank" class="btn-action" style="background:#0088cc; text-decoration:none;">
+                Join Channel
+            </a>
+            <button class="btn-primary" onclick="confirmJoin()" style="margin-top:10px;">
+                I Have Joined
+            </button>
         </div>
     </div>
 
-    <!-- Activation Modal -->
-    <div id="activationModalOverlay" class="modal-overlay">
-        <div class="activation-modal">
-            <h3>Welcome to NEW TON!</h3>
-            <div class="modal-body">
-                <p style="color: var(--text-body); margin-bottom: 20px;">Join our channels to activate your account.</p>
-                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
-                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="background: #2AABEE;"><i class="fab fa-telegram"></i> Join Channel</a>
-                    <a href="https://t.me/newTon_Gc" target="_blank" class="form-button" style="background: #2AABEE;"><i class="fab fa-telegram"></i> Join Group</a>
-                </div>
-            </div>
-            <button id="activateAccountBtn" class="form-button">Verify & Enter</button>
-        </div>
-    </div>
-
-    <!-- Task Confirmation Modal -->
-    <div id="taskConfirmModalOverlay" class="modal-overlay">
-        <div class="task-confirm-modal">
-            <h3>Confirm Completion</h3>
-            <div class="modal-body">
-                <p style="color: var(--text-body);">Did you complete the task correctly? Fake claims lead to bans.</p>
-            </div>
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button id="taskConfirmGoBackBtn" class="form-button" style="background:var(--disabled-bg); color: var(--text-body);">Back</button>
-                <button id="taskConfirmSubmitBtn" class="form-button">Yes, Completed</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Withdraw Confirmation Modal -->
-    <div id="withdrawConfirmModalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Confirm Withdraw</h3>
-            <p id="withdrawConfirmText" style="color: var(--text-body); margin-bottom: 20px;">...</p>
-            <div style="display:flex; gap:10px;">
-                <button id="withdrawConfirmCancelBtn" class="form-button" style="background:var(--disabled-bg); color: var(--text-body);">Cancel</button>
-                <button id="withdrawConfirmSubmitBtn" class="form-button">Confirm</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Youtube API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-
+    <!-- Logic -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, increment, collection, addDoc, serverTimestamp, query, where, orderBy, arrayUnion, limit } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
         const firebaseConfig = {
-            apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
-            authDomain: "newtube-ton.firebaseapp.com",
-            databaseURL: "https://newtube-ton-default-rtdb.firebaseio.com",
-            projectId: "newtube-ton",
-            storageBucket: "newtube-ton.firebasestorage.app",
-            messagingSenderId: "41011548816",
-            appId: "1:41011548816:web:9c27139d9487b144ecbe15",
-            measurementId: "G-EVVHZY2HD7"
+            apiKey: "AIzaSyD9emTmYE9e64M-2S-ZLxyw-iGvjgNZjSo",
+            authDomain: "coinly-tix-ton.firebaseapp.com",
+            databaseURL: "https://coinly-tix-ton-default-rtdb.firebaseio.com",
+            projectId: "coinly-tix-ton",
+            storageBucket: "coinly-tix-ton.firebasestorage.app",
+            messagingSenderId: "15585403987",
+            appId: "1:15585403987:web:0893a235f80303906612a6",
+            measurementId: "G-PRHPZ9BYM6"
         };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const tg = window.Telegram.WebApp;
 
-        let currentUser = null;
-        let isSubmittingWithdrawal = false;
+        tg.ready(); tg.expand();
+        tg.setHeaderColor('#050505'); tg.setBackgroundColor('#050505');
+
+        // YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let userId = null;
+        let userRef = null;
+        let userData = {};
         
-        // --- CONSTANTS ---
-        const REFERRAL_REWARD_POINTS = 40; 
-        const USER_CREATED_TASK_REWARD_POINTS = 3; 
-        const POINTS_TO_TON_RATE = 0.0001; 
+        let currentPlayingVideoId = null; 
+        let currentYTPlayer = null; 
+        let miningInterval = null;
+        let sessionEarning = 0;
+        let totalWatchedSeconds = 0; 
+        const MINING_RATE_PER_SEC = 0.05 / 3600; 
+        const MAX_DAILY_ADS = 15;
+        let allVideosData = {};
+        let exchangeDirection = 'ton-to-usdt'; // or 'usdt-to-ton'
 
-        const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 200 },
-            'Bkash': { min: 1000 },
+        const showLoader = (msg) => {
+            document.getElementById('loading-text').innerText = msg;
+            document.getElementById('loading-overlay').style.display = 'flex';
         };
+        const hideLoader = () => { document.getElementById('loading-overlay').style.display = 'none'; };
+        const formatVal = (num) => parseFloat(num).toFixed(4);
+        const formatMoney = (num) => parseFloat(num).toFixed(2);
 
-        const adPackages = [
-            { id: 1, tasks: 150, price: 0.1 }, 
-            { id: 2, tasks: 300, price: 0.2 },
-            { id: 3, tasks: 500, price: 0.4 }, 
-            { id: 4, tasks: 1000, price: 0.7 },
-            { id: 5, tasks: 2000, price: 1.2 }, 
-            { id: 6, tasks: 5000, price: 3.0 }
-        ];
+        if (tg.initDataUnsafe?.user) {
+            const user = tg.initDataUnsafe.user;
+            userId = user.id.toString();
+            userRef = doc(db, "users", userId);
+            const startParam = tg.initDataUnsafe.start_param;
 
-        const AD_TASKS_CONFIG = {
-            'ad1': { title: 'Watch Ads 1', reward: 2, limit: 5, provider: 'monetag' }, 
-            'ad2': { title: 'Watch Ads 2', reward: 2, limit: 5, provider: 'gigapub' }, 
-            'ad3': { title: 'Watch Ads 3', reward: 2, limit: 10, provider: 'random' }, 
-        };
-
-        let player;
-        let isVideoPlaying = false;
-        let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
-        let watchTimeSeconds = 0; 
-        const MINING_CLAIM_THRESHOLD = 5;
-        const POINTS_PER_SECOND = 1 / 3600; 
-
-        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: var(--bg-color); color: var(--text-title);"><div class="card"><h3>Account Banned</h3><p style="color: var(--danger-color);">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
-
-        async function cleanupAndGetUser(userId) {
-            const userRef = doc(db, 'users', userId);
-            const userSnap = await getDoc(userRef);
-            if (!userSnap.exists()) return null;
-            return { id: userSnap.id, ...userSnap.data() };
-        }
-
-        async function fetchAndUpdateCurrentUser() {
-            if (!currentUser?.id) return;
-            try {
-                const updatedUser = await cleanupAndGetUser(currentUser.id);
-                if (updatedUser) {
-                    currentUser = updatedUser;
-                    updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
+            onSnapshot(userRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    userData = docSnap.data();
+                    if(userData.isBanned) return document.body.innerHTML = "<h1>Banned</h1>";
+                    updateUI(userData);
+                    updateAdCounters(userData);
+                    
+                    if (!userData.hasJoinedChannel) document.getElementById('join-popup-overlay').style.display = 'flex';
+                    else document.getElementById('join-popup-overlay').style.display = 'none';
+                } else {
+                    const newUser = {
+                        userId: userId,
+                        firstName: user.first_name,
+                        username: user.username || 'N/A',
+                        balance: 0.0000, // TON Balance
+                        balanceUSDT: 0.00, // USDT Balance
+                        lootBoxBalance: 0.0000,
+                        referrals: 0,
+                        referredBy: startParam || null,
+                        totalEarned: 0.0000,
+                        isBanned: false,
+                        joinDate: serverTimestamp(),
+                        completedTasks: [],
+                        watchedVideos: [],
+                        lastAdDate: new Date().toISOString().split('T')[0],
+                        gigaAdsCount: 0,
+                        monetagAdsCount: 0,
+                        lastWithdrawDate: null,
+                        isAccountActive: false, 
+                        verificationAdsWatched: 0,
+                        hasJoinedChannel: false
+                    };
+                    setDoc(userRef, newUser);
                 }
-            } catch (error) { console.error("Error fetching/cleaning current user:", error); }
-        }
-
-        async function checkAndResetDailies() {
-            if (!currentUser) return;
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-            const lastDailyReset = currentUser.lastDailyReset?.toDate();
-            const lastDailyResetTime = lastDailyReset ? new Date(lastDailyReset.getFullYear(), lastDailyReset.getMonth(), lastDailyReset.getDate()).getTime() : 0;
-
-            if (!lastDailyReset || lastDailyResetTime < today) {
-                const updates = {
-                    'lastDailyReset': serverTimestamp(),
-                    'claimedDailyRewards': [],
-                    'dailyAdViews_ad1': 0,
-                    'dailyAdViews_ad2': 0,
-                    'dailyAdViews_ad3': 0
-                };
-                try {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    await updateDoc(userRef, updates);
-                    await fetchAndUpdateCurrentUser();
-                } catch (error) { console.error("Error resetting daily limits:", error); }
-            }
-        }
-
-        async function initializeUser(tgUser, referrerCode) {
-            const userId = String(tgUser.id);
-            const userRef = doc(db, 'users', userId);
-            let userSnap = await getDoc(userRef);
-            let isNewUser = false;
-
-            if (!userSnap.exists()) {
-                isNewUser = true;
-                const defaultUserData = {
-                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
-                    spentReferrals: 0, // NEW: For withdraw lock
-                    completedTasks: [],
-                    lastDailyReset: serverTimestamp(),
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
-                    isBanned: false,
-                    isActivated: false,
-                    lifetimeAdsWatched: 0, 
-                    claimedDailyRewards: [],
-                    dailyAdViews_ad1: 0, dailyAdViews_ad2: 0, dailyAdViews_ad3: 0
-                };
-                if (referrerCode && referrerCode !== userId) {
-                    defaultUserData.referredBy = referrerCode;
-                }
-                await setDoc(userRef, defaultUserData);
-                userSnap = await getDoc(userRef);
-            }
-
-            const userData = userSnap.data();
-            if (userData?.isBanned === true) { showBanScreen(); return null; }
-            
-            const updates = {};
-            if (userData.tonBalance === undefined) updates.tonBalance = 0;
-            if (userData.pointBalance === undefined) updates.pointBalance = 0;
-            if (userData.isActivated === undefined) updates.isActivated = false;
-            if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
-            if (userData.spentReferrals === undefined) updates.spentReferrals = 0; // Ensure field exists
-            if (userData.dailyAdViews_ad1 === undefined) {
-                 updates.dailyAdViews_ad1 = 0;
-                 updates.dailyAdViews_ad2 = 0;
-                 updates.dailyAdViews_ad3 = 0;
-            }
-
-            if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
-
-            currentUser = { id: userSnap.id, ...userSnap.data() };
-            // Note: We do not call fetchAndUpdateCurrentUser here to save a read, we have the data
-            
-            if(currentUser.isActivated) {
-                await checkAndResetDailies();
-            }
-
-            generateReferralLink(currentUser.id);
-
-            return { isNewUser, isActivated: currentUser.isActivated };
-        }
-
-        function updateBalanceUI(tonBalance, pointBalance) {
-            document.getElementById('userTONBalanceDisplay').textContent = parseFloat(tonBalance || 0).toFixed(4);
-            document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
-        }
-
-        function generateReferralLink(userId) {
-            const referralLink = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
-            document.getElementById('popoverReferralLinkInput').value = referralLink;
-            document.getElementById('homeReferralLinkInput').value = referralLink;
-        }
-
-        async function grantReward(rewards, transactionInfo = {}) {
-             if (!currentUser) return;
-             const userRef = doc(db, 'users', currentUser.id);
-             const updates = {};
-
-             if (rewards.points && rewards.points > 0) {
-                 updates.pointBalance = increment(rewards.points);
-                 updates.lifetimePointsEarned = increment(rewards.points);
-             }
-
-             if (Object.keys(updates).length > 0) {
-                await updateDoc(userRef, updates);
-             }
-
-             if (transactionInfo.type) {
-                 const transactionData = {
-                    userId: currentUser.id, type: transactionInfo.type, details: transactionInfo.details || '',
-                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points
-                };
-                await addDoc(collection(db, 'transactions'), transactionData);
-             }
-
-             await fetchAndUpdateCurrentUser();
-        }
-
-        function setupAdsToEarn() {
-            const container = document.getElementById('ad-task-list');
-            container.innerHTML = '';
-            if (!currentUser) return;
-
-            Object.entries(AD_TASKS_CONFIG).forEach(([key, task]) => {
-                const viewsToday = currentUser[`dailyAdViews_${key}`] || 0;
-                const viewsLeft = task.limit - viewsToday;
-                const isCompleted = viewsLeft <= 0;
-                const card = document.createElement('div');
-                card.className = 'ad-task-card';
-                card.innerHTML = `
-                    <div class="ad-task-card-info">
-                        <h4>${task.title}</h4>
-                        <p>Reward: <span class="task-reward-points" style="color:var(--success-color); font-weight:bold;">${task.reward} Points</span> per ad</p>
-                        <p style="font-size:0.8em;color:var(--text-body)">Progress: ${viewsToday} / ${task.limit} ads</p>
-                    </div>
-                    <button class="ad-task-button" data-task-id="${key}" ${isCompleted ? 'disabled' : ''}>
-                        ${isCompleted ? 'Done' : `View (${viewsLeft})`}
-                    </button>`;
-                container.appendChild(card);
             });
+
+            loadVideos();
+            loadTasks();
+            loadHistory();
+
+        } else {
+            document.body.innerHTML = "<h3 style='color:white; text-align:center;'>Open in Telegram</h3>";
         }
 
-        document.getElementById('ad-task-list').addEventListener('click', async (e) => {
-            const button = e.target.closest('.ad-task-button');
-            if (!button || button.disabled) return;
+        function updateUI(data) {
+            document.getElementById('user-name').innerText = data.firstName;
+            document.getElementById('user-id-display').innerText = "ID: " + data.userId;
+            
+            // Dual Balance
+            document.getElementById('balance').innerText = formatVal(data.balance || 0);
+            document.getElementById('balance-usdt').innerText = formatMoney(data.balanceUSDT || 0);
+            
+            document.getElementById('ref-count').innerText = data.referrals || 0;
+            // Total earned usually tracks one currency, lets show estimate in USD
+            const approxTotal = (data.totalEarned || 0) * 1.5 + (data.totalEarnedUSDT || 0); 
+            document.getElementById('total-earned-display').innerText = "$" + formatMoney(approxTotal);
+            
+            document.getElementById('referral-link').value = `https://t.me/Coinlytix_bot/coinlyTon?startapp=${userId}`;
 
-            const taskId = button.dataset.taskId;
-            const taskConfig = AD_TASKS_CONFIG[taskId];
-            const blockingOverlay = document.getElementById('adBlockingOverlay');
-            const timerDisplay = document.getElementById('adOverlayTimer');
-
-            blockingOverlay.style.display = 'flex';
-            let countdown = 5;
-            timerDisplay.textContent = countdown;
-
-            try {
-                if (taskConfig.provider === 'monetag') await showMonetagAd();
-                else if (taskConfig.provider === 'gigapub') await showGigaPubAd();
-                else if (taskConfig.provider === 'random') await showRandomAd();
-            } catch (err) {
-                console.error("Ad load error:", err);
+            const lootBal = data.lootBoxBalance || 0;
+            document.getElementById('loot-balance').innerText = formatVal(lootBal);
+            
+            const lootBtn = document.getElementById('btn-claim-loot');
+            if (lootBal >= 0.25) {
+                lootBtn.disabled = false; lootBtn.innerText = "CLAIM TON"; lootBtn.style.opacity = '1';
+            } else {
+                lootBtn.disabled = true; lootBtn.innerText = `Need 0.25 TON`; lootBtn.style.opacity = '0.5';
             }
 
-            const blockingTimer = setInterval(async () => {
-                countdown--;
-                timerDisplay.textContent = countdown;
+            // Verification
+            const watched = data.verificationAdsWatched || 0;
+            const target = 20;
+            const pct = Math.min((watched / target) * 100, 100);
+            document.getElementById('verify-progress-bar').style.width = `${pct}%`;
+            document.getElementById('verify-progress-text').innerText = `${watched} / ${target} Ads`;
 
-                if (countdown <= 0) {
-                    clearInterval(blockingTimer);
-                    blockingOverlay.style.display = 'none'; 
+            if (data.isAccountActive) {
+                document.getElementById('status-badge').className = 'status-badge status-active';
+                document.getElementById('status-badge').innerText = 'Active 🟢';
+                document.getElementById('activation-card').classList.add('active-account');
+                document.getElementById('activation-text').style.display = 'none';
+                document.getElementById('active-text').style.display = 'block';
+            }
+        }
 
-                    button.textContent = 'Claiming...';
-                    button.disabled = true;
+        // --- EXCHANGE LOGIC ---
+        window.toggleExchangeDirection = function() {
+            exchangeDirection = exchangeDirection === 'ton-to-usdt' ? 'usdt-to-ton' : 'ton-to-usdt';
+            const fromBadge = document.getElementById('ex-from-badge');
+            const toBadge = document.getElementById('ex-to-badge');
+            const feeText = document.getElementById('ex-fee-text');
+            const fromInp = document.getElementById('ex-from-amount');
+            
+            if(exchangeDirection === 'ton-to-usdt') {
+                fromBadge.innerHTML = '<i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON';
+                toBadge.innerHTML = '<i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT';
+                feeText.innerText = 'Fee: 0.08 TON';
+            } else {
+                fromBadge.innerHTML = '<i class="fa-solid fa-dollar-sign" style="color:var(--usdt-green)"></i> USDT';
+                toBadge.innerHTML = '<i class="fa-regular fa-gem" style="color:var(--ton-blue)"></i> TON';
+                feeText.innerText = 'Fee: 0.10 USDT';
+            }
+            fromInp.value = '';
+            calculateExchange();
+        };
 
+        window.calculateExchange = function() {
+            const input = parseFloat(document.getElementById('ex-from-amount').value);
+            const outputField = document.getElementById('ex-to-amount');
+            
+            if(!input || input <= 0) { outputField.value = ''; return; }
+
+            if(exchangeDirection === 'ton-to-usdt') {
+                // Fee 0.08 TON. Rate 1.5
+                if(input <= 0.08) { outputField.value = '0'; return; }
+                const net = input - 0.08;
+                outputField.value = (net * 1.5).toFixed(2);
+            } else {
+                // Fee 0.1 USDT. Rate 1.5$ = 1 TON (so divide by 1.5)
+                if(input <= 0.1) { outputField.value = '0'; return; }
+                const net = input - 0.1;
+                outputField.value = (net / 1.5).toFixed(4);
+            }
+        };
+
+        window.executeExchange = async function() {
+            const input = parseFloat(document.getElementById('ex-from-amount').value);
+            if(!input || input <= 0) return;
+            
+            if(exchangeDirection === 'ton-to-usdt') {
+                if((userData.balance || 0) < input) return tg.showAlert("Insufficient TON");
+                const usdtAmt = parseFloat(document.getElementById('ex-to-amount').value);
+                if(usdtAmt <= 0) return tg.showAlert("Amount too low for fees");
+                
+                if(!confirm(`Swap ${input} TON to ${usdtAmt} USDT?`)) return;
+                showLoader("Swapping...");
+                try {
+                    await updateDoc(userRef, {
+                        balance: increment(-input),
+                        balanceUSDT: increment(usdtAmt)
+                    });
+                    hideLoader(); tg.showAlert("Success!"); document.getElementById('ex-from-amount').value = '';
+                } catch(e) { hideLoader(); tg.showAlert("Error"); }
+                
+            } else {
+                if((userData.balanceUSDT || 0) < input) return tg.showAlert("Insufficient USDT");
+                const tonAmt = parseFloat(document.getElementById('ex-to-amount').value);
+                if(tonAmt <= 0) return tg.showAlert("Amount too low");
+
+                if(!confirm(`Swap ${input} USDT to ${tonAmt} TON?`)) return;
+                showLoader("Swapping...");
+                try {
+                    await updateDoc(userRef, {
+                        balanceUSDT: increment(-input),
+                        balance: increment(tonAmt)
+                    });
+                    hideLoader(); tg.showAlert("Success!"); document.getElementById('ex-from-amount').value = '';
+                } catch(e) { hideLoader(); tg.showAlert("Error"); }
+            }
+        };
+
+        // --- VERIFICATION ADS & REFERRAL REWARD ---
+        window.watchVerificationAd = function() {
+            if (userData.isAccountActive || (userData.verificationAdsWatched || 0) >= 20) return;
+
+            // Timer UI
+            let secondsLeft = 7;
+            const overlay = document.getElementById('ad-timer-overlay');
+            const timerText = document.getElementById('ad-timer-count');
+            overlay.style.display = 'flex';
+            timerText.innerText = secondsLeft;
+
+            // Show Ad
+            const isGiga = Math.random() > 0.5;
+            try {
+                if(isGiga && typeof window.showGiga === 'function') window.showGiga().catch(e=>{});
+                else if (typeof window.show_10135525 === 'function') window.show_10135525().catch(e=>{});
+            } catch(e){}
+
+            const timerInterval = setInterval(async () => {
+                secondsLeft--;
+                timerText.innerText = secondsLeft;
+
+                if (secondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    overlay.style.display = 'none';
+                    
                     try {
-                        const updateField = `dailyAdViews_${taskId}`;
-                        await grantReward({ points: taskConfig.reward }, { type: 'Ad Reward', details: `Watched Ad from ${taskConfig.title}`});
+                        const newCount = (userData.verificationAdsWatched || 0) + 1;
+                        // Reward user 0.02 USDT per ad
+                        let updateData = { 
+                            verificationAdsWatched: increment(1),
+                            balanceUSDT: increment(0.02) 
+                        };
                         
-                        // Increment Daily and Lifetime Stats
-                        const userRef = doc(db, 'users', currentUser.id);
-                        await updateDoc(userRef, { 
-                            [updateField]: increment(1),
-                            lifetimeAdsWatched: increment(1) 
-                        });
-                        
-                        // REFERRAL REWARD LOGIC (40 PTS)
-                        // Trigger only if referredBy exists and this is the 10th ad
-                        const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
-                        if (currentAds === 10 && currentUser.referredBy) {
-                            const referrerRef = doc(db, 'users', currentUser.referredBy);
-                            await runTransaction(db, async (t) => {
-                                const rDoc = await t.get(referrerRef);
-                                if(rDoc.exists()) {
-                                    // ONLY GIVE POINTS HERE. REFERRAL COUNT INCREMENT IS MOVED TO ACTIVATION.
-                                    t.update(referrerRef, { 
-                                        pointBalance: increment(REFERRAL_REWARD_POINTS)
-                                    });
-                                    t.set(doc(collection(db, 'transactions')), {
-                                        userId: currentUser.referredBy,
-                                        type: 'Referral Reward',
-                                        details: `User ${currentUser.id} reached 10 ads`,
-                                        pointAmount: REFERRAL_REWARD_POINTS,
-                                        status: 'Completed',
-                                        createdAt: serverTimestamp()
-                                    });
-                                }
-                            });
+                        // ACTIVATION LOGIC
+                        if (newCount >= 20) {
+                            updateData.isAccountActive = true;
+                            tg.showAlert("Verified! You can now withdraw.");
+                            
+                            // CREDIT REFERRER
+                            if(userData.referredBy && userData.referredBy !== userId) {
+                                const uplinerRef = doc(db, "users", userData.referredBy);
+                                // Upliner gets 0.1 USDT and +1 Ref count (Ref count logic usually done at start, but payment here)
+                                // If we already incremented ref count at start, just pay here. 
+                                // Let's check init logic: I removed payment from init.
+                                updateDoc(uplinerRef, {
+                                    balanceUSDT: increment(0.10),
+                                    referrals: increment(1) // Increment count ONLY when active
+                                });
+                            }
+                        } else {
+                            tg.showAlert(`Ad watched! +0.02 USDT. (${newCount}/20)`);
                         }
 
-                        await fetchAndUpdateCurrentUser();
-                        showSuccessModal("Reward Earned", "You earned points.");
-                        setupAdsToEarn();
-                    } catch (error) {
-                        console.error("Error updating ad views:", error);
-                        alert("Failed to update progress.");
-                        setupAdsToEarn();
-                    }
+                        await updateDoc(userRef, updateData);
+                        
+                    } catch (e) { console.log(e); }
                 }
             }, 1000);
-        });
+        };
 
-        // ... (Task Functions skipped for brevity, identical to previous) ...
-        async function fetchAndRenderTasks(containerId, count) {
-            const taskListContainer = document.getElementById(containerId);
-            taskListContainer.innerHTML = '<div class="loader"></div>';
-            if (!currentUser) return;
-            try {
-                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(count));
-                const snapshot = await getDocs(q);
-                taskListContainer.innerHTML = '';
-                let tasksRendered = 0;
-                snapshot.forEach(docSnap => {
-                    const task = docSnap.data();
-                    if (task.creatorId === currentUser.id || currentUser.completedTasks?.includes(docSnap.id)) return;
-                    const isLimitReached = (task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit;
-                    if (isLimitReached) return;
-                    const card = document.createElement('div');
-                    card.className = 'task-card';
-                    card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${(task.rewardPoints || 0)} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
-                    taskListContainer.appendChild(card);
-                    tasksRendered++;
-                });
-                if (tasksRendered === 0) taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: var(--text-body);">No new tasks.</p>';
-            } catch (error) { taskListContainer.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Error loading tasks.</p>'; }
+        window.confirmJoin = async function() {
+            showLoader("Checking...");
+            setTimeout(async () => {
+                await updateDoc(userRef, { hasJoinedChannel: true });
+                hideLoader();
+            }, 1000);
+        };
+
+        // --- DAILY ADS ---
+        document.getElementById('btn-ads-1').onclick = () => watchDailyAd('gigaAdsCount', window.showGiga);
+        document.getElementById('btn-ads-2').onclick = () => watchDailyAd('monetagAdsCount', window.show_10135525);
+
+        async function watchDailyAd(field, adFunc) {
+            const today = new Date().toISOString().split('T')[0];
+            if (userData[field] >= MAX_DAILY_ADS && userData.lastAdDate === today) return tg.showAlert("Daily limit reached");
+
+            if (typeof adFunc === 'function') {
+                showLoader("Loading Ad...");
+                adFunc().then(() => { hideLoader(); processAdReward(field); })
+                .catch(() => { hideLoader(); tg.showAlert("Ad failed load."); });
+            } else { tg.showAlert("Ad not ready."); }
         }
 
-        document.getElementById('task-list').addEventListener('click', async (e) => {
-            const button = e.target.closest('.task-button');
-            if (!button || button.disabled) return;
-            const { taskId, taskUrl, state } = button.dataset;
-            if (state === 'start') {
-                tg.openLink(taskUrl);
-                button.disabled = true; let countdown = 6;
-                button.textContent = `Wait ${countdown}s`;
-                const timer = setInterval(() => {
-                    countdown--; button.textContent = `Wait ${countdown}s`;
-                    if (countdown <= 0) { clearInterval(timer); button.disabled = false; button.textContent = 'Claim Reward'; button.dataset.state = 'claim'; }
-                }, 1000);
-            } else if (state === 'claim') { showTaskConfirmationModal(taskId, taskUrl, button); }
-        });
-        
-        function showTaskConfirmationModal(taskId, taskUrl, buttonElement) {
-            const modal = document.getElementById('taskConfirmModalOverlay');
-            document.getElementById('taskConfirmGoBackBtn').onclick = () => { tg.openLink(taskUrl); modal.classList.remove('show'); };
-            document.getElementById('taskConfirmSubmitBtn').onclick = async () => { modal.classList.remove('show'); await processTaskClaim(taskId, buttonElement); };
-            modal.classList.add('show');
-        }
-
-        async function processTaskClaim(taskId, button) {
-             const taskCard = button.closest('.task-card');
-             button.disabled = true; button.textContent = 'Verifying...';
-             try {
-                const taskDocSnap = await getDoc(doc(db, 'tasks', taskId));
-                if (!taskDocSnap.exists()) throw new Error("Task not found.");
-                const rewardAmount = taskDocSnap.data().rewardPoints || 0;
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const taskRef = doc(db, 'tasks', taskId);
-                    const userDoc = await t.get(userRef);
-                    if (userDoc.data().completedTasks?.includes(taskId)) throw "ALREADY_COMPLETED";
-                    t.update(userRef, { completedTasks: arrayUnion(taskId) });
-                    t.update(taskRef, { completionCount: increment(1) });
-                });
-                await grantReward({ points: rewardAmount }, { type: 'Task Reward', details: 'Completed user-created task' });
-                showSuccessModal("Task Verified!", `${rewardAmount} Points added.`);
-                if (taskCard) taskCard.remove();
-                await fetchAndUpdateCurrentUser();
-            } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
-        }
-
-        // ... (Create Task & Promo Code - No Changes needed) ...
-        let selectedPackage = null;
-        function renderTaskPackages() {
-            const grid = document.getElementById('ad-package-grid');
-            grid.innerHTML = adPackages.map(pkg => `<div class="ad-package-card" data-pkg-id="${pkg.id}" data-tasks="${pkg.tasks}" data-price="${pkg.price}"><h4 style="margin:0;color:var(--text-title);">${pkg.tasks} Tasks</h4><p style="margin:5px 0 0;color:var(--primary-color);font-weight:bold;">${pkg.price.toFixed(1)} TON</p></div>`).join('');
-            grid.querySelectorAll('.ad-package-card').forEach(card => card.addEventListener('click', () => { grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); selectedPackage = { tasks: parseInt(card.dataset.tasks), price: parseFloat(card.dataset.price) }; }));
-        }
-        document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
-             const type = document.getElementById('newTaskType').value;
-             const url = document.getElementById('newTaskUrl').value.trim();
-             const title = document.getElementById('newTaskTitle').value.trim();
-             const btn = document.getElementById('confirmCreateTaskBtn');
-             if(!selectedPackage || !title || !url) { alert("Please complete details."); return; }
-             if(currentUser.tonBalance < selectedPackage.price) { alert("Insufficient TON Balance."); return; }
-             btn.disabled = true; btn.textContent = "Creating...";
-             try {
-                 await runTransaction(db, async (t) => {
-                     const userRef = doc(db, 'users', currentUser.id);
-                     const userDoc = await t.get(userRef);
-                     if(userDoc.data().tonBalance < selectedPackage.price) throw new Error("Insufficient Balance");
-                     t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
-                     t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Task Creation', details: `Purchased ${selectedPackage.tasks} tasks`, amount: -selectedPackage.price, createdAt: serverTimestamp() });
-                     t.set(doc(collection(db, 'tasks')), { creatorId: currentUser.id, title, type, url, limit: selectedPackage.tasks, completionCount: 0, rewardPoints: USER_CREATED_TASK_REWARD_POINTS, isApproved: true, createdAt: serverTimestamp() });
-                 });
-                 await fetchAndUpdateCurrentUser(); showSuccessModal("Task Created!", "Live now."); document.getElementById('createTaskModalOverlay').classList.remove('show'); renderMyAds();
-                 document.getElementById('newTaskTitle').value = ""; document.getElementById('newTaskUrl').value = ""; selectedPackage = null;
-             } catch(e) { alert("Error: " + e.message); } finally { btn.disabled = false; btn.textContent = "Confirm Task"; }
-        });
-        async function renderMyAds() {
-            const container = document.getElementById('my-ads-list');
-            if (!currentUser) return;
-            try {
-                const q = query(collection(db, 'tasks'), where("creatorId", "==", currentUser.id), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-                if (snapshot.empty) { container.innerHTML = '<p style="text-align:center;">No active campaigns.</p>'; return; }
-                container.innerHTML = snapshot.docs.map(docSnap => { const ad = docSnap.data(); const isCompleted = (ad.completionCount || 0) >= ad.limit; return `<div class="user-ad-item task-card"><div style="width:100%"><h4 style="margin:0 0 5px;">${ad.title}</h4><p class="progress-text">Progress: ${(ad.completionCount || 0)} / ${ad.limit}</p><p class="status-text ${isCompleted ? 'completed' : 'active'}">${isCompleted ? 'Finished' : 'Running'}</p></div></div>`; }).join('');
-            } catch (error) {}
-        }
-
-        // --- WITHDRAWAL LOGIC ---
-        function setupWithdrawalUI() {
-            if (!currentUser) return;
-            const balance = currentUser.pointBalance || 0;
-            document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
-            const methodSelect = document.getElementById('withdrawalMethod');
-            const amountInput = document.getElementById('withdrawalAmount');
-            const lockScreen = document.getElementById('withdraw-lock-screen');
-
-            // LOCK LOGIC: 1 Referral = 1 Withdraw.
-            // Available = Total Referrals - Spent Referrals
-            const totalReferrals = currentUser.referralCount || 0;
-            const spentReferrals = currentUser.spentReferrals || 0;
-            const availableWithdrawals = totalReferrals - spentReferrals;
-
-            if (availableWithdrawals < 1) {
-                // LOCKED
-                lockScreen.classList.add('active');
-            } else {
-                // UNLOCKED
-                lockScreen.classList.remove('active');
-            }
-
-            const updateSummary = () => {
-                const method = methodSelect.value;
-                const amount = parseFloat(amountInput.value);
-                const config = WITHDRAWAL_CONFIG[method];
-                const summaryBox = document.getElementById('withdraw-summary');
-
-                if (!config) { summaryBox.style.display = 'none'; return; }
-
-                document.getElementById('summary-min').textContent = `${config.min} Points`;
-                
-                if (!isNaN(amount) && amount > 0) {
-                    const receiveAmount = amount * POINTS_TO_TON_RATE;
-                    document.getElementById('summary-receive').textContent = `${receiveAmount.toFixed(4)} TON`;
-                } else {
-                    document.getElementById('summary-receive').textContent = '0.0000 TON';
-                }
-                summaryBox.style.display = 'block';
+        async function processAdReward(field) {
+            const today = new Date().toISOString().split('T')[0];
+            let updates = {
+                balanceUSDT: increment(0.02), // Reward USDT now
+                lastAdDate: today
             };
-
-            methodSelect.addEventListener('change', updateSummary);
-            amountInput.addEventListener('input', updateSummary);
-            updateSummary();
+            if(userData.lastAdDate !== today) { updates.gigaAdsCount=0; updates.monetagAdsCount=0; updates[field]=1; }
+            else { updates[field] = increment(1); }
+            
+            await updateDoc(userRef, updates);
+            tg.showAlert("+0.02 USDT");
         }
 
-        document.getElementById('submitWithdrawalBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            if(isSubmittingWithdrawal) return;
-
-            const method = document.getElementById('withdrawalMethod').value;
-            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
-            const details = document.getElementById('accountDetails').value.trim();
-            const config = WITHDRAWAL_CONFIG[method];
-
-            if (!details) { alert('Please enter your account details.'); return; }
-            if (isNaN(amount) || amount <= 0) { alert('Please enter a valid amount.'); return; }
-            if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
-            if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient Points balance.'); return; }
-
-            showWithdrawalConfirmationModal(amount, method, details);
-        });
-
-        function showWithdrawalConfirmationModal(amount, method, details) {
-            const modal = document.getElementById('withdrawConfirmModalOverlay');
-            const tonAmount = (amount * POINTS_TO_TON_RATE).toFixed(4);
-            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method} (${details})? Approx ${tonAmount} TON.\nThis will cost 1 Referral.`;
-
-            const cancelBtn = document.getElementById('withdrawConfirmCancelBtn');
-            const confirmBtn = document.getElementById('withdrawConfirmSubmitBtn');
-            const close = () => modal.classList.remove('show');
-
-            const handleConfirm = async () => { close(); await processWithdrawal(amount, method, details); };
-            cancelBtn.onclick = close; confirmBtn.onclick = handleConfirm;
-            modal.classList.add('show');
+        function updateAdCounters(data) {
+            const today = new Date().toISOString().split('T')[0];
+            let g = data.gigaAdsCount || 0, m = data.monetagAdsCount || 0;
+            if(data.lastAdDate !== today) { g=0; m=0; }
+            document.getElementById('count-giga').innerText = `${g} / ${MAX_DAILY_ADS}`;
+            document.getElementById('count-monetag').innerText = `${m} / ${MAX_DAILY_ADS}`;
         }
 
-        async function processWithdrawal(amount, method, details) {
-            isSubmittingWithdrawal = true;
-            try {
-                const tonAmount = amount * POINTS_TO_TON_RATE;
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const userDoc = await t.get(userRef);
-                    const uData = userDoc.data();
-
-                    if ((uData.pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
+        // --- VIDEO MINING ---
+        function loadVideos() {
+            const container = document.getElementById('video-list-container');
+            onSnapshot(collection(db, "videos"), (snapshot) => {
+                container.innerHTML = '';
+                if(snapshot.empty) return container.innerHTML='<p>No videos.</p>';
+                snapshot.forEach(doc => {
+                    const vid = doc.data();
+                    const ytId = getYouTubeID(vid.videoUrl);
+                    if(!ytId) return;
+                    allVideosData[doc.id] = { ...vid, ytId };
                     
-                    // TRANSACTIONAL LOCK CHECK
-                    const totalRef = uData.referralCount || 0;
-                    const spentRef = uData.spentReferrals || 0;
-                    if ((totalRef - spentRef) < 1) throw new Error("Withdrawal Locked. You need 1 new referral.");
-
-                    const requestData = {
-                        userId: currentUser.id, telegramUsername: currentUser.telegramUsername,
-                        method, details, status: 'pending', createdAt: serverTimestamp(),
-                        pointAmount: amount, tonAmount: tonAmount
-                    };
-                    t.set(doc(collection(db, 'withdrawals')), requestData);
-                    
-                    // Deduct Points AND Increment Spent Referrals
-                    t.update(userRef, { 
-                        pointBalance: increment(-amount),
-                        spentReferrals: increment(1) 
-                    });
+                    const div = document.createElement('div');
+                    div.className = 'video-card';
+                    div.innerHTML = `
+                        <div id="wrapper-${doc.id}" class="video-wrapper" onclick="playVideo('${doc.id}')">
+                            <img src="${vid.thumbnail}">
+                            <div class="play-button-overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div style="padding:10px;">
+                            <h4 style="margin:0 0 5px; color:#fff; font-size:14px;">${vid.title}</h4>
+                            <div id="status-${doc.id}" style="font-size:11px; color:#888;">Tap to Mine</div>
+                        </div>`;
+                    container.appendChild(div);
                 });
-                await fetchAndUpdateCurrentUser();
-                document.getElementById('withdrawalForm').reset();
-                showSuccessModal("Request Sent!", `Withdrawal pending.`);
-            } catch (error) {
-                alert(`Error: ${error.message}`);
-            } finally {
-                isSubmittingWithdrawal = false;
-                setupWithdrawalUI(); // Re-check lock status
-            }
-        }
-
-        // ... (History, Video, Promo logic identical to original) ...
-        async function showCombinedHistory() {
-             const historyContainer = document.getElementById('combined-history-list');
-             document.getElementById('historyModalOverlay').classList.add('show');
-             historyContainer.innerHTML = '<div class="loader"></div>';
-             try {
-                const [wSnap, tSnap] = await Promise.all([ 
-                    getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id), orderBy("createdAt", "desc"), limit(25))),
-                    getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id), orderBy("createdAt", "desc"), limit(25)))
-                ]);
-                let combinedList = [];
-                wSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: true, timestamp: doc.data().createdAt }));
-                tSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: false, timestamp: doc.data().createdAt }));
-                combinedList.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-                
-                if(combinedList.length === 0) { historyContainer.innerHTML = '<p>No history.</p>'; return; }
-                historyContainer.innerHTML = combinedList.map(data => {
-                    const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString() : '';
-                    let title = data.type || "Transaction";
-                    let amt = `+${data.pointAmount}`;
-                    let color = "text-green";
-                    if(data.isWithdrawalDoc || data.type === 'Withdrawal') {
-                         title = "Withdraw " + data.status;
-                         amt = `${data.pointAmount}`;
-                         color = "text-red";
-                    } else if (data.amount < 0) { amt = `${data.amount}`; color = "text-red"; }
-                    return `<div class="history-item" style="display:flex; justify-content:space-between;"><div style="text-align:left;"><strong style="display:block;">${title}</strong><small>${date}</small></div><strong class="${color}">${amt}</strong></div>`;
-                }).join('');
-             } catch(e) { historyContainer.innerHTML = 'Error loading history.'; }
-        }
-        
-        document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
-        document.getElementById('closeHistoryBtn').addEventListener('click', () => document.getElementById('historyModalOverlay').classList.remove('show'));
-        document.getElementById('show-create-task-btn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.add('show'));
-        document.getElementById('closeTaskModalBtn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.remove('show'));
-        document.querySelectorAll('.bottom-nav-item').forEach(link => {
-            link.addEventListener('click', async (e) => {
-                e.preventDefault();
-                const targetId = link.dataset.tabTarget;
-                if (!currentUser) return;
-                document.querySelectorAll('.bottom-nav-item.active, .content-section.active').forEach(el => el.classList.remove('active'));
-                link.classList.add('active');
-                document.querySelector(targetId).classList.add('active');
-                if(targetId === '#task-content') { renderTaskPackages(); await renderMyAds(); await fetchAndRenderTasks('task-list', 50); }
-                else if(targetId === '#withdraw-content') setupWithdrawalUI();
-                else if(targetId === '#ads-content') setupAdsToEarn();
-                else if(targetId === '#video-content') initializeVideoSection();
-                else if(targetId === '#home-content') renderHomeUI();
             });
-        });
-        
-        // --- PROMO CODE LOGIC ---
-        async function fetchPromoHistory() {
-            const list = document.getElementById('promo-history-list');
-            if(!currentUser) return;
-            try {
-                 const q = query(collection(db, 'transactions'), where('userId', '==', currentUser.id), where('type', '==', 'Promo Code'), orderBy('createdAt', 'desc'), limit(5));
-                 const snap = await getDocs(q);
-                 if(snap.empty) { list.innerHTML = '<p style="text-align:center;">No claims yet.</p>'; return; }
-                 list.innerHTML = snap.docs.map(d => `<div class="history-item" style="display:flex; justify-content:space-between;"><span style="color:var(--text-body);">${d.data().details}</span><span style="color:var(--success-color);">+${d.data().amount}</span></div>`).join('');
-            } catch(e) {}
         }
-        document.getElementById('claimPromoBtn').addEventListener('click', async () => {
-            const code = document.getElementById('promoCodeInput').value.trim();
-            if (!code) return;
-            const btn = document.getElementById('claimPromoBtn'); btn.disabled = true; btn.textContent = "Checking...";
-            try {
-                await runTransaction(db, async (t) => {
-                    const promoRef = doc(db, 'promo_codes', code);
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const promoDoc = await t.get(promoRef);
-                    if (!promoDoc.exists()) throw new Error("Invalid Code.");
-                    const p = promoDoc.data();
-                    if (!p.isActive || p.currentUses >= p.maxUses || (p.usersClaimed && p.usersClaimed.includes(currentUser.id))) throw new Error("Code invalid or used.");
-                    if (p.rewardType === 'ton') t.update(userRef, { tonBalance: increment(p.rewardAmount) });
-                    else t.update(userRef, { pointBalance: increment(p.rewardAmount) });
-                    t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
-                    t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Promo Code', details: `Code: ${code}`, amount: p.rewardAmount, createdAt: serverTimestamp() });
-                    return p;
-                }).then((p) => { showSuccessModal("Success!", `Received ${p.rewardAmount}.`); document.getElementById('promoCodeInput').value=""; fetchPromoHistory(); });
-            } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
-        });
 
-        // --- VIDEO LOGIC ---
-        function updateMiningUI() {
-            document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
-            const claimBtn = document.getElementById('claimMinedPointsBtn');
-            if (minedBalance >= MINING_CLAIM_THRESHOLD) { claimBtn.disabled = false; claimBtn.textContent = `Claim ${minedBalance.toFixed(2)}`; } 
-            else { claimBtn.disabled = true; claimBtn.textContent = `Claim (Min ${MINING_CLAIM_THRESHOLD})`; }
-        }
-        async function initializeVideoSection() {
-            updateMiningUI();
-            const videoListContainer = document.getElementById('video-list-container');
-            videoListContainer.innerHTML = '<div class="loader"></div>';
-            try {
-                const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(25));
-                const snap = await getDocs(q);
-                videoListContainer.innerHTML = '';
-                if (snap.empty) { videoListContainer.innerHTML = '<p>No videos.</p>'; return; }
-                snap.forEach(docSnap => {
-                    const vid = docSnap.data();
-                    const videoId = vid.videoUrl.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/)[7];
-                    if(!videoId) return;
-                    const div = document.createElement('div'); div.className = 'video-list-item';
-                    div.innerHTML = `<div class="video-thumb"><img src="${vid.thumbnailUrl}" style="width:100%; height:100%; object-fit:cover;"><i class="fas fa-play video-play-icon"></i></div><div class="video-info"><button>Watch Now</button></div>`;
-                    div.addEventListener('click', () => { 
-                         document.getElementById('active-video-player-wrapper').style.display = 'block'; 
-                         if(!player) player = new YT.Player('yt-player', { height: '100%', width: '100%', videoId: videoId, playerVars: { 'playsinline': 1, 'autoplay': 1 }, events: { 'onStateChange': (e) => { isVideoPlaying = (e.data == YT.PlayerState.PLAYING); } } }); 
-                         else player.loadVideoById(videoId);
-                         document.getElementById('active-video-player-wrapper').scrollIntoView({ behavior: 'smooth' });
-                    });
-                    videoListContainer.appendChild(div);
-                });
-            } catch (e) {}
-        }
-        setInterval(() => {
-            if (isVideoPlaying) {
-                minedBalance += POINTS_PER_SECOND;
-                localStorage.setItem('minedBalance', minedBalance);
-                updateMiningUI();
-                watchTimeSeconds++;
-                if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) { if(player && player.pauseVideo) player.pauseVideo(); showRandomAd(); }
+        window.playVideo = function(id) {
+            if(currentPlayingVideoId === id) return;
+            if(currentPlayingVideoId) {
+                // reset old
+                if(currentYTPlayer) currentYTPlayer.destroy();
+                stopMining();
+                const oldWrap = document.getElementById(`wrapper-${currentPlayingVideoId}`);
+                if(oldWrap) oldWrap.innerHTML = `<img src="${allVideosData[currentPlayingVideoId].thumbnail}"><div class="play-button-overlay"><i class="fa-solid fa-play"></i></div>`;
+                document.getElementById(`status-${currentPlayingVideoId}`).innerText = "Stopped";
+                document.getElementById(`status-${currentPlayingVideoId}`).style.color = "#888";
             }
-        }, 1000);
-        document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
-            if (minedBalance < MINING_CLAIM_THRESHOLD) return;
-            const btn = document.getElementById('claimMinedPointsBtn'); btn.disabled = true;
-            try {
-                const pointsToClaim = Math.floor(minedBalance); 
-                const remaining = minedBalance - pointsToClaim;
-                await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
-                minedBalance = remaining; localStorage.setItem('minedBalance', minedBalance); updateMiningUI();
-                showSuccessModal("Claimed!", `+${pointsToClaim} Points added.`);
-            } catch (e) { alert("Error claiming."); } finally { btn.disabled = false; }
-        });
-
-        // --- MISC UTILS ---
-        function showSuccessModal(title, message) {
-            document.getElementById('successModalTitle').textContent = title;
-            document.getElementById('successModalMessage').innerHTML = message;
-            document.getElementById('successModalOverlay').classList.add('show');
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            setTimeout(() => { document.getElementById('successModalOverlay').classList.remove('show'); }, 3000);
-        }
-        const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
-        const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
-        async function showRandomAd() { try { await [showMonetagAd, showGigaPubAd][Math.floor(Math.random()*2)](); } catch(err) {} }
-        function setupUserIdDisplay(userId) {
-            const c = document.getElementById('header-user-id'); c.querySelector('span').textContent = `ID: ${userId}`;
-            c.addEventListener('click', () => { navigator.clipboard.writeText(userId); showSuccessModal("Copied!", `ID Copied.`); });
-        }
-        function renderHomeUI() { if (!currentUser) return; document.getElementById('homeTotalReferrals').textContent = currentUser.referralCount || 0; }
-        document.getElementById('profile-info-btn').addEventListener('click', (e) => { e.stopPropagation(); if(currentUser) { document.getElementById('popover-total-referrals').textContent = currentUser.referralCount||0; document.getElementById('popover-total-points-earned').textContent = Math.floor(currentUser.lifetimePointsEarned||0); document.getElementById('popover-total-tasks-done').textContent = currentUser.completedTasks?.length||0; } document.getElementById('profile-popover').classList.toggle('show'); });
-        document.addEventListener('click', (e) => { if (!document.getElementById('profile-popover').contains(e.target) && !document.getElementById('profile-info-btn').contains(e.target)) document.getElementById('profile-popover').classList.remove('show'); });
-        document.getElementById('homeCopyReferralLinkBtn').addEventListener('click', () => { const b=document.getElementById('homeCopyReferralLinkBtn'); navigator.clipboard.writeText(b.previousElementSibling.value); b.querySelector('i').className='fas fa-check'; setTimeout(()=>b.querySelector('i').className='fas fa-copy',2000); });
-        
-        function showActivationModal() { document.getElementById('activationModalOverlay').classList.add('show'); document.querySelector('main').style.display = 'none'; document.querySelector('.bottom-nav').style.display = 'none'; }
-        
-        async function handleUserActivation() {
-            const activateBtn = document.getElementById('activateAccountBtn');
-            activateBtn.disabled = true; activateBtn.textContent = 'Activating...';
-            try {
-                const userRef = doc(db, 'users', currentUser.id);
-                // 1. Activate User
-                await updateDoc(userRef, { isActivated: true });
-                currentUser.isActivated = true;
-                
-                // 2. REFERRAL UNLOCK LOGIC (Moved here)
-                // Just the act of joining/activating counts as a referral for the unlock system
-                if (currentUser.referredBy) {
-                    const referrerRef = doc(db, 'users', currentUser.referredBy);
-                    await runTransaction(db, async (t) => {
-                         const rDoc = await t.get(referrerRef);
-                         if(rDoc.exists()) {
-                             t.update(referrerRef, { referralCount: increment(1) });
-                             // Note: No points given here, points are given at 10 ads
-                         }
-                    });
+            
+            currentPlayingVideoId = id;
+            const wrap = document.getElementById(`wrapper-${id}`);
+            wrap.innerHTML = `<div id="yt-player-${id}" style="width:100%; height:100%;"></div>`;
+            wrap.onclick = null;
+            
+            currentYTPlayer = new YT.Player(`yt-player-${id}`, {
+                videoId: allVideosData[id].ytId,
+                playerVars: { autoplay:1, playsinline:1, rel:0 },
+                events: {
+                    onStateChange: (e) => {
+                        const status = document.getElementById(`status-${id}`);
+                        if(e.data === 1) { // Playing
+                            startMining();
+                            status.innerText = "Mining Active ⚡"; status.style.color = "var(--ton-blue)";
+                        } else {
+                            stopMining();
+                            status.innerText = "Paused"; status.style.color = "#e74c3c";
+                        }
+                    }
                 }
+            });
+        };
 
-                document.getElementById('activationModalOverlay').classList.remove('show');
-                document.querySelector('main').style.display = 'block';
-                document.querySelector('.bottom-nav').style.display = 'flex';
-                showSuccessModal("Account Activated!", "Welcome to NEW TON!");
-                await checkAndResetDailies();
-                renderHomeUI();
-            } catch (error) { alert("Activation failed."); activateBtn.disabled = false; activateBtn.textContent = 'Verify & Enter'; }
+        function startMining() {
+            if(miningInterval) return;
+            miningInterval = setInterval(() => {
+                sessionEarning += MINING_RATE_PER_SEC;
+                document.getElementById('loot-balance').innerText = (parseFloat(document.getElementById('loot-balance').innerText) + MINING_RATE_PER_SEC).toFixed(6);
+                totalWatchedSeconds++;
+                if(totalWatchedSeconds % 600 === 0) {
+                    // Random ad popup logic if needed
+                }
+                if(totalWatchedSeconds % 10 === 0) {
+                    updateDoc(userRef, { lootBoxBalance: increment(sessionEarning) });
+                    sessionEarning = 0;
+                }
+            }, 1000);
         }
-        document.getElementById('activateAccountBtn').addEventListener('click', handleUserActivation);
 
-        async function main() {
+        function stopMining() {
+            clearInterval(miningInterval); miningInterval=null;
+            if(sessionEarning > 0) updateDoc(userRef, { lootBoxBalance: increment(sessionEarning) });
+            sessionEarning = 0;
+        }
+
+        window.claimLootBox = async () => {
+            if((userData.lootBoxBalance||0) < 0.25) return tg.showAlert("Need 0.25 TON");
+            await updateDoc(userRef, { balance: increment(userData.lootBoxBalance), lootBoxBalance: 0 });
+            tg.showAlert("Claimed!");
+        };
+
+        const getYouTubeID = (url) => { const m = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/); return (m&&m[2].length===11)?m[2]:null; };
+
+        // --- WITHDRAW LOGIC ---
+        let currentWithdrawType = 'usdt'; // or 'ton'
+        let selectedPlan = null;
+
+        window.switchWithdrawTab = (type) => {
+            currentWithdrawType = type;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if(type === 'usdt') {
+                document.querySelector('.usdt-tab').classList.add('active');
+                document.getElementById('withdraw-usdt-panel').style.display = 'block';
+                document.getElementById('withdraw-ton-panel').style.display = 'none';
+            } else {
+                document.querySelector('.ton-tab').classList.add('active');
+                document.getElementById('withdraw-usdt-panel').style.display = 'none';
+                document.getElementById('withdraw-ton-panel').style.display = 'block';
+            }
+            cancelWithdraw();
+        };
+
+        window.selectWithdrawPlan = (type, amount, refs) => {
+            if(!userData.isAccountActive) return tg.showAlert("Account Inactive. Watch 20 Ads.");
+            
+            document.querySelectorAll('.withdraw-box').forEach(b => {
+                b.classList.remove('selected', 'selected-usdt', 'selected-ton');
+            });
+            // highlight logic handled loosely here, ideally pass event
+            
+            selectedPlan = { type, amount, refs };
+            document.getElementById('withdraw-confirm-area').style.display = 'block';
+            document.getElementById('selected-plan-text').innerText = `Withdraw: ${amount} ${type.toUpperCase()}`;
+            
+            const walletInput = document.getElementById('wallet-address');
+            if(type === 'ton') walletInput.placeholder = "TON Keeper Address (UQ...)";
+            else walletInput.placeholder = "USDT (BEP20) or Payeer Address";
+        };
+
+        window.cancelWithdraw = () => {
+            document.getElementById('withdraw-confirm-area').style.display = 'none';
+            selectedPlan = null;
+        };
+
+        window.submitWithdraw = async () => {
+            if(!selectedPlan) return;
+            const wallet = document.getElementById('wallet-address').value;
+            if(wallet.length < 5) return tg.showAlert("Invalid Wallet");
+            
+            if(selectedPlan.type === 'ton') {
+                if((userData.balance||0) < selectedPlan.amount) return tg.showAlert("Insufficient TON");
+            } else {
+                if((userData.balanceUSDT||0) < selectedPlan.amount) return tg.showAlert("Insufficient USDT");
+            }
+            
+            if((userData.referrals||0) < selectedPlan.refs) return tg.showAlert(`Need ${selectedPlan.refs} Referrals`);
+
+            // Wallet type for USDT
+            let method = "TON Keeper";
+            if(selectedPlan.type === 'usdt') {
+                method = document.getElementById('usdt-wallet-type').value.toUpperCase();
+            }
+
+            showLoader("Submitting...");
             try {
-                if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<div class="card" style="margin:20px;text-align:center;"><h3>Error</h3><p>Open in Telegram.</p></div>`; return; }
-                tg.ready(); tg.expand(); tg.setHeaderColor('#FFFFFF'); 
-                const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
-                if (!initStatus) return;
-                setupUserIdDisplay(currentUser.id);
-                if (!initStatus.isActivated) showActivationModal();
-                else { renderHomeUI(); fetchPromoHistory(); }
-            } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
+                const reqData = {
+                    userId, address: wallet, amount: selectedPlan.amount, currency: selectedPlan.type.toUpperCase(),
+                    method: method, status: "pending", date: serverTimestamp()
+                };
+                
+                let updateData = {};
+                if(selectedPlan.type === 'ton') updateData.balance = increment(-selectedPlan.amount);
+                else updateData.balanceUSDT = increment(-selectedPlan.amount);
+
+                await addDoc(collection(db, "withdrawals"), reqData);
+                await updateDoc(userRef, updateData);
+                
+                hideLoader(); tg.showAlert("Request Sent!"); cancelWithdraw();
+            } catch(e) { hideLoader(); tg.showAlert("Error"); }
+        };
+
+        function loadHistory() {
+            const list = document.getElementById('withdraw-history');
+            onSnapshot(query(collection(db, "withdrawals"), where("userId","==",userId), orderBy("date","desc"), limit(10)), (snap) => {
+                list.innerHTML = '';
+                if(snap.empty) return list.innerHTML = '<p style="text-align:center;color:#666;">No transactions.</p>';
+                snap.forEach(d => {
+                    const w = d.data();
+                    const color = w.status === 'pending' ? '#f1c40f' : (w.status === 'paid' ? '#2ecc71' : '#e74c3c');
+                    list.innerHTML += `
+                        <div class="task-item" style="border-left:3px solid ${color}">
+                            <div>
+                                <div style="font-weight:bold; color:white;">${w.amount} ${w.currency}</div>
+                                <div style="font-size:10px; color:#666;">${w.method}</div>
+                            </div>
+                            <span style="color:${color}; font-size:11px; text-transform:uppercase;">${w.status}</span>
+                        </div>`;
+                });
+            });
+            
+            // Referrals
+            onSnapshot(query(collection(db, "users"), where("referredBy","==",userId), limit(10)), (snap) => {
+                const rList = document.getElementById('referral-list');
+                rList.innerHTML = '';
+                if(snap.empty) return rList.innerHTML = '<p style="text-align:center;color:#666;">No referrals.</p>';
+                snap.forEach(d => {
+                    const u = d.data();
+                    const isActive = u.isAccountActive ? '<span style="color:var(--usdt-green)">Active</span>' : '<span style="color:var(--danger-color)">Pending</span>';
+                    rList.innerHTML += `
+                        <div class="task-item">
+                            <span style="color:white; font-size:13px;">${u.firstName}</span>
+                            <div style="font-size:11px;">${isActive}</div>
+                        </div>`;
+                });
+            });
         }
-        main();
+        
+        // Refer link
+        window.copyReferralLink = () => {
+            const inp = document.getElementById('referral-link');
+            inp.select(); navigator.clipboard.writeText(inp.value);
+            tg.showAlert("Copied");
+        };
+        
+        window.buyReferrals = async () => {
+             const amt = parseInt(document.getElementById('buy-ref-amount').value);
+             if(!amt || amt < 1) return;
+             const cost = amt * 0.20; // Cost in TON
+             if((userData.balance||0) < cost) return tg.showAlert("Need more TON");
+             if(!confirm(`Pay ${cost.toFixed(2)} TON for ${amt} refs?`)) return;
+             await updateDoc(userRef, { balance: increment(-cost), referrals: increment(amt) });
+             tg.showAlert("Purchased!");
+        };
+        
+        function loadTasks() {
+             // Task loading logic same as previous, just ensure styling matches
+             const container = document.getElementById('task-list-container');
+             onSnapshot(collection(db, "tasks"), (snap) => {
+                 container.innerHTML = '';
+                 snap.forEach(d => {
+                     if(userData.completedTasks?.includes(d.id)) return;
+                     const t = d.data();
+                     const div = document.createElement('div');
+                     div.className = 'task-item';
+                     div.innerHTML = `
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <i class="${t.icon||'fa-brands fa-telegram'}" style="color:var(--primary-cyan)"></i>
+                            <div><div style="color:white; font-size:13px;">${t.title}</div><div style="color:var(--usdt-green); font-size:10px;">+0.10 TON</div></div>
+                        </div>
+                        <button class="btn-action" style="width:auto; margin:0; padding:5px 10px; font-size:11px;">Start</button>
+                     `;
+                     div.querySelector('button').onclick = () => {
+                         window.open(t.link, '_blank');
+                         // Verification logic simulates here
+                         setTimeout(async()=>{
+                             await updateDoc(userRef, { balance: increment(0.10), completedTasks: arrayUnion(d.id) });
+                             tg.showAlert("Done!");
+                         }, 2000);
+                     };
+                     container.appendChild(div);
+                 });
+             });
+        }
+    </script>
+    
+    <script>
+        function navTo(id, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-'+id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+        }
     </script>
 </body>
 </html>
