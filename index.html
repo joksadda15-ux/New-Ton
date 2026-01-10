@@ -32,27 +32,28 @@
     <!-- --- AD INTEGRATIONS END --- -->
 
     <style>
+        /* --- UPDATE 1: THEME (BLACK, GREEN, WHITE) --- */
         :root {
-            --bg-color: #F2F4F8;       
-            --card-bg: #FFFFFF;        
-            --header-bg: #FFFFFF;      
+            --bg-color: #050505;        /* Deep Black */
+            --card-bg: #111111;         /* Dark Gray Card */
+            --header-bg: #000000;       /* Pure Black Header */
             
-            --primary-color: #0098EA;  
-            --primary-hover: #007acc;
+            --primary-color: #00FF88;   /* Neon Green */
+            --primary-hover: #00cc6a;
             
-            --text-title: #1F2937;     
-            --text-body: #6B7280;      
-            --text-highlight: #0098EA; 
+            --text-title: #FFFFFF;      /* White */
+            --text-body: #B0B0B0;       /* Light Gray */
+            --text-highlight: #00FF88; 
             
-            --border-subtle: #E5E7EB;  
-            --input-bg: #F9FAFB;       
+            --border-subtle: #333333;   /* Dark Border */
+            --input-bg: #1A1A1A;        /* Dark Input */
             
-            --success-color: #10B981;
-            --danger-color: #EF4444;   
-            --disabled-bg: #E5E7EB;
-            --disabled-text: #9CA3AF;
+            --success-color: #00FF88;
+            --danger-color: #FF3333;   
+            --disabled-bg: #222222;
+            --disabled-text: #555555;
 
-            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.05); 
+            --shadow-card: 0 4px 20px rgba(0, 255, 136, 0.05); /* Slight Green Glow */
             --radius-card: 16px;
             --radius-btn: 12px;
         }
@@ -78,12 +79,28 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
             height: 64px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 15px rgba(0, 255, 136, 0.1);
         }
         
         .header-left { display: flex; align-items: center; gap: 12px; }
         .site-branding { display: flex; flex-direction: column; justify-content: center; }
-        .site-title { font-size: 1.25rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+        
+        /* --- UPDATE 2: LOGO ANIMATION --- */
+        .site-title { 
+            font-size: 1.35rem; 
+            color: var(--primary-color); 
+            font-weight: 900; 
+            margin: 0; 
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+            animation: neonPulse 2s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(0, 255, 136, 1), 0 0 5px #fff; }
+        }
+
         .user-id-display { 
             font-size: 0.75rem; color: var(--text-body); 
             font-family: 'Roboto Mono', monospace; 
@@ -112,9 +129,9 @@
             color: var(--text-title); 
             width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: background 0.2s;
+            cursor: pointer; transition: all 0.2s;
         }
-        .header-icon-btn:hover { background: #e5e7eb; }
+        .header-icon-btn:hover { background: #333; border-color: var(--primary-color); }
         .header-icon-btn i { font-size: 1.1rem; }
 
         /* --- CARDS --- */
@@ -125,7 +142,7 @@
             border: 1px solid var(--border-subtle); 
             box-shadow: var(--shadow-card);
             margin-bottom: 20px;
-            transition: transform 0.2s;
+            transition: transform 0.2s, border-color 0.2s;
             position: relative;
         }
         
@@ -133,11 +150,12 @@
             font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); 
             font-weight: 700; border-left: 4px solid var(--primary-color); 
             padding-left: 12px; 
+            text-transform: uppercase;
         }
         .sub-section-title { font-size: 1.1rem; color: var(--text-title); margin: 24px 0 16px; font-weight: 600; }
 
         /* --- BUTTONS --- */
-        .form-button, .task-button, .ad-task-button, .daily-task-button, .channel-btn { 
+        .form-button, .task-button, .daily-task-button, .channel-btn { 
             width: 100%; 
             padding: 14px; 
             border: none; 
@@ -145,15 +163,19 @@
             font-weight: 600; font-size: 0.95rem;
             cursor: pointer; 
             background-color: var(--primary-color); 
-            color: #fff; 
-            transition: background-color 0.2s, transform 0.1s; 
+            color: #000; /* Black text on green button for contrast */
+            transition: all 0.2s; 
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 152, 234, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
         }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
         
-        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); }
+        .form-button:hover:not(:disabled) { 
+            background-color: var(--primary-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 136, 0.5);
+        }
         .form-button:active:not(:disabled) { transform: scale(0.98); }
         
         .form-button:disabled, .task-button:disabled, .ad-task-button:disabled { 
@@ -161,6 +183,43 @@
             color: var(--disabled-text); 
             cursor: not-allowed; 
             box-shadow: none;
+        }
+
+        /* --- UPDATE 4: HIGH VFX AD BUTTONS --- */
+        .ad-task-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #00FF88 0%, #009950 100%);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+        }
+
+        .ad-task-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .ad-task-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+        }
+
+        .ad-task-button:hover::before {
+            left: 100%;
         }
 
         /* --- FORMS & INPUTS --- */
@@ -177,7 +236,7 @@
             font-family: 'Inter', sans-serif;
             transition: border-color 0.2s;
         }
-        input:focus { border-color: var(--primary-color); background-color: #fff; }
+        input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(0,255,136,0.2); }
         input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
 
         /* --- REFERRAL --- */
@@ -211,31 +270,12 @@
         }
         .bottom-nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
         .bottom-nav-item:hover { color: var(--text-title); }
-        .bottom-nav-item.active { color: var(--primary-color); }
+        .bottom-nav-item.active { color: var(--primary-color); text-shadow: 0 0 8px rgba(0,255,136,0.5); }
 
         /* --- TABS --- */
         .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
         .content-section.active { display: block; }
         @keyframes fadeEffect { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- WITHDRAW LOCK STYLES (UPDATED) --- */
-        .withdraw-lock-overlay {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(2px);
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 50;
-            border-radius: var(--radius-card);
-            text-align: center;
-            padding: 20px;
-        }
-        .withdraw-lock-overlay.active { display: flex; }
-        .withdraw-lock-icon { font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.7; }
-        .withdraw-lock-title { color: var(--danger-color); font-weight: 800; font-size: 1.5rem; margin-bottom: 10px; }
-        .withdraw-lock-msg { color: var(--text-body); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
 
         /* --- SPECIFIC COMPONENTS --- */
         .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
@@ -253,13 +293,14 @@
         .video-thumb { position: relative; height: 160px; }
         .video-play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 3rem; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .video-info { padding: 16px; }
-        .video-info button { width: 100%; padding: 10px; background: var(--primary-color); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; }
+        .video-info button { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--primary-color); border-radius: 8px; color: var(--primary-color); font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .video-info button:hover { background: var(--primary-color); color: #000; }
 
-        .conversion-rate-display { background: rgba(0, 152, 234, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; }
+        .conversion-rate-display { background: rgba(0, 255, 136, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(0,255,136,0.2); }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
         .modal-overlay.show { display: flex; }
-        .modal-content, .task-modal, .activation-modal, .task-confirm-modal { background-color: var(--card-bg); color: var(--text-title); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column; max-height: 80vh; }
+        .modal-content, .task-modal, .activation-modal, .task-confirm-modal { background-color: var(--card-bg); color: var(--text-title); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; }
         .task-modal, .activation-modal { text-align: left; }
         .modal-body { overflow-y: auto; padding-right: 5px; margin-bottom: 10px; }
         
@@ -269,7 +310,7 @@
         .text-red { color: var(--danger-color) !important; }
         .text-primary { color: var(--text-title) !important; }
 
-        .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--primary-color); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .profile-popover.show { display: block; }
         .popover-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
         .popover-item strong { color: var(--text-body); }
@@ -277,7 +318,7 @@
 
         #ad-package-grid { grid-template-columns: repeat(2, 1fr); }
         .ad-package-card { text-align: center; cursor: pointer; border: 2px solid transparent; background: var(--input-bg); }
-        .ad-package-card.selected { border-color: var(--primary-color); background: rgba(0, 152, 234, 0.05); }
+        .ad-package-card.selected { border-color: var(--primary-color); background: rgba(0, 255, 136, 0.05); }
 
         .blocking-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -294,6 +335,30 @@
         .user-ad-item .status-text.completed { color: var(--success-color); }
         .user-ad-item .status-text.active { color: var(--primary-color); }
 
+        /* --- UPDATE 3: VIDEO VISUALS --- */
+        .mining-card {
+            background: linear-gradient(180deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
+            border: 1px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .mining-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1);
+            pointer-events: none;
+            border-radius: var(--radius-card);
+        }
+        .mining-icon-anim {
+            animation: pulseIcon 2s infinite;
+        }
+        @keyframes pulseIcon {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px var(--primary-color); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
     </style>
 </head>
 <body>
@@ -309,6 +374,7 @@
     <header class="main-header">
         <div class="header-left">
             <div class="site-branding">
+                <!-- UPDATE 2: Logo Animation added in CSS -->
                 <h1 class="site-title">NEW TON</h1>
                 <div class="user-id-display" id="header-user-id">
                     <span>ID: ...</span> <i class="fas fa-copy" style="font-size: 10px;"></i>
@@ -381,21 +447,22 @@
              </div>
         </section>
         
-        <!-- VIDEO SECTION -->
+        <!-- VIDEO SECTION (UPDATE 3) -->
         <section id="video-content" class="content-section">
              <h3 class="section-title">Watch & Mine</h3>
              
+             <!-- Updated Mining Card Visuals -->
              <div class="mining-card" style="text-align: center;">
                  <div style="margin-bottom: 15px;">
-                    <i class="fas fa-hammer" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
-                    <h2 style="margin: 0; color: var(--text-title);"><span id="minedPointsDisplay">0.0000</span> Pts</h2>
-                    <p style="margin: 5px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: 1 Point / Hour</p>
+                    <i class="fas fa-hammer mining-icon-anim" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                    <h2 style="margin: 0; color: var(--text-title); font-size: 2.2rem; text-shadow: 0 0 10px rgba(0,255,136,0.3);"><span id="minedPointsDisplay">0.0000</span> Pts</h2>
+                    <p style="margin: 10px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: <b style="color: var(--primary-color)">2 Points / Hour</b></p>
                  </div>
                  <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 5 Points)</button>
              </div>
 
              <!-- Player Container -->
-             <div id="active-video-player-wrapper" style="display:none; width:100%; padding-bottom:56.25%; background:#000; position:relative; margin-bottom:20px; border-radius:12px; overflow:hidden; border: 1px solid var(--border-subtle);">
+             <div id="active-video-player-wrapper" style="display:none; width:100%; padding-bottom:56.25%; background:#000; position:relative; margin-bottom:20px; border-radius:12px; overflow:hidden; border: 1px solid var(--border-subtle); box-shadow: 0 0 15px rgba(0,255,136,0.2);">
                  <div id="yt-player" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
              </div>
              
@@ -405,7 +472,7 @@
              </div>
         </section>
 
-        <!-- ADS SECTION -->
+        <!-- ADS SECTION (UPDATE 4 - Button VFX in CSS) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Watch Ads</h3>
              <div id="ad-task-list" class="item-grid"></div>
@@ -429,25 +496,18 @@
              <div id="my-ads-list" class="item-grid"></div>
         </section>
 
-        <!-- WITHDRAW SECTION (UPDATED) -->
+        <!-- WITHDRAW SECTION (UPDATE 5 - LOCK REMOVED) -->
         <section id="withdraw-content" class="content-section">
-             <div class="card" style="text-align: center; position: relative; overflow: hidden;">
-                <!-- LOCK OVERLAY -->
-                <div id="withdraw-lock-screen" class="withdraw-lock-overlay">
-                    <i class="fas fa-lock withdraw-lock-icon"></i>
-                    <div class="withdraw-lock-title">LOCKED</div>
-                    <p class="withdraw-lock-msg">
-                        Withdrawal requires a <b>Referral Fee</b>.<br>
-                        You need <b>1 New Referral</b> to withdraw now.
-                    </p>
-                    <button class="form-button" onclick="document.querySelector('[data-tab-target=\'#home-content\']').click()">
-                        Invite Friend to Unlock
-                    </button>
-                </div>
+             <div class="card" style="text-align: center; position: relative;">
+                
+                <!-- LOCK OVERLAY REMOVED HERE -->
 
                 <i class="fas fa-wallet" style="font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.5;"></i>
                 <h2 style="margin: 0 0 5px; color: var(--text-title); font-size: 2rem;" id="withdrawPointBalance">0 Points</h2>
                 <p class="conversion-rate-display">10,000 Points = 1.00 TON</p>
+                <p style="color: var(--text-body); font-size: 0.85rem; margin-bottom: 20px;">
+                    Requirement: You need <b>1 New Referral</b> per withdrawal.
+                </p>
                 
                 <form id="withdrawalForm" style="margin-top: 25px; text-align: left;">
                      <div class="form-group">
@@ -660,7 +720,9 @@
         let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
         let watchTimeSeconds = 0; 
         const MINING_CLAIM_THRESHOLD = 5;
-        const POINTS_PER_SECOND = 1 / 3600; 
+        
+        // UPDATE 3: Mining Rate logic updated to 2 points per hour
+        const POINTS_PER_SECOND = 2 / 3600; 
 
         function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: var(--bg-color); color: var(--text-title);"><div class="card"><h3>Account Banned</h3><p style="color: var(--danger-color);">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
@@ -715,7 +777,7 @@
                 isNewUser = true;
                 const defaultUserData = {
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
-                    spentReferrals: 0, // NEW: For withdraw lock
+                    spentReferrals: 0, 
                     completedTasks: [],
                     lastDailyReset: serverTimestamp(),
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
@@ -740,7 +802,7 @@
             if (userData.pointBalance === undefined) updates.pointBalance = 0;
             if (userData.isActivated === undefined) updates.isActivated = false;
             if (userData.lifetimeAdsWatched === undefined) updates.lifetimeAdsWatched = 0;
-            if (userData.spentReferrals === undefined) updates.spentReferrals = 0; // Ensure field exists
+            if (userData.spentReferrals === undefined) updates.spentReferrals = 0; 
             if (userData.dailyAdViews_ad1 === undefined) {
                  updates.dailyAdViews_ad1 = 0;
                  updates.dailyAdViews_ad2 = 0;
@@ -750,7 +812,6 @@
             if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
 
             currentUser = { id: userSnap.id, ...userSnap.data() };
-            // Note: We do not call fetchAndUpdateCurrentUser here to save a read, we have the data
             
             if(currentUser.isActivated) {
                 await checkAndResetDailies();
@@ -814,6 +875,7 @@
                         <p>Reward: <span class="task-reward-points" style="color:var(--success-color); font-weight:bold;">${task.reward} Points</span> per ad</p>
                         <p style="font-size:0.8em;color:var(--text-body)">Progress: ${viewsToday} / ${task.limit} ads</p>
                     </div>
+                    <!-- UPDATE 4: Class 'ad-task-button' has high VFX in CSS now -->
                     <button class="ad-task-button" data-task-id="${key}" ${isCompleted ? 'disabled' : ''}>
                         ${isCompleted ? 'Done' : `View (${viewsLeft})`}
                     </button>`;
@@ -857,22 +919,18 @@
                         const updateField = `dailyAdViews_${taskId}`;
                         await grantReward({ points: taskConfig.reward }, { type: 'Ad Reward', details: `Watched Ad from ${taskConfig.title}`});
                         
-                        // Increment Daily and Lifetime Stats
                         const userRef = doc(db, 'users', currentUser.id);
                         await updateDoc(userRef, { 
                             [updateField]: increment(1),
                             lifetimeAdsWatched: increment(1) 
                         });
                         
-                        // REFERRAL REWARD LOGIC (40 PTS)
-                        // Trigger only if referredBy exists and this is the 10th ad
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
                             await runTransaction(db, async (t) => {
                                 const rDoc = await t.get(referrerRef);
                                 if(rDoc.exists()) {
-                                    // ONLY GIVE POINTS HERE. REFERRAL COUNT INCREMENT IS MOVED TO ACTIVATION.
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS)
                                     });
@@ -900,7 +958,6 @@
             }, 1000);
         });
 
-        // ... (Task Functions skipped for brevity, identical to previous) ...
         async function fetchAndRenderTasks(containerId, count) {
             const taskListContainer = document.getElementById(containerId);
             taskListContainer.innerHTML = '<div class="loader"></div>';
@@ -969,7 +1026,6 @@
             } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
         }
 
-        // ... (Create Task & Promo Code - No Changes needed) ...
         let selectedPackage = null;
         function renderTaskPackages() {
             const grid = document.getElementById('ad-package-grid');
@@ -1008,28 +1064,15 @@
             } catch (error) {}
         }
 
-        // --- WITHDRAWAL LOGIC ---
+        // --- WITHDRAWAL LOGIC (UPDATE 5) ---
         function setupWithdrawalUI() {
             if (!currentUser) return;
             const balance = currentUser.pointBalance || 0;
             document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
             const amountInput = document.getElementById('withdrawalAmount');
-            const lockScreen = document.getElementById('withdraw-lock-screen');
-
-            // LOCK LOGIC: 1 Referral = 1 Withdraw.
-            // Available = Total Referrals - Spent Referrals
-            const totalReferrals = currentUser.referralCount || 0;
-            const spentReferrals = currentUser.spentReferrals || 0;
-            const availableWithdrawals = totalReferrals - spentReferrals;
-
-            if (availableWithdrawals < 1) {
-                // LOCKED
-                lockScreen.classList.add('active');
-            } else {
-                // UNLOCKED
-                lockScreen.classList.remove('active');
-            }
+            
+            // NOTE: Removed logic that added 'active' class to lock screen
 
             const updateSummary = () => {
                 const method = methodSelect.value;
@@ -1068,6 +1111,16 @@
             if (isNaN(amount) || amount <= 0) { alert('Please enter a valid amount.'); return; }
             if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
             if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient Points balance.'); return; }
+            
+            // LOGIC CHECK: ENFORCE 1 REFERRAL
+            const totalReferrals = currentUser.referralCount || 0;
+            const spentReferrals = currentUser.spentReferrals || 0;
+            const availableWithdrawals = totalReferrals - spentReferrals;
+
+            if (availableWithdrawals < 1) {
+                alert("Withdrawal Locked!\n\nYou need at least 1 NEW referral to withdraw.\nInvite a friend to unlock.");
+                return;
+            }
 
             showWithdrawalConfirmationModal(amount, method, details);
         });
@@ -1097,7 +1150,6 @@
 
                     if ((uData.pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
                     
-                    // TRANSACTIONAL LOCK CHECK
                     const totalRef = uData.referralCount || 0;
                     const spentRef = uData.spentReferrals || 0;
                     if ((totalRef - spentRef) < 1) throw new Error("Withdrawal Locked. You need 1 new referral.");
@@ -1109,7 +1161,6 @@
                     };
                     t.set(doc(collection(db, 'withdrawals')), requestData);
                     
-                    // Deduct Points AND Increment Spent Referrals
                     t.update(userRef, { 
                         pointBalance: increment(-amount),
                         spentReferrals: increment(1) 
@@ -1122,11 +1173,10 @@
                 alert(`Error: ${error.message}`);
             } finally {
                 isSubmittingWithdrawal = false;
-                setupWithdrawalUI(); // Re-check lock status
+                setupWithdrawalUI(); 
             }
         }
 
-        // ... (History, Video, Promo logic identical to original) ...
         async function showCombinedHistory() {
              const historyContainer = document.getElementById('combined-history-list');
              document.getElementById('historyModalOverlay').classList.add('show');
@@ -1177,7 +1227,6 @@
             });
         });
         
-        // --- PROMO CODE LOGIC ---
         async function fetchPromoHistory() {
             const list = document.getElementById('promo-history-list');
             if(!currentUser) return;
@@ -1209,7 +1258,7 @@
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
-        // --- VIDEO LOGIC ---
+        // --- VIDEO LOGIC (UPDATE 3 - 2 Pts/Hr) ---
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1289,19 +1338,15 @@
             activateBtn.disabled = true; activateBtn.textContent = 'Activating...';
             try {
                 const userRef = doc(db, 'users', currentUser.id);
-                // 1. Activate User
                 await updateDoc(userRef, { isActivated: true });
                 currentUser.isActivated = true;
                 
-                // 2. REFERRAL UNLOCK LOGIC (Moved here)
-                // Just the act of joining/activating counts as a referral for the unlock system
                 if (currentUser.referredBy) {
                     const referrerRef = doc(db, 'users', currentUser.referredBy);
                     await runTransaction(db, async (t) => {
                          const rDoc = await t.get(referrerRef);
                          if(rDoc.exists()) {
                              t.update(referrerRef, { referralCount: increment(1) });
-                             // Note: No points given here, points are given at 10 ads
                          }
                     });
                 }
@@ -1319,7 +1364,7 @@
         async function main() {
             try {
                 if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<div class="card" style="margin:20px;text-align:center;"><h3>Error</h3><p>Open in Telegram.</p></div>`; return; }
-                tg.ready(); tg.expand(); tg.setHeaderColor('#FFFFFF'); 
+                tg.ready(); tg.expand(); tg.setHeaderColor('#000000'); 
                 const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
                 if (!initStatus) return;
                 setupUserIdDisplay(currentUser.id);
