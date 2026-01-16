@@ -29,9 +29,6 @@
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
-    
-    <!-- UPDATED: Adsgram Script (According to your Screenshot) -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
     <style>
@@ -185,7 +182,7 @@
             box-shadow: none;
         }
 
-        /* --- SEQUENTIAL AD STYLES --- */
+        /* --- UPDATE 2: SEQUENTIAL AD STYLES --- */
         .ad-sequence-container {
             display: flex; flex-direction: column; gap: 15px;
         }
@@ -202,6 +199,7 @@
             position: relative;
         }
 
+        /* Locked State */
         .ad-level-row.locked {
             opacity: 0.5;
             border-color: #333;
@@ -209,6 +207,7 @@
             filter: grayscale(1);
         }
         
+        /* Active (Unlocked) State */
         .ad-level-row.active {
             border-color: var(--primary-color);
             background: linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
@@ -217,11 +216,13 @@
             z-index: 2;
         }
 
+        /* Completed State */
         .ad-level-row.completed {
             border-color: var(--success-color);
             opacity: 0.8;
         }
 
+        /* Next Arrow Animation */
         .next-step-indicator {
             text-align: center;
             color: var(--primary-color);
@@ -436,7 +437,7 @@
         <!-- HOME SECTION -->
         <section id="home-content" class="content-section active">
              
-             <!-- OFFICIAL CHANNEL & SUPPORT -->
+             <!-- UPDATE 1: OFFICIAL CHANNEL & SUPPORT -->
              <div class="card" style="text-align: center;">
                  <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-users" style="color: #2AABEE;"></i> Community & Support</h4>
                  <div style="display: flex; gap: 10px;">
@@ -455,6 +456,7 @@
                      <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
                      <h4>Invite Friends & Earn</h4>
                  </div>
+                 <!-- UPDATE 3: INCREASED REFERRAL REWARD TO 80 -->
                  <p class="referral-copy" style="text-align: center;">
                      1 Invite = <b>1 Withdrawal Unlock</b>.<br>
                      Plus, get <b>80 Points</b> when they watch 10 ads!
@@ -505,14 +507,14 @@
              </div>
         </section>
 
-        <!-- ADS SECTION (SEQUENTIAL) -->
+        <!-- ADS SECTION (UPDATE 2 - SEQUENTIAL) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
              <p style="text-align: center; color: var(--text-body); font-size: 0.9rem; margin-bottom: 20px;">
                  Complete ads one by one to unlock big rewards!<br>
                  <i class="fas fa-arrow-down" style="color: var(--primary-color); margin-top: 5px;"></i>
              </p>
-             <!-- The container for generated ad buttons -->
+             <!-- The container for 20 generated ad buttons -->
              <div id="ad-sequence-container" class="ad-sequence-container">
                  <div class="loader"></div>
              </div>
@@ -537,7 +539,7 @@
              <div id="my-ads-list" class="item-grid"></div>
         </section>
 
-        <!-- WITHDRAW SECTION -->
+        <!-- WITHDRAW SECTION (UPDATE 4 - TONKEEPER MIN 500) -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: center; position: relative;">
                 
@@ -729,12 +731,14 @@
         let isSubmittingWithdrawal = false;
         
         // --- CONSTANTS ---
+        // UPDATE 3: INCREASED REFERRAL REWARD
         const REFERRAL_REWARD_POINTS = 80; 
         const USER_CREATED_TASK_REWARD_POINTS = 3; 
         const POINTS_TO_TON_RATE = 0.0001; 
 
+        // UPDATE 4: WITHDRAW CONFIG
         const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 500 }, 
+            'Tonkeeper': { min: 500 }, // 0.05 TON
             'Bkash': { min: 1000 },
         };
 
@@ -747,46 +751,30 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATED ORDER:
-        // 1-10: Adsgram (Corrected Provider)
-        // 11-20: Monetag
-        // 21-30: GigaPub
+        // UPDATE 2: 20 AD LEVELS CONFIG
+        // Levels 1-10: Monetag, Levels 11-20: GigaPub
         const AD_LEVELS = [
-            // 1-10: Adsgram (7 points each)
-            { id: 1, reward: 7, provider: 'adsgram' },
-            { id: 2, reward: 7, provider: 'adsgram' },
-            { id: 3, reward: 7, provider: 'adsgram' },
-            { id: 4, reward: 7, provider: 'adsgram' },
-            { id: 5, reward: 7, provider: 'adsgram' },
-            { id: 6, reward: 7, provider: 'adsgram' },
-            { id: 7, reward: 7, provider: 'adsgram' },
-            { id: 8, reward: 7, provider: 'adsgram' },
-            { id: 9, reward: 7, provider: 'adsgram' },
-            { id: 10, reward: 7, provider: 'adsgram' },
-            
-            // 11-20: Monetag
-            { id: 11, reward: 4, provider: 'monetag' },
-            { id: 12, reward: 4, provider: 'monetag' },
-            { id: 13, reward: 4, provider: 'monetag' },
-            { id: 14, reward: 4, provider: 'monetag' },
-            { id: 15, reward: 3, provider: 'monetag' },
-            { id: 16, reward: 3, provider: 'monetag' },
-            { id: 17, reward: 3, provider: 'monetag' },
-            { id: 18, reward: 2, provider: 'monetag' },
-            { id: 19, reward: 2, provider: 'monetag' },
-            { id: 20, reward: 2, provider: 'monetag' },
-
-            // 21-30: GigaPub
-            { id: 21, reward: 3, provider: 'gigapub' },
-            { id: 22, reward: 5, provider: 'gigapub' },
-            { id: 23, reward: 4, provider: 'gigapub' },
-            { id: 24, reward: 3, provider: 'gigapub' },
-            { id: 25, reward: 3, provider: 'gigapub' },
-            { id: 26, reward: 3, provider: 'gigapub' },
-            { id: 27, reward: 2, provider: 'gigapub' },
-            { id: 28, reward: 3, provider: 'gigapub' },
-            { id: 29, reward: 5, provider: 'gigapub' },
-            { id: 30, reward: 6, provider: 'gigapub' }
+            { id: 1, reward: 4, provider: 'monetag' },
+            { id: 2, reward: 4, provider: 'monetag' },
+            { id: 3, reward: 4, provider: 'monetag' },
+            { id: 4, reward: 4, provider: 'monetag' },
+            { id: 5, reward: 3, provider: 'monetag' },
+            { id: 6, reward: 3, provider: 'monetag' },
+            { id: 7, reward: 3, provider: 'monetag' },
+            { id: 8, reward: 2, provider: 'monetag' },
+            { id: 9, reward: 2, provider: 'monetag' },
+            { id: 10, reward: 2, provider: 'monetag' },
+            // GigaPub starts here
+            { id: 11, reward: 3, provider: 'gigapub' },
+            { id: 12, reward: 5, provider: 'gigapub' },
+            { id: 13, reward: 4, provider: 'gigapub' },
+            { id: 14, reward: 3, provider: 'gigapub' },
+            { id: 15, reward: 3, provider: 'gigapub' },
+            { id: 16, reward: 3, provider: 'gigapub' },
+            { id: 17, reward: 2, provider: 'gigapub' },
+            { id: 18, reward: 3, provider: 'gigapub' },
+            { id: 19, reward: 5, provider: 'gigapub' },
+            { id: 20, reward: 6, provider: 'gigapub' }
         ];
 
         let player;
@@ -827,6 +815,7 @@
                 const updates = {
                     'lastDailyReset': serverTimestamp(),
                     'claimedDailyRewards': [],
+                    // Reset sequential progress daily
                     'dailyAdStage': 0
                 };
                 try {
@@ -855,7 +844,7 @@
                     isActivated: false,
                     lifetimeAdsWatched: 0, 
                     claimedDailyRewards: [],
-                    dailyAdStage: 0
+                    dailyAdStage: 0 // New field for sequential ads
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -920,20 +909,24 @@
              await fetchAndUpdateCurrentUser();
         }
 
-        // --- SETUP SEQUENTIAL ADS ---
+        // --- UPDATE 2: SETUP SEQUENTIAL ADS ---
         function setupAdsToEarn() {
             const container = document.getElementById('ad-sequence-container');
             container.innerHTML = '';
             if (!currentUser) return;
 
+            // Current progress: dailyAdStage (0 means start of day, no ads watched)
             const currentStage = currentUser.dailyAdStage || 0;
 
             AD_LEVELS.forEach((level) => {
                 const isCompleted = currentStage >= level.id;
+                // It is locked if it's not completed AND not the immediate next one
+                // Immediate next one is when currentStage == level.id - 1
                 const isUnlocked = currentStage >= (level.id - 1);
                 
                 const levelDiv = document.createElement('div');
                 
+                // Add arrow indicator if this is the active (unlocked but not completed) task
                 if (isUnlocked && !isCompleted) {
                     const arrow = document.createElement('div');
                     arrow.className = 'next-step-indicator';
@@ -977,7 +970,7 @@
             });
         }
 
-        // --- AD CLICK HANDLER ---
+        // --- UPDATE 2: AD CLICK HANDLER ---
         document.getElementById('ad-sequence-container').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-btn-action');
             if (!button || button.disabled) return;
@@ -991,16 +984,16 @@
             const timerDisplay = document.getElementById('adOverlayTimer');
 
             blockingOverlay.style.display = 'flex';
-            let countdown = 6; 
+            let countdown = 6; // Requirement: 6 Seconds
             timerDisplay.textContent = countdown;
 
             try {
-                // Determine Provider based on level config
+                // Determine Provider
                 if (levelConfig.provider === 'monetag') await showMonetagAd();
                 else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
-                else if (levelConfig.provider === 'adsgram') await showAdsgramAd();
             } catch (err) {
                 console.error("Ad load error:", err);
+                // We typically proceed so users don't get stuck if ad network fails
             }
 
             const blockingTimer = setInterval(async () => {
@@ -1015,6 +1008,7 @@
                     button.disabled = true;
 
                     try {
+                        // Grant Reward
                         await grantReward(
                             { points: levelConfig.reward }, 
                             { type: 'Ad Reward', details: `Completed Level ${levelId}` }
@@ -1022,17 +1016,20 @@
                         
                         const userRef = doc(db, 'users', currentUser.id);
                         
+                        // Increment Daily Stage and Lifetime Ads
                         await updateDoc(userRef, { 
-                            dailyAdStage: levelId, 
+                            dailyAdStage: levelId, // Set to this level (e.g., done 1, stage becomes 1)
                             lifetimeAdsWatched: increment(1) 
                         });
                         
+                        // Check Referral Reward (Logic: 10 lifetime ads)
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
                             await runTransaction(db, async (t) => {
                                 const rDoc = await t.get(referrerRef);
                                 if(rDoc.exists()) {
+                                    // REWARD IS NOW CONSTANT 80
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS)
                                     });
@@ -1050,7 +1047,7 @@
 
                         await fetchAndUpdateCurrentUser();
                         showSuccessModal("Ad Completed", `You earned +${levelConfig.reward} Points!`);
-                        setupAdsToEarn(); 
+                        setupAdsToEarn(); // Re-render list to unlock next
 
                     } catch (error) {
                         console.error("Error updating ad progress:", error);
@@ -1213,6 +1210,7 @@
             if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
             if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient Points balance.'); return; }
             
+            // LOGIC CHECK: ENFORCE 1 REFERRAL
             const totalReferrals = currentUser.referralCount || 0;
             const spentReferrals = currentUser.spentReferrals || 0;
             const availableWithdrawals = totalReferrals - spentReferrals;
@@ -1337,8 +1335,6 @@
                  list.innerHTML = snap.docs.map(d => `<div class="history-item" style="display:flex; justify-content:space-between;"><span style="color:var(--text-body);">${d.data().details}</span><span style="color:var(--success-color);">+${d.data().amount}</span></div>`).join('');
             } catch(e) {}
         }
-
-        // --- PROMO CODE CLICK HANDLER ---
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
             const code = document.getElementById('promoCodeInput').value.trim();
             if (!code) return;
@@ -1356,14 +1352,7 @@
                     t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
                     t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Promo Code', details: `Code: ${code}`, amount: p.rewardAmount, createdAt: serverTimestamp() });
                     return p;
-                }).then(async (p) => { 
-                    showSuccessModal("Success!", `Received ${p.rewardAmount}.`); 
-                    document.getElementById('promoCodeInput').value=""; 
-                    fetchPromoHistory(); 
-                    
-                    // Show random ad after promo claim
-                    await showRandomAd();
-                });
+                }).then((p) => { showSuccessModal("Success!", `Received ${p.rewardAmount}.`); document.getElementById('promoCodeInput').value=""; fetchPromoHistory(); });
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
@@ -1420,7 +1409,7 @@
             } catch (e) { alert("Error claiming."); } finally { btn.disabled = false; }
         });
 
-        // --- MISC UTILS & AD FUNCTIONS ---
+        // --- MISC UTILS ---
         function showSuccessModal(title, message) {
             document.getElementById('successModalTitle').textContent = title;
             document.getElementById('successModalMessage').innerHTML = message;
@@ -1428,42 +1417,9 @@
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             setTimeout(() => { document.getElementById('successModalOverlay').classList.remove('show'); }, 3000);
         }
-
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
-        
-        // --- UPDATED: ADSGRAM LOGIC ---
-        // Based on your screenshot, using sad.min.js and then().catch()
-        const showAdsgramAd = () => new Promise((resolve, reject) => {
-            if (window.Adsgram) {
-                // Initializing with your specific Block ID from screenshot/request
-                const AdController = window.Adsgram.init({ blockId: "int-21249" });
-                
-                AdController.show().then((result) => {
-                    // Ad watched successfully
-                    resolve(result);
-                }).catch((result) => {
-                    // Error or skipped, we log it but resolve so the user flow continues
-                    // (You can choose to reject if you want to be strict about skipping)
-                    console.log("Adsgram result/error:", result);
-                    resolve(result); 
-                });
-            } else {
-                reject("Adsgram SDK not loaded");
-            }
-        });
-
-        // Random Ad Selector (Monetag, GigaPub, Adsgram)
-        async function showRandomAd() { 
-            const providers = [showMonetagAd, showGigaPubAd, showAdsgramAd];
-            const randomProvider = providers[Math.floor(Math.random() * providers.length)];
-            try { 
-                await randomProvider(); 
-            } catch(err) {
-                console.error("Random Ad Failed", err);
-            } 
-        }
-
+        async function showRandomAd() { try { await [showMonetagAd, showGigaPubAd][Math.floor(Math.random()*2)](); } catch(err) {} }
         function setupUserIdDisplay(userId) {
             const c = document.getElementById('header-user-id'); c.querySelector('span').textContent = `ID: ${userId}`;
             c.addEventListener('click', () => { navigator.clipboard.writeText(userId); showSuccessModal("Copied!", `ID Copied.`); });
