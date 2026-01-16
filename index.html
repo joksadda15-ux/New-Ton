@@ -30,7 +30,7 @@
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
     
-    <!-- UPDATED: Adsgram Script -->
+    <!-- Adsgram Script -->
     <script src="https://adsgram.ai/js/adsgram.js?v=1"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
@@ -747,43 +747,46 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATED: 30 AD LEVELS CONFIG
-        // Levels 1-10: Monetag
-        // Levels 11-20: GigaPub
-        // Levels 21-30: Adsgram (New)
+        // UPDATED ORDER:
+        // 1-10: Adsgram (Moved to front)
+        // 11-20: Monetag (Moved to middle)
+        // 21-30: GigaPub (Moved to end)
         const AD_LEVELS = [
-            { id: 1, reward: 4, provider: 'monetag' },
-            { id: 2, reward: 4, provider: 'monetag' },
-            { id: 3, reward: 4, provider: 'monetag' },
-            { id: 4, reward: 4, provider: 'monetag' },
-            { id: 5, reward: 3, provider: 'monetag' },
-            { id: 6, reward: 3, provider: 'monetag' },
-            { id: 7, reward: 3, provider: 'monetag' },
-            { id: 8, reward: 2, provider: 'monetag' },
-            { id: 9, reward: 2, provider: 'monetag' },
-            { id: 10, reward: 2, provider: 'monetag' },
-            // GigaPub starts here
-            { id: 11, reward: 3, provider: 'gigapub' },
-            { id: 12, reward: 5, provider: 'gigapub' },
-            { id: 13, reward: 4, provider: 'gigapub' },
-            { id: 14, reward: 3, provider: 'gigapub' },
-            { id: 15, reward: 3, provider: 'gigapub' },
-            { id: 16, reward: 3, provider: 'gigapub' },
-            { id: 17, reward: 2, provider: 'gigapub' },
-            { id: 18, reward: 3, provider: 'gigapub' },
-            { id: 19, reward: 5, provider: 'gigapub' },
-            { id: 20, reward: 6, provider: 'gigapub' },
-            // UPDATED: Adsgram levels 21-30
-            { id: 21, reward: 7, provider: 'adsgram' },
-            { id: 22, reward: 7, provider: 'adsgram' },
-            { id: 23, reward: 7, provider: 'adsgram' },
-            { id: 24, reward: 7, provider: 'adsgram' },
-            { id: 25, reward: 7, provider: 'adsgram' },
-            { id: 26, reward: 7, provider: 'adsgram' },
-            { id: 27, reward: 7, provider: 'adsgram' },
-            { id: 28, reward: 7, provider: 'adsgram' },
-            { id: 29, reward: 7, provider: 'adsgram' },
-            { id: 30, reward: 7, provider: 'adsgram' }
+            // 1-10: Adsgram (7 points each)
+            { id: 1, reward: 7, provider: 'adsgram' },
+            { id: 2, reward: 7, provider: 'adsgram' },
+            { id: 3, reward: 7, provider: 'adsgram' },
+            { id: 4, reward: 7, provider: 'adsgram' },
+            { id: 5, reward: 7, provider: 'adsgram' },
+            { id: 6, reward: 7, provider: 'adsgram' },
+            { id: 7, reward: 7, provider: 'adsgram' },
+            { id: 8, reward: 7, provider: 'adsgram' },
+            { id: 9, reward: 7, provider: 'adsgram' },
+            { id: 10, reward: 7, provider: 'adsgram' },
+            
+            // 11-20: Monetag (Previous Level 1-10 rewards)
+            { id: 11, reward: 4, provider: 'monetag' },
+            { id: 12, reward: 4, provider: 'monetag' },
+            { id: 13, reward: 4, provider: 'monetag' },
+            { id: 14, reward: 4, provider: 'monetag' },
+            { id: 15, reward: 3, provider: 'monetag' },
+            { id: 16, reward: 3, provider: 'monetag' },
+            { id: 17, reward: 3, provider: 'monetag' },
+            { id: 18, reward: 2, provider: 'monetag' },
+            { id: 19, reward: 2, provider: 'monetag' },
+            { id: 20, reward: 2, provider: 'monetag' },
+
+            // 21-30: GigaPub (Previous Level 11-20 rewards)
+            { id: 21, reward: 3, provider: 'gigapub' },
+            { id: 22, reward: 5, provider: 'gigapub' },
+            { id: 23, reward: 4, provider: 'gigapub' },
+            { id: 24, reward: 3, provider: 'gigapub' },
+            { id: 25, reward: 3, provider: 'gigapub' },
+            { id: 26, reward: 3, provider: 'gigapub' },
+            { id: 27, reward: 2, provider: 'gigapub' },
+            { id: 28, reward: 3, provider: 'gigapub' },
+            { id: 29, reward: 5, provider: 'gigapub' },
+            { id: 30, reward: 6, provider: 'gigapub' }
         ];
 
         let player;
@@ -992,10 +995,9 @@
             timerDisplay.textContent = countdown;
 
             try {
-                // Determine Provider
+                // Determine Provider based on level config
                 if (levelConfig.provider === 'monetag') await showMonetagAd();
                 else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
-                // UPDATED: Adsgram logic
                 else if (levelConfig.provider === 'adsgram') await showAdsgramAd();
             } catch (err) {
                 console.error("Ad load error:", err);
@@ -1336,7 +1338,7 @@
             } catch(e) {}
         }
 
-        // --- UPDATED: PROMO CODE CLICK HANDLER ---
+        // --- PROMO CODE CLICK HANDLER ---
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
             const code = document.getElementById('promoCodeInput').value.trim();
             if (!code) return;
@@ -1359,7 +1361,7 @@
                     document.getElementById('promoCodeInput').value=""; 
                     fetchPromoHistory(); 
                     
-                    // UPDATED: Show random ad after promo claim
+                    // Show random ad after promo claim
                     await showRandomAd();
                 });
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
@@ -1430,15 +1432,13 @@
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
         
-        // UPDATED: Adsgram Function
+        // Adsgram Function
         const showAdsgramAd = () => new Promise((resolve, reject) => {
             if (window.Adsgram) {
                 const AdController = window.Adsgram.init({ blockId: "int-21249" });
                 AdController.show().then((result) => {
                     resolve(result);
                 }).catch((result) => {
-                    // We resolve even on error/skip so the user flow continues in the blocking overlay
-                    // but you could reject if you want to be strict.
                     console.log("Adsgram result:", result);
                     resolve(result); 
                 });
@@ -1447,7 +1447,7 @@
             }
         });
 
-        // UPDATED: Random Ad Selector (Monetag, GigaPub, Adsgram)
+        // Random Ad Selector (Monetag, GigaPub, Adsgram)
         async function showRandomAd() { 
             const providers = [showMonetagAd, showGigaPubAd, showAdsgramAd];
             const randomProvider = providers[Math.floor(Math.random() * providers.length)];
