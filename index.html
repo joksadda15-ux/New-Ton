@@ -30,8 +30,8 @@
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
     
-    <!-- Adsgram Script -->
-    <script src="https://adsgram.ai/js/adsgram.js?v=1"></script>
+    <!-- UPDATED: Adsgram Script (According to your Screenshot) -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
     <style>
@@ -748,9 +748,9 @@
         ];
 
         // UPDATED ORDER:
-        // 1-10: Adsgram (Moved to front)
-        // 11-20: Monetag (Moved to middle)
-        // 21-30: GigaPub (Moved to end)
+        // 1-10: Adsgram (Corrected Provider)
+        // 11-20: Monetag
+        // 21-30: GigaPub
         const AD_LEVELS = [
             // 1-10: Adsgram (7 points each)
             { id: 1, reward: 7, provider: 'adsgram' },
@@ -764,7 +764,7 @@
             { id: 9, reward: 7, provider: 'adsgram' },
             { id: 10, reward: 7, provider: 'adsgram' },
             
-            // 11-20: Monetag (Previous Level 1-10 rewards)
+            // 11-20: Monetag
             { id: 11, reward: 4, provider: 'monetag' },
             { id: 12, reward: 4, provider: 'monetag' },
             { id: 13, reward: 4, provider: 'monetag' },
@@ -776,7 +776,7 @@
             { id: 19, reward: 2, provider: 'monetag' },
             { id: 20, reward: 2, provider: 'monetag' },
 
-            // 21-30: GigaPub (Previous Level 11-20 rewards)
+            // 21-30: GigaPub
             { id: 21, reward: 3, provider: 'gigapub' },
             { id: 22, reward: 5, provider: 'gigapub' },
             { id: 23, reward: 4, provider: 'gigapub' },
@@ -1432,14 +1432,20 @@
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
         
-        // Adsgram Function
+        // --- UPDATED: ADSGRAM LOGIC ---
+        // Based on your screenshot, using sad.min.js and then().catch()
         const showAdsgramAd = () => new Promise((resolve, reject) => {
             if (window.Adsgram) {
+                // Initializing with your specific Block ID from screenshot/request
                 const AdController = window.Adsgram.init({ blockId: "int-21249" });
+                
                 AdController.show().then((result) => {
+                    // Ad watched successfully
                     resolve(result);
                 }).catch((result) => {
-                    console.log("Adsgram result:", result);
+                    // Error or skipped, we log it but resolve so the user flow continues
+                    // (You can choose to reject if you want to be strict about skipping)
+                    console.log("Adsgram result/error:", result);
                     resolve(result); 
                 });
             } else {
