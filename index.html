@@ -182,7 +182,7 @@
             box-shadow: none;
         }
 
-        /* --- UPDATE 2: SEQUENTIAL AD STYLES --- */
+        /* --- AD STYLES --- */
         .ad-sequence-container {
             display: flex; flex-direction: column; gap: 15px;
         }
@@ -199,42 +199,17 @@
             position: relative;
         }
 
-        /* Locked State */
-        .ad-level-row.locked {
-            opacity: 0.5;
-            border-color: #333;
-            pointer-events: none;
-            filter: grayscale(1);
-        }
-        
         /* Active (Unlocked) State */
         .ad-level-row.active {
             border-color: var(--primary-color);
             background: linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
-            transform: scale(1.02);
-            z-index: 2;
         }
 
         /* Completed State */
         .ad-level-row.completed {
             border-color: var(--success-color);
             opacity: 0.8;
-        }
-
-        /* Next Arrow Animation */
-        .next-step-indicator {
-            text-align: center;
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            animation: bounceArrow 1.5s infinite;
-            margin: -10px 0 5px;
-            z-index: 1;
-        }
-        @keyframes bounceArrow {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
         }
 
         .ad-btn-action {
@@ -245,7 +220,6 @@
             cursor: pointer;
             font-size: 0.85rem;
         }
-        .ad-btn-action.locked { background: #333; color: #777; }
         .ad-btn-action.play { background: var(--primary-color); color: #000; box-shadow: 0 0 10px rgba(0,255,136,0.4); }
         .ad-btn-action.done { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); }
 
@@ -492,9 +466,9 @@
                  <div style="margin-bottom: 15px;">
                     <i class="fas fa-hammer mining-icon-anim" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
                     <h2 style="margin: 0; color: var(--text-title); font-size: 2.2rem; text-shadow: 0 0 10px rgba(0,255,136,0.3);"><span id="minedPointsDisplay">0.0000</span> Pts</h2>
-                    <p style="margin: 10px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: <b style="color: var(--primary-color)">2 Points / Hour</b></p>
+                    <p style="margin: 10px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: <b style="color: var(--primary-color)">10 Points / Hour</b></p>
                  </div>
-                 <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 5 Points)</button>
+                 <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 10 Points)</button>
              </div>
 
              <div id="active-video-player-wrapper" style="display:none; width:100%; padding-bottom:56.25%; background:#000; position:relative; margin-bottom:20px; border-radius:12px; overflow:hidden; border: 1px solid var(--border-subtle); box-shadow: 0 0 15px rgba(0,255,136,0.2);">
@@ -507,11 +481,11 @@
              </div>
         </section>
 
-        <!-- ADS SECTION (UPDATE 2 - SEQUENTIAL) -->
+        <!-- ADS SECTION (UNLOCKED) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
              <p style="text-align: center; color: var(--text-body); font-size: 0.9rem; margin-bottom: 20px;">
-                 Complete ads one by one to unlock big rewards!<br>
+                 Complete ads to earn rewards!<br>
                  <i class="fas fa-arrow-down" style="color: var(--primary-color); margin-top: 5px;"></i>
              </p>
              <!-- The container for 20 generated ad buttons -->
@@ -545,7 +519,7 @@
                 
                 <i class="fas fa-wallet" style="font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.5;"></i>
                 <h2 style="margin: 0 0 5px; color: var(--text-title); font-size: 2rem;" id="withdrawPointBalance">0 Points</h2>
-                <p class="conversion-rate-display">10,000 Points = 1.00 TON</p>
+                <p class="conversion-rate-display">20,000 Points = 1.00 TON</p>
                 <p style="color: var(--text-body); font-size: 0.85rem; margin-bottom: 20px;">
                     Requirement: You need <b>1 New Referral</b> per withdrawal.
                 </p>
@@ -731,14 +705,16 @@
         let isSubmittingWithdrawal = false;
         
         // --- CONSTANTS ---
-        // UPDATE 3: INCREASED REFERRAL REWARD
         const REFERRAL_REWARD_POINTS = 80; 
         const USER_CREATED_TASK_REWARD_POINTS = 3; 
-        const POINTS_TO_TON_RATE = 0.0001; 
+        
+        // UPDATE: Rate changed. 1 TON = 20,000 Points. 
+        // So 1 Point = 1/20000 = 0.00005 TON.
+        // 200 Points * 0.00005 = 0.01 TON. (Correct)
+        const POINTS_TO_TON_RATE = 0.00005; 
 
-        // UPDATE 4: WITHDRAW CONFIG
         const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 500 }, // 0.05 TON
+            'Tonkeeper': { min: 500 }, // 0.025 TON
             'Bkash': { min: 1000 },
         };
 
@@ -751,38 +727,40 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATE 2: 20 AD LEVELS CONFIG
+        // UPDATE: Ads now all reward 5 points.
         // Levels 1-10: Monetag, Levels 11-20: GigaPub
         const AD_LEVELS = [
-            { id: 1, reward: 4, provider: 'monetag' },
-            { id: 2, reward: 4, provider: 'monetag' },
-            { id: 3, reward: 4, provider: 'monetag' },
-            { id: 4, reward: 4, provider: 'monetag' },
-            { id: 5, reward: 3, provider: 'monetag' },
-            { id: 6, reward: 3, provider: 'monetag' },
-            { id: 7, reward: 3, provider: 'monetag' },
-            { id: 8, reward: 2, provider: 'monetag' },
-            { id: 9, reward: 2, provider: 'monetag' },
-            { id: 10, reward: 2, provider: 'monetag' },
+            { id: 1, reward: 5, provider: 'monetag' },
+            { id: 2, reward: 5, provider: 'monetag' },
+            { id: 3, reward: 5, provider: 'monetag' },
+            { id: 4, reward: 5, provider: 'monetag' },
+            { id: 5, reward: 5, provider: 'monetag' },
+            { id: 6, reward: 5, provider: 'monetag' },
+            { id: 7, reward: 5, provider: 'monetag' },
+            { id: 8, reward: 5, provider: 'monetag' },
+            { id: 9, reward: 5, provider: 'monetag' },
+            { id: 10, reward: 5, provider: 'monetag' },
             // GigaPub starts here
-            { id: 11, reward: 3, provider: 'gigapub' },
+            { id: 11, reward: 5, provider: 'gigapub' },
             { id: 12, reward: 5, provider: 'gigapub' },
-            { id: 13, reward: 4, provider: 'gigapub' },
-            { id: 14, reward: 3, provider: 'gigapub' },
-            { id: 15, reward: 3, provider: 'gigapub' },
-            { id: 16, reward: 3, provider: 'gigapub' },
-            { id: 17, reward: 2, provider: 'gigapub' },
-            { id: 18, reward: 3, provider: 'gigapub' },
+            { id: 13, reward: 5, provider: 'gigapub' },
+            { id: 14, reward: 5, provider: 'gigapub' },
+            { id: 15, reward: 5, provider: 'gigapub' },
+            { id: 16, reward: 5, provider: 'gigapub' },
+            { id: 17, reward: 5, provider: 'gigapub' },
+            { id: 18, reward: 5, provider: 'gigapub' },
             { id: 19, reward: 5, provider: 'gigapub' },
-            { id: 20, reward: 6, provider: 'gigapub' }
+            { id: 20, reward: 5, provider: 'gigapub' }
         ];
 
         let player;
         let isVideoPlaying = false;
         let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
         let watchTimeSeconds = 0; 
-        const MINING_CLAIM_THRESHOLD = 5;
-        const POINTS_PER_SECOND = 2 / 3600; 
+        
+        // UPDATE: Video Mining 10 Points/Hour (10/3600 per sec) and Claim Min 10
+        const MINING_CLAIM_THRESHOLD = 10;
+        const POINTS_PER_SECOND = 10 / 3600; 
 
         function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: var(--bg-color); color: var(--text-title);"><div class="card"><h3>Account Banned</h3><p style="color: var(--danger-color);">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
 
@@ -909,46 +887,35 @@
              await fetchAndUpdateCurrentUser();
         }
 
-        // --- UPDATE 2: SETUP SEQUENTIAL ADS ---
+        // --- ADS LOGIC (UPDATED: ALL UNLOCKED) ---
         function setupAdsToEarn() {
             const container = document.getElementById('ad-sequence-container');
             container.innerHTML = '';
             if (!currentUser) return;
 
-            // Current progress: dailyAdStage (0 means start of day, no ads watched)
+            // Current progress: dailyAdStage
+            // We use this to mark ads as "DONE" for today, but not to lock them.
             const currentStage = currentUser.dailyAdStage || 0;
 
             AD_LEVELS.forEach((level) => {
+                // An ad is completed if current stage is >= level.id
                 const isCompleted = currentStage >= level.id;
-                // It is locked if it's not completed AND not the immediate next one
-                // Immediate next one is when currentStage == level.id - 1
-                const isUnlocked = currentStage >= (level.id - 1);
+                
+                // UPDATE: All ads are unlocked by default
+                const isUnlocked = true;
                 
                 const levelDiv = document.createElement('div');
                 
-                // Add arrow indicator if this is the active (unlocked but not completed) task
-                if (isUnlocked && !isCompleted) {
-                    const arrow = document.createElement('div');
-                    arrow.className = 'next-step-indicator';
-                    arrow.innerHTML = '<i class="fas fa-arrow-down"></i>';
-                    container.appendChild(arrow);
-                }
-
-                let statusClass = 'locked';
-                let btnClass = 'locked';
-                let btnText = '<i class="fas fa-lock"></i> Locked';
-                let iconColor = '#555';
+                let statusClass = 'active';
+                let btnClass = 'play';
+                let btnText = '<i class="fas fa-play"></i> Watch';
+                let iconColor = 'var(--primary-color)';
 
                 if (isCompleted) {
                     statusClass = 'completed';
                     btnClass = 'done';
                     btnText = '<i class="fas fa-check"></i> Done';
                     iconColor = 'var(--success-color)';
-                } else if (isUnlocked) {
-                    statusClass = 'active';
-                    btnClass = 'play';
-                    btnText = '<i class="fas fa-play"></i> Watch';
-                    iconColor = 'var(--primary-color)';
                 }
 
                 levelDiv.className = `ad-level-row ${statusClass}`;
@@ -962,7 +929,7 @@
                             <p style="margin:0; font-size:0.8rem; color:var(--success-color);">+${level.reward} Points</p>
                         </div>
                     </div>
-                    <button class="ad-btn-action ${btnClass}" data-level-id="${level.id}" ${(!isUnlocked || isCompleted) ? 'disabled' : ''}>
+                    <button class="ad-btn-action ${btnClass}" data-level-id="${level.id}" ${isCompleted ? 'disabled' : ''}>
                         ${btnText}
                     </button>
                 `;
@@ -970,7 +937,7 @@
             });
         }
 
-        // --- UPDATE 2: AD CLICK HANDLER ---
+        // --- AD CLICK HANDLER ---
         document.getElementById('ad-sequence-container').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-btn-action');
             if (!button || button.disabled) return;
@@ -993,7 +960,6 @@
                 else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
             } catch (err) {
                 console.error("Ad load error:", err);
-                // We typically proceed so users don't get stuck if ad network fails
             }
 
             const blockingTimer = setInterval(async () => {
@@ -1016,11 +982,20 @@
                         
                         const userRef = doc(db, 'users', currentUser.id);
                         
-                        // Increment Daily Stage and Lifetime Ads
-                        await updateDoc(userRef, { 
-                            dailyAdStage: levelId, // Set to this level (e.g., done 1, stage becomes 1)
-                            lifetimeAdsWatched: increment(1) 
-                        });
+                        // We update dailyAdStage to the current level if it's higher
+                        // This keeps track of "how many" or "which level" reached roughly
+                        // If user clicks random order, we just make sure we save the highest ID watched to keep "done" state simple
+                        // Or we can just increment. For simplicity based on DB structure, we set it to current level ID if higher.
+                        const currentStage = currentUser.dailyAdStage || 0;
+                        if(levelId > currentStage) {
+                            await updateDoc(userRef, { 
+                                dailyAdStage: levelId, 
+                                lifetimeAdsWatched: increment(1) 
+                            });
+                        } else {
+                            // Just increment lifetime
+                            await updateDoc(userRef, { lifetimeAdsWatched: increment(1) });
+                        }
                         
                         // Check Referral Reward (Logic: 10 lifetime ads)
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
@@ -1029,7 +1004,6 @@
                             await runTransaction(db, async (t) => {
                                 const rDoc = await t.get(referrerRef);
                                 if(rDoc.exists()) {
-                                    // REWARD IS NOW CONSTANT 80
                                     t.update(referrerRef, { 
                                         pointBalance: increment(REFERRAL_REWARD_POINTS)
                                     });
@@ -1047,7 +1021,7 @@
 
                         await fetchAndUpdateCurrentUser();
                         showSuccessModal("Ad Completed", `You earned +${levelConfig.reward} Points!`);
-                        setupAdsToEarn(); // Re-render list to unlock next
+                        setupAdsToEarn(); 
 
                     } catch (error) {
                         console.error("Error updating ad progress:", error);
@@ -1356,7 +1330,7 @@
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
-        // --- VIDEO LOGIC ---
+        // --- VIDEO LOGIC (UPDATED) ---
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1388,15 +1362,22 @@
                 });
             } catch (e) {}
         }
+        
+        // VIDEO WATCH TIMER
         setInterval(() => {
             if (isVideoPlaying) {
                 minedBalance += POINTS_PER_SECOND;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
                 watchTimeSeconds++;
-                if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) { if(player && player.pauseVideo) player.pauseVideo(); showRandomAd(); }
+                // UPDATE: Every 10 minutes (600 seconds), play random ad
+                if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) { 
+                    if(player && player.pauseVideo) player.pauseVideo(); 
+                    showRandomAd(); 
+                }
             }
         }, 1000);
+        
         document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
             if (minedBalance < MINING_CLAIM_THRESHOLD) return;
             const btn = document.getElementById('claimMinedPointsBtn'); btn.disabled = true;
