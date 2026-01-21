@@ -851,9 +851,22 @@
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
+        // --- FIXED: UPDATE BALANCE UI TO SHOW POINTS & CONVERTED TON ---
         function updateBalanceUI(tonBalance, pointBalance) {
-            document.getElementById('userTONBalanceDisplay').textContent = parseFloat(tonBalance || 0).toFixed(4);
+            // Calculate equivalent TON from Points
+            const pointsValueInTon = (pointBalance || 0) * POINTS_TO_TON_RATE;
+            
+            // Total displayed TON is the real TON balance + converted point value
+            const totalTonDisplay = (tonBalance || 0) + pointsValueInTon;
+
+            document.getElementById('userTONBalanceDisplay').textContent = totalTonDisplay.toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
+
+            // Also update withdrawal display if it exists in DOM
+            const withdrawDisplay = document.getElementById('withdrawPointBalance');
+            if(withdrawDisplay) {
+                withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
+            }
         }
 
         function generateReferralLink(userId) {
