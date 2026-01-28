@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NEW TON - Watch & Earn</title>
+    <!-- UPDATE 1: Title Change -->
+    <title>NEWTUBE TON - Watch & Earn</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <!-- Google Fonts -->
@@ -81,16 +82,25 @@
         }
         
         .header-left { display: flex; align-items: center; gap: 12px; }
-        .site-branding { display: flex; flex-direction: column; justify-content: center; }
+        .site-branding { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
         
+        /* UPDATE 2: NEWTUBE TON Logo Styling with Shape & Animation */
         .site-title { 
-            font-size: 1.35rem; 
+            font-size: 1.1rem; 
             color: var(--primary-color); 
             font-weight: 900; 
             margin: 0; 
             letter-spacing: 1px;
+            
+            /* Shape & Background */
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-color);
+            
+            /* Animation */
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-            animation: neonPulse 2s infinite alternate;
+            animation: neonPulse 2s infinite alternate, borderGlow 2s infinite alternate;
         }
 
         @keyframes neonPulse {
@@ -98,12 +108,17 @@
             100% { text-shadow: 0 0 15px rgba(0, 255, 136, 1), 0 0 5px #fff; }
         }
 
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); border-color: var(--primary-color); }
+            100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); border-color: #fff; }
+        }
+
         .user-id-display { 
             font-size: 0.75rem; color: var(--text-body); 
             font-family: 'Roboto Mono', monospace; 
             background: var(--input-bg);
             padding: 2px 8px; border-radius: 6px;
-            margin-top: 2px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+            margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
             border: 1px solid var(--border-subtle);
         }
         
@@ -199,14 +214,12 @@
             position: relative;
         }
 
-        /* Active (Unlocked) State */
         .ad-level-row.active {
             border-color: var(--primary-color);
             background: linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
         }
 
-        /* Completed State */
         .ad-level-row.completed {
             border-color: var(--success-color);
             opacity: 0.8;
@@ -372,7 +385,8 @@
     <header class="main-header">
         <div class="header-left">
             <div class="site-branding">
-                <h1 class="site-title">NEW TON</h1>
+                <!-- UPDATE: Animated Title with Shape -->
+                <h1 class="site-title">NEWTUBE TON</h1>
                 <div class="user-id-display" id="header-user-id">
                     <span>ID: ...</span> <i class="fas fa-copy" style="font-size: 10px;"></i>
                 </div>
@@ -411,17 +425,22 @@
         <!-- HOME SECTION -->
         <section id="home-content" class="content-section active">
              
-             <!-- UPDATE 1: OFFICIAL CHANNEL & SUPPORT -->
+             <!-- UPDATE 3: Community, Support AND "HOW TO WORK" Button -->
              <div class="card" style="text-align: center;">
                  <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-users" style="color: #2AABEE;"></i> Community & Support</h4>
-                 <div style="display: flex; gap: 10px;">
-                     <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="background: #2AABEE; color: #fff;">
-                         <i class="fab fa-telegram-plane"></i> Official Channel
+                 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                     <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="background: #2AABEE; color: #fff; flex: 1;">
+                         <i class="fab fa-telegram-plane"></i> Official
                      </a>
-                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="background: var(--input-bg); color: var(--text-title); border: 1px solid var(--border-subtle);">
+                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="background: var(--input-bg); color: var(--text-title); border: 1px solid var(--border-subtle); flex: 1;">
                          <i class="fas fa-headset"></i> Support
                      </a>
                  </div>
+                 
+                 <!-- NEW BUTTON FOR RULES -->
+                 <button id="howToWorkBtn" class="form-button" style="margin-top: 15px; background: linear-gradient(90deg, #ff8c00, #ff0080); color: white; border: none; box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);">
+                     <i class="fas fa-info-circle"></i> How To Work
+                 </button>
              </div>
 
              <!-- Referral Card -->
@@ -430,7 +449,6 @@
                      <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
                      <h4>Invite Friends & Earn</h4>
                  </div>
-                 <!-- UPDATE 3: INCREASED REFERRAL REWARD TO 80 -->
                  <p class="referral-copy" style="text-align: center;">
                      1 Invite = <b>1 Withdrawal Unlock</b>.<br>
                      Plus, get <b>80 Points</b> when they watch 10 ads!
@@ -454,7 +472,7 @@
                     <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
                 </div>
                 <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-                
+                <p style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 10px;">Please work honestly.</p>
                 <div id="promo-history-list" style="margin-top: 20px;"></div>
              </div>
         </section>
@@ -481,18 +499,16 @@
              </div>
         </section>
 
-        <!-- ADS SECTION (UNLOCKED) -->
+        <!-- ADS SECTION -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
              <p style="text-align: center; color: var(--text-body); font-size: 0.9rem; margin-bottom: 20px;">
                  Complete ads to earn rewards!<br>
                  <i class="fas fa-arrow-down" style="color: var(--primary-color); margin-top: 5px;"></i>
              </p>
-             <!-- The container for 20 generated ad buttons -->
              <div id="ad-sequence-container" class="ad-sequence-container">
                  <div class="loader"></div>
              </div>
-
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
 
@@ -513,7 +529,7 @@
              <div id="my-ads-list" class="item-grid"></div>
         </section>
 
-        <!-- WITHDRAW SECTION (UPDATE 4 - TONKEEPER MIN 500) -->
+        <!-- WITHDRAW SECTION -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: center; position: relative;">
                 
@@ -578,6 +594,44 @@
     </nav>
 
     <!-- MODALS -->
+    
+    <!-- UPDATE 4: "HOW TO WORK" MODAL -->
+    <div id="howToWorkModal" class="modal-overlay">
+        <div class="modal-content" style="text-align: left;">
+            <h3 style="text-align: center; color: var(--primary-color); margin-top: 0;">How To Work</h3>
+            
+            <div style="background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                <div class="stat-row" style="background: transparent; margin: 0; padding: 5px 0;">
+                    <span>20,000 Points</span> <strong>= 1.00 TON</strong>
+                </div>
+                <div class="stat-row" style="background: transparent; margin: 0; padding: 5px 0;">
+                    <span>1.00 TON</span> <strong>≈ 180 BDT</strong>
+                </div>
+            </div>
+
+            <hr style="border-color: var(--border-subtle); margin: 5px 0 15px;">
+
+            <h4 style="margin: 0 0 10px; color: var(--text-title); font-size: 1rem;">⚠️ Rules:</h4>
+            <ul style="color: var(--text-body); padding-left: 20px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px;">
+                <li>Do NOT use Multiple Accounts.</li>
+                <li>Do NOT use VPN or Proxy.</li>
+                <li>Please use Promo Codes & Daily Rewards honestly.</li>
+            </ul>
+
+            <!-- Exclusive Reward -->
+            <div style="background: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.5); text-align: center;">
+                <strong style="color: #FFD700; font-size: 1.1rem;"><i class="fas fa-crown"></i> Exclusive Reward</strong>
+                <p style="font-size: 0.9rem; margin: 10px 0; color: #fff;">
+                    Refer 50+ Users? <br>
+                    Send video proof to Admin.
+                    <br><span style="color: var(--primary-color); font-weight: bold;">Win 0.1 - 5 TON!</span>
+                </p>
+                <a href="https://t.me/Your_Admin11" target="_blank" class="task-button" style="width: auto; display: inline-block; background: #FFD700; color: #000; text-decoration: none;">Contact Admin</a>
+            </div>
+
+            <button id="closeHowToWorkBtn" class="form-button" style="margin-top: 20px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
+        </div>
+    </div>
 
     <!-- Success Modal -->
     <div id="successModalOverlay" class="modal-overlay">
@@ -642,7 +696,7 @@
     <!-- Activation Modal -->
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
-            <h3>Welcome to NEW TON!</h3>
+            <h3>Welcome to NEWTUBE TON!</h3>
             <div class="modal-body">
                 <p style="color: var(--text-body); margin-bottom: 20px;">Join our channels to activate your account.</p>
                 <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
@@ -708,13 +762,11 @@
         const REFERRAL_REWARD_POINTS = 80; 
         const USER_CREATED_TASK_REWARD_POINTS = 3; 
         
-        // UPDATE: Rate changed. 1 TON = 20,000 Points. 
-        // So 1 Point = 1/20000 = 0.00005 TON.
-        // 200 Points * 0.00005 = 0.01 TON. (Correct)
+        // Rate: 20,000 Points = 1.00 TON
         const POINTS_TO_TON_RATE = 0.00005; 
 
         const WITHDRAWAL_CONFIG = {
-            'Tonkeeper': { min: 500 }, // 0.025 TON
+            'Tonkeeper': { min: 500 },
             'Bkash': { min: 1000 },
         };
 
@@ -727,8 +779,6 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        // UPDATE: Ads now all reward 5 points.
-        // Levels 1-10: Monetag, Levels 11-20: GigaPub
         const AD_LEVELS = [
             { id: 1, reward: 5, provider: 'monetag' },
             { id: 2, reward: 5, provider: 'monetag' },
@@ -740,7 +790,6 @@
             { id: 8, reward: 5, provider: 'monetag' },
             { id: 9, reward: 5, provider: 'monetag' },
             { id: 10, reward: 5, provider: 'monetag' },
-            // GigaPub starts here
             { id: 11, reward: 5, provider: 'gigapub' },
             { id: 12, reward: 5, provider: 'gigapub' },
             { id: 13, reward: 5, provider: 'gigapub' },
@@ -758,7 +807,6 @@
         let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
         let watchTimeSeconds = 0; 
         
-        // UPDATE: Video Mining 10 Points/Hour (10/3600 per sec) and Claim Min 10
         const MINING_CLAIM_THRESHOLD = 10;
         const POINTS_PER_SECOND = 10 / 3600; 
 
@@ -793,7 +841,6 @@
                 const updates = {
                     'lastDailyReset': serverTimestamp(),
                     'claimedDailyRewards': [],
-                    // Reset sequential progress daily
                     'dailyAdStage': 0
                 };
                 try {
@@ -822,7 +869,7 @@
                     isActivated: false,
                     lifetimeAdsWatched: 0, 
                     claimedDailyRewards: [],
-                    dailyAdStage: 0 // New field for sequential ads
+                    dailyAdStage: 0
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -851,18 +898,13 @@
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        // --- FIXED: UPDATE BALANCE UI TO SHOW POINTS & CONVERTED TON ---
         function updateBalanceUI(tonBalance, pointBalance) {
-            // Calculate equivalent TON from Points
             const pointsValueInTon = (pointBalance || 0) * POINTS_TO_TON_RATE;
-            
-            // Total displayed TON is the real TON balance + converted point value
             const totalTonDisplay = (tonBalance || 0) + pointsValueInTon;
 
             document.getElementById('userTONBalanceDisplay').textContent = totalTonDisplay.toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
 
-            // Also update withdrawal display if it exists in DOM
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
             if(withdrawDisplay) {
                 withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
@@ -900,22 +942,15 @@
              await fetchAndUpdateCurrentUser();
         }
 
-        // --- ADS LOGIC (UPDATED: ALL UNLOCKED) ---
         function setupAdsToEarn() {
             const container = document.getElementById('ad-sequence-container');
             container.innerHTML = '';
             if (!currentUser) return;
 
-            // Current progress: dailyAdStage
-            // We use this to mark ads as "DONE" for today, but not to lock them.
             const currentStage = currentUser.dailyAdStage || 0;
 
             AD_LEVELS.forEach((level) => {
-                // An ad is completed if current stage is >= level.id
                 const isCompleted = currentStage >= level.id;
-                
-                // UPDATE: All ads are unlocked by default
-                const isUnlocked = true;
                 
                 const levelDiv = document.createElement('div');
                 
@@ -950,7 +985,6 @@
             });
         }
 
-        // --- AD CLICK HANDLER ---
         document.getElementById('ad-sequence-container').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-btn-action');
             if (!button || button.disabled) return;
@@ -964,11 +998,10 @@
             const timerDisplay = document.getElementById('adOverlayTimer');
 
             blockingOverlay.style.display = 'flex';
-            let countdown = 6; // Requirement: 6 Seconds
+            let countdown = 6; 
             timerDisplay.textContent = countdown;
 
             try {
-                // Determine Provider
                 if (levelConfig.provider === 'monetag') await showMonetagAd();
                 else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
             } catch (err) {
@@ -987,18 +1020,12 @@
                     button.disabled = true;
 
                     try {
-                        // Grant Reward
                         await grantReward(
                             { points: levelConfig.reward }, 
                             { type: 'Ad Reward', details: `Completed Level ${levelId}` }
                         );
                         
                         const userRef = doc(db, 'users', currentUser.id);
-                        
-                        // We update dailyAdStage to the current level if it's higher
-                        // This keeps track of "how many" or "which level" reached roughly
-                        // If user clicks random order, we just make sure we save the highest ID watched to keep "done" state simple
-                        // Or we can just increment. For simplicity based on DB structure, we set it to current level ID if higher.
                         const currentStage = currentUser.dailyAdStage || 0;
                         if(levelId > currentStage) {
                             await updateDoc(userRef, { 
@@ -1006,11 +1033,9 @@
                                 lifetimeAdsWatched: increment(1) 
                             });
                         } else {
-                            // Just increment lifetime
                             await updateDoc(userRef, { lifetimeAdsWatched: increment(1) });
                         }
                         
-                        // Check Referral Reward (Logic: 10 lifetime ads)
                         const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
                         if (currentAds === 10 && currentUser.referredBy) {
                             const referrerRef = doc(db, 'users', currentUser.referredBy);
@@ -1197,7 +1222,6 @@
             if (amount < config.min) { alert(`Minimum withdrawal for ${method} is ${config.min} Points.`); return; }
             if ((currentUser.pointBalance || 0) < amount) { alert('Insufficient Points balance.'); return; }
             
-            // LOGIC CHECK: ENFORCE 1 REFERRAL
             const totalReferrals = currentUser.referralCount || 0;
             const spentReferrals = currentUser.spentReferrals || 0;
             const availableWithdrawals = totalReferrals - spentReferrals;
@@ -1296,6 +1320,11 @@
         document.getElementById('closeHistoryBtn').addEventListener('click', () => document.getElementById('historyModalOverlay').classList.remove('show'));
         document.getElementById('show-create-task-btn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.add('show'));
         document.getElementById('closeTaskModalBtn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.remove('show'));
+        
+        // --- NEW: How To Work Modal Events ---
+        document.getElementById('howToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.add('show'));
+        document.getElementById('closeHowToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.remove('show'));
+
         document.querySelectorAll('.bottom-nav-item').forEach(link => {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -1343,7 +1372,7 @@
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
-        // --- VIDEO LOGIC (UPDATED) ---
+        // --- VIDEO LOGIC ---
         function updateMiningUI() {
             document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
             const claimBtn = document.getElementById('claimMinedPointsBtn');
@@ -1376,14 +1405,12 @@
             } catch (e) {}
         }
         
-        // VIDEO WATCH TIMER
         setInterval(() => {
             if (isVideoPlaying) {
                 minedBalance += POINTS_PER_SECOND;
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
                 watchTimeSeconds++;
-                // UPDATE: Every 10 minutes (600 seconds), play random ad
                 if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) { 
                     if(player && player.pauseVideo) player.pauseVideo(); 
                     showRandomAd(); 
@@ -1446,7 +1473,7 @@
                 document.getElementById('activationModalOverlay').classList.remove('show');
                 document.querySelector('main').style.display = 'block';
                 document.querySelector('.bottom-nav').style.display = 'flex';
-                showSuccessModal("Account Activated!", "Welcome to NEW TON!");
+                showSuccessModal("Account Activated!", "Welcome to NEWTUBE TON!");
                 await checkAndResetDailies();
                 renderHomeUI();
             } catch (error) { alert("Activation failed."); activateBtn.disabled = false; activateBtn.textContent = 'Verify & Enter'; }
