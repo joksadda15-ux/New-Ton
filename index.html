@@ -889,6 +889,9 @@
 
             currentUser = { id: userSnap.id, ...userSnap.data() };
             
+            // FIX: Update UI immediately
+            updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance); 
+
             if(currentUser.isActivated) {
                 await checkAndResetDailies();
             }
