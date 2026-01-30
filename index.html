@@ -377,7 +377,7 @@
     <!-- BLOCKING OVERLAY FOR ADS -->
     <div id="adBlockingOverlay" class="blocking-overlay">
         <h2>Watching Ad...</h2>
-        <p>Please wait <span id="adOverlayTimer" class="timer-count">6</span> seconds</p>
+        <p>Please wait <span id="adOverlayTimer" class="timer-count">7</span> seconds</p>
         <p style="font-size: 0.9em; color: #777;">Do not close the app.</p>
     </div>
 
@@ -985,6 +985,7 @@
             });
         }
 
+        // --- UPDATED AD EVENT LISTENER WITH VALIDATION ---
         document.getElementById('ad-sequence-container').addEventListener('click', async (e) => {
             const button = e.target.closest('.ad-btn-action');
             if (!button || button.disabled) return;
@@ -997,77 +998,89 @@
             const blockingOverlay = document.getElementById('adBlockingOverlay');
             const timerDisplay = document.getElementById('adOverlayTimer');
 
+            // 1. Show Blocking Overlay
             blockingOverlay.style.display = 'flex';
-            let countdown = 6; 
-            timerDisplay.textContent = countdown;
+            timerDisplay.textContent = "7"; // Show 7 initially
 
-            try {
-                if (levelConfig.provider === 'monetag') await showMonetagAd();
-                else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
-            } catch (err) {
-                console.error("Ad load error:", err);
-            }
-
-            const blockingTimer = setInterval(async () => {
-                countdown--;
-                timerDisplay.textContent = countdown;
-
-                if (countdown <= 0) {
-                    clearInterval(blockingTimer);
-                    blockingOverlay.style.display = 'none'; 
-
-                    button.textContent = '...';
-                    button.disabled = true;
-
-                    try {
-                        await grantReward(
-                            { points: levelConfig.reward }, 
-                            { type: 'Ad Reward', details: `Completed Level ${levelId}` }
-                        );
-                        
-                        const userRef = doc(db, 'users', currentUser.id);
-                        const currentStage = currentUser.dailyAdStage || 0;
-                        if(levelId > currentStage) {
-                            await updateDoc(userRef, { 
-                                dailyAdStage: levelId, 
-                                lifetimeAdsWatched: increment(1) 
-                            });
-                        } else {
-                            await updateDoc(userRef, { lifetimeAdsWatched: increment(1) });
-                        }
-                        
-                        const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
-                        if (currentAds === 10 && currentUser.referredBy) {
-                            const referrerRef = doc(db, 'users', currentUser.referredBy);
-                            await runTransaction(db, async (t) => {
-                                const rDoc = await t.get(referrerRef);
-                                if(rDoc.exists()) {
-                                    t.update(referrerRef, { 
-                                        pointBalance: increment(REFERRAL_REWARD_POINTS)
-                                    });
-                                    t.set(doc(collection(db, 'transactions')), {
-                                        userId: currentUser.referredBy,
-                                        type: 'Referral Reward',
-                                        details: `User ${currentUser.id} reached 10 ads`,
-                                        pointAmount: REFERRAL_REWARD_POINTS,
-                                        status: 'Completed',
-                                        createdAt: serverTimestamp()
-                                    });
-                                }
-                            });
-                        }
-
-                        await fetchAndUpdateCurrentUser();
-                        showSuccessModal("Ad Completed", `You earned +${levelConfig.reward} Points!`);
-                        setupAdsToEarn(); 
-
-                    } catch (error) {
-                        console.error("Error updating ad progress:", error);
-                        alert("Failed to update progress.");
-                        setupAdsToEarn();
-                    }
+            // 2. Start Visual Timer (This just updates the text, doesn't control logic)
+            let visualCountdown = 7;
+            const timerInterval = setInterval(() => {
+                visualCountdown--;
+                if(visualCountdown > 0) {
+                    timerDisplay.textContent = visualCountdown;
+                } else {
+                    timerDisplay.textContent = "Checking...";
                 }
             }, 1000);
+
+            // 3. Record Start Time
+            const startTime = Date.now();
+
+            try {
+                // 4. Show Ad (Await user closing it)
+                if (levelConfig.provider === 'monetag') await showMonetagAd();
+                else if (levelConfig.provider === 'gigapub') await showGigaPubAd();
+                
+                // 5. Calculate Duration
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                
+                // 6. Validate (Must be >= 7000ms)
+                if (duration >= 7000) {
+                    // Success: Grant Reward
+                    await grantReward(
+                        { points: levelConfig.reward }, 
+                        { type: 'Ad Reward', details: `Completed Level ${levelId}` }
+                    );
+                    
+                    const userRef = doc(db, 'users', currentUser.id);
+                    const currentStage = currentUser.dailyAdStage || 0;
+                    if(levelId > currentStage) {
+                        await updateDoc(userRef, { 
+                            dailyAdStage: levelId, 
+                            lifetimeAdsWatched: increment(1) 
+                        });
+                    } else {
+                        await updateDoc(userRef, { lifetimeAdsWatched: increment(1) });
+                    }
+                    
+                    const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
+                    if (currentAds === 10 && currentUser.referredBy) {
+                        const referrerRef = doc(db, 'users', currentUser.referredBy);
+                        await runTransaction(db, async (t) => {
+                            const rDoc = await t.get(referrerRef);
+                            if(rDoc.exists()) {
+                                t.update(referrerRef, { 
+                                    pointBalance: increment(REFERRAL_REWARD_POINTS)
+                                });
+                                t.set(doc(collection(db, 'transactions')), {
+                                    userId: currentUser.referredBy,
+                                    type: 'Referral Reward',
+                                    details: `User ${currentUser.id} reached 10 ads`,
+                                    pointAmount: REFERRAL_REWARD_POINTS,
+                                    status: 'Completed',
+                                    createdAt: serverTimestamp()
+                                });
+                            }
+                        });
+                    }
+
+                    await fetchAndUpdateCurrentUser();
+                    showSuccessModal("Ad Completed", `You earned +${levelConfig.reward} Points!`);
+                    setupAdsToEarn();
+                } else {
+                    // Fail: Closed too early
+                    alert("Reward Denied! \n\nYou must watch the ad for at least 7 seconds.");
+                }
+
+            } catch (err) {
+                console.error("Ad load error:", err);
+                // Optional: alert("Ad failed to load properly.");
+            } finally {
+                // Cleanup
+                clearInterval(timerInterval);
+                blockingOverlay.style.display = 'none';
+            }
         });
 
         async function fetchAndRenderTasks(containerId, count) {
