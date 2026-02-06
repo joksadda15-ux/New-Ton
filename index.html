@@ -458,7 +458,8 @@
                  </div>
                  <p class="referral-copy" style="text-align: center;">
                      1 Invite = <b>1 Withdrawal Unlock</b>.<br>
-                     Plus, get <b>80 Points</b> when they watch 10 ads!
+                     <!-- UPDATED REFERRAL REWARD TEXT -->
+                     Plus, get <b>100 Points</b> when they watch 10 ads!
                  </p>
                  <div class="input-group">
                     <input type="text" id="homeReferralLinkInput" readonly value="Loading...">
@@ -509,6 +510,9 @@
         <!-- UPDATE 3: ADS SECTION (New Buttons) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
+             <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem;">
+                 <i class="fas fa-star"></i> <b>Daily Bonus:</b> Watch 30 Ads = +40 Points!
+             </div>
              
              <!-- 1. Mixed Random Ad Button -->
              <div class="special-ad-card">
@@ -788,12 +792,11 @@
         let isSubmittingWithdrawal = false;
         
         // --- CONSTANTS ---
-        const REFERRAL_REWARD_POINTS = 80; 
-        // UPDATE 5: Task Reward = 5 Points
+        // UPDATED: Referral Reward = 100 Points
+        const REFERRAL_REWARD_POINTS = 100; 
         const USER_CREATED_TASK_REWARD_POINTS = 5; 
         const POINTS_TO_TON_RATE = 0.00005; 
 
-        // UPDATE 1: Day 5 reward = 0.001 TON
         const DAILY_REWARDS = [
             { day: 1, reward: 2, type: 'points' },
             { day: 2, reward: 3, type: 'points' },
@@ -945,6 +948,7 @@
                     adsWatchedMixed: 0,
                     adsWatchedMonetag: 0,
                     adsWatchedGiga: 0,
+                    dailyBonusClaimed: false, // For 30 ads bonus
                     lastAdDate: serverTimestamp()
                 };
                 if (referrerCode && referrerCode !== userId) {
@@ -980,11 +984,13 @@
                     adsWatchedMixed: 0,
                     adsWatchedMonetag: 0,
                     adsWatchedGiga: 0,
+                    dailyBonusClaimed: false, // Reset bonus flag
                     lastAdDate: serverTimestamp()
                 });
                 user.adsWatchedMixed = 0;
                 user.adsWatchedMonetag = 0;
                 user.adsWatchedGiga = 0;
+                user.dailyBonusClaimed = false;
             }
         }
 
@@ -1283,7 +1289,19 @@
         });
 
         async function processAdReward(type, points) {
-            await grantReward({ points: points }, { type: 'Ad Watched', details: type });
+            // UPDATED: Check for Daily 30 Ads Bonus
+            let currentTotal = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0);
+            let newTotal = currentTotal + 1;
+            let bonusPoints = 0;
+
+            if(newTotal === 30 && !currentUser.dailyBonusClaimed) {
+                bonusPoints = 40;
+            }
+
+            // Grant total (Ad + Bonus)
+            const totalToGrant = points + bonusPoints;
+
+            await grantReward({ points: totalToGrant }, { type: 'Ad Watched', details: type + (bonusPoints > 0 ? ' + Daily Bonus' : '') });
             
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1) };
@@ -1292,17 +1310,25 @@
             if(type === 'monetag') updates.adsWatchedMonetag = increment(1);
             if(type === 'giga') updates.adsWatchedGiga = increment(1);
 
+            // Mark bonus as claimed
+            if(bonusPoints > 0) {
+                updates.dailyBonusClaimed = true;
+            }
+
             await updateDoc(userRef, updates);
 
             // Referral Check (10 ads)
             const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
             if (currentAds === 10 && currentUser.referredBy) {
                 const referrerRef = doc(db, 'users', currentUser.referredBy);
-                // Referral reward is Points
+                // Referral reward is Points (now 100)
                 await updateDoc(referrerRef, { pointBalance: increment(REFERRAL_REWARD_POINTS) });
             }
 
-            showSuccessModal("Ad Complete", `+${points} Points`);
+            let msg = `+${points} Points`;
+            if(bonusPoints > 0) msg += `<br><b style="color:#FFD700">Daily Bonus: +40 Points!</b>`;
+
+            showSuccessModal("Ad Complete", msg);
             await fetchAndUpdateCurrentUser();
         }
 
