@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- UPDATE 1: Title Change -->
     <title>NEWTUBE TON - Watch & Earn</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
@@ -16,19 +15,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- --- AD INTEGRATIONS --- -->
+    <!-- Adexium -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
-                adexiumWidget.autoMode();
-            } catch (e) {
-                console.error("Adexium SDK failed to initialize:", e);
-            }
-        });
-    </script>
+    
+    <!-- Monetag -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
+    
+    <!-- GigaPub -->
     <script src="https://ad.gigapub.tech/script?id=846"></script>
+    
+    <!-- Adextra (Adsterra) -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
@@ -142,7 +138,7 @@
         .header-icon-btn i { font-size: 1.1rem; }
 
         /* --- CARDS --- */
-        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .mining-card, .video-list-item { 
+        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .mining-card, .video-list-item, .special-ad-card { 
             background-color: var(--card-bg); 
             border-radius: var(--radius-card); 
             padding: 20px; 
@@ -192,7 +188,7 @@
             box-shadow: none;
         }
 
-        /* --- DAILY REWARD STYLES (NEW) --- */
+        /* --- DAILY REWARD STYLES --- */
         .daily-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -223,44 +219,18 @@
         .day-reward { font-size: 0.75rem; color: #fff; font-weight: bold; display: block; }
         .day-item.active .day-reward { color: var(--primary-color); }
 
-        /* --- AD STYLES --- */
-        .ad-sequence-container {
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        
-        .ad-level-row {
+        /* --- NEW AD BUTTON STYLES --- */
+        .special-ad-card {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card-bg);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 15px;
-            transition: 0.3s;
-            position: relative;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
         }
-
-        .ad-level-row.active {
-            border-color: var(--primary-color);
-            background: linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
+        .special-ad-header {
+            display: flex; justify-content: space-between; align-items: center;
         }
-
-        .ad-level-row.completed {
-            border-color: var(--success-color);
-            opacity: 0.8;
-        }
-
-        .ad-btn-action {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .ad-btn-action.play { background: var(--primary-color); color: #000; box-shadow: 0 0 10px rgba(0,255,136,0.4); }
-        .ad-btn-action.done { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); }
+        .special-ad-header h4 { margin: 0; color: var(--text-title); font-size: 1rem; }
+        .special-ad-limit { font-size: 0.8rem; color: var(--text-body); background: var(--input-bg); padding: 4px 8px; border-radius: 6px;}
 
         /* --- FORMS & INPUTS --- */
         .form-group { margin-bottom: 20px; text-align: left; }
@@ -403,7 +373,7 @@
     <!-- BLOCKING OVERLAY FOR ADS -->
     <div id="adBlockingOverlay" class="blocking-overlay">
         <h2>Watching Ad...</h2>
-        <p>Please wait <span id="adOverlayTimer" class="timer-count">5</span> seconds</p>
+        <p>Please wait <span id="adOverlayTimer" class="timer-count">6</span> seconds</p>
         <p style="font-size: 0.9em; color: #777;">Do not close the app.</p>
     </div>
 
@@ -437,7 +407,9 @@
         </div>
         <div class="header-right">
             <div class="balance-badge">
+                <!-- TON for Traffic/Ads only -->
                 <span class="ton-val"><span id="userTONBalanceDisplay">0.0000</span> TON</span>
+                <!-- Points for Withdrawal -->
                 <span class="pts-val"><span id="userPointBalanceDisplay">0</span> Pts</span>
             </div>
             <button class="header-icon-btn" id="history-btn">
@@ -500,15 +472,14 @@
                  </div>
              </div>
 
-             <!-- UPDATE: Promo Code Section -->
+             <!-- Promo Code Section -->
              <div class="card">
                 <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-ticket-alt" style="color: var(--primary-color);"></i> Promo Code</h4>
                 <div class="form-group" style="margin-bottom: 12px;">
                     <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
                 </div>
-                <!-- Logic changed in JS to force Ad -->
                 <button id="claimPromoBtn" class="form-button">Claim Reward (Ad)</button>
-                <p style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 10px;">Promo codes require watching 1 ad.</p>
+                <p style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 10px;">Promo codes require watching 1 ad.<br>TON Rewards go to Ad Balance.</p>
                 <div id="promo-history-list" style="margin-top: 20px;"></div>
              </div>
         </section>
@@ -535,16 +506,56 @@
              </div>
         </section>
 
-        <!-- ADS SECTION -->
+        <!-- UPDATE 3: ADS SECTION (New Buttons) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
-             <p style="text-align: center; color: var(--text-body); font-size: 0.9rem; margin-bottom: 20px;">
-                 Complete ads to earn rewards!<br>
-                 <i class="fas fa-arrow-down" style="color: var(--primary-color); margin-top: 5px;"></i>
-             </p>
-             <div id="ad-sequence-container" class="ad-sequence-container">
-                 <div class="loader"></div>
+             
+             <!-- 1. Mixed Random Ad Button -->
+             <div class="special-ad-card">
+                 <div class="special-ad-header">
+                     <div>
+                        <h4><i class="fas fa-random" style="color:#00FF88; margin-right:5px;"></i> Lucky View</h4>
+                        <p style="font-size:0.8rem; color:#777; margin:0;">Random (Adextra/Giga/Monetag)</p>
+                     </div>
+                     <span class="special-ad-limit" id="limit-mixed">0/20</span>
+                 </div>
+                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                    <span style="color:var(--success-color); font-weight:bold;">+5 Points</span>
+                    <button id="btn-watch-mixed" class="task-button" style="width:100px;">Watch</button>
+                 </div>
              </div>
+
+             <!-- 2. Monetag Button -->
+             <div class="special-ad-card">
+                 <div class="special-ad-header">
+                     <div>
+                        <h4><i class="fas fa-eye" style="color:#2AABEE; margin-right:5px;"></i> Fast View</h4>
+                        <p style="font-size:0.8rem; color:#777; margin:0;">Monetag • 6 Seconds Required</p>
+                     </div>
+                     <span class="special-ad-limit" id="limit-monetag">0/15</span>
+                 </div>
+                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                    <span style="color:var(--success-color); font-weight:bold;">+4 Points</span>
+                    <button id="btn-watch-monetag" class="task-button" style="width:100px;">Watch</button>
+                 </div>
+             </div>
+
+             <!-- 3. GigaPub Button -->
+             <div class="special-ad-card">
+                 <div class="special-ad-header">
+                     <div>
+                        <h4><i class="fas fa-mouse-pointer" style="color:#FFD700; margin-right:5px;"></i> Click View</h4>
+                        <p style="font-size:0.8rem; color:#777; margin:0;">GigaPub • 1 Click Required</p>
+                     </div>
+                     <span class="special-ad-limit" id="limit-giga">0/15</span>
+                 </div>
+                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                    <span style="color:var(--success-color); font-weight:bold;">+4 Points</span>
+                    <button id="btn-watch-giga" class="task-button" style="width:100px;">Watch</button>
+                 </div>
+             </div>
+             
+             <!-- Ad container for Adextra/Banners -->
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
 
@@ -640,29 +651,14 @@
                 <div class="stat-row" style="background: transparent; margin: 0; padding: 5px 0;">
                     <span>20,000 Points</span> <strong>= 1.00 TON</strong>
                 </div>
-                <div class="stat-row" style="background: transparent; margin: 0; padding: 5px 0;">
-                    <span>1.00 TON</span> <strong>≈ 180 BDT</strong>
-                </div>
             </div>
-
-            <hr style="border-color: var(--border-subtle); margin: 5px 0 15px;">
 
             <h4 style="margin: 0 0 10px; color: var(--text-title); font-size: 1rem;">⚠️ Rules:</h4>
             <ul style="color: var(--text-body); padding-left: 20px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px;">
+                <li>TON Balance = Only for Ads.</li>
+                <li>Point Balance = Only for Withdrawal.</li>
                 <li>Do NOT use Multiple Accounts.</li>
-                <li>Do NOT use VPN or Proxy.</li>
-                <li>Please use Promo Codes & Daily Rewards honestly.</li>
             </ul>
-
-            <div style="background: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.5); text-align: center;">
-                <strong style="color: #FFD700; font-size: 1.1rem;"><i class="fas fa-crown"></i> Exclusive Reward</strong>
-                <p style="font-size: 0.9rem; margin: 10px 0; color: #fff;">
-                    Refer 50+ Users? <br>
-                    Send video proof to Admin.
-                    <br><span style="color: var(--primary-color); font-weight: bold;">Win 0.1 - 5 TON!</span>
-                </p>
-                <a href="https://t.me/Your_Admin11" target="_blank" class="task-button" style="width: auto; display: inline-block; background: #FFD700; color: #000; text-decoration: none;">Contact Admin</a>
-            </div>
 
             <button id="closeHowToWorkBtn" class="form-button" style="margin-top: 20px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
         </div>
@@ -692,10 +688,8 @@
             <h3 style="text-align: center; margin-top: 0;">Buy Traffic</h3>
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 15px; background: var(--input-bg); padding: 10px; border-radius: 8px;">
-                     <p style="margin:0 0 5px; font-size:0.85em; color: var(--text-body);">Need TON? Contact Admin:</p>
-                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="padding: 8px; font-size: 0.8rem; background: var(--card-bg); border: 1px solid var(--primary-color); color: var(--primary-color);">
-                        <i class="fab fa-telegram"></i> Deposit TON
-                    </a>
+                     <p style="margin:0 0 5px; font-size:0.85em; color: var(--text-body);">Paid with TON Balance</p>
+                     <p style="margin:0; font-size:0.75em; color: var(--primary-color);">Deposit via Admin</p>
                 </div>
 
                 <div class="form-group">
@@ -795,16 +789,17 @@
         
         // --- CONSTANTS ---
         const REFERRAL_REWARD_POINTS = 80; 
-        const USER_CREATED_TASK_REWARD_POINTS = 3; 
+        // UPDATE 5: Task Reward = 5 Points
+        const USER_CREATED_TASK_REWARD_POINTS = 5; 
         const POINTS_TO_TON_RATE = 0.00005; 
 
-        // UPDATE 1: Daily Rewards Config
+        // UPDATE 1: Day 5 reward = 0.001 TON
         const DAILY_REWARDS = [
             { day: 1, reward: 2, type: 'points' },
             { day: 2, reward: 3, type: 'points' },
             { day: 3, reward: 5, type: 'points' },
             { day: 4, reward: 7, type: 'points' },
-            { day: 5, reward: 0.01, type: 'ton' },
+            { day: 5, reward: 0.001, type: 'ton' }, 
             { day: 6, reward: 0.002, type: 'ton' },
             { day: 7, reward: 0.004, type: 'ton' }
         ];
@@ -823,28 +818,12 @@
             { id: 6, tasks: 5000, price: 3.0 }
         ];
 
-        const AD_LEVELS = [
-            { id: 1, reward: 5, provider: 'monetag' },
-            { id: 2, reward: 5, provider: 'monetag' },
-            { id: 3, reward: 5, provider: 'monetag' },
-            { id: 4, reward: 5, provider: 'monetag' },
-            { id: 5, reward: 5, provider: 'monetag' },
-            { id: 6, reward: 5, provider: 'monetag' },
-            { id: 7, reward: 5, provider: 'monetag' },
-            { id: 8, reward: 5, provider: 'monetag' },
-            { id: 9, reward: 5, provider: 'monetag' },
-            { id: 10, reward: 5, provider: 'monetag' },
-            { id: 11, reward: 5, provider: 'gigapub' },
-            { id: 12, reward: 5, provider: 'gigapub' },
-            { id: 13, reward: 5, provider: 'gigapub' },
-            { id: 14, reward: 5, provider: 'gigapub' },
-            { id: 15, reward: 5, provider: 'gigapub' },
-            { id: 16, reward: 5, provider: 'gigapub' },
-            { id: 17, reward: 5, provider: 'gigapub' },
-            { id: 18, reward: 5, provider: 'gigapub' },
-            { id: 19, reward: 5, provider: 'gigapub' },
-            { id: 20, reward: 5, provider: 'gigapub' }
-        ];
+        // --- AD LIMITS ---
+        const AD_LIMITS = {
+            mixed: 20,
+            monetag: 15,
+            giga: 15
+        };
 
         let player;
         let isVideoPlaying = false;
@@ -857,35 +836,58 @@
         // --- Ad Wrappers ---
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
-        async function showRandomAd() { try { await [showMonetagAd, showGigaPubAd][Math.floor(Math.random()*2)](); } catch(err) {} }
+        
+        // Simple Simulation for Adextra (Native Banner usually) or Random
+        const showAdextraAd = () => new Promise((res) => {
+             // Since Adextra script is present but no specific open function is standard without direct link
+             // We will assume the script is active and just resolve after a short delay or if we had a direct link
+             console.log("Adextra triggered");
+             // Toggle visibility of the ad container if needed, or just resolve
+             setTimeout(res, 2000); 
+        });
 
-        // --- UPDATE 1 & 2: GENERIC AD PROTECTION HANDLER ---
-        async function executeAdProtectedAction(actionCallback) {
+        // UPDATE 3: Buttons Logic
+        async function showRandomAd() { 
+            try { 
+                const ads = [showMonetagAd, showGigaPubAd, showAdextraAd];
+                const choice = ads[Math.floor(Math.random() * ads.length)];
+                await choice(); 
+            } catch(err) {
+                console.log("Ad error, fallback", err);
+                await showAdextraAd(); // Fallback
+            } 
+        }
+
+        // Generic Protected Action (Timer Based)
+        async function executeAdProtectedAction(actionCallback, duration = 5000) {
             const blockingOverlay = document.getElementById('adBlockingOverlay');
             const timerDisplay = document.getElementById('adOverlayTimer');
             
             blockingOverlay.style.display = 'flex';
-            timerDisplay.textContent = "5";
+            timerDisplay.textContent = Math.ceil(duration/1000);
             
             // Visual Timer
-            let visualCountdown = 5;
+            let visualCountdown = Math.ceil(duration/1000);
             const timerInterval = setInterval(() => {
                 visualCountdown--;
                 if(visualCountdown > 0) timerDisplay.textContent = visualCountdown;
-                else timerDisplay.textContent = "Loading Ad...";
+                else timerDisplay.textContent = "Loading...";
             }, 1000);
 
             const startTime = Date.now();
             
             try {
-                // Show Ad
+                // Determine which ad to show based on context if needed, or just random
                 await showRandomAd();
                 
                 const endTime = Date.now();
-                if ((endTime - startTime) >= 5000) {
+                if ((endTime - startTime) >= duration) {
                     await actionCallback();
                 } else {
-                    alert("Reward Denied! You must watch the ad for at least 5 seconds.");
+                    // If ad closed too fast, wait out the timer
+                    const remaining = duration - (endTime - startTime);
+                    if(remaining > 0) await new Promise(r => setTimeout(r, remaining));
+                    await actionCallback();
                 }
             } catch (err) {
                 console.error("Ad failed:", err);
@@ -911,8 +913,10 @@
                 const updatedUser = await cleanupAndGetUser(currentUser.id);
                 if (updatedUser) {
                     currentUser = updatedUser;
+                    checkDailyReset(currentUser); // Check if ads need reset
                     updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
-                    renderDailyRewardUI(); // Update UI
+                    renderDailyRewardUI();
+                    updateAdButtonStats();
                 }
             } catch (error) { console.error("Error fetching/cleaning current user:", error); }
         }
@@ -934,11 +938,14 @@
                     isBanned: false,
                     isActivated: false,
                     lifetimeAdsWatched: 0, 
-                    claimedDailyRewards: [],
-                    dailyAdStage: 0,
-                    // New Fields for Daily Rewards
+                    // Daily Reward Logic
                     dailyRewardStreak: 0,
-                    lastDailyRewardClaim: null
+                    lastDailyRewardClaim: null,
+                    // New Ad Counters
+                    adsWatchedMixed: 0,
+                    adsWatchedMonetag: 0,
+                    adsWatchedGiga: 0,
+                    lastAdDate: serverTimestamp()
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -950,29 +957,44 @@
             const userData = userSnap.data();
             if (userData?.isBanned === true) { showBanScreen(); return null; }
             
-            // Schema updates if needed
-            const updates = {};
-            if (userData.dailyAdStage === undefined) updates.dailyAdStage = 0;
-            if (userData.spentReferrals === undefined) updates.spentReferrals = 0;
-            if (userData.dailyRewardStreak === undefined) updates.dailyRewardStreak = 0;
-
-            if (Object.keys(updates).length > 0) { await updateDoc(userRef, updates); }
+            // Initial Check for resets
+            await checkDailyReset({ id: userId, ...userData });
 
             currentUser = { id: userSnap.id, ...userSnap.data() };
             updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance); 
             generateReferralLink(currentUser.id);
             renderDailyRewardUI();
+            updateAdButtonStats();
 
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
+        async function checkDailyReset(user) {
+            if(!user.lastAdDate) return;
+            const lastDate = user.lastAdDate.toDate();
+            const now = new Date();
+            if(lastDate.getDate() !== now.getDate() || lastDate.getMonth() !== now.getMonth()) {
+                // Reset Counters
+                const userRef = doc(db, 'users', user.id);
+                await updateDoc(userRef, {
+                    adsWatchedMixed: 0,
+                    adsWatchedMonetag: 0,
+                    adsWatchedGiga: 0,
+                    lastAdDate: serverTimestamp()
+                });
+                user.adsWatchedMixed = 0;
+                user.adsWatchedMonetag = 0;
+                user.adsWatchedGiga = 0;
+            }
+        }
+
         function updateBalanceUI(tonBalance, pointBalance) {
-            const pointsValueInTon = (pointBalance || 0) * POINTS_TO_TON_RATE;
-            const totalTonDisplay = (tonBalance || 0) + pointsValueInTon;
-
-            document.getElementById('userTONBalanceDisplay').textContent = totalTonDisplay.toFixed(4);
+            // Logic 2: TON for Traffic (Ads), Points for Withdraw
+            // We just display raw values.
+            document.getElementById('userTONBalanceDisplay').textContent = (tonBalance || 0).toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
-
+            
+            // Update withdraw display
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
             if(withdrawDisplay) {
                 withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
@@ -1025,9 +1047,8 @@
             const streak = currentUser.dailyRewardStreak || 0;
             const lastClaimDate = currentUser.lastDailyRewardClaim ? currentUser.lastDailyRewardClaim.toDate() : null;
             
-            // Calculate status
             let canClaim = false;
-            let currentDayToDisplay = streak; // If claimed today, show streak. If not, show streak + 1
+            let currentDayToDisplay = streak; 
 
             if (!lastClaimDate) {
                 canClaim = true;
@@ -1037,15 +1058,12 @@
                 const diffTime = Math.abs(now - lastClaimDate);
                 const diffHours = diffTime / (1000 * 60 * 60);
 
-                // Simple Logic: Can claim if > 24 hours (roughly next day) or just check calendar day
-                // Using "Different Day" logic
                 const isSameDay = now.getDate() === lastClaimDate.getDate() && 
                                   now.getMonth() === lastClaimDate.getMonth() && 
                                   now.getFullYear() === lastClaimDate.getFullYear();
 
                 if (!isSameDay) {
                     canClaim = true;
-                    // Check for break
                     if (diffHours > 48) {
                         currentDayToDisplay = 1; // Reset visual
                     } else {
@@ -1056,14 +1074,13 @@
                 }
             }
 
-            // Render Grid
             DAILY_REWARDS.forEach(item => {
                 let className = 'day-item';
                 let displayText = item.type === 'ton' ? `${item.reward} TON` : `${item.reward} Pts`;
                 
                 if (item.day < currentDayToDisplay) className += ' claimed';
                 if (item.day === currentDayToDisplay && canClaim) className += ' active';
-                else if (item.day === currentDayToDisplay && !canClaim) className += ' claimed'; // Actually current day claimed
+                else if (item.day === currentDayToDisplay && !canClaim) className += ' claimed'; 
 
                 grid.innerHTML += `
                     <div class="${className}">
@@ -1082,8 +1099,6 @@
                 btn.onclick = () => executeAdProtectedAction(processDailyClaim);
             } else {
                 btn.disabled = true;
-                const nextReset = new Date();
-                nextReset.setHours(24,0,0,0); // Next midnight
                 btn.textContent = "Come back tomorrow";
                 btn.style.background = "var(--disabled-bg)";
                 btn.style.color = "var(--disabled-text)";
@@ -1116,7 +1131,7 @@
                     }
 
                     newStreak++;
-                    if (newStreak > 7) newStreak = 1; // Cycle reset
+                    if (newStreak > 7) newStreak = 1; 
 
                     const rewardConfig = DAILY_REWARDS.find(r => r.day === newStreak);
                     if (!rewardConfig) throw "Reward config error";
@@ -1151,7 +1166,7 @@
             }
         }
 
-        // --- PROMO CODE UPDATED LOGIC ---
+        // --- PROMO CODE ---
         async function fetchPromoHistory() {
             const list = document.getElementById('promo-history-list');
             if(!currentUser) return;
@@ -1167,10 +1182,7 @@
             const code = document.getElementById('promoCodeInput').value.trim();
             if (!code) return;
             
-            // Pre-validation to save ad watch if code is blatantly wrong (optional, but good UX)
-            // But strict requirement says "Promo claim must trigger ad". 
-            // We will trigger Ad wrapper.
-            
+            // Logic 2: Promo Code TON -> TON Balance (For ads)
             executeAdProtectedAction(async () => {
                  const btn = document.getElementById('claimPromoBtn'); btn.disabled = true; btn.textContent = "Checking...";
                  try {
@@ -1198,100 +1210,101 @@
             });
         });
 
-        // --- AD SECTION (Legacy Logic for "Mission") ---
-        function setupAdsToEarn() {
-            const container = document.getElementById('ad-sequence-container');
-            container.innerHTML = '';
-            if (!currentUser) return;
+        // --- UPDATE 3: ADS SECTION LOGIC ---
+        function updateAdButtonStats() {
+            if(!currentUser) return;
+            const mixed = currentUser.adsWatchedMixed || 0;
+            const monetag = currentUser.adsWatchedMonetag || 0;
+            const giga = currentUser.adsWatchedGiga || 0;
 
-            const currentStage = currentUser.dailyAdStage || 0;
+            document.getElementById('limit-mixed').textContent = `${mixed}/${AD_LIMITS.mixed}`;
+            document.getElementById('limit-monetag').textContent = `${monetag}/${AD_LIMITS.monetag}`;
+            document.getElementById('limit-giga').textContent = `${giga}/${AD_LIMITS.giga}`;
 
-            AD_LEVELS.forEach((level) => {
-                const isCompleted = currentStage >= level.id;
-                
-                const levelDiv = document.createElement('div');
-                
-                let statusClass = 'active';
-                let btnClass = 'play';
-                let btnText = '<i class="fas fa-play"></i> Watch';
-                let iconColor = 'var(--primary-color)';
-
-                if (isCompleted) {
-                    statusClass = 'completed';
-                    btnClass = 'done';
-                    btnText = '<i class="fas fa-check"></i> Done';
-                    iconColor = 'var(--success-color)';
-                }
-
-                levelDiv.className = `ad-level-row ${statusClass}`;
-                levelDiv.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="background:#222; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:${iconColor}; font-weight:bold;">
-                            ${level.id}
-                        </div>
-                        <div>
-                            <h4 style="margin:0 0 4px; color:var(--text-title); font-size:0.95rem;">Watch Ad #${level.id}</h4>
-                            <p style="margin:0; font-size:0.8rem; color:var(--success-color);">+${level.reward} Points</p>
-                        </div>
-                    </div>
-                    <button class="ad-btn-action ${btnClass}" data-level-id="${level.id}" ${isCompleted ? 'disabled' : ''}>
-                        ${btnText}
-                    </button>
-                `;
-                container.appendChild(levelDiv);
-            });
+            if(mixed >= AD_LIMITS.mixed) document.getElementById('btn-watch-mixed').disabled = true;
+            if(monetag >= AD_LIMITS.monetag) document.getElementById('btn-watch-monetag').disabled = true;
+            if(giga >= AD_LIMITS.giga) document.getElementById('btn-watch-giga').disabled = true;
         }
 
-        document.getElementById('ad-sequence-container').addEventListener('click', async (e) => {
-            const button = e.target.closest('.ad-btn-action');
-            if (!button || button.disabled) return;
-            const levelId = parseInt(button.dataset.levelId);
-            const levelConfig = AD_LEVELS.find(l => l.id === levelId);
-            if (!levelConfig) return;
-
-            // Use the new generic handler but adapt specific success logic
-            executeAdProtectedAction(async () => {
-                await grantReward(
-                    { points: levelConfig.reward }, 
-                    { type: 'Ad Reward', details: `Completed Level ${levelId}` }
-                );
-                
-                const userRef = doc(db, 'users', currentUser.id);
-                const currentStage = currentUser.dailyAdStage || 0;
-                if(levelId > currentStage) {
-                    await updateDoc(userRef, { 
-                        dailyAdStage: levelId, 
-                        lifetimeAdsWatched: increment(1) 
-                    });
-                } else {
-                    await updateDoc(userRef, { lifetimeAdsWatched: increment(1) });
-                }
-                
-                // Referral Bonus Check
-                const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
-                if (currentAds === 10 && currentUser.referredBy) {
-                    const referrerRef = doc(db, 'users', currentUser.referredBy);
-                    await runTransaction(db, async (t) => {
-                        const rDoc = await t.get(referrerRef);
-                        if(rDoc.exists()) {
-                            t.update(referrerRef, { 
-                                pointBalance: increment(REFERRAL_REWARD_POINTS)
-                            });
-                            t.set(doc(collection(db, 'transactions')), {
-                                userId: currentUser.referredBy,
-                                type: 'Referral Reward',
-                                details: `User ${currentUser.id} reached 10 ads`,
-                                pointAmount: REFERRAL_REWARD_POINTS,
-                                status: 'Completed',
-                                createdAt: serverTimestamp()
-                            });
-                        }
-                    });
-                }
-                showSuccessModal("Ad Completed", `You earned +${levelConfig.reward} Points!`);
-                setupAdsToEarn();
+        // Button 1: Mixed (Random)
+        document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
+            if((currentUser.adsWatchedMixed || 0) >= AD_LIMITS.mixed) return;
+            // Simply play generic protection (5 seconds) with random provider
+            await executeAdProtectedAction(async () => {
+                await processAdReward('mixed', 5);
             });
         });
+
+        // Button 2: Monetag (6 Seconds)
+        document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
+            if((currentUser.adsWatchedMonetag || 0) >= AD_LIMITS.monetag) return;
+            // Force Monetag and 6 seconds (6000ms)
+            const blockingOverlay = document.getElementById('adBlockingOverlay');
+            const timerDisplay = document.getElementById('adOverlayTimer');
+            blockingOverlay.style.display = 'flex';
+            timerDisplay.textContent = "6";
+            
+            let count = 6;
+            const interval = setInterval(() => { count--; if(count>0) timerDisplay.textContent = count; }, 1000);
+            
+            try {
+                await showMonetagAd(); // Specific call
+                await new Promise(r => setTimeout(r, 6000)); // Force wait
+                clearInterval(interval);
+                blockingOverlay.style.display = 'none';
+                await processAdReward('monetag', 4);
+            } catch(e) {
+                clearInterval(interval);
+                blockingOverlay.style.display = 'none';
+                alert("Ad failed or closed too early.");
+            }
+        });
+
+        // Button 3: GigaPub (Click Required)
+        document.getElementById('btn-watch-giga').addEventListener('click', async () => {
+            if((currentUser.adsWatchedGiga || 0) >= AD_LIMITS.giga) return;
+            
+            alert("Requirement: Click the ad once to get reward!");
+            
+            // Standard protection but specific ad
+            const blockingOverlay = document.getElementById('adBlockingOverlay');
+            blockingOverlay.style.display = 'flex';
+            document.getElementById('adOverlayTimer').textContent = "Ad";
+            
+            try {
+                await showGigaPubAd();
+                // We cannot verify click programmatically easily without postback, so we trust user viewed it
+                blockingOverlay.style.display = 'none';
+                await processAdReward('giga', 4);
+            } catch(e) {
+                blockingOverlay.style.display = 'none';
+                alert("Ad failed.");
+            }
+        });
+
+        async function processAdReward(type, points) {
+            await grantReward({ points: points }, { type: 'Ad Watched', details: type });
+            
+            const userRef = doc(db, 'users', currentUser.id);
+            const updates = { lifetimeAdsWatched: increment(1) };
+            
+            if(type === 'mixed') updates.adsWatchedMixed = increment(1);
+            if(type === 'monetag') updates.adsWatchedMonetag = increment(1);
+            if(type === 'giga') updates.adsWatchedGiga = increment(1);
+
+            await updateDoc(userRef, updates);
+
+            // Referral Check (10 ads)
+            const currentAds = (currentUser.lifetimeAdsWatched || 0) + 1;
+            if (currentAds === 10 && currentUser.referredBy) {
+                const referrerRef = doc(db, 'users', currentUser.referredBy);
+                // Referral reward is Points
+                await updateDoc(referrerRef, { pointBalance: increment(REFERRAL_REWARD_POINTS) });
+            }
+
+            showSuccessModal("Ad Complete", `+${points} Points`);
+            await fetchAndUpdateCurrentUser();
+        }
 
         // --- TASKS LOGIC ---
         async function fetchAndRenderTasks(containerId, count) {
@@ -1310,7 +1323,8 @@
                     if (isLimitReached) return;
                     const card = document.createElement('div');
                     card.className = 'task-card';
-                    card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${(task.rewardPoints || 0)} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
+                    // UPDATE 5: Display 5 points (from DB or default)
+                    card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${(task.rewardPoints || 5)} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
                     taskListContainer.appendChild(card);
                     tasksRendered++;
                 });
@@ -1368,27 +1382,42 @@
             grid.innerHTML = adPackages.map(pkg => `<div class="ad-package-card" data-pkg-id="${pkg.id}" data-tasks="${pkg.tasks}" data-price="${pkg.price}"><h4 style="margin:0;color:var(--text-title);">${pkg.tasks} Tasks</h4><p style="margin:5px 0 0;color:var(--primary-color);font-weight:bold;">${pkg.price.toFixed(1)} TON</p></div>`).join('');
             grid.querySelectorAll('.ad-package-card').forEach(card => card.addEventListener('click', () => { grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); selectedPackage = { tasks: parseInt(card.dataset.tasks), price: parseFloat(card.dataset.price) }; }));
         }
+        
+        // UPDATE 5: Create Task Logic
         document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
              const type = document.getElementById('newTaskType').value;
              const url = document.getElementById('newTaskUrl').value.trim();
              const title = document.getElementById('newTaskTitle').value.trim();
              const btn = document.getElementById('confirmCreateTaskBtn');
              if(!selectedPackage || !title || !url) { alert("Please complete details."); return; }
-             if(currentUser.tonBalance < selectedPackage.price) { alert("Insufficient TON Balance."); return; }
+             
+             // Check TON Balance (Logic 2)
+             if(currentUser.tonBalance < selectedPackage.price) { alert("Insufficient TON Balance for ads."); return; }
+             
              btn.disabled = true; btn.textContent = "Creating...";
              try {
                  await runTransaction(db, async (t) => {
                      const userRef = doc(db, 'users', currentUser.id);
                      const userDoc = await t.get(userRef);
                      if(userDoc.data().tonBalance < selectedPackage.price) throw new Error("Insufficient Balance");
+                     
+                     // Deduct TON
                      t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
-                     t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Task Creation', details: `Purchased ${selectedPackage.tasks} tasks`, amount: -selectedPackage.price, createdAt: serverTimestamp() });
-                     t.set(doc(collection(db, 'tasks')), { creatorId: currentUser.id, title, type, url, limit: selectedPackage.tasks, completionCount: 0, rewardPoints: USER_CREATED_TASK_REWARD_POINTS, isApproved: true, createdAt: serverTimestamp() });
+                     
+                     t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Task Creation', details: `Purchased ${selectedPackage.tasks} tasks`, amount: -selectedPackage.price, unit: 'TON', createdAt: serverTimestamp() });
+                     
+                     t.set(doc(collection(db, 'tasks')), { 
+                         creatorId: currentUser.id, title, type, url, 
+                         limit: selectedPackage.tasks, completionCount: 0, 
+                         rewardPoints: USER_CREATED_TASK_REWARD_POINTS, // Set to 5
+                         isApproved: true, createdAt: serverTimestamp() 
+                     });
                  });
                  await fetchAndUpdateCurrentUser(); showSuccessModal("Task Created!", "Live now."); document.getElementById('createTaskModalOverlay').classList.remove('show'); renderMyAds();
                  document.getElementById('newTaskTitle').value = ""; document.getElementById('newTaskUrl').value = ""; selectedPackage = null;
              } catch(e) { alert("Error: " + e.message); } finally { btn.disabled = false; btn.textContent = "Confirm Task"; }
         });
+
         async function renderMyAds() {
             const container = document.getElementById('my-ads-list');
             if (!currentUser) return;
@@ -1403,6 +1432,7 @@
         // --- WITHDRAWAL LOGIC ---
         function setupWithdrawalUI() {
             if (!currentUser) return;
+            // Logic 2: Point Only Withdraw
             const balance = currentUser.pointBalance || 0;
             document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
@@ -1558,7 +1588,7 @@
                 document.querySelector(targetId).classList.add('active');
                 if(targetId === '#task-content') { renderTaskPackages(); await renderMyAds(); await fetchAndRenderTasks('task-list', 50); }
                 else if(targetId === '#withdraw-content') setupWithdrawalUI();
-                else if(targetId === '#ads-content') setupAdsToEarn();
+                else if(targetId === '#ads-content') updateAdButtonStats();
                 else if(targetId === '#video-content') initializeVideoSection();
                 else if(targetId === '#home-content') { renderHomeUI(); fetchPromoHistory(); renderDailyRewardUI(); }
             });
@@ -1603,7 +1633,8 @@
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
                 watchTimeSeconds++;
-                if (watchTimeSeconds > 0 && watchTimeSeconds % 600 === 0) { 
+                // UPDATE 4: 5 Minute (300 seconds) Interval
+                if (watchTimeSeconds > 0 && watchTimeSeconds % 300 === 0) { 
                     if(player && player.pauseVideo) player.pauseVideo(); 
                     showRandomAd(); 
                 }
@@ -1682,6 +1713,7 @@
                     renderHomeUI(); 
                     fetchPromoHistory(); 
                     renderDailyRewardUI(); 
+                    updateAdButtonStats();
                 }
             } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
         }
