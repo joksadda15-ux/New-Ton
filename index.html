@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- --- AD INTEGRATIONS --- -->
-    <!-- Adexium -->
-    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    
+    <!-- UPDATE 1: Adexium Setup Fixed -->
+    <!-- Adexium Script (Requires a container in body with specific class/id usually, generic load here) -->
+    <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js" async></script>
     
     <!-- Monetag -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
@@ -365,6 +367,20 @@
             50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px var(--primary-color); }
             100% { transform: scale(1); opacity: 0.8; }
         }
+        
+        /* ADEXIUM Container Style */
+        #adexium-ad-container {
+            width: 100%;
+            min-height: 100px;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--input-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
     </style>
 </head>
@@ -558,6 +574,13 @@
                     <button id="btn-watch-giga" class="task-button" style="width:100px;">Watch</button>
                  </div>
              </div>
+
+             <!-- UPDATE 1: Adexium Ad Container -->
+             <!-- Many ad scripts require a container to render into -->
+             <div id="adexium-ad-container">
+                 <!-- The script usually injects the iframe/banner here -->
+                 <p style="font-size: 0.8rem; color: #555;">Adexium Banner</p>
+             </div>
              
              <!-- Ad container for Adextra/Banners -->
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
@@ -581,6 +604,7 @@
         </section>
 
         <!-- WITHDRAW SECTION -->
+        <!-- UPDATE 2: Enhanced Withdraw Logic -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: center; position: relative;">
                 
@@ -602,6 +626,10 @@
                      <div class="form-group">
                         <label>Amount (Points)</label>
                         <input type="number" id="withdrawalAmount" placeholder="Enter Amount" required>
+                        <!-- Added explicit visual feedback here -->
+                        <div id="realtime-ton-display" style="margin-top: 5px; font-size: 0.9rem; color: var(--primary-color); font-weight: bold; display: none;">
+                            You Receive: <span id="calc-ton-val">0.0000</span> TON
+                        </div>
                      </div>
                      <div class="form-group">
                         <label>Wallet Address / Number</label>
@@ -795,7 +823,7 @@
         // UPDATED: Referral Reward = 100 Points
         const REFERRAL_REWARD_POINTS = 100; 
         const USER_CREATED_TASK_REWARD_POINTS = 5; 
-        const POINTS_TO_TON_RATE = 0.00005; 
+        const POINTS_TO_TON_RATE = 0.00005; // 500 Pts = 0.025 TON (Check: 500 * 0.00005 = 0.025) Correct.
 
         const DAILY_REWARDS = [
             { day: 1, reward: 2, type: 'points' },
@@ -1463,12 +1491,23 @@
             document.getElementById('withdrawPointBalance').textContent = `${Math.floor(balance)} Points`;
             const methodSelect = document.getElementById('withdrawalMethod');
             const amountInput = document.getElementById('withdrawalAmount');
-            
+            const realtimeDisplay = document.getElementById('realtime-ton-display');
+            const calcTonVal = document.getElementById('calc-ton-val');
+
             const updateSummary = () => {
                 const method = methodSelect.value;
                 const amount = parseFloat(amountInput.value);
                 const config = WITHDRAWAL_CONFIG[method];
                 const summaryBox = document.getElementById('withdraw-summary');
+
+                // Update Realtime Input Display (User Update 2 Fix)
+                if(!isNaN(amount) && amount > 0) {
+                     const val = amount * POINTS_TO_TON_RATE;
+                     calcTonVal.textContent = val.toFixed(4);
+                     realtimeDisplay.style.display = 'block';
+                } else {
+                     realtimeDisplay.style.display = 'none';
+                }
 
                 if (!config) { summaryBox.style.display = 'none'; return; }
 
@@ -1484,6 +1523,7 @@
             };
 
             methodSelect.addEventListener('change', updateSummary);
+            // Changed to 'input' for immediate feedback while typing
             amountInput.addEventListener('input', updateSummary);
             updateSummary();
         }
