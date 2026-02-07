@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>NEWTUBE TON - Watch & Earn</title>
+    
+    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <!-- Google Fonts -->
@@ -16,9 +18,14 @@
 
     <!-- --- AD INTEGRATIONS --- -->
     
-    <!-- UPDATE 1: Adexium Setup Fixed -->
-    <!-- Adexium Script (Requires a container in body with specific class/id usually, generic load here) -->
-    <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js" async></script>
+    <!-- UPDATE: Adexium Auto Mode Setup -->
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
+            adexiumWidget.autoMode();
+        });
+    </script>
     
     <!-- Monetag -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
@@ -368,7 +375,7 @@
             100% { transform: scale(1); opacity: 0.8; }
         }
         
-        /* ADEXIUM Container Style */
+        /* ADEXIUM Container Style (Retained for structure, though AutoMode uses popups) */
         #adexium-ad-container {
             width: 100%;
             min-height: 100px;
@@ -575,11 +582,9 @@
                  </div>
              </div>
 
-             <!-- UPDATE 1: Adexium Ad Container -->
-             <!-- Many ad scripts require a container to render into -->
+             <!-- Adexium Ad Container (Retained for layout structure) -->
              <div id="adexium-ad-container">
-                 <!-- The script usually injects the iframe/banner here -->
-                 <p style="font-size: 0.8rem; color: #555;">Adexium Banner</p>
+                 <p style="font-size: 0.8rem; color: #555;">Adexium Ads</p>
              </div>
              
              <!-- Ad container for Adextra/Banners -->
@@ -604,7 +609,6 @@
         </section>
 
         <!-- WITHDRAW SECTION -->
-        <!-- UPDATE 2: Enhanced Withdraw Logic -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: center; position: relative;">
                 
