@@ -167,7 +167,7 @@
         .sub-section-title { font-size: 1.1rem; color: var(--text-title); margin: 24px 0 16px; font-weight: 600; }
 
         /* --- BUTTONS --- */
-        .form-button, .task-button, .daily-task-button { 
+        .form-button, .task-button { 
             width: 100%; 
             padding: 14px; 
             border: none; 
@@ -196,37 +196,6 @@
             cursor: not-allowed; 
             box-shadow: none;
         }
-
-        /* --- DAILY REWARD STYLES --- */
-        .daily-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .day-item {
-            background: var(--input-bg);
-            border: 1px solid var(--border-subtle);
-            border-radius: 10px;
-            padding: 8px;
-            text-align: center;
-            opacity: 0.6;
-            transition: 0.3s;
-        }
-        .day-item.active {
-            opacity: 1;
-            border-color: var(--primary-color);
-            background: rgba(0, 255, 136, 0.1);
-            transform: scale(1.05);
-        }
-        .day-item.claimed {
-            opacity: 0.4;
-            border-color: var(--success-color);
-            background: rgba(0, 255, 136, 0.02);
-        }
-        .day-title { font-size: 0.7rem; color: var(--text-body); margin-bottom: 4px; display: block;}
-        .day-reward { font-size: 0.75rem; color: #fff; font-weight: bold; display: block; }
-        .day-item.active .day-reward { color: var(--primary-color); }
 
         /* --- NEW AD BUTTON STYLES --- */
         .special-ad-card {
@@ -459,17 +428,7 @@
                  </button>
              </div>
 
-             <!-- DAILY REWARD SECTION -->
-             <div class="card" id="daily-reward-card">
-                 <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-calendar-check" style="color: #FFD700;"></i> Daily Login Reward</h4>
-                 <div class="daily-grid" id="dailyRewardGrid">
-                    <!-- JS Injected Days -->
-                 </div>
-                 <button id="claimDailyRewardBtn" class="form-button" style="background: #FFD700; color: #000;">
-                     Loading...
-                 </button>
-                 <p style="text-align: center; font-size: 0.75rem; color: #777; margin-top: 10px;">Reset if missed. Watch Ad to claim.</p>
-             </div>
+             <!-- DAILY REWARD REMOVED HERE -->
 
              <!-- Referral Card -->
              <div class="home-referral-card">
@@ -812,15 +771,7 @@
         const USER_CREATED_TASK_REWARD_POINTS = 5; 
         const POINTS_TO_TON_RATE = 0.00005; 
 
-        const DAILY_REWARDS = [
-            { day: 1, reward: 2, type: 'points' },
-            { day: 2, reward: 3, type: 'points' },
-            { day: 3, reward: 5, type: 'points' },
-            { day: 4, reward: 7, type: 'points' },
-            { day: 5, reward: 0.001, type: 'ton' }, 
-            { day: 6, reward: 0.002, type: 'ton' },
-            { day: 7, reward: 0.004, type: 'ton' }
-        ];
+        // DAILY REWARDS ARRAY REMOVED
 
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 500 },
@@ -901,9 +852,6 @@
             const startTime = Date.now();
             
             try {
-                // If random action is needed, we call random ad.
-                // For specific buttons, the call is made before this function usually.
-                // But for "Mixed", we call here.
                 if(msg === "Mixed Ad") await showRandomAd();
                 
                 const endTime = Date.now();
@@ -940,7 +888,6 @@
                     currentUser = updatedUser;
                     checkAdCooldowns(currentUser); // New Check Logic
                     updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
-                    renderDailyRewardUI();
                     updateAdButtonStats();
                 }
             } catch (error) { console.error("Error fetching user:", error); }
@@ -962,8 +909,6 @@
                     isBanned: false,
                     isActivated: false,
                     lifetimeAdsWatched: 0, 
-                    dailyRewardStreak: 0,
-                    lastDailyRewardClaim: null,
                     // New Ad Counters
                     adsWatchedMixed: 0,
                     adsWatchedMonetag: 0,
@@ -991,7 +936,6 @@
 
             updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance); 
             generateReferralLink(currentUser.id);
-            renderDailyRewardUI();
             updateAdButtonStats();
 
             // Start UI Timer for Buttons
@@ -1000,7 +944,7 @@
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        // --- NEW RESET LOGIC BASED ON TIMESTAMPS ---
+        // --- NEW RESET LOGIC (FIXED FOR OLD USERS) ---
         async function checkAdCooldowns(user) {
             const now = Date.now();
             const updates = {};
@@ -1008,14 +952,20 @@
 
             const checkCategory = (countKey, resetKey, limit, cooldown) => {
                 const resetTime = user[resetKey] ? user[resetKey].toDate().getTime() : 0;
+                const currentCount = user[countKey] || 0;
                 
-                // If reset time passed, reset count and clear timer
-                if (resetTime > 0 && now > resetTime) {
+                // FIX: 
+                // 1. যদি রিসেট টাইম পার হয়ে গিয়ে থাকে (Normal case)
+                // 2. অথবা, যদি লিমিট পূর্ণ থাকে (currentCount >= limit) কিন্তু কোনো ফিউচার টাইমার সেট করা না থাকে (Old user fix)
+                if ((resetTime > 0 && now > resetTime) || (currentCount >= limit && now > resetTime)) {
+                    
+                    // Reset everything to 0
                     updates[countKey] = 0;
                     updates[resetKey] = null;
                     user[countKey] = 0;
                     user[resetKey] = null;
                     needsUpdate = true;
+
                     // Reset bonus flag if it's the 24h cycle (Mixed)
                     if(countKey === 'adsWatchedMixed') {
                          updates.dailyBonusClaimed = false;
@@ -1031,6 +981,8 @@
             if (needsUpdate) {
                 const userRef = doc(db, 'users', user.id);
                 await updateDoc(userRef, updates);
+                // Update UI immediately after reset
+                updateAdButtonStats();
             }
         }
 
@@ -1077,82 +1029,6 @@
              }
 
              await fetchAndUpdateCurrentUser();
-        }
-
-        // --- DAILY REWARD LOGIC ---
-        function renderDailyRewardUI() {
-            if (!currentUser) return;
-            const grid = document.getElementById('dailyRewardGrid');
-            const btn = document.getElementById('claimDailyRewardBtn');
-            grid.innerHTML = '';
-            const streak = currentUser.dailyRewardStreak || 0;
-            const lastClaimDate = currentUser.lastDailyRewardClaim ? currentUser.lastDailyRewardClaim.toDate() : null;
-            let canClaim = false;
-            let currentDayToDisplay = streak; 
-
-            if (!lastClaimDate) {
-                canClaim = true;
-                currentDayToDisplay = 1;
-            } else {
-                const now = new Date();
-                const diffTime = Math.abs(now - lastClaimDate);
-                const diffHours = diffTime / (1000 * 60 * 60);
-                const isSameDay = now.getDate() === lastClaimDate.getDate() && now.getMonth() === lastClaimDate.getMonth() && now.getFullYear() === lastClaimDate.getFullYear();
-                if (!isSameDay) {
-                    canClaim = true;
-                    if (diffHours > 48) currentDayToDisplay = 1; 
-                    else currentDayToDisplay = (streak % 7) + 1;
-                } else currentDayToDisplay = streak;
-            }
-
-            DAILY_REWARDS.forEach(item => {
-                let className = 'day-item';
-                let displayText = item.type === 'ton' ? `${item.reward} TON` : `${item.reward} Pts`;
-                if (item.day < currentDayToDisplay) className += ' claimed';
-                if (item.day === currentDayToDisplay && canClaim) className += ' active';
-                else if (item.day === currentDayToDisplay && !canClaim) className += ' claimed'; 
-
-                grid.innerHTML += `<div class="${className}"><span class="day-title">Day ${item.day}</span><span class="day-reward">${displayText}</span>${item.day < currentDayToDisplay || (!canClaim && item.day === streak) ? '<i class="fas fa-check" style="font-size:10px; color:var(--success-color)"></i>' : ''}</div>`;
-            });
-
-            if (canClaim) {
-                btn.disabled = false; btn.textContent = "Claim Reward"; btn.style.background = "#FFD700"; btn.style.color = "#000";
-                btn.onclick = () => executeAdProtectedAction(processDailyClaim, 5000, "Daily Reward Ad");
-            } else {
-                btn.disabled = true; btn.textContent = "Come back tomorrow"; btn.style.background = "var(--disabled-bg)"; btn.style.color = "var(--disabled-text)";
-            }
-        }
-
-        async function processDailyClaim() {
-            const btn = document.getElementById('claimDailyRewardBtn'); btn.textContent = "Processing..."; btn.disabled = true;
-            try {
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const docSnap = await t.get(userRef);
-                    if (!docSnap.exists()) throw "User not found";
-                    const data = docSnap.data();
-                    const now = new Date();
-                    const lastClaim = data.lastDailyRewardClaim ? data.lastDailyRewardClaim.toDate() : null;
-                    let newStreak = data.dailyRewardStreak || 0;
-                    if (lastClaim) {
-                        const diffTime = now - lastClaim;
-                        const diffHours = diffTime / (1000 * 60 * 60);
-                        const isSameDay = now.getDate() === lastClaim.getDate() && now.getMonth() === lastClaim.getMonth();
-                        if (isSameDay) throw "Already claimed today.";
-                        if (diffHours > 48) newStreak = 0; 
-                    }
-                    newStreak++; if (newStreak > 7) newStreak = 1; 
-                    const rewardConfig = DAILY_REWARDS.find(r => r.day === newStreak);
-                    if (!rewardConfig) throw "Reward config error";
-                    const updates = { lastDailyRewardClaim: serverTimestamp(), dailyRewardStreak: newStreak };
-                    if (rewardConfig.type === 'ton') updates.tonBalance = increment(rewardConfig.reward);
-                    else updates.pointBalance = increment(rewardConfig.reward);
-                    t.update(userRef, updates);
-                    t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Daily Reward', details: `Day ${newStreak}`, amount: rewardConfig.reward, unit: rewardConfig.type, createdAt: serverTimestamp() });
-                    return rewardConfig;
-                });
-                await fetchAndUpdateCurrentUser(); showSuccessModal("Daily Reward!", "Streak updated.");
-            } catch (e) { console.error(e); alert(typeof e === 'string' ? e : "Claim failed."); }
         }
 
         // --- PROMO CODE ---
@@ -1216,11 +1092,8 @@
                     btn.style.background = 'var(--disabled-bg)';
                     btn.style.color = 'var(--danger-color)';
                 } else if (count >= maxLimit) {
-                    // Limit reached but reset time invalid (should fix on next check) or just set it now?
-                    // Actually checkAdCooldowns handles resetting.
-                    // If we are here, it means count >= limit AND resetTime <= now.
-                    // Which means checkAdCooldowns hasn't fired yet or just needs refresh.
-                    // For now, if count >= limit, disable and show 'Limit Reached' until reload or cycle
+                    // Limit reached but resetTime not yet set or synced (should be caught by checkAdCooldowns)
+                    // If we are here, disable button temporarily until sync
                      btn.disabled = true;
                      btn.textContent = "Reloading...";
                 } else {
@@ -1621,7 +1494,7 @@
                 else if(targetId === '#withdraw-content') setupWithdrawalUI();
                 else if(targetId === '#ads-content') updateAdButtonStats();
                 else if(targetId === '#video-content') initializeVideoSection();
-                else if(targetId === '#home-content') { renderHomeUI(); fetchPromoHistory(); renderDailyRewardUI(); }
+                else if(targetId === '#home-content') { renderHomeUI(); fetchPromoHistory(); }
             });
         });
         
@@ -1718,7 +1591,7 @@
                 document.querySelector('main').style.display = 'block';
                 document.querySelector('.bottom-nav').style.display = 'flex';
                 showSuccessModal("Account Activated!", "Welcome to NEWTUBE TON!");
-                renderHomeUI(); renderDailyRewardUI();
+                renderHomeUI(); 
             } catch (error) { alert("Activation failed."); activateBtn.disabled = false; activateBtn.textContent = 'Verify & Enter'; }
         }
         document.getElementById('activateAccountBtn').addEventListener('click', handleUserActivation);
@@ -1731,7 +1604,7 @@
                 if (!initStatus) return;
                 setupUserIdDisplay(currentUser.id);
                 if (!initStatus.isActivated) showActivationModal();
-                else { renderHomeUI(); fetchPromoHistory(); renderDailyRewardUI(); updateAdButtonStats(); }
+                else { renderHomeUI(); fetchPromoHistory(); updateAdButtonStats(); }
             } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
         }
         main();
