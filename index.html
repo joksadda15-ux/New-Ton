@@ -1,3 +1,5 @@
+--- START OF FILE index.html ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1009,7 +1011,11 @@
             if(!user.lastAdDate) return;
             const lastDate = user.lastAdDate.toDate();
             const now = new Date();
-            if(lastDate.getDate() !== now.getDate() || lastDate.getMonth() !== now.getMonth()) {
+            // UPDATED: Added Year check to ensure correct 24h reset even after new year
+            if(lastDate.getDate() !== now.getDate() || 
+               lastDate.getMonth() !== now.getMonth() ||
+               lastDate.getFullYear() !== now.getFullYear()) {
+                
                 // Reset Counters
                 const userRef = doc(db, 'users', user.id);
                 await updateDoc(userRef, {
