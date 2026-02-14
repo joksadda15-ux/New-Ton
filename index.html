@@ -18,27 +18,22 @@
 
     <!-- --- AD INTEGRATIONS --- -->
     
-    <!-- 1. ADSGRAM SDK (NEW) -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-    <!-- 2. Adexium Auto Mode Setup -->
+    <!-- Adexium Auto Mode Setup -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
-                adexiumWidget.autoMode();
-            } catch(e) { console.log(e); }
+            const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
+            adexiumWidget.autoMode();
         });
     </script>
     
-    <!-- 3. Monetag -->
+    <!-- Monetag -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     
-    <!-- 4. GigaPub -->
+    <!-- GigaPub -->
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     
-    <!-- 5. Adextra (Adsterra) -->
+    <!-- Adextra (Adsterra) -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
@@ -469,7 +464,7 @@
              </div>
         </section>
         
-        <!-- VIDEO SECTION (RESTORED) -->
+        <!-- VIDEO SECTION -->
         <section id="video-content" class="content-section">
              <h3 class="section-title">Watch & Mine</h3>
              <div class="mining-card" style="text-align: center;">
@@ -498,37 +493,7 @@
                  <i class="fas fa-star"></i> <b>Daily Bonus:</b> Watch 30 Ads = +40 Points!
              </div>
              
-             <!-- 1. AdsGram Task 1 (NEW) -->
-             <div class="special-ad-card" style="border-color: #00FF88;">
-                 <div class="special-ad-header">
-                     <div>
-                        <h4><i class="fas fa-star" style="color:#00FF88; margin-right:5px;"></i> AdsGram Daily</h4>
-                        <p style="font-size:0.8rem; color:#777; margin:0;">24hr Reset</p>
-                     </div>
-                     <span class="special-ad-limit" id="limit-adsgram1">0/10</span>
-                 </div>
-                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+15 Points</span>
-                    <button id="btn-watch-adsgram1" class="task-button" style="width:120px;">Watch</button>
-                 </div>
-             </div>
-
-             <!-- 2. AdsGram Task 2 (NEW) -->
-             <div class="special-ad-card" style="border-color: #2AABEE;">
-                 <div class="special-ad-header">
-                     <div>
-                        <h4><i class="fas fa-gift" style="color:#2AABEE; margin-right:5px;"></i> AdsGram Special</h4>
-                        <p style="font-size:0.8rem; color:#777; margin:0;">24hr Reset</p>
-                     </div>
-                     <span class="special-ad-limit" id="limit-adsgram2">0/5</span>
-                 </div>
-                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
-                    <button id="btn-watch-adsgram2" class="task-button" style="width:120px;">Watch</button>
-                 </div>
-             </div>
-             
-             <!-- 3. Mixed Random Ad Button -->
+             <!-- 1. Mixed Random Ad Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -538,12 +503,13 @@
                      <span class="special-ad-limit" id="limit-mixed">0/20</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+5 Points</span>
+                    <!-- REWARD UPDATED TO 6 POINTS -->
+                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-mixed" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
 
-             <!-- 4. Monetag Button -->
+             <!-- 2. Monetag Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -553,12 +519,13 @@
                      <span class="special-ad-limit" id="limit-monetag">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+5 Points</span>
+                    <!-- REWARD UPDATED TO 6 POINTS -->
+                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-monetag" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
 
-             <!-- 5. GigaPub Button -->
+             <!-- 3. GigaPub Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -568,7 +535,8 @@
                      <span class="special-ad-limit" id="limit-giga">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+5 Points</span>
+                    <!-- REWARD UPDATED TO 6 POINTS -->
+                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-giga" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
@@ -824,34 +792,17 @@
 
         // --- UPDATED AD LIMITS & COOLDOWNS ---
         const AD_CONFIG = {
-            // New AdsGram 1
-            adsgram1: { 
-                limit: 10, 
-                cooldown: 24 * 60 * 60 * 1000, 
-                reward: 15,
-                blockId: "22908" 
-            },
-            // New AdsGram 2
-            adsgram2: { 
-                limit: 5, 
-                cooldown: 24 * 60 * 60 * 1000, 
-                reward: 6,
-                blockId: "int-22909" 
-            },
             mixed: {
                 limit: 20,
-                cooldown: 24 * 60 * 60 * 1000, // 24 Hours
-                reward: 5 // UPDATED
+                cooldown: 24 * 60 * 60 * 1000 // 24 Hours
             },
             monetag: {
                 limit: 15,
-                cooldown: 12 * 60 * 60 * 1000, // 12 Hours
-                reward: 5 // UPDATED
+                cooldown: 12 * 60 * 60 * 1000 // 12 Hours
             },
             giga: {
                 limit: 15,
-                cooldown: 12 * 60 * 60 * 1000, // 12 Hours
-                reward: 5 // UPDATED
+                cooldown: 12 * 60 * 60 * 1000 // 12 Hours
             }
         };
 
@@ -870,15 +821,6 @@
              console.log("Adextra triggered");
              setTimeout(res, 2000); 
         });
-
-        // --- ADSGRAM WRAPPER ---
-        const showAdsGramAd = (blockId) => {
-            if(window.Adsgram) {
-                return window.Adsgram.init({ blockId: blockId }).show();
-            } else {
-                return Promise.reject("AdsGram SDK not loaded");
-            }
-        };
 
         async function showRandomAd() { 
             try { 
@@ -947,7 +889,7 @@
                 const updatedUser = await cleanupAndGetUser(currentUser.id);
                 if (updatedUser) {
                     currentUser = updatedUser;
-                    checkAdCooldowns(currentUser); 
+                    checkAdCooldowns(currentUser); // New Check Logic
                     updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
                     updateAdButtonStats();
                 }
@@ -974,16 +916,11 @@
                     adsWatchedMixed: 0,
                     adsWatchedMonetag: 0,
                     adsWatchedGiga: 0,
-                    // AdsGram Counters
-                    adsWatchedAdsGram1: 0,
-                    adsWatchedAdsGram2: 0,
                     dailyBonusClaimed: false,
                     // Timestamps for Cooldowns
                     adResetTimeMixed: null,
                     adResetTimeMonetag: null,
-                    adResetTimeGiga: null,
-                    resetAdsGram1: null,
-                    resetAdsGram2: null
+                    adResetTimeGiga: null
                 };
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
@@ -1010,7 +947,7 @@
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        // --- NEW RESET LOGIC ---
+        // --- NEW RESET LOGIC (FIXED FOR OLD USERS) ---
         async function checkAdCooldowns(user) {
             const now = Date.now();
             const updates = {};
@@ -1020,7 +957,12 @@
                 const resetTime = user[resetKey] ? user[resetKey].toDate().getTime() : 0;
                 const currentCount = user[countKey] || 0;
                 
+                // FIX: 
+                // 1. যদি রিসেট টাইম পার হয়ে গিয়ে থাকে (Normal case)
+                // 2. অথবা, যদি লিমিট পূর্ণ থাকে (currentCount >= limit) কিন্তু কোনো ফিউচার টাইমার সেট করা না থাকে (Old user fix)
                 if ((resetTime > 0 && now > resetTime) || (currentCount >= limit && now > resetTime)) {
+                    
+                    // Reset everything to 0
                     updates[countKey] = 0;
                     updates[resetKey] = null;
                     user[countKey] = 0;
@@ -1038,14 +980,11 @@
             checkCategory('adsWatchedMixed', 'adResetTimeMixed', AD_CONFIG.mixed.limit, AD_CONFIG.mixed.cooldown);
             checkCategory('adsWatchedMonetag', 'adResetTimeMonetag', AD_CONFIG.monetag.limit, AD_CONFIG.monetag.cooldown);
             checkCategory('adsWatchedGiga', 'adResetTimeGiga', AD_CONFIG.giga.limit, AD_CONFIG.giga.cooldown);
-            
-            // New AdsGram Checks
-            checkCategory('adsWatchedAdsGram1', 'resetAdsGram1', AD_CONFIG.adsgram1.limit, AD_CONFIG.adsgram1.cooldown);
-            checkCategory('adsWatchedAdsGram2', 'resetAdsGram2', AD_CONFIG.adsgram2.limit, AD_CONFIG.adsgram2.cooldown);
 
             if (needsUpdate) {
                 const userRef = doc(db, 'users', user.id);
                 await updateDoc(userRef, updates);
+                // Update UI immediately after reset
                 updateAdButtonStats();
             }
         }
@@ -1129,7 +1068,7 @@
             }, 5000, "Promo Ad");
         });
 
-        // --- UPDATE: BUTTON STATS ---
+        // --- UPDATE 3: UPDATED ADS SECTION LOGIC WITH TIMER ---
         
         function formatTimeRemaining(ms) {
             const h = Math.floor(ms / (1000 * 60 * 60));
@@ -1149,12 +1088,15 @@
 
                 const resetTime = resetTimestamp ? resetTimestamp.toDate().getTime() : 0;
                 
+                // If reset time exists and is in future, we are in cooldown
                 if (resetTime > now) {
                     btn.disabled = true;
                     btn.textContent = formatTimeRemaining(resetTime - now);
                     btn.style.background = 'var(--disabled-bg)';
                     btn.style.color = 'var(--danger-color)';
                 } else if (count >= maxLimit) {
+                    // Limit reached but resetTime not yet set or synced (should be caught by checkAdCooldowns)
+                    // If we are here, disable button temporarily until sync
                      btn.disabled = true;
                      btn.textContent = "Reloading...";
                 } else {
@@ -1168,51 +1110,19 @@
             updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, currentUser.adResetTimeMixed, AD_CONFIG.mixed.limit);
             updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, currentUser.adResetTimeMonetag, AD_CONFIG.monetag.limit);
             updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
-            
-            // New AdsGram Buttons
-            updateButton('btn-watch-adsgram1', 'limit-adsgram1', currentUser.adsWatchedAdsGram1 || 0, currentUser.resetAdsGram1, AD_CONFIG.adsgram1.limit);
-            updateButton('btn-watch-adsgram2', 'limit-adsgram2', currentUser.adsWatchedAdsGram2 || 0, currentUser.resetAdsGram2, AD_CONFIG.adsgram2.limit);
         }
 
-        // --- AD EVENT LISTENERS ---
-
-        // NEW: AdsGram 1 (15 Pts)
-        document.getElementById('btn-watch-adsgram1').addEventListener('click', async () => {
-            if((currentUser.adsWatchedAdsGram1 || 0) >= AD_CONFIG.adsgram1.limit) return;
-            const btn = document.getElementById('btn-watch-adsgram1');
-            btn.disabled = true;
-            try {
-                await showAdsGramAd(AD_CONFIG.adsgram1.blockId);
-                await processAdReward('adsgram1', AD_CONFIG.adsgram1.reward);
-            } catch(e) {
-                alert("Ad failed or closed.");
-                btn.disabled = false;
-            }
-        });
-
-        // NEW: AdsGram 2 (6 Pts)
-        document.getElementById('btn-watch-adsgram2').addEventListener('click', async () => {
-            if((currentUser.adsWatchedAdsGram2 || 0) >= AD_CONFIG.adsgram2.limit) return;
-            const btn = document.getElementById('btn-watch-adsgram2');
-            btn.disabled = true;
-            try {
-                await showAdsGramAd(AD_CONFIG.adsgram2.blockId);
-                await processAdReward('adsgram2', AD_CONFIG.adsgram2.reward);
-            } catch(e) {
-                alert("Ad failed or closed.");
-                btn.disabled = false;
-            }
-        });
-
-        // Mixed (Random)
+        // Button 1: Mixed (Random) - 20 Ads / 24h
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
             if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
+            // 5 second standard wait
             await executeAdProtectedAction(async () => {
-                await processAdReward('mixed', AD_CONFIG.mixed.reward);
+                // UPDATE: REWARD IS NOW 6 POINTS
+                await processAdReward('mixed', 6);
             }, 5000, "Mixed Ad");
         });
 
-        // Monetag
+        // Button 2: Monetag - 15 Ads / 12h - 7 Seconds Required
         document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
             if((currentUser.adsWatchedMonetag || 0) >= AD_CONFIG.monetag.limit) return;
             
@@ -1227,23 +1137,30 @@
             msgDisplay.innerHTML = 'Watch for <span id="adOverlayTimer" class="timer-count">7</span> seconds';
 
             try {
+                // Show Monetag
                 await showMonetagAd();
+                
+                // Wait 7 Seconds strictly
                 let count = 7;
                 const interval = setInterval(() => { count--; if(count>=0) document.getElementById('adOverlayTimer').textContent = count; }, 1000);
                 await new Promise(r => setTimeout(r, 7000)); 
+                
                 clearInterval(interval);
                 blockingOverlay.style.display = 'none';
-                await processAdReward('monetag', AD_CONFIG.monetag.reward);
+                // UPDATE: REWARD IS NOW 6 POINTS
+                await processAdReward('monetag', 6);
             } catch(e) {
                 blockingOverlay.style.display = 'none';
-                alert("Ad failed.");
+                alert("Ad failed or closed too early.");
             }
         });
 
-        // GigaPub
+        // Button 3: GigaPub - 15 Ads / 12h - Click Required (Simulated)
         document.getElementById('btn-watch-giga').addEventListener('click', async () => {
             if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
-            const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards.");
+            
+            // Show Alert First
+            const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards. If you do not click, you will not get points.");
             if(!confirmClick) return;
 
             const blockingOverlay = document.getElementById('adBlockingOverlay');
@@ -1256,12 +1173,16 @@
             
             try {
                 await showGigaPubAd();
+                
+                // Simulate verification time (user should be clicking now)
                 let count = 5;
                 const interval = setInterval(() => { count--; if(count>=0) document.getElementById('adOverlayTimer').textContent = count; }, 1000);
                 await new Promise(r => setTimeout(r, 5000));
+                
                 clearInterval(interval);
                 blockingOverlay.style.display = 'none';
-                await processAdReward('giga', AD_CONFIG.giga.reward);
+                // UPDATE: REWARD IS NOW 6 POINTS
+                await processAdReward('giga', 6);
             } catch(e) {
                 blockingOverlay.style.display = 'none';
                 alert("Ad failed.");
@@ -1273,6 +1194,7 @@
             const updates = { lifetimeAdsWatched: increment(1) };
             let bonusPoints = 0;
             
+            // Update counts locally to check limits immediately
             let currentCount = 0;
             let limit = 0;
             let cooldown = 0;
@@ -1300,20 +1222,6 @@
                 cooldown = AD_CONFIG.giga.cooldown;
                 resetKey = 'adResetTimeGiga';
                 countKey = 'adsWatchedGiga';
-            } else if (type === 'adsgram1') {
-                updates.adsWatchedAdsGram1 = increment(1);
-                currentCount = (currentUser.adsWatchedAdsGram1 || 0) + 1;
-                limit = AD_CONFIG.adsgram1.limit;
-                cooldown = AD_CONFIG.adsgram1.cooldown;
-                resetKey = 'resetAdsGram1';
-                countKey = 'adsWatchedAdsGram1';
-            } else if (type === 'adsgram2') {
-                updates.adsWatchedAdsGram2 = increment(1);
-                currentCount = (currentUser.adsWatchedAdsGram2 || 0) + 1;
-                limit = AD_CONFIG.adsgram2.limit;
-                cooldown = AD_CONFIG.adsgram2.cooldown;
-                resetKey = 'resetAdsGram2';
-                countKey = 'adsWatchedAdsGram2';
             }
 
             // SET RESET TIMER IF LIMIT REACHED
@@ -1321,7 +1229,8 @@
                 updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
             }
 
-            // Daily Bonus Logic
+            // Daily Bonus Logic (Total 30 mixed/any logic or specific? Stick to total for bonus)
+            // Keeping previous bonus logic: if total ads across all buttons = 30
             let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
             if(totalAds === 30 && !currentUser.dailyBonusClaimed) {
                 bonusPoints = 40;
@@ -1633,6 +1542,7 @@
                 localStorage.setItem('minedBalance', minedBalance);
                 updateMiningUI();
                 watchTimeSeconds++;
+                // UPDATE: 300 Seconds = 5 Minutes Interval for Ad
                 if (watchTimeSeconds > 0 && watchTimeSeconds % 300 === 0) { 
                     if(player && player.pauseVideo) player.pauseVideo(); 
                     showRandomAd(); 
