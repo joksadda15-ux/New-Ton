@@ -147,7 +147,7 @@
         .header-icon-btn i { font-size: 1.1rem; }
 
         /* --- CARDS --- */
-        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .mining-card, .video-list-item, .special-ad-card { 
+        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .special-ad-card { 
             background-color: var(--card-bg); 
             border-radius: var(--radius-card); 
             padding: 20px; 
@@ -275,13 +275,6 @@
         .task-card-info p { margin: 0; font-size: 0.85rem; color: var(--primary-color); font-weight: 500; }
         .task-reward-points { color: var(--success-color); font-weight: bold; }
         
-        .video-list-item { padding: 0; overflow: hidden; border: none; display: block; }
-        .video-thumb { position: relative; height: 160px; }
-        .video-play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 3rem; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .video-info { padding: 16px; }
-        .video-info button { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--primary-color); border-radius: 8px; color: var(--primary-color); font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .video-info button:hover { background: var(--primary-color); color: #000; }
-
         .conversion-rate-display { background: rgba(0, 255, 136, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(0,255,136,0.2); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
@@ -320,29 +313,6 @@
         .user-ad-item .status-text { margin-top: 10px; font-weight: bold; font-size: 0.8rem; }
         .user-ad-item .status-text.completed { color: var(--success-color); }
         .user-ad-item .status-text.active { color: var(--primary-color); }
-
-        .mining-card {
-            background: linear-gradient(180deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%);
-            border: 1px solid var(--primary-color);
-            position: relative;
-            overflow: hidden;
-        }
-        .mining-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1);
-            pointer-events: none;
-            border-radius: var(--radius-card);
-        }
-        .mining-icon-anim {
-            animation: pulseIcon 2s infinite;
-        }
-        @keyframes pulseIcon {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px var(--primary-color); }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
         
         /* ADEXIUM Container Style */
         #adexium-ad-container {
@@ -428,9 +398,7 @@
                  </button>
              </div>
 
-             <!-- DAILY REWARD REMOVED HERE -->
-
-             <!-- Referral Card -->
+             <!-- Referral Card UPDATED -->
              <div class="home-referral-card">
                  <div style="text-align: center; margin-bottom: 15px;">
                      <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
@@ -438,7 +406,7 @@
                  </div>
                  <p class="referral-copy" style="text-align: center;">
                      1 Invite = <b>1 Withdrawal Unlock</b>.<br>
-                     Plus, get <b>100 Points</b> when they watch 10 ads!
+                     Plus, get <b>200 Points (≈ 0.01 TON)</b> when they watch <b>20 ads</b>!
                  </p>
                  <div class="input-group">
                     <input type="text" id="homeReferralLinkInput" readonly value="Loading...">
@@ -464,27 +432,7 @@
              </div>
         </section>
         
-        <!-- VIDEO SECTION -->
-        <section id="video-content" class="content-section">
-             <h3 class="section-title">Watch & Mine</h3>
-             <div class="mining-card" style="text-align: center;">
-                 <div style="margin-bottom: 15px;">
-                    <i class="fas fa-hammer mining-icon-anim" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
-                    <h2 style="margin: 0; color: var(--text-title); font-size: 2.2rem; text-shadow: 0 0 10px rgba(0,255,136,0.3);"><span id="minedPointsDisplay">0.0000</span> Pts</h2>
-                    <p style="margin: 10px 0 0; color: var(--text-body); font-size: 0.9rem;">Mining Rate: <b style="color: var(--primary-color)">10 Points / Hour</b></p>
-                 </div>
-                 <button id="claimMinedPointsBtn" class="form-button" disabled>Claim (Min 10 Points)</button>
-             </div>
-
-             <div id="active-video-player-wrapper" style="display:none; width:100%; padding-bottom:56.25%; background:#000; position:relative; margin-bottom:20px; border-radius:12px; overflow:hidden; border: 1px solid var(--border-subtle); box-shadow: 0 0 15px rgba(0,255,136,0.2);">
-                 <div id="yt-player" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-             </div>
-             
-             <h4 class="sub-section-title">Available Videos</h4>
-             <div id="video-list-container" class="item-grid">
-                 <div class="loader"></div>
-             </div>
-        </section>
+        <!-- VIDEO SECTION REMOVED HERE -->
 
         <!-- UPDATED ADS SECTION -->
         <section id="ads-content" class="content-section">
@@ -615,14 +563,12 @@
         </section>
     </main>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVIGATION (UPDATED: REMOVED VIDEO) -->
     <nav class="bottom-nav">
         <a href="#" class="bottom-nav-item active" data-tab-target="#home-content">
             <i class="fas fa-home"></i> Home
         </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#video-content">
-            <i class="fas fa-play-circle"></i> Videos
-        </a>
+        <!-- VIDEO TAB REMOVED -->
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
             <i class="fas fa-ad"></i> Ads
         </a>
@@ -746,9 +692,6 @@
         </div>
     </div>
     
-    <!-- Youtube API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
@@ -770,11 +713,10 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        const REFERRAL_REWARD_POINTS = 100; 
+        // UPDATED: Referral Reward Points set to 200
+        const REFERRAL_REWARD_POINTS = 200; 
         const USER_CREATED_TASK_REWARD_POINTS = 5; 
-        const POINTS_TO_TON_RATE = 0.00005; 
-
-        // DAILY REWARDS ARRAY REMOVED
+        const POINTS_TO_TON_RATE = 0.00005; // 200 Points * 0.00005 = 0.01 TON
 
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 500 },
@@ -805,14 +747,6 @@
                 cooldown: 12 * 60 * 60 * 1000 // 12 Hours
             }
         };
-
-        let player;
-        let isVideoPlaying = false;
-        let minedBalance = parseFloat(localStorage.getItem('minedBalance') || '0');
-        let watchTimeSeconds = 0; 
-        
-        const MINING_CLAIM_THRESHOLD = 10;
-        const POINTS_PER_SECOND = 10 / 3600; 
 
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
@@ -1229,8 +1163,7 @@
                 updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
             }
 
-            // Daily Bonus Logic (Total 30 mixed/any logic or specific? Stick to total for bonus)
-            // Keeping previous bonus logic: if total ads across all buttons = 30
+            // Daily Bonus Logic
             let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
             if(totalAds === 30 && !currentUser.dailyBonusClaimed) {
                 bonusPoints = 40;
@@ -1242,9 +1175,9 @@
             await grantReward({ points: totalToGrant }, { type: 'Ad Watched', details: type + (bonusPoints > 0 ? ' + Bonus' : '') });
             await updateDoc(userRef, updates);
 
-            // Referral Check
+            // UPDATED REFERRAL CHECK: 20 Ads = 200 Points
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
-            if (currentAdsTotal === 10 && currentUser.referredBy) {
+            if (currentAdsTotal === 20 && currentUser.referredBy) {
                 const referrerRef = doc(db, 'users', currentUser.referredBy);
                 await updateDoc(referrerRef, { pointBalance: increment(REFERRAL_REWARD_POINTS) });
             }
@@ -1499,69 +1432,11 @@
                 if(targetId === '#task-content') { renderTaskPackages(); await renderMyAds(); await fetchAndRenderTasks('task-list', 50); }
                 else if(targetId === '#withdraw-content') setupWithdrawalUI();
                 else if(targetId === '#ads-content') updateAdButtonStats();
-                else if(targetId === '#video-content') initializeVideoSection();
+                // Video Logic Removed
                 else if(targetId === '#home-content') { renderHomeUI(); fetchPromoHistory(); }
             });
         });
         
-        function updateMiningUI() {
-            document.getElementById('minedPointsDisplay').textContent = minedBalance.toFixed(4);
-            const claimBtn = document.getElementById('claimMinedPointsBtn');
-            if (minedBalance >= MINING_CLAIM_THRESHOLD) { claimBtn.disabled = false; claimBtn.textContent = `Claim ${minedBalance.toFixed(2)}`; } 
-            else { claimBtn.disabled = true; claimBtn.textContent = `Claim (Min ${MINING_CLAIM_THRESHOLD})`; }
-        }
-        async function initializeVideoSection() {
-            updateMiningUI();
-            const videoListContainer = document.getElementById('video-list-container');
-            videoListContainer.innerHTML = '<div class="loader"></div>';
-            try {
-                const q = query(collection(db, 'watch_videos'), orderBy('createdAt', 'desc'), limit(25));
-                const snap = await getDocs(q);
-                videoListContainer.innerHTML = '';
-                if (snap.empty) { videoListContainer.innerHTML = '<p>No videos.</p>'; return; }
-                snap.forEach(docSnap => {
-                    const vid = docSnap.data();
-                    const videoId = vid.videoUrl.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/)[7];
-                    if(!videoId) return;
-                    const div = document.createElement('div'); div.className = 'video-list-item';
-                    div.innerHTML = `<div class="video-thumb"><img src="${vid.thumbnailUrl}" style="width:100%; height:100%; object-fit:cover;"><i class="fas fa-play video-play-icon"></i></div><div class="video-info"><button>Watch Now</button></div>`;
-                    div.addEventListener('click', () => { 
-                         document.getElementById('active-video-player-wrapper').style.display = 'block'; 
-                         if(!player) player = new YT.Player('yt-player', { height: '100%', width: '100%', videoId: videoId, playerVars: { 'playsinline': 1, 'autoplay': 1 }, events: { 'onStateChange': (e) => { isVideoPlaying = (e.data == YT.PlayerState.PLAYING); } } }); 
-                         else player.loadVideoById(videoId);
-                         document.getElementById('active-video-player-wrapper').scrollIntoView({ behavior: 'smooth' });
-                    });
-                    videoListContainer.appendChild(div);
-                });
-            } catch (e) {}
-        }
-        
-        setInterval(() => {
-            if (isVideoPlaying) {
-                minedBalance += POINTS_PER_SECOND;
-                localStorage.setItem('minedBalance', minedBalance);
-                updateMiningUI();
-                watchTimeSeconds++;
-                // UPDATE: 300 Seconds = 5 Minutes Interval for Ad
-                if (watchTimeSeconds > 0 && watchTimeSeconds % 300 === 0) { 
-                    if(player && player.pauseVideo) player.pauseVideo(); 
-                    showRandomAd(); 
-                }
-            }
-        }, 1000);
-        
-        document.getElementById('claimMinedPointsBtn').addEventListener('click', async () => {
-            if (minedBalance < MINING_CLAIM_THRESHOLD) return;
-            const btn = document.getElementById('claimMinedPointsBtn'); btn.disabled = true;
-            try {
-                const pointsToClaim = Math.floor(minedBalance); 
-                const remaining = minedBalance - pointsToClaim;
-                await grantReward({ points: pointsToClaim }, { type: 'Video Mining', details: 'Claimed from loot box' });
-                minedBalance = remaining; localStorage.setItem('minedBalance', minedBalance); updateMiningUI();
-                showSuccessModal("Claimed!", `+${pointsToClaim} Points added.`);
-            } catch (e) { alert("Error claiming."); } finally { btn.disabled = false; }
-        });
-
         function showSuccessModal(title, message) {
             document.getElementById('successModalTitle').textContent = title;
             document.getElementById('successModalMessage').innerHTML = message;
