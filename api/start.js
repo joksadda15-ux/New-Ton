@@ -5,9 +5,12 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
-  const body = req.body;
+  const body = typeof req.body === "string"
+    ? JSON.parse(req.body)
+    : req.body;
+
   const chatId = body.message?.chat?.id;
-  const text = body.message?.text || "";
+  const text = body.message?.text;
 
   if (!chatId) {
     return res.status(200).json({ ok: true });
@@ -19,17 +22,17 @@ export default async function handler(req, res) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: "🚀 Welcome to NEWTUBE TON BOT ADS WATCH EARN TON EASILY\n\nChoose All official chennel join:",
+        text: "🚀 Welcome to NEWTUBE TON BOT\n\nJoin our official group & channel:",
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📢 Official Channel", url: "https://t.me/coinly_ton1" }
+              { text: "👥 Official Group", url: "https://t.me/newTon_Gc" }
             ],
             [
-              { text: "👥 Official Group", url: "https://t.me/coinly_Ton" }
+              { text: "📢 Official Channel", url: "https://t.me/NEEWTON_OFFICIAL" }
             ],
             [
-              { text: "🎁 Invite Friends", url: "https://t.me/Coinlytix_bot/coinlyTon?startapp" }
+              { text: "🎁 Invite Friends", url: "https://t.me/NewTube12_bot/TonFREE?startapp" }
             ]
           ]
         }
