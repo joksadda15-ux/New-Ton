@@ -498,21 +498,26 @@
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
 
-        <!-- TASKS SECTION -->
+        <!-- TASKS SECTION - UPDATED: ADMIN CONTACT ONLY -->
         <section id="task-content" class="content-section">
-            <h3 class="section-title">Earn Tasks</h3>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <span style="color: var(--text-body); font-size: 0.9rem;">Complete tasks for points</span>
-                <button id="show-create-task-btn" class="task-button" style="background: var(--input-bg); border: 1px solid var(--primary-color); color: var(--primary-color);">
-                    <i class="fas fa-plus"></i> Create Task
-                </button>
+            
+            <!-- NEW ADMIN CONTACT SECTION -->
+            <div class="card" style="text-align: center; border: 1px solid var(--primary-color); background: rgba(0, 255, 136, 0.05);">
+                 <i class="fas fa-ad" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                 <h3 style="margin: 0 0 10px; color: var(--text-title);">Buy Traffic / Add Task</h3>
+                 <p style="color: var(--text-body); font-size: 0.9rem; margin-bottom: 20px;">
+                     Do you want to promote your Telegram Channel, Bot, or Group here?
+                     <br>Contact Admin manually to add your tasks.
+                 </p>
+                 <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="text-decoration: none;">
+                     <i class="fab fa-telegram-plane"></i> Message Admin
+                 </a>
             </div>
 
+            <h3 class="section-title">Earn Tasks</h3>
             <div id="task-list" class="item-grid"></div>
             
-             <h3 class="sub-section-title" style="margin-top: 40px;">My Campaigns</h3>
-             <div id="my-ads-list" class="item-grid"></div>
+             <!-- My Campaigns Removed -->
         </section>
 
         <!-- WITHDRAW SECTION -->
@@ -616,43 +621,7 @@
         </div>
     </div>
 
-    <div id="createTaskModalOverlay" class="modal-overlay">
-        <div class="task-modal">
-            <h3 style="text-align: center; margin-top: 0;">Buy Traffic</h3>
-            <div class="modal-body">
-                <div style="text-align: center; margin-bottom: 15px; background: var(--input-bg); padding: 10px; border-radius: 8px;">
-                     <p style="margin:0 0 5px; font-size:0.85em; color: var(--text-body);">Paid with TON Balance</p>
-                     <p style="margin:0; font-size:0.75em; color: var(--primary-color);">Deposit via Admin</p>
-                </div>
-                <div class="form-group">
-                    <label>1. Select Package</label>
-                    <div id="ad-package-grid" class="item-grid"></div>
-                </div>
-                <div class="form-group">
-                    <label>2. Task Title</label>
-                    <input type="text" id="newTaskTitle" placeholder="e.g. Join Channel">
-                </div>
-                <div class="form-group">
-                     <label>3. Type</label>
-                     <select id="newTaskType">
-                         <option value="Telegram Bot">Telegram Bot</option>
-                         <option value="Telegram Channel">Telegram Channel</option>
-                         <option value="Telegram Group">Telegram Group</option>
-                         <option value="Facebook Like/Follow">Facebook Like/Follow</option>
-                         <option value="X (Twitter) Follow">X (Twitter) Follow</option>
-                         <option value="YouTube Subscribe">YouTube Subscribe</option>
-                         <option value="YouTube Watch">YouTube Watch</option>
-                     </select>
-                </div>
-                <div class="form-group">
-                    <label>4. Target URL</label>
-                    <input type="text" id="newTaskUrl" placeholder="https://...">
-                </div>
-            </div>
-            <button id="confirmCreateTaskBtn" class="form-button">Confirm Task</button>
-            <button id="closeTaskModalBtn" class="form-button" style="margin-top: 10px; background: transparent; border: 1px solid var(--border-subtle); color: var(--text-body);">Cancel</button>
-        </div>
-    </div>
+    <!-- Create Task Modal REMOVED -->
 
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
@@ -715,22 +684,12 @@
         
         // UPDATED: Referral Reward Points set to 200
         const REFERRAL_REWARD_POINTS = 200; 
-        const USER_CREATED_TASK_REWARD_POINTS = 5; 
         const POINTS_TO_TON_RATE = 0.00005; // 200 Points * 0.00005 = 0.01 TON
 
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 500 },
             'Bkash': { min: 1000 },
         };
-
-        const adPackages = [
-            { id: 1, tasks: 150, price: 0.1 }, 
-            { id: 2, tasks: 300, price: 0.2 },
-            { id: 3, tasks: 500, price: 0.4 }, 
-            { id: 4, tasks: 1000, price: 0.7 },
-            { id: 5, tasks: 2000, price: 1.2 }, 
-            { id: 6, tasks: 5000, price: 3.0 }
-        ];
 
         // --- UPDATED AD LIMITS & COOLDOWNS ---
         const AD_CONFIG = {
@@ -1189,7 +1148,7 @@
             await fetchAndUpdateCurrentUser();
         }
 
-        // --- TASKS & OTHER LOGIC (UNCHANGED) ---
+        // --- TASKS LOGIC (EARN ONLY) ---
         async function fetchAndRenderTasks(containerId, count) {
             const taskListContainer = document.getElementById(containerId);
             taskListContainer.innerHTML = '<div class="loader"></div>';
@@ -1201,7 +1160,8 @@
                 let tasksRendered = 0;
                 snapshot.forEach(docSnap => {
                     const task = docSnap.data();
-                    if (task.creatorId === currentUser.id || currentUser.completedTasks?.includes(docSnap.id)) return;
+                    // Removed check for creatorId since user can't create tasks anymore
+                    if (currentUser.completedTasks?.includes(docSnap.id)) return;
                     const isLimitReached = (task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit;
                     if (isLimitReached) return;
                     const card = document.createElement('div');
@@ -1210,7 +1170,7 @@
                     taskListContainer.appendChild(card);
                     tasksRendered++;
                 });
-                if (tasksRendered === 0) taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: var(--text-body);">No new tasks.</p>';
+                if (tasksRendered === 0) taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: var(--text-body);">No new tasks available.</p>';
             } catch (error) { taskListContainer.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Error loading tasks.</p>'; }
         }
 
@@ -1250,51 +1210,11 @@
                     t.update(userRef, { completedTasks: arrayUnion(taskId) });
                     t.update(taskRef, { completionCount: increment(1) });
                 });
-                await grantReward({ points: rewardAmount }, { type: 'Task Reward', details: 'Completed user-created task' });
+                await grantReward({ points: rewardAmount }, { type: 'Task Reward', details: 'Completed Task' });
                 showSuccessModal("Task Verified!", `${rewardAmount} Points added.`);
                 if (taskCard) taskCard.remove();
                 await fetchAndUpdateCurrentUser();
             } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
-        }
-
-        let selectedPackage = null;
-        function renderTaskPackages() {
-            const grid = document.getElementById('ad-package-grid');
-            grid.innerHTML = adPackages.map(pkg => `<div class="ad-package-card" data-pkg-id="${pkg.id}" data-tasks="${pkg.tasks}" data-price="${pkg.price}"><h4 style="margin:0;color:var(--text-title);">${pkg.tasks} Tasks</h4><p style="margin:5px 0 0;color:var(--primary-color);font-weight:bold;">${pkg.price.toFixed(1)} TON</p></div>`).join('');
-            grid.querySelectorAll('.ad-package-card').forEach(card => card.addEventListener('click', () => { grid.querySelectorAll('.ad-package-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); selectedPackage = { tasks: parseInt(card.dataset.tasks), price: parseFloat(card.dataset.price) }; }));
-        }
-        
-        document.getElementById('confirmCreateTaskBtn').addEventListener('click', async () => {
-             const type = document.getElementById('newTaskType').value;
-             const url = document.getElementById('newTaskUrl').value.trim();
-             const title = document.getElementById('newTaskTitle').value.trim();
-             const btn = document.getElementById('confirmCreateTaskBtn');
-             if(!selectedPackage || !title || !url) { alert("Please complete details."); return; }
-             if(currentUser.tonBalance < selectedPackage.price) { alert("Insufficient TON Balance for ads."); return; }
-             btn.disabled = true; btn.textContent = "Creating...";
-             try {
-                 await runTransaction(db, async (t) => {
-                     const userRef = doc(db, 'users', currentUser.id);
-                     const userDoc = await t.get(userRef);
-                     if(userDoc.data().tonBalance < selectedPackage.price) throw new Error("Insufficient Balance");
-                     t.update(userRef, { tonBalance: increment(-selectedPackage.price) });
-                     t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Task Creation', details: `Purchased ${selectedPackage.tasks} tasks`, amount: -selectedPackage.price, unit: 'TON', createdAt: serverTimestamp() });
-                     t.set(doc(collection(db, 'tasks')), { creatorId: currentUser.id, title, type, url, limit: selectedPackage.tasks, completionCount: 0, rewardPoints: USER_CREATED_TASK_REWARD_POINTS, isApproved: true, createdAt: serverTimestamp() });
-                 });
-                 await fetchAndUpdateCurrentUser(); showSuccessModal("Task Created!", "Live now."); document.getElementById('createTaskModalOverlay').classList.remove('show'); renderMyAds();
-                 document.getElementById('newTaskTitle').value = ""; document.getElementById('newTaskUrl').value = ""; selectedPackage = null;
-             } catch(e) { alert("Error: " + e.message); } finally { btn.disabled = false; btn.textContent = "Confirm Task"; }
-        });
-
-        async function renderMyAds() {
-            const container = document.getElementById('my-ads-list');
-            if (!currentUser) return;
-            try {
-                const q = query(collection(db, 'tasks'), where("creatorId", "==", currentUser.id), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-                if (snapshot.empty) { container.innerHTML = '<p style="text-align:center;">No active campaigns.</p>'; return; }
-                container.innerHTML = snapshot.docs.map(docSnap => { const ad = docSnap.data(); const isCompleted = (ad.completionCount || 0) >= ad.limit; return `<div class="user-ad-item task-card"><div style="width:100%"><h4 style="margin:0 0 5px;">${ad.title}</h4><p class="progress-text">Progress: ${(ad.completionCount || 0)} / ${ad.limit}</p><p class="status-text ${isCompleted ? 'completed' : 'active'}">${isCompleted ? 'Finished' : 'Running'}</p></div></div>`; }).join('');
-            } catch (error) {}
         }
 
         // --- WITHDRAWAL LOGIC ---
@@ -1416,8 +1336,9 @@
         
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
         document.getElementById('closeHistoryBtn').addEventListener('click', () => document.getElementById('historyModalOverlay').classList.remove('show'));
-        document.getElementById('show-create-task-btn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.add('show'));
-        document.getElementById('closeTaskModalBtn').addEventListener('click', () => document.getElementById('createTaskModalOverlay').classList.remove('show'));
+        
+        // Removed Create Task Button listeners
+
         document.getElementById('howToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.add('show'));
         document.getElementById('closeHowToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.remove('show'));
 
@@ -1429,10 +1350,9 @@
                 document.querySelectorAll('.bottom-nav-item.active, .content-section.active').forEach(el => el.classList.remove('active'));
                 link.classList.add('active');
                 document.querySelector(targetId).classList.add('active');
-                if(targetId === '#task-content') { renderTaskPackages(); await renderMyAds(); await fetchAndRenderTasks('task-list', 50); }
+                if(targetId === '#task-content') { await fetchAndRenderTasks('task-list', 50); }
                 else if(targetId === '#withdraw-content') setupWithdrawalUI();
                 else if(targetId === '#ads-content') updateAdButtonStats();
-                // Video Logic Removed
                 else if(targetId === '#home-content') { renderHomeUI(); fetchPromoHistory(); }
             });
         });
