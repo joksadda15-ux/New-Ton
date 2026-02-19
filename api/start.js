@@ -1,11 +1,21 @@
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "./firebase.js";
+
 export default async function handler(req, res) {
-  const TOKEN = "7621782659:AAEYhwD68j_wYxJo5vX72fCEo3xF9RYYgEU";
+
+  // ✅ Token hidden থাকবে (Environment Variable থেকে আসবে)
+  const TOKEN = process.env.BOT_TOKEN;
+
+  if (!TOKEN) {
+    return res.status(500).json({ error: "Bot token not found" });
+  }
 
   if (req.method !== "POST") {
     return res.status(200).json({ ok: true });
   }
 
   const body = req.body;
+
   const chatId = body.message?.chat?.id;
   const text = body.message?.text || "";
 
@@ -13,7 +23,16 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
+  // 🔹 /start command
   if (text === "/start") {
+
+    // ✅ Firestore এ user save
+    await setDoc(doc(db, "users", String(chatId)), {
+      id: chatId,
+      joinedAt: Date.now()
+    });
+
+    // ✅ Welcome message send
     await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -22,20 +41,14 @@ export default async function handler(req, res) {
         text: "🚀 Welcome to NEWTUBE TON BOT\n\nWatch Ads & Earn TON Easily\n\nJoin our official links below:",
         reply_markup: {
           inline_keyboard: [
-            [
-              { text: "👥 Official Group", url: "https://t.me/newTon_Gc" }
-            ],
-            [
-              { text: "📢 Official Channel", url: "https://t.me/NEEWTON_OFFICIAL" }
-            ],
-            [
-              { text: "🎁 Invite Friends", url: "https://t.me/NewTube12_bot/TonFREE?startapp" }
-            ]
+            [{ text: "👥 Official Group", url: "https://t.me/newTon_Gc" }],
+            [{ text: "📢 Official Channel", url: "https://t.me/NEEWTON_OFFICIAL" }],
+            [{ text: "🎁 Invite Friends", url: "https://t.me/NewTube12_bot?start" }]
           ]
         }
       })
     });
   }
 
-  res.status(200).json({ ok: true });
-}
+  return res.status(200).json({ ok: true });
+                           }
