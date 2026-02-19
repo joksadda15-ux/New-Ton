@@ -7,13 +7,10 @@ export default async function handler(req, res) {
   }
 
   try {
-
-    const body = typeof req.body === "string"
-      ? JSON.parse(req.body)
-      : req.body;
+    const body = req.body;
 
     const chatId = body.message?.chat?.id;
-    const text = body.message?.text || "";
+    const text = body.message?.text;
 
     if (text === "/start") {
 
@@ -22,14 +19,14 @@ export default async function handler(req, res) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: chatId,
-          text: "Bot 100% Working ✅"
+          text: "Bot Working ✅"
         })
       });
 
     }
 
   } catch (err) {
-    console.log("ERROR:", err);
+    console.log(err);
   }
 
   return res.status(200).json({ ok: true });
