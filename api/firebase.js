@@ -7,5 +7,13 @@ const firebaseConfig = {
   projectId: process.env.FB_PROJECT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+let app;
+
+if (!global._firebaseApp) {
+  app = initializeApp(firebaseConfig);
+  global._firebaseApp = app;
+} else {
+  app = global._firebaseApp;
+}
+
 export const db = getFirestore(app);
