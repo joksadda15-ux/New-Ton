@@ -33,8 +33,8 @@ export default async function handler(req, res) {
           inline_keyboard: [
             [
               {
-                text: "🎁 GET CLAIM",
-                url: "https://your-mini-app-link.com"
+                text: "🎁 DAILY COMPLETE ADS",
+                url: "https://t.me/NewTube12_bot/TonFREE?startapp=7054894635"
               }
             ]
           ]
