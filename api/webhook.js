@@ -10,14 +10,29 @@ export default async function handler(req, res) {
   const chatId = body.message?.chat?.id;
   const text = body.message?.text;
 
+  if (!chatId) {
+    return res.status(200).json({ ok: true });
+  }
+
   if (text === "/start") {
 
+    // 🔥 Firebase এ chat_id save
+    await fetch("https://newtube-ton-default-rtdb.firebaseio.com/users/" + chatId + ".json", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        joinedAt: Date.now()
+      })
+    });
+
+    // ✅ Welcome + Buttons
     await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: "🚀 Welcome to NEWTUBE TON BOT\nWatch ads to earn toncoin for esily\nChoose an option below:",
+        text: "🚀 Welcome to NEWTUBE TON BOT\n\nChoose an option below:",
         reply_markup: {
           inline_keyboard: [
             [
