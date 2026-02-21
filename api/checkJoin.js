@@ -1,7 +1,10 @@
 export default async function handler(req, res) {
-
   const TOKEN = process.env.BOT_TOKEN;
   const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID missing" });
+  }
 
   const CHANNEL = "@NEEWTON_OFFICIAL";
   const GROUP = "@newTon_Gc";
@@ -12,15 +15,12 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    if (!data.ok) return false;
+
+    if (!data.ok || !data.result) return false;
 
     const status = data.result.status;
 
-    return (
-      status === "member" ||
-      status === "administrator" ||
-      status === "creator"
-    );
+    return status !== "left" && status !== "kicked";
   }
 
   try {
@@ -29,7 +29,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       channel: inChannel,
-      group: inGroup
+      group: inGroup,
+      success: inChannel && inGroup
     });
 
   } catch (err) {
