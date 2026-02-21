@@ -16,9 +16,30 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- === ANTI-CHEAT SYSTEM START === -->
+    <script>
+        // Disable Right Click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+U
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) { return false; } // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+        }
+
+        // Clear Console with Warning
+        setInterval(function() {
+            console.clear();
+            console.log("%cSTOP!", "color: red; font-size: 50px; font-weight: bold;");
+            console.log("%cThis is a browser feature intended for developers. If someone told you to copy and paste something here, it is a scam and will result in your account being banned.", "font-size: 18px;");
+        }, 2000);
+    </script>
+    <!-- === ANTI-CHEAT SYSTEM END === -->
+
     <!-- --- AD INTEGRATIONS --- -->
-    
-    <!-- Adexium Auto Mode Setup -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
@@ -27,13 +48,8 @@
         });
     </script>
     
-    <!-- Monetag -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
-    
-    <!-- GigaPub -->
     <script src="https://ad.gigapub.tech/script?id=846"></script>
-    
-    <!-- Adextra (Adsterra) -->
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
     <!-- --- AD INTEGRATIONS END --- -->
 
@@ -42,239 +58,87 @@
             --bg-color: #050505;        /* Deep Black */
             --card-bg: #111111;         /* Dark Gray Card */
             --header-bg: #000000;       /* Pure Black Header */
-            
             --primary-color: #00FF88;   /* Neon Green */
             --primary-hover: #00cc6a;
-            
             --text-title: #FFFFFF;      /* White */
             --text-body: #B0B0B0;       /* Light Gray */
-            
             --border-subtle: #333333;   /* Dark Border */
             --input-bg: #1A1A1A;        /* Dark Input */
-            
             --success-color: #00FF88;
             --danger-color: #FF3333;   
             --disabled-bg: #222222;
             --disabled-text: #555555;
-
             --shadow-card: 0 4px 20px rgba(0, 255, 136, 0.05);
             --radius-card: 16px;
             --radius-btn: 12px;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-body);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 70px 0 90px;
-            min-height: 100vh;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
-        
+        body { background-color: var(--bg-color); color: var(--text-body); font-family: 'Inter', sans-serif; margin: 0; padding: 70px 0 90px; min-height: 100vh; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
         /* --- HEADER --- */
-        .main-header {
-            background-color: var(--header-bg);
-            padding: 0 16px;
-            border-bottom: 1px solid var(--border-subtle);
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            height: 64px;
-            box-shadow: 0 2px 15px rgba(0, 255, 136, 0.1);
-        }
-        
+        .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; box-shadow: 0 2px 15px rgba(0, 255, 136, 0.1); }
         .header-left { display: flex; align-items: center; gap: 12px; }
         .site-branding { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        
-        .site-title { 
-            font-size: 1.1rem; 
-            color: var(--primary-color); 
-            font-weight: 900; 
-            margin: 0; 
-            letter-spacing: 1px;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid var(--primary-color);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-            animation: neonPulse 2s infinite alternate, borderGlow 2s infinite alternate;
-        }
+        .site-title { font-size: 1.1rem; color: var(--primary-color); font-weight: 900; margin: 0; letter-spacing: 1px; background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--primary-color); text-shadow: 0 0 10px rgba(0, 255, 136, 0.6); animation: neonPulse 2s infinite alternate, borderGlow 2s infinite alternate; }
 
-        @keyframes neonPulse {
-            0% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); }
-            100% { text-shadow: 0 0 15px rgba(0, 255, 136, 1), 0 0 5px #fff; }
-        }
+        @keyframes neonPulse { 0% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); } 100% { text-shadow: 0 0 15px rgba(0, 255, 136, 1), 0 0 5px #fff; } }
+        @keyframes borderGlow { 0% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); border-color: var(--primary-color); } 100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); border-color: #fff; } }
 
-        @keyframes borderGlow {
-            0% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); border-color: var(--primary-color); }
-            100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); border-color: #fff; }
-        }
-
-        .user-id-display { 
-            font-size: 0.75rem; color: var(--text-body); 
-            font-family: 'Roboto Mono', monospace; 
-            background: var(--input-bg);
-            padding: 2px 8px; border-radius: 6px;
-            margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
-            border: 1px solid var(--border-subtle);
-        }
-        
+        .user-id-display { font-size: 0.75rem; color: var(--text-body); font-family: 'Roboto Mono', monospace; background: var(--input-bg); padding: 2px 8px; border-radius: 6px; margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--border-subtle); }
         .header-right { display: flex; align-items: center; gap: 12px; }
-        
-        .balance-badge {
-            display: flex; flex-direction: column; align-items: flex-end;
-            line-height: 1.2;
-        }
-        .balance-badge .ton-val {
-            color: var(--text-title); font-weight: 700; font-size: 0.95rem;
-        }
-        .balance-badge .pts-val {
-            font-size: 0.75rem; color: var(--primary-color); font-weight: 500;
-        }
-
-        .header-icon-btn { 
-            background: var(--input-bg); 
-            border: 1px solid var(--border-subtle); 
-            color: var(--text-title); 
-            width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s;
-        }
+        .balance-badge { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+        .balance-badge .ton-val { color: var(--text-title); font-weight: 700; font-size: 0.95rem; }
+        .balance-badge .pts-val { font-size: 0.75rem; color: var(--primary-color); font-weight: 500; }
+        .header-icon-btn { background: var(--input-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
         .header-icon-btn:hover { background: #333; border-color: var(--primary-color); }
-        .header-icon-btn i { font-size: 1.1rem; }
 
         /* --- CARDS --- */
-        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .special-ad-card { 
-            background-color: var(--card-bg); 
-            border-radius: var(--radius-card); 
-            padding: 20px; 
-            border: 1px solid var(--border-subtle); 
-            box-shadow: var(--shadow-card);
-            margin-bottom: 20px;
-            transition: transform 0.2s, border-color 0.2s;
-            position: relative;
-        }
+        .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .special-ad-card { background-color: var(--card-bg); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; transition: transform 0.2s, border-color 0.2s; position: relative; }
+        .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-transform: uppercase; }
         
-        .section-title { 
-            font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); 
-            font-weight: 700; border-left: 4px solid var(--primary-color); 
-            padding-left: 12px; 
-            text-transform: uppercase;
-        }
-        .sub-section-title { font-size: 1.1rem; color: var(--text-title); margin: 24px 0 16px; font-weight: 600; }
-
         /* --- BUTTONS --- */
-        .form-button, .task-button { 
-            width: 100%; 
-            padding: 14px; 
-            border: none; 
-            border-radius: var(--radius-btn); 
-            font-weight: 600; font-size: 0.95rem;
-            cursor: pointer; 
-            background-color: var(--primary-color); 
-            color: #000; 
-            transition: all 0.2s; 
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
-        }
+        .form-button, .task-button { width: 100%; padding: 14px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: var(--primary-color); color: #000; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3); }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
-        
-        .form-button:hover:not(:disabled) { 
-            background-color: var(--primary-hover); 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 255, 136, 0.5);
-        }
-        .form-button:active:not(:disabled) { transform: scale(0.98); }
-        
-        .form-button:disabled, .task-button:disabled { 
-            background-color: var(--disabled-bg); 
-            color: var(--disabled-text); 
-            cursor: not-allowed; 
-            box-shadow: none;
-        }
+        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 255, 136, 0.5); }
+        .form-button:disabled, .task-button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; box-shadow: none; }
 
-        /* --- NEW AD BUTTON STYLES --- */
-        .special-ad-card {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            text-align: left;
-        }
-        .special-ad-header {
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .special-ad-card { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+        .special-ad-header { display: flex; justify-content: space-between; align-items: center; }
         .special-ad-header h4 { margin: 0; color: var(--text-title); font-size: 1rem; }
         .special-ad-limit { font-size: 0.8rem; color: var(--text-body); background: var(--input-bg); padding: 4px 8px; border-radius: 6px;}
 
-        /* --- FORMS & INPUTS --- */
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-body); font-size: 0.9rem; }
-        
-        input[type="text"], input[type="number"], select { 
-            width: 100%; padding: 14px; box-sizing: border-box; 
-            border-radius: var(--radius-btn); 
-            border: 1px solid var(--border-subtle); 
-            background-color: var(--input-bg); 
-            color: var(--text-title); 
-            font-size: 0.95rem; outline: none; 
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s;
-        }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.2s; }
         input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(0,255,136,0.2); }
         input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
 
-        /* --- REFERRAL --- */
         .home-referral-card h4 { margin: 0 0 12px; font-size: 1.2rem; color: var(--text-title); }
         .referral-copy { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; color: var(--text-body); }
         .referral-copy b { color: var(--primary-color); }
-
         .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
         .input-group input { flex-grow: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
         .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
-
         .stat-row { display: flex; justify-content: space-between; background: var(--input-bg); padding: 12px 16px; border-radius: 12px; margin-top: 10px; }
         .stat-row span { font-size: 0.9rem; color: var(--text-body); }
         .stat-row strong { color: var(--text-title); }
 
-        /* --- BOTTOM NAV --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-around;
-            padding: 10px 0 20px; 
-            z-index: 1000;
-        }
-        .bottom-nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 6px; color: var(--disabled-text); text-decoration: none;
-            font-size: 0.7rem; font-weight: 500;
-            width: 20%;
-            transition: color 0.2s;
-        }
-        .bottom-nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--header-bg); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 20%; transition: color 0.2s; }
         .bottom-nav-item:hover { color: var(--text-title); }
         .bottom-nav-item.active { color: var(--primary-color); text-shadow: 0 0 8px rgba(0,255,136,0.5); }
 
-        /* --- TABS --- */
         .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
         .content-section.active { display: block; }
         @keyframes fadeEffect { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- SPECIFIC COMPONENTS --- */
         .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         .item-grid { display: grid; gap: 16px; }
-        .task-card, .user-ad-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; }
+        .task-card { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; }
         .task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
         .task-card-info p { margin: 0; font-size: 0.85rem; color: var(--primary-color); font-weight: 500; }
         .task-reward-points { color: var(--success-color); font-weight: bold; }
-        
         .conversion-rate-display { background: rgba(0, 255, 136, 0.1); color: var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(0,255,136,0.2); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
@@ -284,50 +148,18 @@
         .modal-body { overflow-y: auto; padding-right: 5px; margin-bottom: 10px; }
         
         .history-item { border-bottom: 1px solid var(--border-subtle); padding: 12px 0; }
-        .history-date-header { color: var(--text-body); font-size: 0.8rem; margin-top: 15px; font-weight: 600; text-transform: uppercase; }
         .text-green { color: var(--success-color) !important; }
         .text-red { color: var(--danger-color) !important; }
-        .text-primary { color: var(--text-title) !important; }
 
         .profile-popover { position: absolute; top: 60px; left: 16px; background: var(--card-bg); border: 1px solid var(--primary-color); border-radius: 12px; padding: 16px; width: 280px; z-index: 1001; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .profile-popover.show { display: block; }
         .popover-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
-        .popover-item strong { color: var(--text-body); }
-        .popover-item span { color: var(--text-title); font-weight: 600; }
 
-        #ad-package-grid { grid-template-columns: repeat(2, 1fr); }
-        .ad-package-card { text-align: center; cursor: pointer; border: 2px solid transparent; background: var(--input-bg); }
-        .ad-package-card.selected { border-color: var(--primary-color); background: rgba(0, 255, 136, 0.05); }
-
-        .blocking-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            color: white; text-align: center;
-        }
+        .blocking-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
         .blocking-overlay h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
         .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; }
 
-        .user-ad-item { flex-direction: column; align-items: flex-start; }
-        .user-ad-item .progress-text { font-size: 0.85rem; color: var(--text-body); margin-top: 5px; }
-        .user-ad-item .status-text { margin-top: 10px; font-weight: bold; font-size: 0.8rem; }
-        .user-ad-item .status-text.completed { color: var(--success-color); }
-        .user-ad-item .status-text.active { color: var(--primary-color); }
-        
-        /* ADEXIUM Container Style */
-        #adexium-ad-container {
-            width: 100%;
-            min-height: 100px;
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--input-bg);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
+        #adexium-ad-container { width: 100%; min-height: 100px; text-align: center; margin-top: 20px; display: flex; justify-content: center; align-items: center; background: var(--input-bg); border-radius: 8px; overflow: hidden; }
     </style>
 </head>
 <body>
@@ -398,7 +230,7 @@
                  </button>
              </div>
 
-             <!-- Referral Card UPDATED -->
+             <!-- Referral Card -->
              <div class="home-referral-card">
                  <div style="text-align: center; margin-bottom: 15px;">
                      <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px;"></i>
@@ -431,10 +263,8 @@
                 <div id="promo-history-list" style="margin-top: 20px;"></div>
              </div>
         </section>
-        
-        <!-- VIDEO SECTION REMOVED HERE -->
 
-        <!-- UPDATED ADS SECTION -->
+        <!-- ADS SECTION -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
              <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem;">
@@ -451,7 +281,6 @@
                      <span class="special-ad-limit" id="limit-mixed">0/20</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <!-- REWARD UPDATED TO 6 POINTS -->
                     <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-mixed" class="task-button" style="width:120px;">Watch</button>
                  </div>
@@ -467,7 +296,6 @@
                      <span class="special-ad-limit" id="limit-monetag">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <!-- REWARD UPDATED TO 6 POINTS -->
                     <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-monetag" class="task-button" style="width:120px;">Watch</button>
                  </div>
@@ -483,25 +311,17 @@
                      <span class="special-ad-limit" id="limit-giga">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <!-- REWARD UPDATED TO 6 POINTS -->
                     <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
                     <button id="btn-watch-giga" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
 
-             <!-- Adexium Ad Container -->
-             <div id="adexium-ad-container">
-                 <p style="font-size: 0.8rem; color: #555;">Adexium Ads</p>
-             </div>
-             
-             <!-- Ad container for Adextra/Banners -->
+             <div id="adexium-ad-container"><p style="font-size: 0.8rem; color: #555;">Adexium Ads</p></div>
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
         </section>
 
-        <!-- TASKS SECTION - UPDATED: ADMIN CONTACT ONLY -->
+        <!-- TASKS SECTION -->
         <section id="task-content" class="content-section">
-            
-            <!-- NEW ADMIN CONTACT SECTION -->
             <div class="card" style="text-align: center; border: 1px solid var(--primary-color); background: rgba(0, 255, 136, 0.05);">
                  <i class="fas fa-ad" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
                  <h3 style="margin: 0 0 10px; color: var(--text-title);">Buy Traffic / Add Task</h3>
@@ -513,17 +333,13 @@
                      <i class="fab fa-telegram-plane"></i> Message Admin
                  </a>
             </div>
-
             <h3 class="section-title">Earn Tasks</h3>
             <div id="task-list" class="item-grid"></div>
-            
-             <!-- My Campaigns Removed -->
         </section>
 
         <!-- WITHDRAW SECTION -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: center; position: relative;">
-                
                 <i class="fas fa-wallet" style="font-size: 3rem; color: var(--text-body); margin-bottom: 15px; opacity: 0.5;"></i>
                 <h2 style="margin: 0 0 5px; color: var(--text-title); font-size: 2rem;" id="withdrawPointBalance">0 Points</h2>
                 <p class="conversion-rate-display">20,000 Points = 1.00 TON</p>
@@ -568,25 +384,15 @@
         </section>
     </main>
 
-    <!-- BOTTOM NAVIGATION (UPDATED: REMOVED VIDEO) -->
+    <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
-        <a href="#" class="bottom-nav-item active" data-tab-target="#home-content">
-            <i class="fas fa-home"></i> Home
-        </a>
-        <!-- VIDEO TAB REMOVED -->
-        <a href="#" class="bottom-nav-item" data-tab-target="#ads-content">
-            <i class="fas fa-ad"></i> Ads
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#task-content">
-            <i class="fas fa-tasks"></i> Tasks
-        </a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content">
-            <i class="fas fa-wallet"></i> Withdraw
-        </a>
+        <a href="#" class="bottom-nav-item active" data-tab-target="#home-content"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#ads-content"><i class="fas fa-ad"></i> Ads</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#task-content"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Withdraw</a>
     </nav>
 
     <!-- MODALS -->
-    
     <div id="howToWorkModal" class="modal-overlay">
         <div class="modal-content" style="text-align: left;">
             <h3 style="text-align: center; color: var(--primary-color); margin-top: 0;">How To Work</h3>
@@ -620,8 +426,6 @@
             <button id="closeHistoryBtn" class="form-button" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
         </div>
     </div>
-
-    <!-- Create Task Modal REMOVED -->
 
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
@@ -682,7 +486,6 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        // UPDATED: Referral Reward Points set to 200
         const REFERRAL_REWARD_POINTS = 200; 
         const POINTS_TO_TON_RATE = 0.00005; // 200 Points * 0.00005 = 0.01 TON
 
@@ -691,29 +494,15 @@
             'Bkash': { min: 1000 },
         };
 
-        // --- UPDATED AD LIMITS & COOLDOWNS ---
         const AD_CONFIG = {
-            mixed: {
-                limit: 20,
-                cooldown: 24 * 60 * 60 * 1000 // 24 Hours
-            },
-            monetag: {
-                limit: 15,
-                cooldown: 12 * 60 * 60 * 1000 // 12 Hours
-            },
-            giga: {
-                limit: 15,
-                cooldown: 12 * 60 * 60 * 1000 // 12 Hours
-            }
+            mixed: { limit: 20, cooldown: 24 * 60 * 60 * 1000 },
+            monetag: { limit: 15, cooldown: 12 * 60 * 60 * 1000 },
+            giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }
         };
 
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
-        
-        const showAdextraAd = () => new Promise((res) => {
-             console.log("Adextra triggered");
-             setTimeout(res, 2000); 
-        });
+        const showAdextraAd = () => new Promise((res) => { setTimeout(res, 2000); });
 
         async function showRandomAd() { 
             try { 
@@ -721,12 +510,11 @@
                 const choice = ads[Math.floor(Math.random() * ads.length)];
                 await choice(); 
             } catch(err) {
-                console.log("Ad error, fallback", err);
                 await showAdextraAd(); 
             } 
         }
 
-        // --- ADS LOGIC UPDATED ---
+        // --- SPEED HACK PREVENTION FOR ADS ---
         async function executeAdProtectedAction(actionCallback, duration = 5000, msg = "Watching Ad...") {
             const blockingOverlay = document.getElementById('adBlockingOverlay');
             const timerDisplay = document.getElementById('adOverlayTimer');
@@ -745,18 +533,23 @@
                 if(tDisp) tDisp.textContent = visualCountdown > 0 ? visualCountdown : "Loading...";
             }, 1000);
 
-            const startTime = Date.now();
+            const exactStartTime = Date.now();
             
             try {
                 if(msg === "Mixed Ad") await showRandomAd();
                 
-                const endTime = Date.now();
-                if ((endTime - startTime) >= duration) {
+                // Ensure exact time has passed
+                const remaining = duration - (Date.now() - exactStartTime);
+                if (remaining > 0) {
+                    await new Promise(r => setTimeout(r, remaining));
+                }
+
+                const exactEndTime = Date.now();
+                // Check if user didn't speed up browser time
+                if ((exactEndTime - exactStartTime) >= (duration - 500)) {
                     await actionCallback();
                 } else {
-                    const remaining = duration - (endTime - startTime);
-                    if(remaining > 0) await new Promise(r => setTimeout(r, remaining));
-                    await actionCallback();
+                    alert("Security Warning: Do not close or skip ads early. Action blocked.");
                 }
             } catch (err) {
                 console.error("Ad failed:", err);
@@ -782,11 +575,11 @@
                 const updatedUser = await cleanupAndGetUser(currentUser.id);
                 if (updatedUser) {
                     currentUser = updatedUser;
-                    checkAdCooldowns(currentUser); // New Check Logic
+                    checkAdCooldowns(currentUser);
                     updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
                     updateAdButtonStats();
                 }
-            } catch (error) { console.error("Error fetching user:", error); }
+            } catch (error) {}
         }
 
         async function initializeUser(tgUser, referrerCode) {
@@ -799,25 +592,24 @@
                 isNewUser = true;
                 const defaultUserData = {
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
-                    spentReferrals: 0, 
-                    completedTasks: [],
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A',
-                    isBanned: false,
-                    isActivated: false,
-                    lifetimeAdsWatched: 0, 
-                    // New Ad Counters
-                    adsWatchedMixed: 0,
-                    adsWatchedMonetag: 0,
-                    adsWatchedGiga: 0,
-                    dailyBonusClaimed: false,
-                    // Timestamps for Cooldowns
-                    adResetTimeMixed: null,
-                    adResetTimeMonetag: null,
-                    adResetTimeGiga: null
+                    spentReferrals: 0, completedTasks: [], createdAt: serverTimestamp(), 
+                    telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
+                    lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
+                    dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null
                 };
+
+                // --- REFERRAL API TRACKING (BOT NOTIFICATION) ---
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
+                    
+                    // Send to external backend for Telegram Bot Notification
+                    fetch("https://new-ton-p2rd.vercel.app/api/ref", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ userId: userId, refId: referrerCode })
+                    }).catch(e => console.log("Referral tracking API error:", e));
                 }
+
                 await setDoc(userRef, defaultUserData);
                 userSnap = await getDoc(userRef);
             }
@@ -826,21 +618,15 @@
             if (userData?.isBanned === true) { showBanScreen(); return null; }
             
             currentUser = { id: userSnap.id, ...userSnap.data() };
-            
-            // Check Cooldowns immediately
             await checkAdCooldowns(currentUser);
-
             updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance); 
             generateReferralLink(currentUser.id);
             updateAdButtonStats();
-
-            // Start UI Timer for Buttons
             setInterval(updateAdButtonStats, 1000);
 
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        // --- NEW RESET LOGIC (FIXED FOR OLD USERS) ---
         async function checkAdCooldowns(user) {
             const now = Date.now();
             const updates = {};
@@ -850,23 +636,11 @@
                 const resetTime = user[resetKey] ? user[resetKey].toDate().getTime() : 0;
                 const currentCount = user[countKey] || 0;
                 
-                // FIX: 
-                // 1. যদি রিসেট টাইম পার হয়ে গিয়ে থাকে (Normal case)
-                // 2. অথবা, যদি লিমিট পূর্ণ থাকে (currentCount >= limit) কিন্তু কোনো ফিউচার টাইমার সেট করা না থাকে (Old user fix)
                 if ((resetTime > 0 && now > resetTime) || (currentCount >= limit && now > resetTime)) {
-                    
-                    // Reset everything to 0
-                    updates[countKey] = 0;
-                    updates[resetKey] = null;
-                    user[countKey] = 0;
-                    user[resetKey] = null;
+                    updates[countKey] = 0; updates[resetKey] = null;
+                    user[countKey] = 0; user[resetKey] = null;
                     needsUpdate = true;
-
-                    // Reset bonus flag if it's the 24h cycle (Mixed)
-                    if(countKey === 'adsWatchedMixed') {
-                         updates.dailyBonusClaimed = false;
-                         user.dailyBonusClaimed = false;
-                    }
+                    if(countKey === 'adsWatchedMixed') { updates.dailyBonusClaimed = false; user.dailyBonusClaimed = false; }
                 }
             };
 
@@ -877,7 +651,6 @@
             if (needsUpdate) {
                 const userRef = doc(db, 'users', user.id);
                 await updateDoc(userRef, updates);
-                // Update UI immediately after reset
                 updateAdButtonStats();
             }
         }
@@ -886,9 +659,7 @@
             document.getElementById('userTONBalanceDisplay').textContent = (tonBalance || 0).toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
-            if(withdrawDisplay) {
-                withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
-            }
+            if(withdrawDisplay) withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
         }
 
         function generateReferralLink(userId) {
@@ -909,21 +680,14 @@
              if (rewards.ton && rewards.ton > 0) {
                  updates.tonBalance = increment(rewards.ton);
              }
-
-             if (Object.keys(updates).length > 0) {
-                await updateDoc(userRef, updates);
-             }
+             if (Object.keys(updates).length > 0) await updateDoc(userRef, updates);
 
              if (transactionInfo.type) {
-                 const transactionData = {
+                 await addDoc(collection(db, 'transactions'), {
                     userId: currentUser.id, type: transactionInfo.type, details: transactionInfo.details || '',
-                    status: 'Completed', createdAt: serverTimestamp(), 
-                    pointAmount: rewards.points || 0,
-                    tonAmount: rewards.ton || 0
-                };
-                await addDoc(collection(db, 'transactions'), transactionData);
+                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points || 0, tonAmount: rewards.ton || 0
+                });
              }
-
              await fetchAndUpdateCurrentUser();
         }
 
@@ -961,8 +725,6 @@
             }, 5000, "Promo Ad");
         });
 
-        // --- UPDATE 3: UPDATED ADS SECTION LOGIC WITH TIMER ---
-        
         function formatTimeRemaining(ms) {
             const h = Math.floor(ms / (1000 * 60 * 60));
             const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
@@ -973,30 +735,20 @@
         function updateAdButtonStats() {
             if(!currentUser) return;
             const now = Date.now();
-
             const updateButton = (btnId, limitId, count, resetTimestamp, maxLimit) => {
                 const btn = document.getElementById(btnId);
                 const limitSpan = document.getElementById(limitId);
                 limitSpan.textContent = `${count}/${maxLimit}`;
-
                 const resetTime = resetTimestamp ? resetTimestamp.toDate().getTime() : 0;
                 
-                // If reset time exists and is in future, we are in cooldown
                 if (resetTime > now) {
-                    btn.disabled = true;
-                    btn.textContent = formatTimeRemaining(resetTime - now);
-                    btn.style.background = 'var(--disabled-bg)';
-                    btn.style.color = 'var(--danger-color)';
+                    btn.disabled = true; btn.textContent = formatTimeRemaining(resetTime - now);
+                    btn.style.background = 'var(--disabled-bg)'; btn.style.color = 'var(--danger-color)';
                 } else if (count >= maxLimit) {
-                    // Limit reached but resetTime not yet set or synced (should be caught by checkAdCooldowns)
-                    // If we are here, disable button temporarily until sync
-                     btn.disabled = true;
-                     btn.textContent = "Reloading...";
+                     btn.disabled = true; btn.textContent = "Reloading...";
                 } else {
-                    btn.disabled = false;
-                    btn.textContent = "Watch";
-                    btn.style.background = 'var(--input-bg)';
-                    btn.style.color = 'var(--text-title)';
+                    btn.disabled = false; btn.textContent = "Watch";
+                    btn.style.background = 'var(--input-bg)'; btn.style.color = 'var(--text-title)';
                 }
             };
 
@@ -1005,17 +757,12 @@
             updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
         }
 
-        // Button 1: Mixed (Random) - 20 Ads / 24h
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
             if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
-            // 5 second standard wait
-            await executeAdProtectedAction(async () => {
-                // UPDATE: REWARD IS NOW 6 POINTS
-                await processAdReward('mixed', 6);
-            }, 5000, "Mixed Ad");
+            await executeAdProtectedAction(async () => { await processAdReward('mixed', 6); }, 5000, "Mixed Ad");
         });
 
-        // Button 2: Monetag - 15 Ads / 12h - 7 Seconds Required
+        // Speed Hack Protected Monetag
         document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
             if((currentUser.adsWatchedMonetag || 0) >= AD_CONFIG.monetag.limit) return;
             
@@ -1029,30 +776,32 @@
             timerDisplay.textContent = "7";
             msgDisplay.innerHTML = 'Watch for <span id="adOverlayTimer" class="timer-count">7</span> seconds';
 
+            const exactStartTime = Date.now();
             try {
-                // Show Monetag
                 await showMonetagAd();
-                
-                // Wait 7 Seconds strictly
                 let count = 7;
                 const interval = setInterval(() => { count--; if(count>=0) document.getElementById('adOverlayTimer').textContent = count; }, 1000);
-                await new Promise(r => setTimeout(r, 7000)); 
                 
+                await new Promise(r => setTimeout(r, 7000)); 
                 clearInterval(interval);
-                blockingOverlay.style.display = 'none';
-                // UPDATE: REWARD IS NOW 6 POINTS
-                await processAdReward('monetag', 6);
+                
+                const exactEndTime = Date.now();
+                if ((exactEndTime - exactStartTime) >= 6500) {
+                    await processAdReward('monetag', 6);
+                } else {
+                    alert("Speed Hack Detected! Action Blocked.");
+                }
             } catch(e) {
-                blockingOverlay.style.display = 'none';
                 alert("Ad failed or closed too early.");
+            } finally {
+                blockingOverlay.style.display = 'none';
             }
         });
 
-        // Button 3: GigaPub - 15 Ads / 12h - Click Required (Simulated)
+        // Speed Hack Protected GigaPub
         document.getElementById('btn-watch-giga').addEventListener('click', async () => {
             if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
             
-            // Show Alert First
             const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards. If you do not click, you will not get points.");
             if(!confirmClick) return;
 
@@ -1064,21 +813,25 @@
             titleDisplay.textContent = "Click The Ad";
             msgDisplay.innerHTML = 'Click the ad now!<br>Verify in <span id="adOverlayTimer" class="timer-count">5</span>s';
             
+            const exactStartTime = Date.now();
             try {
                 await showGigaPubAd();
-                
-                // Simulate verification time (user should be clicking now)
                 let count = 5;
                 const interval = setInterval(() => { count--; if(count>=0) document.getElementById('adOverlayTimer').textContent = count; }, 1000);
-                await new Promise(r => setTimeout(r, 5000));
                 
+                await new Promise(r => setTimeout(r, 5000));
                 clearInterval(interval);
-                blockingOverlay.style.display = 'none';
-                // UPDATE: REWARD IS NOW 6 POINTS
-                await processAdReward('giga', 6);
+                
+                const exactEndTime = Date.now();
+                if ((exactEndTime - exactStartTime) >= 4500) {
+                    await processAdReward('giga', 6);
+                } else {
+                    alert("Speed Hack Detected! Action Blocked.");
+                }
             } catch(e) {
-                blockingOverlay.style.display = 'none';
                 alert("Ad failed.");
+            } finally {
+                blockingOverlay.style.display = 'none';
             }
         });
 
@@ -1087,54 +840,28 @@
             const updates = { lifetimeAdsWatched: increment(1) };
             let bonusPoints = 0;
             
-            // Update counts locally to check limits immediately
-            let currentCount = 0;
-            let limit = 0;
-            let cooldown = 0;
-            let resetKey = '';
-            let countKey = '';
+            let currentCount = 0; let limit = 0; let cooldown = 0; let resetKey = ''; let countKey = '';
 
             if (type === 'mixed') {
-                updates.adsWatchedMixed = increment(1);
-                currentCount = (currentUser.adsWatchedMixed || 0) + 1;
-                limit = AD_CONFIG.mixed.limit;
-                cooldown = AD_CONFIG.mixed.cooldown;
-                resetKey = 'adResetTimeMixed';
-                countKey = 'adsWatchedMixed';
+                updates.adsWatchedMixed = increment(1); currentCount = (currentUser.adsWatchedMixed || 0) + 1;
+                limit = AD_CONFIG.mixed.limit; cooldown = AD_CONFIG.mixed.cooldown; resetKey = 'adResetTimeMixed'; countKey = 'adsWatchedMixed';
             } else if (type === 'monetag') {
-                updates.adsWatchedMonetag = increment(1);
-                currentCount = (currentUser.adsWatchedMonetag || 0) + 1;
-                limit = AD_CONFIG.monetag.limit;
-                cooldown = AD_CONFIG.monetag.cooldown;
-                resetKey = 'adResetTimeMonetag';
-                countKey = 'adsWatchedMonetag';
+                updates.adsWatchedMonetag = increment(1); currentCount = (currentUser.adsWatchedMonetag || 0) + 1;
+                limit = AD_CONFIG.monetag.limit; cooldown = AD_CONFIG.monetag.cooldown; resetKey = 'adResetTimeMonetag'; countKey = 'adsWatchedMonetag';
             } else if (type === 'giga') {
-                updates.adsWatchedGiga = increment(1);
-                currentCount = (currentUser.adsWatchedGiga || 0) + 1;
-                limit = AD_CONFIG.giga.limit;
-                cooldown = AD_CONFIG.giga.cooldown;
-                resetKey = 'adResetTimeGiga';
-                countKey = 'adsWatchedGiga';
+                updates.adsWatchedGiga = increment(1); currentCount = (currentUser.adsWatchedGiga || 0) + 1;
+                limit = AD_CONFIG.giga.limit; cooldown = AD_CONFIG.giga.cooldown; resetKey = 'adResetTimeGiga'; countKey = 'adsWatchedGiga';
             }
 
-            // SET RESET TIMER IF LIMIT REACHED
-            if (currentCount >= limit) {
-                updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
-            }
+            if (currentCount >= limit) updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
 
-            // Daily Bonus Logic
             let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
-            if(totalAds === 30 && !currentUser.dailyBonusClaimed) {
-                bonusPoints = 40;
-                updates.dailyBonusClaimed = true;
-            }
+            if(totalAds === 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
             const totalToGrant = points + bonusPoints;
-
             await grantReward({ points: totalToGrant }, { type: 'Ad Watched', details: type + (bonusPoints > 0 ? ' + Bonus' : '') });
             await updateDoc(userRef, updates);
 
-            // UPDATED REFERRAL CHECK: 20 Ads = 200 Points
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
             if (currentAdsTotal === 20 && currentUser.referredBy) {
                 const referrerRef = doc(db, 'users', currentUser.referredBy);
@@ -1143,12 +870,10 @@
 
             let msg = `+${points} Points`;
             if(bonusPoints > 0) msg += `<br><b style="color:#FFD700">Daily Bonus: +40 Points!</b>`;
-
             showSuccessModal("Ad Complete", msg);
             await fetchAndUpdateCurrentUser();
         }
 
-        // --- TASKS LOGIC (EARN ONLY) ---
         async function fetchAndRenderTasks(containerId, count) {
             const taskListContainer = document.getElementById(containerId);
             taskListContainer.innerHTML = '<div class="loader"></div>';
@@ -1160,7 +885,6 @@
                 let tasksRendered = 0;
                 snapshot.forEach(docSnap => {
                     const task = docSnap.data();
-                    // Removed check for creatorId since user can't create tasks anymore
                     if (currentUser.completedTasks?.includes(docSnap.id)) return;
                     const isLimitReached = (task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit;
                     if (isLimitReached) return;
@@ -1171,7 +895,7 @@
                     tasksRendered++;
                 });
                 if (tasksRendered === 0) taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: var(--text-body);">No new tasks available.</p>';
-            } catch (error) { taskListContainer.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Error loading tasks.</p>'; }
+            } catch (error) {}
         }
 
         document.getElementById('task-list').addEventListener('click', async (e) => {
@@ -1217,7 +941,6 @@
             } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
         }
 
-        // --- WITHDRAWAL LOGIC ---
         function setupWithdrawalUI() {
             if (!currentUser) return;
             const balance = currentUser.pointBalance || 0;
@@ -1237,20 +960,15 @@
                      const val = amount * POINTS_TO_TON_RATE;
                      calcTonVal.textContent = val.toFixed(4);
                      realtimeDisplay.style.display = 'block';
-                } else {
-                     realtimeDisplay.style.display = 'none';
-                }
+                } else { realtimeDisplay.style.display = 'none'; }
 
                 if (!config) { summaryBox.style.display = 'none'; return; }
-
                 document.getElementById('summary-min').textContent = `${config.min} Points`;
                 
                 if (!isNaN(amount) && amount > 0) {
                     const receiveAmount = amount * POINTS_TO_TON_RATE;
                     document.getElementById('summary-receive').textContent = `${receiveAmount.toFixed(4)} TON`;
-                } else {
-                    document.getElementById('summary-receive').textContent = '0.0000 TON';
-                }
+                } else { document.getElementById('summary-receive').textContent = '0.0000 TON'; }
                 summaryBox.style.display = 'block';
             };
 
@@ -1289,10 +1007,25 @@
             modal.classList.add('show');
         }
 
+        // --- UPDATED PROCESS WITHDRAWAL LOGIC (1 PER DAY) ---
         async function processWithdrawal(amount, method, details) {
             isSubmittingWithdrawal = true;
             try {
                 const tonAmount = amount * POINTS_TO_TON_RATE;
+
+                // Anti-Cheat: 1 Withdraw Per Day Limit
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); 
+                const qWd = query(collection(db, 'withdrawals'), 
+                    where('userId', '==', currentUser.id), 
+                    where('createdAt', '>=', Timestamp.fromDate(today))
+                );
+                const snapWd = await getDocs(qWd);
+                
+                if (!snapWd.empty) {
+                    throw new Error("Withdrawal Limit Reached!\nYou can only withdraw 1 time per day. Try again tomorrow.");
+                }
+
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const userDoc = await t.get(userRef);
@@ -1331,13 +1064,11 @@
                     if(data.isWithdrawalDoc || data.type === 'Withdrawal') { title = "Withdraw " + data.status; amt = `${data.pointAmount}`; color = "text-red"; } else if (data.amount < 0) { amt = `${data.amount}`; color = "text-red"; }
                     return `<div class="history-item" style="display:flex; justify-content:space-between;"><div style="text-align:left;"><strong style="display:block;">${title}</strong><small>${date}</small></div><strong class="${color}">${amt}</strong></div>`;
                 }).join('');
-             } catch(e) { historyContainer.innerHTML = 'Error loading history.'; }
+             } catch(e) {}
         }
         
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
         document.getElementById('closeHistoryBtn').addEventListener('click', () => document.getElementById('historyModalOverlay').classList.remove('show'));
-        
-        // Removed Create Task Button listeners
 
         document.getElementById('howToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.add('show'));
         document.getElementById('closeHowToWorkBtn').addEventListener('click', () => document.getElementById('howToWorkModal').classList.remove('show'));
