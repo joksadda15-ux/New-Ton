@@ -1,11 +1,11 @@
-
+--- START OF FILE index.html ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>TonX Hub - Earning Platform</title>
+    <title>NEWTUBE TON - Earning Platform</title>
     
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
@@ -49,66 +49,103 @@
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
 
     <style>
-        /* === NEW LIGHT BLUE & DARK THEME === */
+        /* === NEW LIGHT BLUE & DARK SHINY THEME === */
         :root {
             --bg-color: #0B0E14;        /* Deep Navy Black */
-            --card-bg: #151A23;         /* Dark Greyish Navy Card */
-            --header-bg: #0B0E14;       /* Header Background */
+            --card-bg: rgba(21, 26, 35, 0.85); /* Semi-transparent Card for glass effect */
+            --header-bg: rgba(11, 14, 20, 0.95); /* Header Background */
             --primary-color: #00A3FF;   /* Light Blue */
             --primary-hover: #008be5;
             --text-title: #FFFFFF;      /* White */
             --text-body: #9CA3AF;       /* Light Gray */
-            --border-subtle: #1F2937;   /* Subtle Border */
-            --input-bg: #0D1117;        /* Darker Input */
+            --border-subtle: rgba(31, 41, 55, 0.7); /* Subtle Border */
+            --input-bg: rgba(13, 17, 23, 0.8); /* Darker Input */
             --success-color: #10B981;   /* Emerald Green */
             --danger-color: #EF4444;    /* Red */
             --warning-color: #F59E0B;   /* Orange/Yellow */
             --disabled-bg: #1A202C;
             --disabled-text: #4B5563;
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-card: 0 8px 32px rgba(0, 163, 255, 0.05);
             --radius-card: 16px;
             --radius-btn: 12px;
         }
 
-        body { background-color: var(--bg-color); color: var(--text-body); font-family: 'Inter', sans-serif; margin: 0; padding: 70px 0 90px; min-height: 100vh; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-body); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; padding: 70px 0 90px; 
+            min-height: 100vh; 
+            box-sizing: border-box; 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* === SHINY BACKGROUND EFFECTS === */
+        .stars-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 4s infinite alternate;
+            opacity: 0.3;
+        }
+        @keyframes twinkle { 0% { opacity: 0.1; } 100% { opacity: 0.5; } }
+
+        .glow-orb-1, .glow-orb-2 {
+            position: fixed; border-radius: 50%; filter: blur(90px); z-index: -1; opacity: 0.4;
+            animation: floatOrb 10s infinite alternate ease-in-out;
+        }
+        .glow-orb-1 { width: 250px; height: 250px; background: rgba(0, 163, 255, 0.5); top: -50px; left: -50px; }
+        .glow-orb-2 { width: 300px; height: 300px; background: rgba(168, 85, 247, 0.3); bottom: -100px; right: -50px; animation-delay: -5s; }
+        @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(30px) scale(1.1); } }
+        /* ================================ */
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 
         /* HEADER */
-        .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+        .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; backdrop-filter: blur(10px); }
         .header-left { display: flex; align-items: center; gap: 12px; }
         .site-branding { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        .site-title { font-size: 1.2rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: 0.5px; }
+        .site-title { font-size: 1.2rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 10px rgba(0, 163, 255, 0.5); }
 
         .user-id-display { font-size: 0.75rem; color: var(--text-body); font-family: 'Roboto Mono', monospace; background: var(--input-bg); padding: 4px 8px; border-radius: 6px; margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--border-subtle); }
         .header-right { display: flex; align-items: center; gap: 12px; }
         .balance-badge { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
         .balance-badge .ton-val { color: var(--text-title); font-weight: 700; font-size: 0.95rem; }
-        .balance-badge .pts-val { font-size: 0.75rem; color: var(--success-color); font-weight: 500; }
+        .balance-badge .pts-val { font-size: 0.75rem; color: var(--success-color); font-weight: 500; text-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
         .header-icon-btn { background: var(--card-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .header-icon-btn:hover { background: var(--border-subtle); color: var(--primary-color); }
+        .header-icon-btn:hover { background: var(--border-subtle); color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 163, 255, 0.3); }
 
-        /* HOME GRIDS (LIKE SCREENSHOT) */
+        /* HOME GRIDS */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .stat-box { background-color: var(--card-bg); border-radius: var(--radius-card); padding: 16px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 6px; }
+        .stat-box { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 16px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 6px; box-shadow: var(--shadow-card); }
         .stat-box i { font-size: 1.2rem; margin-bottom: 4px; }
         .stat-box small { font-size: 0.65rem; font-weight: 600; color: var(--text-body); text-transform: uppercase; letter-spacing: 0.5px; }
         .stat-box b { font-size: 1.1rem; color: var(--text-title); font-weight: 700; }
         
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .action-box { background-color: var(--card-bg); border-radius: var(--radius-card); padding: 25px 10px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; cursor: pointer; transition: transform 0.2s, background 0.2s; }
-        .action-box:hover { background-color: var(--border-subtle); transform: translateY(-2px); }
-        .action-box i { font-size: 1.8rem; color: var(--primary-color); }
+        .action-box { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 25px 10px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; cursor: pointer; transition: transform 0.2s, background 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); }
+        .action-box:hover { background-color: var(--border-subtle); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 163, 255, 0.2); }
+        .action-box i { font-size: 1.8rem; color: var(--primary-color); filter: drop-shadow(0 0 5px rgba(0,163,255,0.5)); }
         .action-box span { font-size: 0.9rem; font-weight: 600; color: var(--text-title); }
 
         /* CARDS */
-        .card, .special-ad-card { background-color: var(--card-bg); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; position: relative; }
-        .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; }
+        .card, .special-ad-card { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; position: relative; }
+        .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-shadow: 0 0 8px rgba(0, 163, 255, 0.4); }
         
         /* BUTTONS */
-        .form-button, .task-button { width: 100%; padding: 14px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: var(--primary-color); color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .form-button, .task-button { width: 100%; padding: 14px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: var(--primary-color); color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 163, 255, 0.2); }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
-        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); }
-        .form-button:disabled, .task-button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; border: 1px solid var(--border-subtle); }
+        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 163, 255, 0.4); }
+        .form-button:disabled, .task-button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; border: 1px solid var(--border-subtle); box-shadow: none; }
 
         .special-ad-card { display: flex; flex-direction: column; gap: 10px; text-align: left; }
         .special-ad-header { display: flex; justify-content: space-between; align-items: center; }
@@ -118,8 +155,8 @@
         /* FORMS */
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-body); font-size: 0.9rem; }
-        input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.2s; }
-        input:focus, select:focus { border-color: var(--primary-color); }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(0, 163, 255, 0.2); }
         input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
 
         .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -127,7 +164,7 @@
         .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
         
         /* WITHDRAW UI ELEMENTS */
-        .method-box { border: 2px solid var(--primary-color); background: rgba(0, 163, 255, 0.05); padding: 20px; border-radius: var(--radius-btn); text-align: center; font-weight: bold; color: var(--text-title); margin-bottom: 20px; }
+        .method-box { border: 2px solid var(--primary-color); background: rgba(0, 163, 255, 0.05); padding: 20px; border-radius: var(--radius-btn); text-align: center; font-weight: bold; color: var(--text-title); margin-bottom: 20px; box-shadow: 0 0 15px rgba(0, 163, 255, 0.1); }
         .method-box i { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 8px; }
         
         .notice-box { background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; }
@@ -135,10 +172,10 @@
         .notice-box p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: #D1D5DB; }
 
         /* NAVIGATION */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--header-bg); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
         .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 20%; transition: all 0.2s; }
         .bottom-nav-item:hover { color: var(--text-title); }
-        .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px);}
+        .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px); text-shadow: 0 0 8px rgba(0, 163, 255, 0.5);}
 
         .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
         .content-section.active { display: block; }
@@ -155,7 +192,7 @@
         /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-overlay.show { display: flex; }
-        .modal-content { background-color: var(--bg-color); color: var(--text-title); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; }
+        .modal-content { background-color: var(--bg-color); color: var(--text-title); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; position: relative; overflow: hidden; }
         
         .history-item { border-bottom: 1px solid var(--border-subtle); padding: 12px 0; }
         .text-green { color: var(--success-color) !important; }
@@ -165,28 +202,33 @@
         .text-purple { color: #A855F7 !important; }
 
         .blocking-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,14,20,0.95); z-index: 3000; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
-        .blocking-overlay h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
-        .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; }
+        .blocking-overlay h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; text-shadow: 0 0 15px rgba(0,163,255,0.5); }
+        .blocking-overlay .timer-count { font-size: 4em; font-weight: bold; color: var(--success-color); margin: 20px 0; display: block; text-shadow: 0 0 20px rgba(16,185,129,0.5); }
 
         #adexium-ad-container { width: 100%; min-height: 100px; text-align: center; margin-top: 20px; display: flex; justify-content: center; align-items: center; background: var(--input-bg); border-radius: 8px; border: 1px solid var(--border-subtle); overflow: hidden; }
 
         /* VERIFICATION MODAL */
-        .activation-modal { background: var(--card-bg); padding: 35px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 163, 255, 0.15); }
-        .verify-icon-box { width: 80px; height: 80px; margin: 0 auto 20px; background: rgba(0, 163, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary-color); }
+        .activation-modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 163, 255, 0.2); }
+        .verify-icon-box { width: 80px; height: 80px; margin: 0 auto 20px; background: rgba(0, 163, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary-color); box-shadow: 0 0 20px rgba(0,163,255,0.3); }
         .join-network-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border-radius: 12px; font-weight: 600; text-decoration: none; background: var(--input-bg); color: var(--primary-color); border: 1px solid var(--border-subtle); transition: all 0.3s; }
         
         /* THANK YOU ANIMATION */
         .thank-you-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 4000; display: none; flex-direction: column; justify-content: center; align-items: center; }
         .thank-you-overlay.show { display: flex; }
-        .checkmark-circle { width: 90px; height: 90px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; justify-content: center; align-items: center; border: 3px solid var(--success-color); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .checkmark-circle { width: 90px; height: 90px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; justify-content: center; align-items: center; border: 3px solid var(--success-color); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-shadow: 0 0 30px rgba(16,185,129,0.3); }
         .checkmark-circle i { font-size: 45px; color: var(--success-color); animation: scaleCheck 0.4s 0.4s ease-out both; transform: scale(0); }
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes scaleCheck { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        .thank-you-text { color: var(--text-title); font-size: 1.8rem; margin-top: 25px; font-weight: 800; opacity: 0; animation: fadeInText 0.5s 0.8s forwards; }
+        .thank-you-text { color: var(--text-title); font-size: 1.8rem; margin-top: 25px; font-weight: 800; opacity: 0; animation: fadeInText 0.5s 0.8s forwards; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
         @keyframes fadeInText { to { opacity: 1; } }
     </style>
 </head>
 <body>
+
+    <!-- STAR AND GLOW BACKGROUND -->
+    <div class="stars-bg"></div>
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
 
     <!-- THANK YOU ANIMATION -->
     <div id="thankYouOverlay" class="thank-you-overlay">
@@ -205,7 +247,7 @@
     <header class="main-header">
         <div class="header-left">
             <div class="site-branding">
-                <h1 class="site-title">TonX Hub</h1>
+                <h1 class="site-title">NEWTUBE TON</h1>
                 <div class="user-id-display" id="header-user-id">
                     <span>ID: ...</span> <i class="fas fa-copy" style="font-size: 10px;"></i>
                 </div>
@@ -352,7 +394,7 @@
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: left; position: relative;">
                 <h3 style="border-left: 3px solid var(--primary-color); padding-left: 10px; margin-top: 0;">Withdraw Funds</h3>
-                <h2 style="text-align: center; font-size: 3rem; margin: 20px 0 5px;" id="withdrawPointBalance">0 Pts</h2>
+                <h2 style="text-align: center; font-size: 3rem; margin: 20px 0 5px; text-shadow: 0 0 15px rgba(0,163,255,0.3);" id="withdrawPointBalance">0 Pts</h2>
                 <p style="text-align: center; color: var(--text-body); margin-bottom: 25px;">Rate: 20,000 Pts = 1.00 TON</p>
 
                 <form id="withdrawalForm">
@@ -408,14 +450,14 @@
                 <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
             </div>
             <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle);">Close</button>
+            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
         </div>
     </div>
 
     <!-- Invite Modal -->
     <div id="inviteModalOverlay" class="modal-overlay">
         <div class="modal-content">
-            <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+            <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,163,255,0.4));"></i>
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
                 1 Invite = <b style="color:var(--primary-color);">1 Withdrawal Unlock</b>.<br>
@@ -425,14 +467,14 @@
                <input type="text" id="modalReferralLinkInput" readonly value="Loading...">
                <button id="modalCopyReferralLinkBtn" class="form-button"><i class="fas fa-copy"></i></button>
             </div>
-            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle);">Close</button>
+            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
         </div>
     </div>
 
     <!-- Success Modal -->
     <div id="successModalOverlay" class="modal-overlay">
         <div class="modal-content">
-            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success-color); margin-bottom: 15px;"></i>
+            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(16,185,129,0.4));"></i>
             <h3 id="successModalTitle">Success!</h3>
             <p id="successModalMessage" style="color: var(--text-body);">Action completed.</p>
         </div>
@@ -445,7 +487,7 @@
             <!-- Reduced data load: only Referrals & Withdrawals shown -->
             <p style="font-size:0.75rem; color:var(--warning-color); margin-top:-10px;">Showing Withdrawals & Referral Rewards</p>
             <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
-            <button id="closeHistoryBtn" class="form-button close-modal-btn" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle);">Close</button>
+            <button id="closeHistoryBtn" class="form-button close-modal-btn" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
         </div>
     </div>
 
@@ -484,7 +526,7 @@
             <h3 style="color: var(--primary-color);">Confirm Completion</h3>
             <p style="color: var(--text-body);">Did you complete the task correctly? Fake claims lead to bans.</p>
             <div style="display:flex; gap:10px; margin-top:10px;">
-                <button id="taskConfirmGoBackBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle);">Back</button>
+                <button id="taskConfirmGoBackBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Back</button>
                 <button id="taskConfirmSubmitBtn" class="form-button">Yes, Completed</button>
             </div>
         </div>
@@ -495,7 +537,7 @@
             <h3 style="color: var(--primary-color);">Confirm Withdraw</h3>
             <p id="withdrawConfirmText" style="color: var(--text-body); margin-bottom: 20px;">...</p>
             <div style="display:flex; gap:10px;">
-                <button id="withdrawConfirmCancelBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle);">Cancel</button>
+                <button id="withdrawConfirmCancelBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Cancel</button>
                 <button id="withdrawConfirmSubmitBtn" class="form-button">Confirm</button>
             </div>
         </div>
