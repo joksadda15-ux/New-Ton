@@ -16,28 +16,21 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- === ANTI-CHEAT SYSTEM START === -->
+    <!-- === ANTI-CHEAT SYSTEM === -->
     <script>
-        // Disable Right Click
         document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Disable F12, Ctrl+Shift+I, Ctrl+U
         document.onkeydown = function (e) {
-            if (e.keyCode == 123) { return false; } // F12
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+            if (e.keyCode == 123) { return false; } 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
         }
-
-        // Clear Console with Warning
         setInterval(function() {
             console.clear();
             console.log("%cSTOP!", "color: red; font-size: 50px; font-weight: bold;");
-            console.log("%cThis is a browser feature intended for developers. If someone told you to copy and paste something here, it is a scam and will result in your account being banned.", "font-size: 18px;");
         }, 2000);
     </script>
-    <!-- === ANTI-CHEAT SYSTEM END === -->
 
     <!-- --- AD INTEGRATIONS --- -->
     <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
@@ -47,36 +40,26 @@
             adexiumWidget.autoMode();
         });
     </script>
-    
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
     <script async src="https://partner.adextra.io/jt/fa6b30e404e1046793d70db4a424966f97960abe.js"></script>
-    <!-- --- AD INTEGRATIONS END --- -->
 
     <style>
         :root {
-            --bg-color: #050505;        /* Deep Black */
-            --card-bg: #111111;         /* Dark Gray Card */
-            --header-bg: #000000;       /* Pure Black Header */
-            --primary-color: #00FF88;   /* Neon Green */
-            --primary-hover: #00cc6a;
-            --text-title: #FFFFFF;      /* White */
-            --text-body: #B0B0B0;       /* Light Gray */
-            --border-subtle: #333333;   /* Dark Border */
-            --input-bg: #1A1A1A;        /* Dark Input */
-            --success-color: #00FF88;
-            --danger-color: #FF3333;   
-            --disabled-bg: #222222;
-            --disabled-text: #555555;
+            --bg-color: #050505; --card-bg: #111111; --header-bg: #000000;
+            --primary-color: #00FF88; --primary-hover: #00cc6a;
+            --text-title: #FFFFFF; --text-body: #B0B0B0;
+            --border-subtle: #333333; --input-bg: #1A1A1A;
+            --success-color: #00FF88; --danger-color: #FF3333;   
+            --disabled-bg: #222222; --disabled-text: #555555;
             --shadow-card: 0 4px 20px rgba(0, 255, 136, 0.05);
-            --radius-card: 16px;
-            --radius-btn: 12px;
+            --radius-card: 16px; --radius-btn: 12px;
         }
 
         body { background-color: var(--bg-color); color: var(--text-body); font-family: 'Inter', sans-serif; margin: 0; padding: 70px 0 90px; min-height: 100vh; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
-        /* --- HEADER --- */
+        /* HEADER */
         .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; box-shadow: 0 2px 15px rgba(0, 255, 136, 0.1); }
         .header-left { display: flex; align-items: center; gap: 12px; }
         .site-branding { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
@@ -93,11 +76,11 @@
         .header-icon-btn { background: var(--input-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
         .header-icon-btn:hover { background: #333; border-color: var(--primary-color); }
 
-        /* --- CARDS --- */
+        /* CARDS */
         .ad-task-card, .task-card, .ad-package-card, .user-ad-item, .home-referral-card, .card, .special-ad-card { background-color: var(--card-bg); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; transition: transform 0.2s, border-color 0.2s; position: relative; }
         .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-transform: uppercase; }
         
-        /* --- BUTTONS --- */
+        /* BUTTONS */
         .form-button, .task-button { width: 100%; padding: 14px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: var(--primary-color); color: #000; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3); }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
         .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 255, 136, 0.5); }
@@ -108,6 +91,7 @@
         .special-ad-header h4 { margin: 0; color: var(--text-title); font-size: 1rem; }
         .special-ad-limit { font-size: 0.8rem; color: var(--text-body); background: var(--input-bg); padding: 4px 8px; border-radius: 6px;}
 
+        /* FORMS */
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-body); font-size: 0.9rem; }
         input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.2s; }
@@ -132,8 +116,10 @@
         .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
         .content-section.active { display: block; }
         @keyframes fadeEffect { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
         .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         .item-grid { display: grid; gap: 16px; }
         .task-card { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; }
         .task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
@@ -403,8 +389,7 @@
             </div>
             <h4 style="margin: 0 0 10px; color: var(--text-title); font-size: 1rem;">⚠️ Rules:</h4>
             <ul style="color: var(--text-body); padding-left: 20px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px;">
-                <li>TON Balance = Only for Ads.</li>
-                <li>Point Balance = Only for Withdrawal.</li>
+                <li>Points are converted to TON directly.</li>
                 <li>Do NOT use Multiple Accounts.</li>
             </ul>
             <button id="closeHowToWorkBtn" class="form-button" style="margin-top: 20px; background: var(--disabled-bg); color: var(--text-body);">Close</button>
@@ -427,17 +412,21 @@
         </div>
     </div>
 
+    <!-- UPDATE: Channel/Group Activation Modal -->
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
-            <h3>Welcome to NEWTUBE TON!</h3>
+            <h3 style="color: var(--danger-color); margin-top: 0; text-align: center;">🚨 Verification Required</h3>
             <div class="modal-body">
-                <p style="color: var(--text-body); margin-bottom: 20px;">Join our channels to activate your account.</p>
-                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
-                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="background: #2AABEE;"><i class="fab fa-telegram"></i> Join Channel</a>
+                <p style="color: var(--text-body); margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
+                    Please join our official Telegram Channel and Group to continue using this app.
+                </p>
+                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:15px;">
+                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="background: #2AABEE;"><i class="fab fa-telegram"></i> Join Channel (Required)</a>
                     <a href="https://t.me/newTon_Gc" target="_blank" class="form-button" style="background: #2AABEE;"><i class="fab fa-telegram"></i> Join Group</a>
                 </div>
+                <p style="font-size: 0.75rem; color: #777; text-align: center;">* Channel is always required. Group is required only once.</p>
             </div>
-            <button id="activateAccountBtn" class="form-button">Verify & Enter</button>
+            <button id="activateAccountBtn" class="form-button">Verify</button>
         </div>
     </div>
 
@@ -487,7 +476,7 @@
         let isSubmittingWithdrawal = false;
         
         const REFERRAL_REWARD_POINTS = 200; 
-        const POINTS_TO_TON_RATE = 0.00005; // 200 Points * 0.00005 = 0.01 TON
+        const POINTS_TO_TON_RATE = 0.00005; 
 
         const WITHDRAWAL_CONFIG = {
             'Tonkeeper': { min: 500 },
@@ -514,7 +503,7 @@
             } 
         }
 
-        // --- SPEED HACK PREVENTION FOR ADS ---
+        // --- SPEED HACK PREVENTION & PROMO AD FIX ---
         async function executeAdProtectedAction(actionCallback, duration = 5000, msg = "Watching Ad...") {
             const blockingOverlay = document.getElementById('adBlockingOverlay');
             const timerDisplay = document.getElementById('adOverlayTimer');
@@ -536,16 +525,17 @@
             const exactStartTime = Date.now();
             
             try {
-                if(msg === "Mixed Ad") await showRandomAd();
+                // FIX: Promo Ad added to condition
+                if(msg === "Mixed Ad" || msg === "Promo Ad") {
+                    await showRandomAd();
+                }
                 
-                // Ensure exact time has passed
                 const remaining = duration - (Date.now() - exactStartTime);
                 if (remaining > 0) {
                     await new Promise(r => setTimeout(r, remaining));
                 }
 
                 const exactEndTime = Date.now();
-                // Check if user didn't speed up browser time
                 if ((exactEndTime - exactStartTime) >= (duration - 500)) {
                     await actionCallback();
                 } else {
@@ -576,7 +566,7 @@
                 if (updatedUser) {
                     currentUser = updatedUser;
                     checkAdCooldowns(currentUser);
-                    updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance);
+                    updateBalanceUI(currentUser.pointBalance);
                     updateAdButtonStats();
                 }
             } catch (error) {}
@@ -594,20 +584,18 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0,
                     spentReferrals: 0, completedTasks: [], createdAt: serverTimestamp(), 
                     telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
+                    isGroupVerified: false, 
                     lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
                     dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null
                 };
 
-                // --- REFERRAL API TRACKING (BOT NOTIFICATION) ---
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
-                    
-                    // Send to external backend for Telegram Bot Notification
                     fetch("https://new-ton-p2rd.vercel.app/api/ref", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userId: userId, refId: referrerCode })
-                    }).catch(e => console.log("Referral tracking API error:", e));
+                    }).catch(e => console.log("Referral tracking error"));
                 }
 
                 await setDoc(userRef, defaultUserData);
@@ -619,7 +607,7 @@
             
             currentUser = { id: userSnap.id, ...userSnap.data() };
             await checkAdCooldowns(currentUser);
-            updateBalanceUI(currentUser.tonBalance, currentUser.pointBalance); 
+            updateBalanceUI(currentUser.pointBalance); 
             generateReferralLink(currentUser.id);
             updateAdButtonStats();
             setInterval(updateAdButtonStats, 1000);
@@ -655,11 +643,15 @@
             }
         }
 
-        function updateBalanceUI(tonBalance, pointBalance) {
-            document.getElementById('userTONBalanceDisplay').textContent = (tonBalance || 0).toFixed(4);
-            document.getElementById('userPointBalanceDisplay').textContent = Math.floor(pointBalance || 0);
+        function updateBalanceUI(pointBalance) {
+            const points = pointBalance || 0;
+            const equivalentTon = points * POINTS_TO_TON_RATE; 
+            
+            document.getElementById('userTONBalanceDisplay').textContent = equivalentTon.toFixed(4);
+            document.getElementById('userPointBalanceDisplay').textContent = Math.floor(points);
+            
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
-            if(withdrawDisplay) withdrawDisplay.textContent = `${Math.floor(pointBalance || 0)} Points`;
+            if(withdrawDisplay) withdrawDisplay.textContent = `${Math.floor(points)} Points`;
         }
 
         function generateReferralLink(userId) {
@@ -677,21 +669,17 @@
                  updates.pointBalance = increment(rewards.points);
                  updates.lifetimePointsEarned = increment(rewards.points);
              }
-             if (rewards.ton && rewards.ton > 0) {
-                 updates.tonBalance = increment(rewards.ton);
-             }
              if (Object.keys(updates).length > 0) await updateDoc(userRef, updates);
 
              if (transactionInfo.type) {
                  await addDoc(collection(db, 'transactions'), {
                     userId: currentUser.id, type: transactionInfo.type, details: transactionInfo.details || '',
-                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points || 0, tonAmount: rewards.ton || 0
+                    status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points || 0
                 });
              }
              await fetchAndUpdateCurrentUser();
         }
 
-        // --- PROMO CODE ---
         async function fetchPromoHistory() {
             const list = document.getElementById('promo-history-list');
             if(!currentUser) return;
@@ -699,7 +687,7 @@
                  const q = query(collection(db, 'transactions'), where('userId', '==', currentUser.id), where('type', '==', 'Promo Code'), orderBy('createdAt', 'desc'), limit(5));
                  const snap = await getDocs(q);
                  if(snap.empty) { list.innerHTML = '<p style="text-align:center;">No claims yet.</p>'; return; }
-                 list.innerHTML = snap.docs.map(d => `<div class="history-item" style="display:flex; justify-content:space-between;"><span style="color:var(--text-body);">${d.data().details}</span><span style="color:var(--success-color);">+${d.data().amount}</span></div>`).join('');
+                 list.innerHTML = snap.docs.map(d => `<div class="history-item" style="display:flex; justify-content:space-between;"><span style="color:var(--text-body);">${d.data().details}</span><span style="color:var(--success-color);">+${d.data().pointAmount || d.data().amount} Pts</span></div>`).join('');
             } catch(e) {}
         }
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
@@ -715,12 +703,12 @@
                         if (!promoDoc.exists()) throw new Error("Invalid Code.");
                         const p = promoDoc.data();
                         if (!p.isActive || p.currentUses >= p.maxUses || (p.usersClaimed && p.usersClaimed.includes(currentUser.id))) throw new Error("Code invalid or used.");
-                        if (p.rewardType === 'ton') t.update(userRef, { tonBalance: increment(p.rewardAmount) });
-                        else t.update(userRef, { pointBalance: increment(p.rewardAmount) });
+                        
+                        t.update(userRef, { pointBalance: increment(p.rewardAmount) });
                         t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
-                        t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Promo Code', details: `Code: ${code}`, amount: p.rewardAmount, createdAt: serverTimestamp() });
+                        t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Promo Code', details: `Code: ${code}`, pointAmount: p.rewardAmount, createdAt: serverTimestamp() });
                         return p;
-                    }).then((p) => { showSuccessModal("Success!", `Received ${p.rewardAmount} ${p.rewardType || 'Points'}.`); document.getElementById('promoCodeInput').value=""; fetchPromoHistory(); fetchAndUpdateCurrentUser(); });
+                    }).then((p) => { showSuccessModal("Success!", `Received ${p.rewardAmount} Points.`); document.getElementById('promoCodeInput').value=""; fetchPromoHistory(); fetchAndUpdateCurrentUser(); });
                 } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward (Ad)"; }
             }, 5000, "Promo Ad");
         });
@@ -762,14 +750,12 @@
             await executeAdProtectedAction(async () => { await processAdReward('mixed', 6); }, 5000, "Mixed Ad");
         });
 
-        // Speed Hack Protected Monetag
         document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
             if((currentUser.adsWatchedMonetag || 0) >= AD_CONFIG.monetag.limit) return;
-            
             const blockingOverlay = document.getElementById('adBlockingOverlay');
+            const titleDisplay = document.getElementById('adOverlayTitle');
             const timerDisplay = document.getElementById('adOverlayTimer');
             const msgDisplay = document.getElementById('adOverlayMsg');
-            const titleDisplay = document.getElementById('adOverlayTitle');
             
             blockingOverlay.style.display = 'flex';
             titleDisplay.textContent = "Fast View";
@@ -786,23 +772,13 @@
                 clearInterval(interval);
                 
                 const exactEndTime = Date.now();
-                if ((exactEndTime - exactStartTime) >= 6500) {
-                    await processAdReward('monetag', 6);
-                } else {
-                    alert("Speed Hack Detected! Action Blocked.");
-                }
-            } catch(e) {
-                alert("Ad failed or closed too early.");
-            } finally {
-                blockingOverlay.style.display = 'none';
-            }
+                if ((exactEndTime - exactStartTime) >= 6500) { await processAdReward('monetag', 6); } else { alert("Speed Hack Detected! Action Blocked."); }
+            } catch(e) { alert("Ad failed or closed too early."); } finally { blockingOverlay.style.display = 'none'; }
         });
 
-        // Speed Hack Protected GigaPub
         document.getElementById('btn-watch-giga').addEventListener('click', async () => {
             if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
-            
-            const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards. If you do not click, you will not get points.");
+            const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards.");
             if(!confirmClick) return;
 
             const blockingOverlay = document.getElementById('adBlockingOverlay');
@@ -823,16 +799,8 @@
                 clearInterval(interval);
                 
                 const exactEndTime = Date.now();
-                if ((exactEndTime - exactStartTime) >= 4500) {
-                    await processAdReward('giga', 6);
-                } else {
-                    alert("Speed Hack Detected! Action Blocked.");
-                }
-            } catch(e) {
-                alert("Ad failed.");
-            } finally {
-                blockingOverlay.style.display = 'none';
-            }
+                if ((exactEndTime - exactStartTime) >= 4500) { await processAdReward('giga', 6); } else { alert("Speed Hack Detected! Action Blocked."); }
+            } catch(e) { alert("Ad failed."); } finally { blockingOverlay.style.display = 'none'; }
         });
 
         async function processAdReward(type, points) {
@@ -1007,13 +975,10 @@
             modal.classList.add('show');
         }
 
-        // --- UPDATED PROCESS WITHDRAWAL LOGIC (1 PER DAY) ---
         async function processWithdrawal(amount, method, details) {
             isSubmittingWithdrawal = true;
             try {
                 const tonAmount = amount * POINTS_TO_TON_RATE;
-
-                // Anti-Cheat: 1 Withdraw Per Day Limit
                 const today = new Date();
                 today.setHours(0, 0, 0, 0); 
                 const qWd = query(collection(db, 'withdrawals'), 
@@ -1021,7 +986,6 @@
                     where('createdAt', '>=', Timestamp.fromDate(today))
                 );
                 const snapWd = await getDocs(qWd);
-                
                 if (!snapWd.empty) {
                     throw new Error("Withdrawal Limit Reached!\nYou can only withdraw 1 time per day. Try again tomorrow.");
                 }
@@ -1105,29 +1069,108 @@
         document.addEventListener('click', (e) => { if (!document.getElementById('profile-popover').contains(e.target) && !document.getElementById('profile-info-btn').contains(e.target)) document.getElementById('profile-popover').classList.remove('show'); });
         document.getElementById('homeCopyReferralLinkBtn').addEventListener('click', () => { const b=document.getElementById('homeCopyReferralLinkBtn'); navigator.clipboard.writeText(b.previousElementSibling.value); b.querySelector('i').className='fas fa-check'; setTimeout(()=>b.querySelector('i').className='fas fa-copy',2000); });
         
-        function showActivationModal() { document.getElementById('activationModalOverlay').classList.add('show'); document.querySelector('main').style.display = 'none'; document.querySelector('.bottom-nav').style.display = 'none'; }
-        
-        async function handleUserActivation() {
-            const activateBtn = document.getElementById('activateAccountBtn'); activateBtn.disabled = true; activateBtn.textContent = 'Activating...';
-            try {
-                const userRef = doc(db, 'users', currentUser.id);
-                await updateDoc(userRef, { isActivated: true });
-                currentUser.isActivated = true;
-                if (currentUser.referredBy) {
-                    const referrerRef = doc(db, 'users', currentUser.referredBy);
-                    await runTransaction(db, async (t) => {
-                         const rDoc = await t.get(referrerRef);
-                         if(rDoc.exists()) t.update(referrerRef, { referralCount: increment(1) });
-                    });
-                }
-                document.getElementById('activationModalOverlay').classList.remove('show');
-                document.querySelector('main').style.display = 'block';
-                document.querySelector('.bottom-nav').style.display = 'flex';
-                showSuccessModal("Account Activated!", "Welcome to NEWTUBE TON!");
-                renderHomeUI(); 
-            } catch (error) { alert("Activation failed."); activateBtn.disabled = false; activateBtn.textContent = 'Verify & Enter'; }
+        // --- UPDATE: Verification API & Logic with ERROR CATCHING ---
+        function showActivationModal() { 
+            document.getElementById('activationModalOverlay').classList.add('show'); 
+            document.querySelector('main').style.display = 'none'; 
+            document.querySelector('.bottom-nav').style.display = 'none'; 
         }
-        document.getElementById('activateAccountBtn').addEventListener('click', handleUserActivation);
+
+        async function verifyMembershipAPI(userId) {
+            try {
+                const res = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${userId}`);
+                const data = await res.json();
+                
+                // === TELEGRAM ERROR DEBUGGER ===
+                if (data.channelError || data.groupError) {
+                    let errMsg = "Telegram API Error Detected:\n\n";
+                    if(data.channelError) errMsg += `Channel Error: ${data.channelError}\n`;
+                    if(data.groupError) errMsg += `Group Error: ${data.groupError}\n`;
+                    
+                    alert(errMsg); 
+                }
+                // ===============================
+
+                return {
+                    inChannel: data.channel === true,
+                    inGroup: data.group === true
+                };
+            } catch(e) {
+                console.error("Verification API Error", e);
+                return { inChannel: false, inGroup: false }; 
+            }
+        }
+
+        async function checkMembershipAndEnforce() {
+            const status = await verifyMembershipAPI(currentUser.id);
+            const needsChannel = !status.inChannel;
+            const needsGroup = !currentUser.isGroupVerified && !status.inGroup;
+
+            if (needsChannel || needsGroup) {
+                showActivationModal();
+            } else {
+                proceedToApp();
+            }
+        }
+
+        document.getElementById('activateAccountBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('activateAccountBtn'); 
+            btn.disabled = true; 
+            btn.textContent = 'Verifying...';
+
+            try {
+                const status = await verifyMembershipAPI(currentUser.id);
+
+                if (!status.inChannel) {
+                    alert("❌ Please join our official Telegram Channel first.");
+                    btn.disabled = false; btn.textContent = 'Verify';
+                    return;
+                }
+
+                if (!currentUser.isGroupVerified && !status.inGroup) {
+                    alert("❌ Please join our official Telegram Group first.");
+                    btn.disabled = false; btn.textContent = 'Verify';
+                    return;
+                }
+
+                const updates = {};
+                if (!currentUser.isGroupVerified) {
+                    updates.isGroupVerified = true;
+                    currentUser.isGroupVerified = true;
+                }
+
+                if (!currentUser.isActivated) {
+                    updates.isActivated = true;
+                    currentUser.isActivated = true;
+                    if (currentUser.referredBy) {
+                        const referrerRef = doc(db, 'users', currentUser.referredBy);
+                        await runTransaction(db, async (t) => {
+                             const rDoc = await t.get(referrerRef);
+                             if(rDoc.exists()) t.update(referrerRef, { referralCount: increment(1) });
+                        });
+                    }
+                }
+
+                if (Object.keys(updates).length > 0) {
+                    await updateDoc(doc(db, 'users', currentUser.id), updates);
+                }
+
+                proceedToApp();
+                showSuccessModal("Verified!", "Welcome to NEWTUBE TON!");
+            } catch (error) { 
+                alert("Verification failed. Please try again."); 
+                btn.disabled = false; btn.textContent = 'Verify'; 
+            }
+        });
+
+        function proceedToApp() {
+            document.getElementById('activationModalOverlay').classList.remove('show');
+            document.querySelector('main').style.display = 'block';
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            renderHomeUI(); 
+            fetchPromoHistory(); 
+            updateAdButtonStats();
+        }
 
         async function main() {
             try {
@@ -1136,8 +1179,9 @@
                 const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
                 if (!initStatus) return;
                 setupUserIdDisplay(currentUser.id);
-                if (!initStatus.isActivated) showActivationModal();
-                else { renderHomeUI(); fetchPromoHistory(); updateAdButtonStats(); }
+                
+                await checkMembershipAndEnforce();
+
             } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
         }
         main();
