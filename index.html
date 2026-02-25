@@ -49,18 +49,18 @@
     <style>
         /* === NEW LIGHT BLUE & DARK SHINY THEME === */
         :root {
-            --bg-color: #0B0E14;        /* Deep Navy Black */
-            --card-bg: rgba(21, 26, 35, 0.85); /* Semi-transparent Card for glass effect */
-            --header-bg: rgba(11, 14, 20, 0.95); /* Header Background */
-            --primary-color: #00A3FF;   /* Light Blue */
+            --bg-color: #0B0E14;        
+            --card-bg: rgba(21, 26, 35, 0.85); 
+            --header-bg: rgba(11, 14, 20, 0.95); 
+            --primary-color: #00A3FF;   
             --primary-hover: #008be5;
-            --text-title: #FFFFFF;      /* White */
-            --text-body: #9CA3AF;       /* Light Gray */
-            --border-subtle: rgba(31, 41, 55, 0.7); /* Subtle Border */
-            --input-bg: rgba(13, 17, 23, 0.8); /* Darker Input */
-            --success-color: #10B981;   /* Emerald Green */
-            --danger-color: #EF4444;    /* Red */
-            --warning-color: #F59E0B;   /* Orange/Yellow */
+            --text-title: #FFFFFF;      
+            --text-body: #9CA3AF;       
+            --border-subtle: rgba(31, 41, 55, 0.7); 
+            --input-bg: rgba(13, 17, 23, 0.8); 
+            --success-color: #10B981;   
+            --danger-color: #EF4444;    
+            --warning-color: #F59E0B;   
             --disabled-bg: #1A202C;
             --disabled-text: #4B5563;
             --shadow-card: 0 8px 32px rgba(0, 163, 255, 0.05);
@@ -94,7 +94,7 @@
             background-repeat: repeat;
             background-size: 200px 200px;
             animation: twinkle 3s infinite alternate;
-            opacity: 0.6; /* Increased Opacity for Shiny Look */
+            opacity: 0.6;
         }
         @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.98); } 100% { opacity: 0.8; transform: scale(1); } }
 
@@ -105,7 +105,6 @@
         .glow-orb-1 { width: 300px; height: 300px; background: rgba(0, 163, 255, 0.4); top: -50px; left: -50px; }
         .glow-orb-2 { width: 350px; height: 350px; background: rgba(168, 85, 247, 0.25); bottom: -100px; right: -50px; animation-delay: -5s; }
         @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(40px) scale(1.15); } }
-        /* ================================ */
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 
@@ -216,6 +215,12 @@
         @keyframes scaleCheck { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         .thank-you-text { color: var(--text-title); font-size: 1.8rem; margin-top: 25px; font-weight: 800; opacity: 0; animation: fadeInText 0.5s 0.8s forwards; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         @keyframes fadeInText { to { opacity: 1; } }
+
+        /* LOTTERY WHEEL CSS */
+        .wheel-container { position: relative; width: 250px; height: 250px; margin: 0 auto; }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 15px rgba(0,163,255,0.4), 0 0 0 6px var(--border-subtle); transition: transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.05); }
+        .pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 25px solid #ff4757; z-index: 10; filter: drop-shadow(-3px 3px 3px rgba(0,0,0,0.6)); }
+        #confettiCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
     </style>
 </head>
 <body>
@@ -333,7 +338,7 @@
                      <span class="special-ad-limit" id="limit-mixed">0/20</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
+                    <span style="color:var(--success-color); font-weight:bold;">+10 Points</span>
                     <button id="btn-watch-mixed" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
@@ -348,7 +353,7 @@
                      <span class="special-ad-limit" id="limit-monetag">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
+                    <span style="color:var(--success-color); font-weight:bold;">+10 Points</span>
                     <button id="btn-watch-monetag" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
@@ -363,13 +368,39 @@
                      <span class="special-ad-limit" id="limit-giga">0/15</span>
                  </div>
                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+6 Points</span>
+                    <span style="color:var(--success-color); font-weight:bold;">+10 Points</span>
                     <button id="btn-watch-giga" class="task-button" style="width:120px;">Watch</button>
                  </div>
              </div>
 
              <div id="adexium-ad-container"><p style="font-size: 0.8rem; color: var(--disabled-text);">Adexium Ads</p></div>
              <div id="fa6b30e404e1046793d70db4a424966f97960abe" style="margin-top: 25px;"></div>
+        </section>
+
+        <!-- NEW: LOTTERY SECTION -->
+        <section id="lottery-content" class="content-section">
+            <h3 class="section-title">Lucky Spin Wheel</h3>
+            <div class="card" style="text-align: center; position: relative; padding-bottom: 30px; overflow: hidden;">
+                <canvas id="confettiCanvas"></canvas>
+                
+                <h2 style="margin: 0 0 10px; font-size: 24px; text-transform: uppercase; color: #eccc68; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                    <i class="fas fa-dharmachakra"></i> Premium Wheel
+                </h2>
+                
+                <div class="spin-limit" id="spinLimitText" style="font-size: 13px; color: var(--success-color); background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 25px; border: 1px solid rgba(123, 237, 159, 0.3);">
+                    Remaining Spins Today: 10/10
+                </div>
+
+                <div class="wheel-container">
+                    <div class="pointer"></div>
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                </div>
+
+                <button id="spinBtn" class="form-button" style="margin-top: 30px; border-radius: 50px; background: linear-gradient(90deg, #ff6b81, #ff4757); padding: 15px; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);">
+                    <i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)
+                </button>
+                <div id="lotteryResult" style="margin-top: 20px; font-size: 16px; font-weight: 600; min-height: 25px; color: #fff;">Test your luck to win points!</div>
+            </div>
         </section>
 
         <!-- TASKS SECTION -->
@@ -384,7 +415,7 @@
                 <h3 style="border-left: 3px solid var(--primary-color); padding-left: 10px; margin-top: 0;">Withdraw Funds</h3>
                 
                 <h2 style="text-align: center; font-size: 3rem; margin: 20px 0 5px; text-shadow: 0 0 15px rgba(0,163,255,0.4);" id="withdrawPointBalance">0.0000 TON</h2>
-                <p style="text-align: center; color: var(--text-body); margin-bottom: 25px;">Rate: 20,000 Pts = 1.00 TON</p>
+                <p style="text-align: center; color: var(--text-body); margin-bottom: 25px;">Rate: 50,000 Pts = 1.00 TON</p>
 
                 <form id="withdrawalForm">
                      <input type="hidden" id="withdrawalMethod" value="Tonkeeper">
@@ -397,13 +428,14 @@
                          <i class="fas fa-info-circle"></i>
                          <div>
                              <strong>Important Notice</strong><br>
-                             <span style="font-size: 0.8rem;">Minimum withdraw: 500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.</span>
+                             <span style="font-size: 0.8rem;">Minimum withdraw: 1500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.<br>
+                             <b style="color:var(--danger-color); display:block; margin-top:5px;">Note:</b> Tonkeeper bade onno Kono wrong address Dile payment back kora Hobe na!</span>
                          </div>
                      </div>
 
                      <div class="form-group">
                         <label>Amount to Withdraw (Points)</label>
-                        <input type="number" id="withdrawalAmount" placeholder="Ex: 500" required>
+                        <input type="number" id="withdrawalAmount" placeholder="Ex: 1500" required>
                         <div id="realtime-ton-display" style="margin-top: 5px; font-size: 0.9rem; color: var(--success-color); font-weight: bold; display: none;">
                             You Receive: <span id="calc-ton-val">0.0000</span> TON
                         </div>
@@ -423,6 +455,7 @@
     <nav class="bottom-nav">
         <a href="#" class="bottom-nav-item active" data-tab-target="#home-content"><i class="fas fa-home"></i> Home</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content"><i class="fas fa-play"></i> Ads</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i> Lottery</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#task-content"><i class="fas fa-list"></i> Tasks</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Withdraw</a>
     </nav>
@@ -450,7 +483,7 @@
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
                 1 Valid Invite = <b style="color:var(--primary-color);">1 Withdrawal Unlock</b>.<br>
                 Plus, get <b style="color:var(--success-color);">200 Points</b>!<br>
-                <span style="font-size: 0.75rem; color: var(--danger-color);">*Valid means your friend MUST watch 25 ads.</span>
+                <span style="font-size: 0.75rem; color: var(--danger-color);">*Valid means your friend MUST watch 15 ads.</span>
             </p>
             <div class="input-group">
                <input type="text" id="modalReferralLinkInput" readonly value="Loading...">
@@ -479,7 +512,7 @@
         </div>
     </div>
 
-    <!-- NEW VERIFICATION MODAL -->
+    <!-- VERIFICATION MODAL -->
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
             <div class="verify-icon-box">
@@ -533,7 +566,8 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        // IMPORT WRITEBATCH (For Optimization)
+        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
         
         const firebaseConfig = {
             apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
@@ -552,9 +586,8 @@
         let isSubmittingWithdrawal = false;
         
         const REFERRAL_REWARD_POINTS = 200; 
-        const POINTS_TO_TON_RATE = 0.00005; 
-
-        const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 500 } };
+        const POINTS_TO_TON_RATE = 0.00002; 
+        const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 1500 } };
         const AD_CONFIG = { mixed: { limit: 20, cooldown: 24 * 60 * 60 * 1000 }, monetag: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }, giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 } };
 
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
@@ -569,47 +602,41 @@
             } catch(err) { await showAdextraAd(); } 
         }
 
-        // --- NEW ANTI-CHEAT SECURE AD WATCHING SYSTEM ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
             
             btn.disabled = true;
-            let originalText = btn.textContent;
-            let count = 6;
-            btn.textContent = `Wait ${count}s...`;
+            let originalText = btn.innerHTML;
             
-            const timerInterval = setInterval(() => {
-                count--;
-                if (count > 0) btn.textContent = `Wait ${count}s...`;
-            }, 1000);
-
             const startTime = Date.now();
-            try {
-                if (adFunc) {
-                    await adFunc(); 
+            const minDuration = 6000;
+
+            const timerInterval = setInterval(() => {
+                let elapsed = Date.now() - startTime;
+                let left = Math.ceil((minDuration - elapsed) / 1000);
+                if (left > 0) {
+                    btn.textContent = `Wait ${left}s...`;
                 } else {
-                    await new Promise(r => setTimeout(r, 6500));
+                    btn.textContent = "Processing...";
                 }
+            }, 500);
+
+            try {
+                if (adFunc) { await adFunc(); }
+                let elapsedNow = Date.now() - startTime;
+                if (elapsedNow < minDuration) { await new Promise(r => setTimeout(r, minDuration - elapsedNow)); }
                 
                 clearInterval(timerInterval);
-                const elapsed = Date.now() - startTime;
-                
-                if (elapsed < 6000) {
-                    alert("⚠️ Ad closed too early! You must watch for at least 6 seconds to earn the reward.");
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return false;
-                }
                 return true;
             } catch (err) {
                 clearInterval(timerInterval);
-                const elapsed = Date.now() - startTime;
-                if (elapsed >= 6000) {
+                let elapsedNow = Date.now() - startTime;
+                if (elapsedNow >= minDuration) {
                     return true;
                 } else {
-                    alert("⚠️ Ad failed or was closed too early.");
-                    btn.textContent = originalText;
+                    alert("⚠️ Ad failed or was closed too early. You must watch for at least 6 seconds.");
+                    btn.innerHTML = originalText;
                     btn.disabled = false;
                     return false;
                 }
@@ -634,6 +661,7 @@
                     checkAdCooldowns(currentUser);
                     updateBalanceUI(currentUser.pointBalance);
                     updateAdButtonStats();
+                    updateLotteryUI();
                 }
             } catch (error) {}
         }
@@ -650,7 +678,8 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, spentReferrals: 0, completedTasks: [], 
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
                     isGroupVerified: false, lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
-                    dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null
+                    dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null,
+                    dailySpinsUsed: 0, lastSpinDate: new Date().toDateString()
                 };
 
                 if (referrerCode && referrerCode !== userId) {
@@ -672,6 +701,7 @@
             updateBalanceUI(currentUser.pointBalance); 
             generateReferralLink(currentUser.id);
             updateAdButtonStats();
+            await updateLotteryUI();
             setInterval(updateAdButtonStats, 1000);
 
             return { isNewUser, isActivated: currentUser.isActivated };
@@ -685,10 +715,8 @@
             const checkCategory = (countKey, resetKey, limit, cooldown) => {
                 const resetTime = user[resetKey] ? user[resetKey].toDate().getTime() : 0;
                 if (resetTime > 0 && now > resetTime) {
-                    updates[countKey] = 0; 
-                    updates[resetKey] = null;
-                    user[countKey] = 0; 
-                    user[resetKey] = null; 
+                    updates[countKey] = 0; updates[resetKey] = null;
+                    user[countKey] = 0; user[resetKey] = null; 
                     needsUpdate = true;
                     if(countKey === 'adsWatchedMixed') { updates.dailyBonusClaimed = false; user.dailyBonusClaimed = false; }
                 }
@@ -705,17 +733,13 @@
             const points = pointBalance || 0;
             const equivalentTon = points * POINTS_TO_TON_RATE; 
             
-            // Header
             document.getElementById('userTONBalanceDisplay').textContent = equivalentTon.toFixed(4);
             document.getElementById('userPointBalanceDisplay').textContent = Math.floor(points);
-            
-            // Grid Home
             document.getElementById('grid-ton').textContent = equivalentTon.toFixed(4);
             document.getElementById('grid-pts').textContent = Math.floor(points);
             document.getElementById('grid-ref').textContent = currentUser?.referralCount || 0;
             document.getElementById('grid-life').textContent = Math.floor(currentUser?.lifetimePointsEarned || 0);
 
-            // Withdraw Page
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
             if(withdrawDisplay) withdrawDisplay.textContent = `${equivalentTon.toFixed(4)} TON`;
         }
@@ -723,18 +747,6 @@
         function generateReferralLink(userId) {
             const referralLink = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             document.getElementById('modalReferralLinkInput').value = referralLink;
-        }
-
-        async function grantReward(rewards, transactionInfo = {}) {
-             if (!currentUser) return;
-             const updates = {};
-             if (rewards.points && rewards.points > 0) { updates.pointBalance = increment(rewards.points); updates.lifetimePointsEarned = increment(rewards.points); }
-             if (Object.keys(updates).length > 0) await updateDoc(doc(db, 'users', currentUser.id), updates);
-
-             if (transactionInfo.logToDb === true && transactionInfo.type) {
-                 await addDoc(collection(db, 'transactions'), { userId: currentUser.id, type: transactionInfo.type, details: transactionInfo.details || '', status: 'Completed', createdAt: serverTimestamp(), pointAmount: rewards.points || 0 });
-             }
-             await fetchAndUpdateCurrentUser();
         }
 
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
@@ -802,7 +814,7 @@
                     }
                 } else {
                     btn.disabled = false; 
-                    if (!btn.textContent.includes("Wait")) {
+                    if (!btn.textContent.includes("Wait") && !btn.textContent.includes("Processing")) {
                         btn.textContent = "Watch";
                     }
                     btn.style.background = 'var(--primary-color)'; 
@@ -818,22 +830,23 @@
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
             if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
             const success = await runAdAndVerifyTime('btn-watch-mixed', showRandomAd);
-            if (success) await processAdReward('mixed', 6);
+            if (success) await processAdReward('mixed', 10);
         });
 
         document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
             if((currentUser.adsWatchedMonetag || 0) >= AD_CONFIG.monetag.limit) return;
             const success = await runAdAndVerifyTime('btn-watch-monetag', showMonetagAd);
-            if (success) await processAdReward('monetag', 6);
+            if (success) await processAdReward('monetag', 10);
         });
 
         document.getElementById('btn-watch-giga').addEventListener('click', async () => {
             if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
             const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards."); if(!confirmClick) return;
             const success = await runAdAndVerifyTime('btn-watch-giga', showGigaPubAd);
-            if (success) await processAdReward('giga', 6);
+            if (success) await processAdReward('giga', 10);
         });
 
+        // --- OPTIMIZED AD REWARD (COMBINED WRITES) ---
         async function processAdReward(type, points) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1) };
@@ -844,17 +857,17 @@
             if (type === 'mixed') { 
                 updates.adsWatchedMixed = increment(1); 
                 currentCount = (currentUser.adsWatchedMixed || 0) + 1; 
-                limit = AD_CONFIG.mixed.limit; cooldown = AD_CONFIG.mixed.cooldown; resetKey = 'adResetTimeMixed'; countKey = 'adsWatchedMixed'; 
+                cooldown = AD_CONFIG.mixed.cooldown; resetKey = 'adResetTimeMixed'; 
             } 
             else if (type === 'monetag') { 
                 updates.adsWatchedMonetag = increment(1); 
                 currentCount = (currentUser.adsWatchedMonetag || 0) + 1; 
-                limit = AD_CONFIG.monetag.limit; cooldown = AD_CONFIG.monetag.cooldown; resetKey = 'adResetTimeMonetag'; countKey = 'adsWatchedMonetag'; 
+                cooldown = AD_CONFIG.monetag.cooldown; resetKey = 'adResetTimeMonetag'; 
             } 
             else if (type === 'giga') { 
                 updates.adsWatchedGiga = increment(1); 
                 currentCount = (currentUser.adsWatchedGiga || 0) + 1; 
-                limit = AD_CONFIG.giga.limit; cooldown = AD_CONFIG.giga.cooldown; resetKey = 'adResetTimeGiga'; countKey = 'adsWatchedGiga'; 
+                cooldown = AD_CONFIG.giga.cooldown; resetKey = 'adResetTimeGiga'; 
             }
 
             if (currentCount === 1) {
@@ -865,20 +878,22 @@
             if(totalAds === 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
             const totalToGrant = points + bonusPoints;
-            await grantReward({ points: totalToGrant }, { type: 'Ad Watched', logToDb: false });
+            
+            // Merging points and ad counts into 1 SINGLE update request
+            if(totalToGrant > 0) {
+                updates.pointBalance = increment(totalToGrant);
+                updates.lifetimePointsEarned = increment(totalToGrant);
+            }
             await updateDoc(userRef, updates);
 
+            // Secure Referral Logic - 15 Ads
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
-            
-            // --- UPDATED SECURE REFERRAL LOGIC ---
-            // Referral Count and Points are given ONLY when they watch their 25th Ad!
-            if (currentAdsTotal === 25 && currentUser.referredBy) {
+            if (currentAdsTotal === 15 && currentUser.referredBy) {
                 try {
                     await runTransaction(db, async (t) => {
                         const refDocRef = doc(db, 'users', currentUser.referredBy);
                         const refDoc = await t.get(refDocRef);
                         if(refDoc.exists()) {
-                            // BOTH Point and Referral Count incremented here securely
                             t.update(refDocRef, { 
                                 pointBalance: increment(REFERRAL_REWARD_POINTS), 
                                 lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS),
@@ -937,21 +952,28 @@
             }
         });
 
+        // --- OPTIMIZED TASK CLAIM ---
         async function processTaskClaim(taskId, button) {
              const taskCard = button.closest('.task-card'); button.disabled = true; button.textContent = 'Verifying...';
              try {
                 const taskDocSnap = await getDoc(doc(db, 'tasks', taskId));
                 if (!taskDocSnap.exists()) throw new Error("Task not found.");
                 const rewardAmount = taskDocSnap.data().rewardPoints || 0;
+                
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const taskRef = doc(db, 'tasks', taskId);
                     const userDoc = await t.get(userRef);
                     if (userDoc.data().completedTasks?.includes(taskId)) throw "ALREADY_COMPLETED";
-                    t.update(userRef, { completedTasks: arrayUnion(taskId) });
+                    
+                    // Merged update inside transaction
+                    t.update(userRef, { 
+                        completedTasks: arrayUnion(taskId),
+                        pointBalance: increment(rewardAmount),
+                        lifetimePointsEarned: increment(rewardAmount)
+                    });
                     t.update(taskRef, { completionCount: increment(1) });
                 });
-                await grantReward({ points: rewardAmount }, { type: 'Task Reward', logToDb: false });
                 showSuccessModal("Task Verified!", `${rewardAmount} Points added.`);
                 if (taskCard) taskCard.remove(); await fetchAndUpdateCurrentUser();
             } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
@@ -991,7 +1013,7 @@
             if (isNaN(amount) || amount <= 0) return alert('Please enter a valid amount.');
             if (amount < config.min) return alert(`Minimum withdrawal for ${method} is ${config.min} Points.`);
             if ((currentUser.pointBalance || 0) < amount) return alert('Insufficient Points balance.');
-            if (((currentUser.referralCount || 0) - (currentUser.spentReferrals || 0)) < 1) return alert("Withdrawal Locked!\nYou need at least 1 Valid Referral to withdraw.\n\n(A Valid Referral is someone who has watched 25 ads).");
+            if (((currentUser.referralCount || 0) - (currentUser.spentReferrals || 0)) < 1) return alert("Withdrawal Locked!\nYou need at least 1 Valid Referral to withdraw.\n\n(A Valid Referral is someone who has watched 15 ads).");
             
             const modal = document.getElementById('withdrawConfirmModalOverlay');
             document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method} (${details})? Approx ${(amount * POINTS_TO_TON_RATE).toFixed(4)} TON.\nThis will cost 1 Referral.`;
@@ -1034,7 +1056,7 @@
                 
                 tSnap.forEach(doc => {
                     const data = doc.data();
-                    if(data.type === 'Referral Reward' || data.type === 'Promo Code') {
+                    if(data.type === 'Referral Reward' || data.type === 'Promo Code' || data.type === 'Lottery Reward') {
                         combinedList.push({ ...data, isWithdrawalDoc: false, timestamp: data.createdAt });
                     }
                 });
@@ -1066,20 +1088,15 @@
         
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
 
-        // GRID ACTION BUTTONS
         document.getElementById('action-start-earning').addEventListener('click', () => switchTab('#ads-content', 1));
         document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
-        document.getElementById('action-tasks').addEventListener('click', () => switchTab('#task-content', 2));
+        document.getElementById('action-tasks').addEventListener('click', () => switchTab('#task-content', 3)); 
         document.getElementById('action-invite').addEventListener('click', () => document.getElementById('inviteModalOverlay').classList.add('show'));
 
-        // CLOSE MODALS
         document.querySelectorAll('.close-modal-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.target.closest('.modal-overlay').classList.remove('show');
-            });
+            btn.addEventListener('click', (e) => { e.target.closest('.modal-overlay').classList.remove('show'); });
         });
 
-        // TABS LOGIC
         function switchTab(targetId, navIndex) {
             if (!currentUser) return;
             document.querySelectorAll('.bottom-nav-item.active, .content-section.active').forEach(el => el.classList.remove('active'));
@@ -1089,13 +1106,11 @@
             if(targetId === '#task-content') { fetchAndRenderTasks('task-list', 50); }
             else if(targetId === '#withdraw-content') setupWithdrawalUI();
             else if(targetId === '#ads-content') updateAdButtonStats();
+            else if(targetId === '#lottery-content') updateLotteryUI();
         }
 
         document.querySelectorAll('.bottom-nav-item').forEach((link, index) => {
-            link.addEventListener('click', async (e) => {
-                e.preventDefault(); 
-                switchTab(link.dataset.tabTarget, index);
-            });
+            link.addEventListener('click', async (e) => { e.preventDefault(); switchTab(link.dataset.tabTarget, index); });
         });
         
         function showSuccessModal(title, message) {
@@ -1117,8 +1132,211 @@
             b.querySelector('i').className='fas fa-check'; 
             setTimeout(() => b.querySelector('i').className='fas fa-copy', 2000); 
         });
+
+        // ==========================================
+        //  LOTTERY WHEEL INTEGRATION LOGIC 🛞
+        // ==========================================
+        const MAX_LOTTERY_SPINS = 10;
         
-        // --- VERIFICATION LOGIC & THANK YOU ANIMATION ---
+        class LotteryWheel {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext("2d");
+                this.currentRotation = 0;
+                
+                this.segments = [
+                    { label: "3 Pts", value: 3, color: "#1abc9c", weight: 35 },
+                    { label: "5 Pts", value: 5, color: "#2980b9", weight: 30 },
+                    { label: "7 Pts", value: 7, color: "#8e44ad", weight: 20 },
+                    { label: "9 Pts", value: 9, color: "#d35400", weight: 10 },
+                    { label: "12 Pts", value: 12, color: "#c0392b", weight: 4 }, 
+                    { label: "15 Pts", value: 15, color: "#f39c12", weight: 1 }  
+                ];
+                this.drawWheel();
+            }
+
+            drawWheel() {
+                const numSegments = this.segments.length;
+                const anglePerSegment = (2 * Math.PI) / numSegments;
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                const radius = this.canvas.width / 2;
+
+                for (let i = 0; i < numSegments; i++) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(centerX, centerY);
+                    this.ctx.arc(centerX, centerY, radius, i * anglePerSegment, (i + 1) * anglePerSegment);
+                    this.ctx.fillStyle = this.segments[i].color;
+                    this.ctx.fill();
+                    
+                    this.ctx.lineWidth = 4;
+                    this.ctx.strokeStyle = "rgba(255,255,255,0.2)";
+                    this.ctx.stroke();
+
+                    this.ctx.save();
+                    this.ctx.translate(centerX, centerY);
+                    this.ctx.rotate(i * anglePerSegment + anglePerSegment / 2);
+                    this.ctx.textAlign = "right";
+                    this.ctx.fillStyle = "#ffffff";
+                    this.ctx.font = "bold 34px Arial";
+                    this.ctx.shadowColor = "rgba(0,0,0,0.5)";
+                    this.ctx.shadowBlur = 5;
+                    this.ctx.fillText(this.segments[i].label, radius - 30, 12);
+                    this.ctx.restore();
+                }
+            }
+
+            getWinnerIndex() {
+                let totalWeight = this.segments.reduce((acc, curr) => acc + curr.weight, 0);
+                let randomNum = Math.random() * totalWeight;
+                let weightSum = 0;
+                for (let i = 0; i < this.segments.length; i++) {
+                    weightSum += this.segments[i].weight;
+                    if (randomNum <= weightSum) return i;
+                }
+                return 0;
+            }
+
+            spin(resultElement, onComplete) {
+                const winnerIndex = this.getWinnerIndex();
+                const segmentAngle = 360 / this.segments.length;
+                const targetAngle = (winnerIndex * segmentAngle) + (segmentAngle / 2);
+                
+                const offset = (Math.random() * (segmentAngle - 10)) - ((segmentAngle - 10) / 2);
+                const rotationToTarget = 360 - targetAngle + offset;
+                const extraSpins = (Math.floor(Math.random() * 4) + 6) * 360; 
+                const finalRotation = this.currentRotation + extraSpins + rotationToTarget - (this.currentRotation % 360);
+
+                this.canvas.style.transform = `rotate(${finalRotation}deg)`;
+                this.currentRotation = finalRotation;
+
+                resultElement.innerText = "Spinning... 🌀";
+                resultElement.style.color = "#f39c12";
+
+                setTimeout(() => {
+                    const prize = this.segments[winnerIndex];
+                    resultElement.innerHTML = `Congratulations! You won <span>${prize.label}</span> 🎉`;
+                    resultElement.style.color = prize.value >= 12 ? "#f1c40f" : "#7bed9f";
+                    if(onComplete) onComplete(prize);
+                }, 4000);
+            }
+        }
+
+        const gameWheel = new LotteryWheel("wheelCanvas");
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let particles = [];
+        const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
+
+        function resizeConfetti() {
+            confettiCanvas.width = document.getElementById('lottery-content').offsetWidth || window.innerWidth;
+            confettiCanvas.height = document.getElementById('lottery-content').offsetHeight || 400;
+        }
+
+        function createConfetti() {
+            resizeConfetti();
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3 + 2,
+                    angle: Math.random() * 360,
+                    spin: Math.random() * 10 - 5
+                });
+            }
+        }
+
+        function drawConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            particles.forEach((p, index) => {
+                confettiCtx.save();
+                confettiCtx.translate(p.x, p.y);
+                confettiCtx.rotate((p.angle * Math.PI) / 180);
+                confettiCtx.fillStyle = p.color;
+                confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                confettiCtx.restore();
+                p.y += p.speed; p.angle += p.spin;
+                if (p.y > confettiCanvas.height) particles.splice(index, 1);
+            });
+            if (particles.length > 0) requestAnimationFrame(drawConfetti);
+        }
+
+        async function updateLotteryUI() {
+            if(!currentUser) return;
+            const todayDate = new Date().toDateString();
+            
+            if (currentUser.lastSpinDate !== todayDate) {
+                await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: 0, lastSpinDate: todayDate });
+                currentUser.dailySpinsUsed = 0; currentUser.lastSpinDate = todayDate;
+            }
+            
+            let spinsUsed = currentUser.dailySpinsUsed || 0;
+            let spinsLeft = MAX_LOTTERY_SPINS - spinsUsed;
+            
+            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${spinsLeft}/${MAX_LOTTERY_SPINS}`;
+            
+            const spinBtn = document.getElementById("spinBtn");
+            if (spinsLeft <= 0) {
+                spinBtn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
+                spinBtn.disabled = true;
+                spinBtn.style.background = 'var(--disabled-bg)';
+                spinBtn.style.boxShadow = 'none';
+            } else {
+                if(!spinBtn.textContent.includes("Spinning") && !spinBtn.textContent.includes("Wait")) {
+                    spinBtn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
+                    spinBtn.disabled = false;
+                    spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
+                }
+            }
+        }
+
+        // --- OPTIMIZED LOTTERY CLAIM (BATCH WRITE) ---
+        document.getElementById('spinBtn').addEventListener('click', async () => {
+            if((currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
+            
+            const success = await runAdAndVerifyTime('spinBtn', showRandomAd);
+            if (!success) { updateLotteryUI(); return; }
+            
+            particles = []; confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            
+            const spinBtn = document.getElementById('spinBtn');
+            spinBtn.disabled = true; spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
+            spinBtn.style.background = 'var(--disabled-bg)';
+
+            gameWheel.spin(document.getElementById("lotteryResult"), async (prizeInfo) => {
+                createConfetti(); drawConfetti();
+                
+                try {
+                    // Combine Spin count update, points update, and transaction history into 1 Batch!
+                    const batch = writeBatch(db);
+                    
+                    const userRef = doc(db, 'users', currentUser.id);
+                    batch.update(userRef, {
+                        dailySpinsUsed: increment(1),
+                        pointBalance: increment(prizeInfo.value),
+                        lifetimePointsEarned: increment(prizeInfo.value)
+                    });
+
+                    const txRef = doc(collection(db, 'transactions'));
+                    batch.set(txRef, {
+                        userId: currentUser.id, type: 'Lottery Reward', details: 'Wheel Spin',
+                        status: 'Completed', createdAt: serverTimestamp(), pointAmount: prizeInfo.value
+                    });
+
+                    await batch.commit();
+
+                    currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
+                    showSuccessModal("You Won!", `You received ${prizeInfo.value} Points from the Premium Wheel!`);
+                } catch(e) { console.error(e); alert("Failed to save reward."); }
+                
+                await fetchAndUpdateCurrentUser();
+            });
+        });
+        
+        // --- VERIFICATION LOGIC ---
         function showActivationModal() { 
             document.getElementById('activationModalOverlay').classList.add('show'); 
             document.querySelector('main').style.display = 'none'; 
@@ -1160,25 +1378,16 @@
 
                 const updates = {};
                 if (!currentUser.isGroupVerified) { updates.isGroupVerified = true; currentUser.isGroupVerified = true; }
-                if (!currentUser.isActivated) {
-                    updates.isActivated = true; currentUser.isActivated = true;
-                    // Removed the Referral Count increase from here completely. 
-                    // Now it only increases when they watch 25 ads!
-                }
+                if (!currentUser.isActivated) { updates.isActivated = true; currentUser.isActivated = true; }
 
                 if (Object.keys(updates).length > 0) { await updateDoc(doc(db, 'users', currentUser.id), updates); }
 
-                // --- SHOW THANK YOU ANIMATION ---
                 document.getElementById('activationModalOverlay').classList.remove('show');
                 const thankYouOverlay = document.getElementById('thankYouOverlay');
                 thankYouOverlay.classList.add('show');
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 
-                setTimeout(() => {
-                    thankYouOverlay.classList.remove('show');
-                    proceedToApp();
-                }, 2500);
-
+                setTimeout(() => { thankYouOverlay.classList.remove('show'); proceedToApp(); }, 2500);
             } catch (error) { 
                 alert("Verification failed. Please try again."); 
                 btn.disabled = false; btn.textContent = 'Check Validation'; 
@@ -1204,6 +1413,7 @@
 
             } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
         }
+        window.addEventListener("resize", resizeConfetti);
         main();
     </script>
 </body>
