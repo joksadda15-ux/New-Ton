@@ -475,14 +475,14 @@
         </div>
     </div>
 
-    <!-- Invite Modal -->
+    <!-- Invite Modal (Updated to 300 Points) -->
     <div id="inviteModalOverlay" class="modal-overlay">
         <div class="modal-content">
             <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,163,255,0.5));"></i>
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
                 1 Valid Invite = <b style="color:var(--primary-color);">1 Withdrawal Unlock</b>.<br>
-                Plus, get <b style="color:var(--success-color);">200 Points</b>!<br>
+                Plus, get <b style="color:var(--success-color);">300 Points</b>!<br>
                 <span style="font-size: 0.75rem; color: var(--danger-color);">*Valid means your friend MUST watch 15 ads.</span>
             </p>
             <div class="input-group">
@@ -542,17 +542,6 @@
         </div>
     </div>
 
-    <div id="taskConfirmModalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="color: var(--primary-color);">Confirm Completion</h3>
-            <p style="color: var(--text-body);">Did you complete the task correctly? Fake claims lead to bans.</p>
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button id="taskConfirmGoBackBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Back</button>
-                <button id="taskConfirmSubmitBtn" class="form-button">Yes, Completed</button>
-            </div>
-        </div>
-    </div>
-
     <div id="withdrawConfirmModalOverlay" class="modal-overlay">
         <div class="modal-content">
             <h3 style="color: var(--primary-color);">Confirm Withdraw</h3>
@@ -566,7 +555,6 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        // IMPORT WRITEBATCH (For Optimization)
         import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
         
         const firebaseConfig = {
@@ -585,7 +573,8 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        const REFERRAL_REWARD_POINTS = 200; 
+        // REFERRAL REWARD UPDATED TO 300
+        const REFERRAL_REWARD_POINTS = 300; 
         const POINTS_TO_TON_RATE = 0.00002; 
         const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 1500 } };
         const AD_CONFIG = { mixed: { limit: 20, cooldown: 24 * 60 * 60 * 1000 }, monetag: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }, giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 } };
@@ -602,10 +591,13 @@
             } catch(err) { await showAdextraAd(); } 
         }
 
+        // --- FIXED: WAIT 1S AND LOCKING BUG ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
             
+            // Lock the button
+            btn.dataset.busy = "true";
             btn.disabled = true;
             let originalText = btn.innerHTML;
             
@@ -628,10 +620,13 @@
                 if (elapsedNow < minDuration) { await new Promise(r => setTimeout(r, minDuration - elapsedNow)); }
                 
                 clearInterval(timerInterval);
+                btn.dataset.busy = "false"; // Release lock
                 return true;
             } catch (err) {
                 clearInterval(timerInterval);
                 let elapsedNow = Date.now() - startTime;
+                btn.dataset.busy = "false"; // Release lock
+                
                 if (elapsedNow >= minDuration) {
                     return true;
                 } else {
@@ -800,6 +795,9 @@
                 limitSpan.textContent = `${count}/${maxLimit}`;
                 const resetTime = resetTimestamp ? resetTimestamp.toDate().getTime() : 0;
                 
+                // FIXED: Skip updating this button if it is currently playing an ad (locked)
+                if (btn.dataset.busy === "true") return;
+                
                 if (count >= maxLimit) {
                     if (resetTime > now) {
                         btn.disabled = true; 
@@ -814,9 +812,7 @@
                     }
                 } else {
                     btn.disabled = false; 
-                    if (!btn.textContent.includes("Wait") && !btn.textContent.includes("Processing")) {
-                        btn.textContent = "Watch";
-                    }
+                    btn.textContent = "Watch"; // Enforces text reset
                     btn.style.background = 'var(--primary-color)'; 
                     btn.style.color = '#fff';
                 }
@@ -846,7 +842,6 @@
             if (success) await processAdReward('giga', 10);
         });
 
-        // --- OPTIMIZED AD REWARD (COMBINED WRITES) ---
         async function processAdReward(type, points) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1) };
@@ -879,14 +874,12 @@
 
             const totalToGrant = points + bonusPoints;
             
-            // Merging points and ad counts into 1 SINGLE update request
             if(totalToGrant > 0) {
                 updates.pointBalance = increment(totalToGrant);
                 updates.lifetimePointsEarned = increment(totalToGrant);
             }
             await updateDoc(userRef, updates);
 
-            // Secure Referral Logic - 15 Ads
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
             if (currentAdsTotal === 15 && currentUser.referredBy) {
                 try {
@@ -945,14 +938,11 @@
                 tg.openLink(taskUrl); button.disabled = true; let countdown = 6; button.textContent = `Wait ${countdown}s`;
                 const timer = setInterval(() => { countdown--; button.textContent = `Wait ${countdown}s`; if (countdown <= 0) { clearInterval(timer); button.disabled = false; button.textContent = 'Claim Reward'; button.dataset.state = 'claim'; } }, 1000);
             } else if (state === 'claim') { 
-                const modal = document.getElementById('taskConfirmModalOverlay');
-                document.getElementById('taskConfirmGoBackBtn').onclick = () => { tg.openLink(taskUrl); modal.classList.remove('show'); };
-                document.getElementById('taskConfirmSubmitBtn').onclick = async () => { modal.classList.remove('show'); await processTaskClaim(taskId, button); };
-                modal.classList.add('show');
+                // FIXED: Direct processing without confirm modal
+                await processTaskClaim(taskId, button);
             }
         });
 
-        // --- OPTIMIZED TASK CLAIM ---
         async function processTaskClaim(taskId, button) {
              const taskCard = button.closest('.task-card'); button.disabled = true; button.textContent = 'Verifying...';
              try {
@@ -966,7 +956,6 @@
                     const userDoc = await t.get(userRef);
                     if (userDoc.data().completedTasks?.includes(taskId)) throw "ALREADY_COMPLETED";
                     
-                    // Merged update inside transaction
                     t.update(userRef, { 
                         completedTasks: arrayUnion(taskId),
                         pointBalance: increment(rewardAmount),
@@ -1279,40 +1268,50 @@
             document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${spinsLeft}/${MAX_LOTTERY_SPINS}`;
             
             const spinBtn = document.getElementById("spinBtn");
+            
+            // FIXED: If spin button is busy, don't update it to prevent visual glitches
+            if (spinBtn.dataset.busy === "true") return;
+
             if (spinsLeft <= 0) {
                 spinBtn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
                 spinBtn.disabled = true;
                 spinBtn.style.background = 'var(--disabled-bg)';
                 spinBtn.style.boxShadow = 'none';
             } else {
-                if(!spinBtn.textContent.includes("Spinning") && !spinBtn.textContent.includes("Wait")) {
-                    spinBtn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
-                    spinBtn.disabled = false;
-                    spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
-                }
+                spinBtn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
+                spinBtn.disabled = false;
+                spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
             }
         }
 
-        // --- OPTIMIZED LOTTERY CLAIM (BATCH WRITE) ---
+        // --- FIXED: LOTTERY CLAIM LOADING BUG ---
         document.getElementById('spinBtn').addEventListener('click', async () => {
-            if((currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
+            const spinBtn = document.getElementById('spinBtn');
+            if (spinBtn.dataset.busy === "true") return; // Prevent double clicks
+            if ((currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
+            
+            // Lock the button during the ad process
+            spinBtn.dataset.busy = "true";
             
             const success = await runAdAndVerifyTime('spinBtn', showRandomAd);
-            if (!success) { updateLotteryUI(); return; }
+            if (!success) { 
+                spinBtn.dataset.busy = "false"; // Release lock if ad failed
+                updateLotteryUI(); 
+                return; 
+            }
             
             particles = []; confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
             
-            const spinBtn = document.getElementById('spinBtn');
-            spinBtn.disabled = true; spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
+            // Keep button locked and show spinning
+            spinBtn.disabled = true; 
+            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
             spinBtn.style.background = 'var(--disabled-bg)';
 
             gameWheel.spin(document.getElementById("lotteryResult"), async (prizeInfo) => {
                 createConfetti(); drawConfetti();
                 
                 try {
-                    // Combine Spin count update, points update, and transaction history into 1 Batch!
                     const batch = writeBatch(db);
-                    
                     const userRef = doc(db, 'users', currentUser.id);
                     batch.update(userRef, {
                         dailySpinsUsed: increment(1),
@@ -1330,9 +1329,13 @@
 
                     currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
                     showSuccessModal("You Won!", `You received ${prizeInfo.value} Points from the Premium Wheel!`);
-                } catch(e) { console.error(e); alert("Failed to save reward."); }
-                
-                await fetchAndUpdateCurrentUser();
+                } catch(e) { 
+                    console.error(e); 
+                    alert("Failed to save reward."); 
+                } finally {
+                    spinBtn.dataset.busy = "false"; // ALWAYS release lock at the end
+                    await fetchAndUpdateCurrentUser(); // This triggers updateLotteryUI
+                }
             });
         });
         
