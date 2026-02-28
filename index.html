@@ -37,9 +37,6 @@
     <!-- --- AD INTEGRATIONS --- -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
-    
-    <!-- Adsgram SDK -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
     <style>
         /* === NEW LIGHT BLUE & DARK SHINY THEME === */
@@ -64,18 +61,12 @@
         }
 
         body { 
-            background-color: var(--bg-color); 
-            color: var(--text-body); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; padding: 70px 0 90px; 
-            min-height: 100vh; 
-            box-sizing: border-box; 
-            -webkit-font-smoothing: antialiased; 
-            overflow-x: hidden;
-            position: relative;
+            background-color: var(--bg-color); color: var(--text-body); font-family: 'Inter', sans-serif; 
+            margin: 0; padding: 70px 0 90px; min-height: 100vh; box-sizing: border-box; 
+            -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
         }
 
-        /* === ✨ SHINY STARRY BACKGROUND EFFECTS ✨ === */
+        /* === SHINY STARRY BACKGROUND EFFECTS === */
         .stars-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background-image: 
@@ -86,17 +77,11 @@
                 radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(3px 3px at 160px 120px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 250px 250px, #00A3FF, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: twinkle 3s infinite alternate;
-            opacity: 0.6;
+            background-repeat: repeat; background-size: 200px 200px; animation: twinkle 3s infinite alternate; opacity: 0.6;
         }
         @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.98); } 100% { opacity: 0.8; transform: scale(1); } }
 
-        .glow-orb-1, .glow-orb-2 {
-            position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.5;
-            animation: floatOrb 10s infinite alternate ease-in-out;
-        }
+        .glow-orb-1, .glow-orb-2 { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.5; animation: floatOrb 10s infinite alternate ease-in-out; }
         .glow-orb-1 { width: 300px; height: 300px; background: rgba(0, 163, 255, 0.4); top: -50px; left: -50px; }
         .glow-orb-2 { width: 350px; height: 350px; background: rgba(168, 85, 247, 0.25); bottom: -100px; right: -50px; animation-delay: -5s; }
         @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(40px) scale(1.15); } }
@@ -241,16 +226,12 @@
             </div>
         </div>
         <div class="header-right">
-            <button class="header-icon-btn" id="profile-info-btn">
-                <i class="fas fa-user"></i>
-            </button>
+            <button class="header-icon-btn" id="profile-info-btn"><i class="fas fa-user"></i></button>
             <div class="balance-badge">
                 <span class="ton-val"><span id="userTONBalanceDisplay">0.0000</span> TON</span>
                 <span class="pts-val"><span id="userPointBalanceDisplay">0</span> Pts</span>
             </div>
-            <button class="header-icon-btn" id="history-btn">
-                <i class="fas fa-history"></i>
-            </button>
+            <button class="header-icon-btn" id="history-btn"><i class="fas fa-history"></i></button>
         </div>
     </header>
 
@@ -258,7 +239,6 @@
         <!-- HOME SECTION -->
         <section id="home-content" class="content-section active">
             
-            <!-- Grid Stats -->
             <div class="stats-grid">
                 <div class="stat-box">
                     <i class="fas fa-wallet text-success"></i>
@@ -282,7 +262,6 @@
                 </div>
             </div>
 
-            <!-- Action Grid -->
             <div class="action-grid">
                 <div class="action-box" id="action-start-earning">
                     <i class="fas fa-gavel"></i>
@@ -302,7 +281,6 @@
                 </div>
             </div>
 
-            <!-- Highlight Message -->
             <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(0,163,255,0.05), rgba(168,85,247,0.1)); border: 1px solid rgba(0,163,255,0.4);">
                 <div style="display:flex; align-items:center; gap: 15px;">
                     <i class="fas fa-bullhorn" style="font-size:2rem; color:var(--primary-color);"></i>
@@ -331,39 +309,10 @@
              <h3 class="section-title">Daily Ad Mission</h3>
              <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem;">
                  <i class="fas fa-star"></i> <b>Daily Bonus:</b> Watch 30 Ads = +40 Points!
+                 <br><span style="color: var(--warning-color); font-size: 0.8rem; font-weight: normal;">* You MUST watch ads for at least 6 seconds to get points.</span>
              </div>
              
-             <!-- 1. Adsgram Daily Ad Button (NEW) -->
-             <div class="special-ad-card">
-                 <div class="special-ad-header">
-                     <div>
-                        <h4><i class="fas fa-play" style="color:#f39c12; margin-right:5px;"></i> Adsgram Daily</h4>
-                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Interstitial • 24hr Reset</p>
-                     </div>
-                     <span class="special-ad-limit" id="limit-adsgram-daily">0/10</span>
-                 </div>
-                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+8 Points</span>
-                    <button id="btn-watch-adsgram-daily" class="task-button" style="width:120px;">Watch</button>
-                 </div>
-             </div>
-
-             <!-- 2. Adsgram Special Block Button (NEW) -->
-             <div class="special-ad-card">
-                 <div class="special-ad-header">
-                     <div>
-                        <h4><i class="fas fa-cube" style="color:#9b59b6; margin-right:5px;"></i> Adsgram Special</h4>
-                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Rewarded Ad • 24hr Reset</p>
-                     </div>
-                     <span class="special-ad-limit" id="limit-adsgram-block">0/10</span>
-                 </div>
-                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span style="color:var(--success-color); font-weight:bold;">+12 Points</span>
-                    <button id="btn-watch-adsgram-block" class="task-button" style="width:120px;">Watch</button>
-                 </div>
-             </div>
-
-             <!-- 3. Mixed Random Ad Button -->
+             <!-- 1. Mixed Random Ad Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -378,7 +327,7 @@
                  </div>
              </div>
 
-             <!-- 4. Monetag Button -->
+             <!-- 2. Monetag Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -393,7 +342,7 @@
                  </div>
              </div>
 
-             <!-- 5. GigaPub Button -->
+             <!-- 3. GigaPub Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
@@ -507,7 +456,7 @@
         </div>
     </div>
 
-    <!-- Invite Modal (Updated to 350 Points) -->
+    <!-- Invite Modal -->
     <div id="inviteModalOverlay" class="modal-overlay">
         <div class="modal-content">
             <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,163,255,0.5));"></i>
@@ -553,7 +502,6 @@
                 Earn points daily by watching ads, spinning the wheel, and completing tasks.<br>
                 <b style="color: var(--primary-color);">Invite friends and get HUGE bonus rewards instantly!</b>
             </p>
-            
             <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
                 <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="join-network-btn">
                     <i class="fab fa-telegram-plane"></i> Join Channel (Required)
@@ -562,17 +510,16 @@
                     <i class="fas fa-users"></i> Join Group (Required)
                 </a>
             </div>
-            
             <p style="font-size: 0.75rem; color: var(--danger-color); text-align: center; margin-bottom: 20px;">
                 * You must join BOTH to start earning.
             </p>
-            
             <button id="activateAccountBtn" class="form-button" style="box-shadow: 0 0 20px rgba(0,163,255,0.3); font-size: 1.05rem;">
                 Start Earning Now
             </button>
         </div>
     </div>
 
+    <!-- Withdraw Confirm Modal -->
     <div id="withdrawConfirmModalOverlay" class="modal-overlay">
         <div class="modal-content">
             <h3 style="color: var(--primary-color);">Confirm Withdraw</h3>
@@ -604,7 +551,6 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        // REFERRAL REWARD UPDATED TO 350
         const REFERRAL_REWARD_POINTS = 350; 
         const POINTS_TO_TON_RATE = 0.00002; 
         const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 1500 } };
@@ -612,22 +558,11 @@
         const AD_CONFIG = { 
             mixed: { limit: 20, cooldown: 24 * 60 * 60 * 1000 }, 
             monetag: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }, 
-            giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 },
-            adsgramDaily: { limit: 10, cooldown: 24 * 60 * 60 * 1000 },
-            adsgramBlock: { limit: 10, cooldown: 24 * 60 * 60 * 1000 }
+            giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }
         };
 
-        // Initialize Adsgram SDK Safe Check
-        let AdControllerAdsgramDaily = null;
-        let AdControllerAdsgramBlock = null;
-        if (window.Adsgram) {
-            AdControllerAdsgramDaily = window.Adsgram.init({ blockId: "int-22909" });
-            AdControllerAdsgramBlock = window.Adsgram.init({ blockId: "22908" });
-        }
-
-        const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag SDK missing'));
-        const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub SDK missing'));
-        // Fallback fake delay ad view if networks missing
+        const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag missing'));
+        const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub missing'));
         const showFallbackAd = () => new Promise((res) => { setTimeout(res, 2000); });
 
         async function showRandomAd() { 
@@ -638,23 +573,23 @@
             } catch(err) { await showFallbackAd(); } 
         }
 
+        // --- 6 SECOND FORCE WATCH LOGIC ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
             
-            // Lock the button
             btn.dataset.busy = "true";
             btn.disabled = true;
             let originalText = btn.innerHTML;
             
             const startTime = Date.now();
-            const minDuration = 6000;
+            const minDuration = 6000; // 6 seconds required
 
             const timerInterval = setInterval(() => {
                 let elapsed = Date.now() - startTime;
                 let left = Math.ceil((minDuration - elapsed) / 1000);
                 if (left > 0) {
-                    btn.textContent = `Wait ${left}s...`;
+                    btn.textContent = `Watch ${left}s...`;
                 } else {
                     btn.textContent = "Processing...";
                 }
@@ -663,20 +598,23 @@
             try {
                 if (adFunc) { await adFunc(); }
                 let elapsedNow = Date.now() - startTime;
+                
+                // If the ad resolves too quickly, wait out the remaining 6 seconds in background
                 if (elapsedNow < minDuration) { await new Promise(r => setTimeout(r, minDuration - elapsedNow)); }
                 
                 clearInterval(timerInterval);
-                btn.dataset.busy = "false"; // Release lock
+                btn.dataset.busy = "false"; 
                 return true;
             } catch (err) {
                 clearInterval(timerInterval);
                 let elapsedNow = Date.now() - startTime;
-                btn.dataset.busy = "false"; // Release lock
+                btn.dataset.busy = "false"; 
                 
                 if (elapsedNow >= minDuration) {
+                    // Even if network fails, if they stayed 6 seconds, we grant points
                     return true;
                 } else {
-                    alert("⚠️ Ad failed or was closed too early. You must watch for at least 6 seconds.");
+                    alert("⚠️ Ad failed or was closed too early. You MUST watch the ad for at least 6 seconds to receive points.");
                     btn.innerHTML = originalText;
                     btn.disabled = false;
                     return false;
@@ -684,7 +622,7 @@
             }
         }
 
-        function showBanScreen() { document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; text-align: center; background-color: var(--bg-color); color: var(--text-title);"><div><h3>Account Banned</h3><p style="color: var(--danger-color);">Your account has been banned due to a violation of our terms of service.</p></div></div>`; }
+        function showBanScreen() { document.body.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; background:var(--bg-color); color:var(--text-title);"><div><h3>Account Banned</h3><p style="color:var(--danger-color);">Your account has been banned due to violation of TOS.</p></div></div>`; }
 
         async function cleanupAndGetUser(userId) {
             const userRef = doc(db, 'users', userId);
@@ -719,9 +657,7 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, spentReferrals: 0, completedTasks: [], 
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
                     isGroupVerified: false, lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
-                    adsWatchedAdsgramDaily: 0, adsWatchedAdsgramBlock: 0,
                     dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null,
-                    adResetTimeAdsgramDaily: null, adResetTimeAdsgramBlock: null,
                     dailySpinsUsed: 0, lastSpinDate: new Date().toDateString()
                 };
 
@@ -730,7 +666,7 @@
                     fetch("https://new-ton-p2rd.vercel.app/api/ref", {
                         method: "POST", headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userId: userId, refId: referrerCode })
-                    }).catch(e => console.log("Referral tracking error"));
+                    }).catch(e => console.log("Referral track err"));
                 }
                 await setDoc(userRef, defaultUserData);
                 userSnap = await getDoc(userRef);
@@ -768,8 +704,6 @@
             checkCategory('adsWatchedMixed', 'adResetTimeMixed', AD_CONFIG.mixed.limit, AD_CONFIG.mixed.cooldown);
             checkCategory('adsWatchedMonetag', 'adResetTimeMonetag', AD_CONFIG.monetag.limit, AD_CONFIG.monetag.cooldown);
             checkCategory('adsWatchedGiga', 'adResetTimeGiga', AD_CONFIG.giga.limit, AD_CONFIG.giga.cooldown);
-            checkCategory('adsWatchedAdsgramDaily', 'adResetTimeAdsgramDaily', AD_CONFIG.adsgramDaily.limit, AD_CONFIG.adsgramDaily.cooldown);
-            checkCategory('adsWatchedAdsgramBlock', 'adResetTimeAdsgramBlock', AD_CONFIG.adsgramBlock.limit, AD_CONFIG.adsgramBlock.cooldown);
 
             if (needsUpdate) { await updateDoc(doc(db, 'users', user.id), updates); updateAdButtonStats(); }
         }
@@ -854,74 +788,21 @@
                         btn.style.background = 'var(--disabled-bg)'; 
                         btn.style.color = 'var(--danger-color)';
                     } else {
-                        btn.disabled = false; 
-                        btn.textContent = "Watch";
-                        btn.style.background = 'var(--primary-color)'; 
-                        btn.style.color = '#fff';
+                        btn.disabled = false; btn.textContent = "Watch";
+                        btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
                     }
                 } else {
-                    btn.disabled = false; 
-                    btn.textContent = "Watch"; 
-                    btn.style.background = 'var(--primary-color)'; 
-                    btn.style.color = '#fff';
+                    btn.disabled = false; btn.textContent = "Watch"; 
+                    btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
                 }
             };
 
             updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, currentUser.adResetTimeMixed, AD_CONFIG.mixed.limit);
             updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, currentUser.adResetTimeMonetag, AD_CONFIG.monetag.limit);
             updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
-            updateButton('btn-watch-adsgram-daily', 'limit-adsgram-daily', currentUser.adsWatchedAdsgramDaily || 0, currentUser.adResetTimeAdsgramDaily, AD_CONFIG.adsgramDaily.limit);
-            updateButton('btn-watch-adsgram-block', 'limit-adsgram-block', currentUser.adsWatchedAdsgramBlock || 0, currentUser.adResetTimeAdsgramBlock, AD_CONFIG.adsgramBlock.limit);
         }
 
-        // --- ADSGRAM EVENT LISTENERS ---
-        document.getElementById('btn-watch-adsgram-daily').addEventListener('click', () => {
-            const btn = document.getElementById('btn-watch-adsgram-daily');
-            if(btn.dataset.busy === "true" || (currentUser.adsWatchedAdsgramDaily || 0) >= AD_CONFIG.adsgramDaily.limit) return;
-            if (!AdControllerAdsgramDaily) return alert("Adsgram SDK is blocked or not loaded. Check connection.");
-            
-            btn.dataset.busy = "true";
-            let originalText = btn.innerHTML;
-            btn.textContent = "Loading...";
-            btn.disabled = true;
-
-            AdControllerAdsgramDaily.show().then(async (result) => {
-                await processAdReward('adsgramDaily', 8);
-                btn.dataset.busy = "false";
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }).catch((result) => {
-                alert("⚠️ Ad failed or was closed too early.");
-                btn.dataset.busy = "false";
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        });
-
-        document.getElementById('btn-watch-adsgram-block').addEventListener('click', () => {
-            const btn = document.getElementById('btn-watch-adsgram-block');
-            if(btn.dataset.busy === "true" || (currentUser.adsWatchedAdsgramBlock || 0) >= AD_CONFIG.adsgramBlock.limit) return;
-            if (!AdControllerAdsgramBlock) return alert("Adsgram SDK is blocked or not loaded. Check connection.");
-            
-            btn.dataset.busy = "true";
-            let originalText = btn.innerHTML;
-            btn.textContent = "Loading...";
-            btn.disabled = true;
-
-            AdControllerAdsgramBlock.show().then(async (result) => {
-                await processAdReward('adsgramBlock', 12);
-                btn.dataset.busy = "false";
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }).catch((result) => {
-                alert("⚠️ Ad failed or was closed too early.");
-                btn.dataset.busy = "false";
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        });
-
-        // --- OLD NETWORK EVENT LISTENERS ---
+        // --- AD EVENT LISTENERS (Monetag, GigaPub, Mixed) ---
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
             if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
             const success = await runAdAndVerifyTime('btn-watch-mixed', showRandomAd);
@@ -936,7 +817,6 @@
 
         document.getElementById('btn-watch-giga').addEventListener('click', async () => {
             if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
-            const confirmClick = confirm("Requirement: You MUST click the ad to receive rewards."); if(!confirmClick) return;
             const success = await runAdAndVerifyTime('btn-watch-giga', showGigaPubAd);
             if (success) await processAdReward('giga', 10);
         });
@@ -963,22 +843,13 @@
                 currentCount = (currentUser.adsWatchedGiga || 0) + 1; 
                 cooldown = AD_CONFIG.giga.cooldown; resetKey = 'adResetTimeGiga'; 
             }
-            else if (type === 'adsgramDaily') { 
-                updates.adsWatchedAdsgramDaily = increment(1); 
-                currentCount = (currentUser.adsWatchedAdsgramDaily || 0) + 1; 
-                cooldown = AD_CONFIG.adsgramDaily.cooldown; resetKey = 'adResetTimeAdsgramDaily'; 
-            }
-            else if (type === 'adsgramBlock') { 
-                updates.adsWatchedAdsgramBlock = increment(1); 
-                currentCount = (currentUser.adsWatchedAdsgramBlock || 0) + 1; 
-                cooldown = AD_CONFIG.adsgramBlock.cooldown; resetKey = 'adResetTimeAdsgramBlock'; 
-            }
 
             if (currentCount === 1) {
                 updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
             }
 
-            let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + (currentUser.adsWatchedAdsgramDaily||0) + (currentUser.adsWatchedAdsgramBlock||0) + 1;
+            // Calculate total based only on remaining ad networks
+            let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
             if(totalAds >= 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
             const totalToGrant = points + bonusPoints;
@@ -1177,10 +1048,7 @@
                     
                     return `<div class="history-item" style="display:flex; justify-content:space-between;"><div style="text-align:left;"><strong style="display:block; color:var(--text-title);">${title}</strong><small style="color:var(--disabled-text);">${date}</small></div><strong class="${color}">${amt}</strong></div>`;
                 }).join('');
-             } catch(e) {
-                 console.error(e);
-                 historyContainer.innerHTML = '<p style="color:red; text-align:center;">Error loading history.</p>';
-             }
+             } catch(e) { historyContainer.innerHTML = '<p style="color:red; text-align:center;">Error loading history.</p>'; }
         }
         
         document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
@@ -1376,70 +1244,43 @@
             document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${spinsLeft}/${MAX_LOTTERY_SPINS}`;
             
             const spinBtn = document.getElementById("spinBtn");
-            
             if (spinBtn.dataset.busy === "true") return;
 
             if (spinsLeft <= 0) {
                 spinBtn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
-                spinBtn.disabled = true;
-                spinBtn.style.background = 'var(--disabled-bg)';
-                spinBtn.style.boxShadow = 'none';
+                spinBtn.disabled = true; spinBtn.style.background = 'var(--disabled-bg)'; spinBtn.style.boxShadow = 'none';
             } else {
                 spinBtn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
-                spinBtn.disabled = false;
-                spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
+                spinBtn.disabled = false; spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
             }
         }
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
             const spinBtn = document.getElementById('spinBtn');
-            if (spinBtn.dataset.busy === "true") return; 
-            if ((currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
+            if (spinBtn.dataset.busy === "true" || (currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
             
             spinBtn.dataset.busy = "true";
-            
             const success = await runAdAndVerifyTime('spinBtn', showRandomAd);
-            if (!success) { 
-                spinBtn.dataset.busy = "false"; 
-                updateLotteryUI(); 
-                return; 
-            }
+            if (!success) { spinBtn.dataset.busy = "false"; updateLotteryUI(); return; }
             
             particles = []; confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            
-            spinBtn.disabled = true; 
-            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
+            spinBtn.disabled = true; spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
             spinBtn.style.background = 'var(--disabled-bg)';
 
             gameWheel.spin(document.getElementById("lotteryResult"), async (prizeInfo) => {
                 createConfetti(); drawConfetti();
-                
                 try {
                     const batch = writeBatch(db);
                     const userRef = doc(db, 'users', currentUser.id);
-                    batch.update(userRef, {
-                        dailySpinsUsed: increment(1),
-                        pointBalance: increment(prizeInfo.value),
-                        lifetimePointsEarned: increment(prizeInfo.value)
-                    });
-
+                    batch.update(userRef, { dailySpinsUsed: increment(1), pointBalance: increment(prizeInfo.value), lifetimePointsEarned: increment(prizeInfo.value) });
                     const txRef = doc(collection(db, 'transactions'));
-                    batch.set(txRef, {
-                        userId: currentUser.id, type: 'Lottery Reward', details: 'Wheel Spin',
-                        status: 'Completed', createdAt: serverTimestamp(), pointAmount: prizeInfo.value
-                    });
-
+                    batch.set(txRef, { userId: currentUser.id, type: 'Lottery Reward', details: 'Wheel Spin', status: 'Completed', createdAt: serverTimestamp(), pointAmount: prizeInfo.value });
                     await batch.commit();
 
                     currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
-                    showSuccessModal("You Won!", `You received ${prizeInfo.value} Points from the Premium Wheel!`);
-                } catch(e) { 
-                    console.error(e); 
-                    alert("Failed to save reward."); 
-                } finally {
-                    spinBtn.dataset.busy = "false"; 
-                    await fetchAndUpdateCurrentUser(); 
-                }
+                    showSuccessModal("You Won!", `You received ${prizeInfo.value} Points!`);
+                } catch(e) { alert("Failed to save reward."); } 
+                finally { spinBtn.dataset.busy = "false"; await fetchAndUpdateCurrentUser(); }
             });
         });
         
@@ -1455,16 +1296,13 @@
                 const res = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${userId}`);
                 const data = await res.json();
                 return { inChannel: data.channel === true, inGroup: data.group === true };
-            } catch(e) { console.error("Verification API Error", e); return { inChannel: false, inGroup: false }; }
+            } catch(e) { return { inChannel: false, inGroup: false }; }
         }
 
         async function checkMembershipAndEnforce() {
             const status = await verifyMembershipAPI(currentUser.id);
-            if (!status.inChannel || !status.inGroup) {
-                showActivationModal();
-            } else {
-                proceedToApp();
-            }
+            if (!status.inChannel || !status.inGroup) { showActivationModal(); } 
+            else { proceedToApp(); }
         }
 
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
@@ -1473,7 +1311,6 @@
 
             try {
                 const status = await verifyMembershipAPI(currentUser.id);
-
                 if (!status.inChannel || !status.inGroup) {
                     alert("❌ Please join BOTH our official Telegram Channel and Group to continue.");
                     btn.disabled = false; btn.textContent = 'Start Earning Now'; return;
@@ -1482,7 +1319,6 @@
                 const updates = {};
                 if (!currentUser.isGroupVerified) { updates.isGroupVerified = true; currentUser.isGroupVerified = true; }
                 if (!currentUser.isActivated) { updates.isActivated = true; currentUser.isActivated = true; }
-
                 if (Object.keys(updates).length > 0) { await updateDoc(doc(db, 'users', currentUser.id), updates); }
 
                 document.getElementById('activationModalOverlay').classList.remove('show');
@@ -1492,8 +1328,7 @@
 
                 setTimeout(() => { thankYouOverlay.classList.remove('show'); proceedToApp(); }, 2500);
             } catch (error) { 
-                alert("Verification failed. Please try again."); 
-                btn.disabled = false; btn.textContent = 'Start Earning Now'; 
+                alert("Verification failed. Please try again."); btn.disabled = false; btn.textContent = 'Start Earning Now'; 
             }
         });
 
