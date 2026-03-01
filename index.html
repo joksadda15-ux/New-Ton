@@ -573,7 +573,7 @@
             } catch(err) { await showFallbackAd(); } 
         }
 
-        // --- 6 SECOND FORCE WATCH LOGIC ---
+        // --- 6 SECOND STRICT WATCH LOGIC UPDATE ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
@@ -582,9 +582,10 @@
             btn.disabled = true;
             let originalText = btn.innerHTML;
             
-            const startTime = Date.now();
             const minDuration = 6000; // 6 seconds required
+            const startTime = Date.now();
 
+            // Visual Timer on button
             const timerInterval = setInterval(() => {
                 let elapsed = Date.now() - startTime;
                 let left = Math.ceil((minDuration - elapsed) / 1000);
@@ -595,31 +596,54 @@
                 }
             }, 500);
 
-            try {
-                if (adFunc) { await adFunc(); }
-                let elapsedNow = Date.now() - startTime;
-                
-                // If the ad resolves too quickly, wait out the remaining 6 seconds in background
-                if (elapsedNow < minDuration) { await new Promise(r => setTimeout(r, minDuration - elapsedNow)); }
-                
+            return new Promise(async (resolve) => {
+                let adClosedEarly = false;
+
+                // Listen if the user goes to the background (switches tabs/clicks Back)
+                const visibilityHandler = () => {
+                    if (!document.hidden) {
+                        let elapsed = Date.now() - startTime;
+                        if (elapsed < minDuration) {
+                            adClosedEarly = true; // They returned before 6s
+                        }
+                    }
+                };
+                document.addEventListener('visibilitychange', visibilityHandler);
+
+                try {
+                    let adExecStart = Date.now();
+                    if (adFunc) { await adFunc(); }
+                    let adExecDuration = Date.now() - adExecStart;
+                    
+                    // If SDK resolved between 500ms and 6s, user likely closed an interstitial early.
+                    if (adExecDuration > 500 && adExecDuration < minDuration) {
+                        adClosedEarly = true;
+                    }
+
+                    // If ad executed very quickly, we still manually wait out the rest of the 6 seconds
+                    // During this time, the visibilityHandler will catch them if they try to bypass it.
+                    let remaining = minDuration - (Date.now() - startTime);
+                    if (remaining > 0) { 
+                        await new Promise(r => setTimeout(r, remaining)); 
+                    }
+                } catch (err) {
+                    adClosedEarly = true; // Error or ad block failed it
+                }
+
+                // Cleanup
                 clearInterval(timerInterval);
+                document.removeEventListener('visibilitychange', visibilityHandler);
                 btn.dataset.busy = "false"; 
-                return true;
-            } catch (err) {
-                clearInterval(timerInterval);
-                let elapsedNow = Date.now() - startTime;
-                btn.dataset.busy = "false"; 
-                
-                if (elapsedNow >= minDuration) {
-                    // Even if network fails, if they stayed 6 seconds, we grant points
-                    return true;
-                } else {
-                    alert("⚠️ Ad failed or was closed too early. You MUST watch the ad for at least 6 seconds to receive points.");
+
+                if (adClosedEarly) {
+                    alert("⚠️ Ad failed or was closed too early! You MUST watch the ad for at least 6 seconds to receive points.");
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                    return false;
+                    resolve(false);
+                } else {
+                    resolve(true); // Successfully completed minimum 6s
                 }
-            }
+            });
         }
 
         function showBanScreen() { document.body.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; background:var(--bg-color); color:var(--text-title);"><div><h3>Account Banned</h3><p style="color:var(--danger-color);">Your account has been banned due to violation of TOS.</p></div></div>`; }
@@ -681,18 +705,28 @@
             generateReferralLink(currentUser.id);
             updateAdButtonStats();
             await updateLotteryUI();
+            
+            // Checking UI states every second
             setInterval(updateAdButtonStats, 1000);
 
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
+        // --- UPDATE 2: Improved Ad Reset logic (Checks correctly for expired 12h/24h delays) ---
         async function checkAdCooldowns(user) {
             const now = Date.now();
             const updates = {};
             let needsUpdate = false;
 
             const checkCategory = (countKey, resetKey, limit, cooldown) => {
-                const resetTime = user[resetKey] ? user[resetKey].toDate().getTime() : 0;
+                let resetTime = 0;
+                if (user[resetKey]) {
+                    // Make completely resilient against missing/corrupted timestamp objects
+                    if (typeof user[resetKey].toDate === 'function') resetTime = user[resetKey].toDate().getTime();
+                    else if (typeof user[resetKey] === 'number') resetTime = user[resetKey];
+                    else resetTime = new Date(user[resetKey]).getTime();
+                }
+
                 if (resetTime > 0 && now > resetTime) {
                     updates[countKey] = 0; updates[resetKey] = null;
                     user[countKey] = 0; user[resetKey] = null; 
@@ -705,7 +739,80 @@
             checkCategory('adsWatchedMonetag', 'adResetTimeMonetag', AD_CONFIG.monetag.limit, AD_CONFIG.monetag.cooldown);
             checkCategory('adsWatchedGiga', 'adResetTimeGiga', AD_CONFIG.giga.limit, AD_CONFIG.giga.cooldown);
 
-            if (needsUpdate) { await updateDoc(doc(db, 'users', user.id), updates); updateAdButtonStats(); }
+            if (needsUpdate) { 
+                await updateDoc(doc(db, 'users', user.id), updates); 
+                updateAdButtonStats(); 
+            }
+        }
+
+        function formatTimeRemaining(ms) {
+            if (ms <= 0) return "Ready";
+            const h = Math.floor(ms / (1000 * 60 * 60));
+            const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((ms % (1000 * 60)) / 1000);
+            return `${h}h ${m}m ${s}s`;
+        }
+
+        // --- UPDATE 2: Ensures Buttons Reset Without App Reload ---
+        function updateAdButtonStats() {
+            if(!currentUser) return;
+            const now = Date.now();
+            let needsCheck = false;
+
+            // Automatically check if an active cooldown has expired inside our UI loop
+            const checkRes = (resetTimestamp) => {
+                if (!resetTimestamp) return;
+                let t = 0;
+                if (typeof resetTimestamp.toDate === 'function') t = resetTimestamp.toDate().getTime();
+                else if (typeof resetTimestamp === 'number') t = resetTimestamp;
+                else t = new Date(resetTimestamp).getTime();
+                
+                if (t > 0 && now > t) needsCheck = true;
+            };
+
+            checkRes(currentUser.adResetTimeMixed);
+            checkRes(currentUser.adResetTimeMonetag);
+            checkRes(currentUser.adResetTimeGiga);
+
+            // If a cooldown just passed, instantly reset it in Firebase and skip this current UI paint.
+            if (needsCheck) {
+                checkAdCooldowns(currentUser);
+                return; 
+            }
+
+            const updateButton = (btnId, limitId, count, resetTimestamp, maxLimit) => {
+                const btn = document.getElementById(btnId);
+                const limitSpan = document.getElementById(limitId);
+                limitSpan.textContent = `${count}/${maxLimit}`;
+                
+                let resetTime = 0;
+                if (resetTimestamp) {
+                    if (typeof resetTimestamp.toDate === 'function') resetTime = resetTimestamp.toDate().getTime();
+                    else if (typeof resetTimestamp === 'number') resetTime = resetTimestamp;
+                    else resetTime = new Date(resetTimestamp).getTime();
+                }
+                
+                if (btn.dataset.busy === "true") return;
+                
+                if (count >= maxLimit) {
+                    if (resetTime > now) {
+                        btn.disabled = true; 
+                        btn.textContent = formatTimeRemaining(resetTime - now);
+                        btn.style.background = 'var(--disabled-bg)'; 
+                        btn.style.color = 'var(--danger-color)';
+                    } else {
+                        btn.disabled = false; btn.textContent = "Watch";
+                        btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
+                    }
+                } else {
+                    btn.disabled = false; btn.textContent = "Watch"; 
+                    btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
+                }
+            };
+
+            updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, currentUser.adResetTimeMixed, AD_CONFIG.mixed.limit);
+            updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, currentUser.adResetTimeMonetag, AD_CONFIG.monetag.limit);
+            updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
         }
 
         function updateBalanceUI(pointBalance) {
@@ -760,47 +867,6 @@
                 });
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
-
-        function formatTimeRemaining(ms) {
-            if (ms <= 0) return "Ready";
-            const h = Math.floor(ms / (1000 * 60 * 60));
-            const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((ms % (1000 * 60)) / 1000);
-            return `${h}h ${m}m ${s}s`;
-        }
-
-        function updateAdButtonStats() {
-            if(!currentUser) return;
-            const now = Date.now();
-            
-            const updateButton = (btnId, limitId, count, resetTimestamp, maxLimit) => {
-                const btn = document.getElementById(btnId);
-                const limitSpan = document.getElementById(limitId);
-                limitSpan.textContent = `${count}/${maxLimit}`;
-                const resetTime = resetTimestamp ? resetTimestamp.toDate().getTime() : 0;
-                
-                if (btn.dataset.busy === "true") return;
-                
-                if (count >= maxLimit) {
-                    if (resetTime > now) {
-                        btn.disabled = true; 
-                        btn.textContent = formatTimeRemaining(resetTime - now);
-                        btn.style.background = 'var(--disabled-bg)'; 
-                        btn.style.color = 'var(--danger-color)';
-                    } else {
-                        btn.disabled = false; btn.textContent = "Watch";
-                        btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
-                    }
-                } else {
-                    btn.disabled = false; btn.textContent = "Watch"; 
-                    btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
-                }
-            };
-
-            updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, currentUser.adResetTimeMixed, AD_CONFIG.mixed.limit);
-            updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, currentUser.adResetTimeMonetag, AD_CONFIG.monetag.limit);
-            updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
-        }
 
         // --- AD EVENT LISTENERS (Monetag, GigaPub, Mixed) ---
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
