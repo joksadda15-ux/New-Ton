@@ -26,11 +26,6 @@
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
             if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
         }
-        setInterval(function() {
-            console.clear();
-            console.log("%cSTOP!", "color: #00A3FF; font-size: 50px; font-weight: bold; text-shadow: 0 0 10px #00A3FF;");
-            console.log("%cThis is a browser feature intended for developers. If someone told you to copy and paste something here, it is a scam and will result in your account being banned.", "font-size: 18px; color: white;");
-        }, 2000);
     </script>
     <!-- === ANTI-CHEAT SYSTEM END === -->
 
@@ -39,7 +34,7 @@
     <script src="https://ad.gigapub.tech/script?id=846"></script>
 
     <style>
-        /* === NEW LIGHT BLUE & DARK SHINY THEME === */
+        /* === THEME VARIABLES === */
         :root {
             --bg-color: #0B0E14;        
             --card-bg: rgba(21, 26, 35, 0.85); 
@@ -74,53 +69,49 @@
                 radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(3px 3px at 50px 160px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(3px 3px at 160px 120px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 250px 250px, #00A3FF, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 200px 200px; animation: twinkle 3s infinite alternate; opacity: 0.6;
+            background-repeat: repeat; background-size: 200px 200px; animation: twinkle 3s infinite alternate; opacity: 0.4;
         }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.98); } 100% { opacity: 0.8; transform: scale(1); } }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.98); } 100% { opacity: 0.6; transform: scale(1); } }
 
-        .glow-orb-1, .glow-orb-2 { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.5; animation: floatOrb 10s infinite alternate ease-in-out; }
-        .glow-orb-1 { width: 300px; height: 300px; background: rgba(0, 163, 255, 0.4); top: -50px; left: -50px; }
-        .glow-orb-2 { width: 350px; height: 350px; background: rgba(168, 85, 247, 0.25); bottom: -100px; right: -50px; animation-delay: -5s; }
+        .glow-orb-1, .glow-orb-2 { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; animation: floatOrb 10s infinite alternate ease-in-out; }
+        .glow-orb-1 { width: 300px; height: 300px; background: rgba(0, 163, 255, 0.3); top: -50px; left: -50px; }
+        .glow-orb-2 { width: 350px; height: 350px; background: rgba(168, 85, 247, 0.2); bottom: -100px; right: -50px; animation-delay: -5s; }
         @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(40px) scale(1.15); } }
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 
         /* HEADER */
         .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; backdrop-filter: blur(10px); }
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .site-branding { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .site-branding { display: flex; align-items: center; gap: 10px; }
         .site-title { font-size: 1.2rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 12px rgba(0, 163, 255, 0.6); }
-
-        .user-id-display { font-size: 0.75rem; color: var(--text-body); font-family: 'Roboto Mono', monospace; background: var(--input-bg); padding: 4px 8px; border-radius: 6px; margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--border-subtle); }
         .header-right { display: flex; align-items: center; gap: 12px; }
-        .balance-badge { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
-        .balance-badge .ton-val { color: var(--text-title); font-weight: 700; font-size: 0.95rem; }
-        .balance-badge .pts-val { font-size: 0.75rem; color: var(--success-color); font-weight: 500; text-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
         .header-icon-btn { background: var(--card-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
         .header-icon-btn:hover { background: var(--border-subtle); color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 163, 255, 0.3); }
 
-        /* HOME GRIDS */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .stat-box { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 16px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 6px; box-shadow: var(--shadow-card); }
-        .stat-box i { font-size: 1.2rem; margin-bottom: 4px; }
-        .stat-box small { font-size: 0.65rem; font-weight: 600; color: var(--text-body); text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-box b { font-size: 1.1rem; color: var(--text-title); font-weight: 700; }
-        
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .action-box { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 25px 10px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; cursor: pointer; transition: transform 0.2s, background 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); }
-        .action-box:hover { background-color: var(--border-subtle); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 163, 255, 0.2); }
-        .action-box i { font-size: 1.8rem; color: var(--primary-color); filter: drop-shadow(0 0 8px rgba(0,163,255,0.6)); }
-        .action-box span { font-size: 0.9rem; font-weight: 600; color: var(--text-title); }
+        /* === NEW HOME PROFILE SECTION === */
+        .profile-card { background: linear-gradient(145deg, rgba(21, 26, 35, 0.9), rgba(11, 14, 20, 0.95)); border-radius: 20px; padding: 30px 20px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0, 163, 255, 0.1); margin-bottom: 20px; position: relative; overflow: hidden; }
+        .profile-avatar { width: 70px; height: 70px; background: rgba(0, 163, 255, 0.1); border: 2px solid var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary-color); margin: 0 auto 15px; box-shadow: 0 0 20px rgba(0, 163, 255, 0.3); }
+        .profile-id { background: var(--input-bg); padding: 6px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-family: 'Roboto Mono', monospace; border: 1px solid var(--border-subtle); margin-bottom: 20px; cursor: pointer; color: var(--text-body); }
+        .profile-balances { display: flex; flex-direction: column; gap: 5px; }
+        .main-ton-balance { font-size: 2.5rem; font-weight: 800; color: var(--text-title); text-shadow: 0 0 15px rgba(0, 163, 255, 0.4); margin: 0; line-height: 1; }
+        .sub-pts-balance { font-size: 1rem; color: var(--success-color); font-weight: 600; margin: 0; text-shadow: 0 0 8px rgba(16, 185, 129, 0.3); }
 
-        /* CARDS */
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .stat-item { background: var(--card-bg); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .stat-item span { font-size: 0.7rem; color: var(--text-body); text-transform: uppercase; font-weight: 600; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .stat-item strong { font-size: 1.1rem; color: var(--text-title); font-weight: 700; }
+
+        .action-buttons-vertical { display: flex; flex-direction: column; gap: 12px; }
+
+        /* CARDS & BUTTONS */
         .card, .special-ad-card { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; position: relative; }
         .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-shadow: 0 0 8px rgba(0, 163, 255, 0.4); }
         
-        /* BUTTONS */
-        .form-button, .task-button { width: 100%; padding: 14px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: var(--primary-color); color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 163, 255, 0.3); }
+        .form-button, .task-button { width: 100%; padding: 16px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 1rem; cursor: pointer; background-color: var(--primary-color); color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 163, 255, 0.3); }
+        .form-button.outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); box-shadow: none; }
+        .form-button.outline:hover { background: rgba(0, 163, 255, 0.1); }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
         .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 163, 255, 0.5); }
         .form-button:disabled, .task-button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; border: 1px solid var(--border-subtle); box-shadow: none; }
@@ -136,22 +127,13 @@
         input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: all 0.2s; }
         input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(0, 163, 255, 0.2); }
         input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
-
         .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
         .input-group input { flex-grow: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
         .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
-        
-        /* WITHDRAW UI ELEMENTS */
-        .method-box { border: 2px solid var(--primary-color); background: rgba(0, 163, 255, 0.05); padding: 20px; border-radius: var(--radius-btn); text-align: center; font-weight: bold; color: var(--text-title); margin-bottom: 20px; box-shadow: 0 0 15px rgba(0, 163, 255, 0.15); }
-        .method-box i { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 8px; text-shadow: 0 0 8px rgba(0, 163, 255, 0.5);}
-        
-        .notice-box { background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; }
-        .notice-box i { color: var(--warning-color); font-size: 1.2rem; margin-top: 2px; }
-        .notice-box p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: #D1D5DB; }
 
-        /* NAVIGATION - UPDATED FOR 6 TABS */
+        /* NAVIGATION */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--disabled-text); text-decoration: none; font-size: 0.65rem; font-weight: 500; flex: 1; transition: all 0.2s; }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 20%; transition: all 0.2s; }
         .bottom-nav-item:hover { color: var(--text-title); }
         .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px); text-shadow: 0 0 8px rgba(0, 163, 255, 0.5);}
 
@@ -161,40 +143,15 @@
         
         .loader { border: 3px solid var(--input-bg); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 0.8s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .item-grid { display: grid; gap: 16px; }
-        .task-card { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin: 0; background-color: var(--card-bg); border-radius: var(--radius-card); border: 1px solid var(--border-subtle); }
-        .task-card-info h4 { margin: 0 0 6px; font-size: 1rem; color: var(--text-title); }
-        .task-card-info p { margin: 0; font-size: 0.85rem; color: var(--primary-color); font-weight: 500; }
-        
+
         /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-overlay.show { display: flex; }
         .modal-content { background-color: var(--bg-color); color: var(--text-title); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; position: relative; overflow: hidden; }
         
-        .history-item { border-bottom: 1px solid var(--border-subtle); padding: 12px 0; }
-        .text-green { color: var(--success-color) !important; }
-        .text-red { color: var(--danger-color) !important; }
-        .text-blue { color: var(--primary-color) !important; }
-        .text-yellow { color: var(--warning-color) !important; }
-        .text-purple { color: #A855F7 !important; }
-
-        /* VERIFICATION MODAL UPDATE */
         .activation-modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 163, 255, 0.25); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .popup-header-icon { font-size: 3rem; color: #F59E0B; margin-bottom: 10px; animation: bounce 2s infinite; filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5)); }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .join-network-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border-radius: 12px; font-weight: 600; text-decoration: none; background: var(--input-bg); color: var(--primary-color); border: 1px solid var(--border-subtle); transition: all 0.3s; }
-        
-        /* THANK YOU ANIMATION */
-        .thank-you-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 4000; display: none; flex-direction: column; justify-content: center; align-items: center; }
-        .thank-you-overlay.show { display: flex; }
-        .checkmark-circle { width: 90px; height: 90px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; justify-content: center; align-items: center; border: 3px solid var(--success-color); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-shadow: 0 0 30px rgba(16,185,129,0.4); }
-        .checkmark-circle i { font-size: 45px; color: var(--success-color); animation: scaleCheck 0.4s 0.4s ease-out both; transform: scale(0); }
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes scaleCheck { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        .thank-you-text { color: var(--text-title); font-size: 1.8rem; margin-top: 25px; font-weight: 800; opacity: 0; animation: fadeInText 0.5s 0.8s forwards; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        @keyframes fadeInText { to { opacity: 1; } }
-
+        
         /* LOTTERY WHEEL CSS */
         .wheel-container { position: relative; width: 250px; height: 250px; margin: 0 auto; }
         #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 15px rgba(0,163,255,0.4), 0 0 0 6px var(--border-subtle); transition: transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.05); }
@@ -204,112 +161,71 @@
 </head>
 <body>
 
-    <!-- STAR AND GLOW BACKGROUND -->
     <div class="stars-bg"></div>
     <div class="glow-orb-1"></div>
     <div class="glow-orb-2"></div>
 
-    <!-- THANK YOU ANIMATION -->
-    <div id="thankYouOverlay" class="thank-you-overlay">
-        <div class="checkmark-circle"><i class="fas fa-check"></i></div>
-        <div class="thank-you-text">Verification Successful</div>
-    </div>
-
     <!-- HEADER -->
     <header class="main-header">
-        <div class="header-left">
-            <div class="site-branding">
-                <h1 class="site-title">NEWTUBE TON</h1>
-                <div class="user-id-display" id="header-user-id">
-                    <span>ID: ...</span> <i class="fas fa-copy" style="font-size: 10px;"></i>
-                </div>
-            </div>
+        <div class="site-branding">
+            <h1 class="site-title">NEWTUBE TON</h1>
         </div>
         <div class="header-right">
-            <button class="header-icon-btn" id="profile-info-btn"><i class="fas fa-user"></i></button>
-            <div class="balance-badge">
-                <span class="ton-val"><span id="userTONBalanceDisplay">0.0000</span> TON</span>
-                <span class="pts-val"><span id="userPointBalanceDisplay">0</span> Pts</span>
-            </div>
             <button class="header-icon-btn" id="history-btn"><i class="fas fa-history"></i></button>
         </div>
     </header>
 
     <main class="container">
-        <!-- HOME SECTION -->
+        <!-- === NEW HOME SECTION === -->
         <section id="home-content" class="content-section active">
             
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <i class="fas fa-wallet text-success"></i>
-                    <small>TOTAL BALANCE</small>
-                    <b><span id="grid-ton">0.0000</span> TON</b>
+            <div class="profile-card">
+                <div class="profile-avatar"><i class="fas fa-user-astronaut"></i></div>
+                <div class="profile-id" id="profile-id-display">
+                    ID: <span>...</span> <i class="fas fa-copy"></i>
                 </div>
-                <div class="stat-box">
-                    <i class="fas fa-star text-warning"></i>
-                    <small>POINTS BALANCE</small>
-                    <b><span id="grid-pts">0</span></b>
-                </div>
-                <div class="stat-box">
-                    <i class="fas fa-users text-primary"></i>
-                    <small>TOTAL REFERRALS</small>
-                    <b><span id="grid-ref">0</span></b>
-                </div>
-                <div class="stat-box">
-                    <i class="fas fa-trophy text-purple"></i>
-                    <small>LIFETIME EARNED</small>
-                    <b><span id="grid-life">0</span></b>
+                <div class="profile-balances">
+                    <h2 class="main-ton-balance"><span id="home-ton">0.0000</span> TON</h2>
+                    <p class="sub-pts-balance"><span id="home-pts">0</span> Points</p>
                 </div>
             </div>
 
-            <div class="action-grid">
-                <div class="action-box" id="action-start-earning">
-                    <i class="fas fa-gavel"></i>
-                    <span>Start Earning</span>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span>Lifetime</span>
+                    <strong id="home-life">0 Pts</strong>
                 </div>
-                <div class="action-box" id="action-promo-code">
-                    <i class="fas fa-ticket-alt"></i>
-                    <span>Promo Code</span>
+                <div class="stat-item" style="border-color: rgba(168, 85, 247, 0.5);">
+                    <span style="color: #A855F7;">Normal Invites</span>
+                    <strong id="home-normal-ref">0</strong>
                 </div>
-                <div class="action-box" id="action-tasks">
-                    <i class="fas fa-list-check"></i>
-                    <span>Tasks</span>
-                </div>
-                <div class="action-box" id="action-invite">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Invite & Earn</span>
+                <div class="stat-item" style="border-color: rgba(16, 185, 129, 0.5);">
+                    <span style="color: var(--success-color);">Valid Referrals</span>
+                    <strong id="home-valid-ref">0</strong>
                 </div>
             </div>
 
-            <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(0,163,255,0.05), rgba(168,85,247,0.1)); border: 1px solid rgba(0,163,255,0.4);">
-                <div style="display:flex; align-items:center; gap: 15px;">
-                    <i class="fas fa-bullhorn" style="font-size:2rem; color:var(--primary-color);"></i>
-                    <div>
-                        <h4 style="margin:0 0 5px; color:var(--text-title);">Refer & Earn Big!</h4>
-                        <p style="margin:0; font-size:0.85rem; color:var(--text-body);">Invite friends and earn <b style="color:var(--success-color);">400 Points</b> per referral. The more you invite, the more you earn!</p>
-                    </div>
-                </div>
+            <div class="action-buttons-vertical">
+                <button class="form-button" id="action-invite"><i class="fas fa-user-plus"></i> Invite & Earn 350 Pts</button>
+                <button class="form-button outline" id="action-promo-code"><i class="fas fa-ticket-alt"></i> Enter Promo Code</button>
             </div>
 
-            <div class="card" style="text-align: center;">
-                 <h4 style="margin: 0 0 15px; color: var(--text-title);"><i class="fas fa-users" style="color: var(--primary-color);"></i> Community & Support</h4>
-                 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                     <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button" style="flex: 1; border: 1px solid var(--border-subtle); background: var(--input-bg); color: var(--primary-color);">
-                         <i class="fab fa-telegram-plane"></i> Official
-                     </a>
-                     <a href="https://t.me/Your_Admin11" target="_blank" class="form-button" style="flex: 1; border: 1px solid var(--border-subtle); background: var(--input-bg); color: var(--text-title);">
-                         <i class="fas fa-headset"></i> Support
-                     </a>
-                 </div>
-            </div>
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                 <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button outline" style="flex: 1; padding: 12px; font-size: 0.9rem;">
+                     <i class="fab fa-telegram-plane"></i> Official
+                 </a>
+                 <a href="https://t.me/Your_Admin11" target="_blank" class="form-button outline" style="flex: 1; padding: 12px; font-size: 0.9rem; border-color: var(--border-subtle); color: var(--text-body);">
+                     <i class="fas fa-headset"></i> Support
+                 </a>
+             </div>
         </section>
 
-        <!-- ADS SECTION -->
+        <!-- ADS SECTION (Daily Midnight Reset) -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
-             <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem;">
-                 <i class="fas fa-star"></i> <b>Daily Bonus:</b> Watch 30 Ads = +40 Points!
-                 <br><span style="color: var(--warning-color); font-size: 0.8rem; font-weight: normal;">* You MUST watch ads for at least 6 seconds to get points.</span>
+             <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem; background: var(--card-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border-subtle);">
+                 <i class="fas fa-info-circle"></i> Ads & Spins reset automatically everyday at <b>12:00 AM</b>.<br>
+                 <span style="color: var(--warning-color); font-size: 0.8rem; font-weight: normal;">Daily Bonus: Watch 30 Ads total = +40 Points!</span>
              </div>
              
              <!-- 1. Mixed Random Ad Button -->
@@ -317,7 +233,7 @@
                  <div class="special-ad-header">
                      <div>
                         <h4><i class="fas fa-random" style="color:var(--primary-color); margin-right:5px;"></i> Lucky View</h4>
-                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Mixed Network • 24hr Reset</p>
+                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Mixed Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-mixed">0/20</span>
                  </div>
@@ -332,7 +248,7 @@
                  <div class="special-ad-header">
                      <div>
                         <h4><i class="fas fa-eye" style="color:#2AABEE; margin-right:5px;"></i> Fast View</h4>
-                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Monetag • 12hr Reset</p>
+                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Monetag Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-monetag">0/15</span>
                  </div>
@@ -347,7 +263,7 @@
                  <div class="special-ad-header">
                      <div>
                         <h4><i class="fas fa-mouse-pointer" style="color:#FFD700; margin-right:5px;"></i> Click View</h4>
-                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">GigaPub • 12hr Reset</p>
+                        <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">GigaPub Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-giga">0/15</span>
                  </div>
@@ -363,20 +279,16 @@
             <h3 class="section-title">Lucky Spin Wheel</h3>
             <div class="card" style="text-align: center; position: relative; padding-bottom: 30px; overflow: hidden;">
                 <canvas id="confettiCanvas"></canvas>
-                
                 <h2 style="margin: 0 0 10px; font-size: 24px; text-transform: uppercase; color: #eccc68; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
                     <i class="fas fa-dharmachakra"></i> Premium Wheel
                 </h2>
-                
                 <div class="spin-limit" id="spinLimitText" style="font-size: 13px; color: var(--success-color); background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 25px; border: 1px solid rgba(123, 237, 159, 0.3);">
                     Remaining Spins Today: 10/10
                 </div>
-
                 <div class="wheel-container">
                     <div class="pointer"></div>
                     <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 </div>
-
                 <button id="spinBtn" class="form-button" style="margin-top: 30px; border-radius: 50px; background: linear-gradient(90deg, #ff6b81, #ff4757); padding: 15px; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);">
                     <i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)
                 </button>
@@ -387,36 +299,27 @@
         <!-- TASKS SECTION -->
         <section id="task-content" class="content-section">
             <h3 class="section-title">Earn Tasks</h3>
-            <div id="task-list" class="item-grid"></div>
-        </section>
-
-        <!-- EVENTS SECTION (DYNAMIC ADMIN INTEGRATED) -->
-        <section id="event-content" class="content-section">
-            <h3 class="section-title">Special Events</h3>
-            <div id="event-list" class="item-grid"></div>
+            <div id="task-list" style="display: grid; gap: 16px;"></div>
         </section>
 
         <!-- WITHDRAW SECTION -->
         <section id="withdraw-content" class="content-section">
-             <div class="card" style="text-align: left; position: relative;">
+             <div class="card" style="text-align: left;">
                 <h3 style="border-left: 3px solid var(--primary-color); padding-left: 10px; margin-top: 0;">Withdraw Funds</h3>
-                
-                <h2 style="text-align: center; font-size: 3rem; margin: 20px 0 5px; text-shadow: 0 0 15px rgba(0,163,255,0.4);" id="withdrawPointBalance">0.0000 TON</h2>
+                <h2 style="text-align: center; font-size: 2.5rem; margin: 20px 0 5px; text-shadow: 0 0 15px rgba(0,163,255,0.4);" id="withdrawPointBalance">0.0000 TON</h2>
                 <p style="text-align: center; color: var(--text-body); margin-bottom: 25px;">Rate: 50,000 Pts = 1.00 TON</p>
 
                 <form id="withdrawalForm">
-                     <input type="hidden" id="withdrawalMethod" value="Tonkeeper">
-                     
-                     <div class="method-box">
-                         <i class="fas fa-wallet"></i><br>Tonkeeper Wallet
+                     <div style="border: 2px solid var(--primary-color); background: rgba(0, 163, 255, 0.05); padding: 20px; border-radius: var(--radius-btn); text-align: center; font-weight: bold; color: var(--text-title); margin-bottom: 20px;">
+                         <i class="fas fa-wallet" style="font-size: 1.5rem; color: var(--primary-color); margin-bottom: 8px;"></i><br>Tonkeeper Wallet
                      </div>
 
-                     <div class="notice-box">
-                         <i class="fas fa-info-circle"></i>
-                         <div>
+                     <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 10px;">
+                         <i class="fas fa-info-circle" style="color: var(--warning-color); margin-top: 2px;"></i>
+                         <div style="font-size: 0.85rem; line-height: 1.5; color: #D1D5DB;">
                              <strong>Important Notice</strong><br>
-                             <span style="font-size: 0.8rem;">Minimum withdraw: 1500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.<br>
-                             <b style="color:var(--danger-color); display:block; margin-top:5px;">Note:</b> Tonkeeper bade onno Kono wrong address Dile payment back kora Hobe na!</span>
+                             Minimum withdraw: 1500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.<br>
+                             <b style="color:var(--danger-color);">Note:</b> Tonkeeper bade onno Kono wrong address Dile payment back kora Hobe na!
                          </div>
                      </div>
 
@@ -429,23 +332,21 @@
                      </div>
                      <div class="form-group">
                         <label>Tonkeeper Wallet Address</label>
-                        <input type="text" id="accountDetails" placeholder="Enter Tonkeeper address correctly" required>
+                        <input type="text" id="accountDetails" placeholder="Enter Tonkeeper address" required>
                      </div>
-                     
                      <button id="submitWithdrawalBtn" class="form-button">Submit Withdrawal</button>
                 </form>
              </div>
         </section>
     </main>
 
-    <!-- BOTTOM NAVIGATION (Updated with Events Tab) -->
+    <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
         <a href="#" class="bottom-nav-item active" data-tab-target="#home-content"><i class="fas fa-home"></i> Home</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content"><i class="fas fa-play"></i> Ads</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i> Lottery</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#task-content"><i class="fas fa-list"></i> Tasks</a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#event-content"><i class="fas fa-fire"></i> Events</a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Wallet</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Withdraw</a>
     </nav>
 
     <!-- MODALS -->
@@ -459,32 +360,32 @@
                 <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
             </div>
             <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
+            <button class="form-button close-modal-btn outline" style="margin-top: 10px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
         </div>
     </div>
 
     <!-- Invite Modal -->
     <div id="inviteModalOverlay" class="modal-overlay">
         <div class="modal-content">
-            <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,163,255,0.5));"></i>
+            <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px;"></i>
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
-                1 Valid Invite = <b style="color:var(--primary-color);">1 Withdrawal Unlock</b>.<br>
-                Plus, get <b style="color:var(--success-color);">400 Points</b>!<br>
-                <span style="font-size: 0.75rem; color: var(--danger-color);">*Valid means your friend MUST watch 15 ads.</span>
+                When your friend registers: <b style="color:#A855F7">+1 Normal Invite</b><br>
+                When friend watches 15 ads: <b style="color:var(--success-color);">+1 Valid Referral & 350 Pts!</b><br>
+                <span style="font-size: 0.75rem; color: var(--warning-color);">*1 Valid Referral unlocks 1 Withdrawal.</span>
             </p>
             <div class="input-group">
                <input type="text" id="modalReferralLinkInput" readonly value="Loading...">
                <button id="modalCopyReferralLinkBtn" class="form-button"><i class="fas fa-copy"></i></button>
             </div>
-            <button class="form-button close-modal-btn" style="margin-top: 10px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
+            <button class="form-button close-modal-btn outline" style="margin-top: 10px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
         </div>
     </div>
 
     <!-- Success Modal -->
     <div id="successModalOverlay" class="modal-overlay">
         <div class="modal-content">
-            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success-color); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(16,185,129,0.5));"></i>
+            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success-color); margin-bottom: 15px;"></i>
             <h3 id="successModalTitle">Success!</h3>
             <p id="successModalMessage" style="color: var(--text-body);">Action completed.</p>
         </div>
@@ -494,47 +395,28 @@
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="modal-content" style="max-height: 80vh; padding: 20px;">
             <h3 style="margin-top:0; color: var(--primary-color);">History</h3>
-            <p style="font-size:0.75rem; color:var(--warning-color); margin-top:-10px;">Showing Withdrawals & Rewards</p>
             <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
-            <button id="closeHistoryBtn" class="form-button close-modal-btn" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
+            <button class="form-button close-modal-btn outline" style="margin-top: 15px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
         </div>
     </div>
 
     <!-- VERIFICATION MODAL -->
     <div id="activationModalOverlay" class="modal-overlay">
         <div class="activation-modal">
-            <i class="fas fa-gift popup-header-icon"></i>
-            <h3 style="color: var(--text-title); margin-top: 0; font-size: 1.4rem;">🎉 Earn Points & Get TON Rewards!</h3>
+            <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+            <h3 style="color: var(--text-title); margin-top: 0; font-size: 1.4rem;">Account Verification</h3>
             <p style="color: var(--text-body); margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5;">
-                Earn points daily by watching ads, spinning the wheel, and completing tasks.<br>
-                <b style="color: var(--primary-color);">Invite friends and get HUGE bonus rewards instantly!</b>
+                You must join our Official Channel and Group to start earning TON and Points.
             </p>
             <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
-                <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="join-network-btn">
+                <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button outline" style="background: var(--input-bg);">
                     <i class="fab fa-telegram-plane"></i> Join Channel (Required)
                 </a>
-                <a href="https://t.me/newTon_Gc" target="_blank" class="join-network-btn">
+                <a href="https://t.me/newTon_Gc" target="_blank" class="form-button outline" style="background: var(--input-bg);">
                     <i class="fas fa-users"></i> Join Group (Required)
                 </a>
             </div>
-            <p style="font-size: 0.75rem; color: var(--danger-color); text-align: center; margin-bottom: 20px;">
-                * You must join BOTH to start earning.
-            </p>
-            <button id="activateAccountBtn" class="form-button" style="box-shadow: 0 0 20px rgba(0,163,255,0.3); font-size: 1.05rem;">
-                Start Earning Now
-            </button>
-        </div>
-    </div>
-
-    <!-- Withdraw Confirm Modal -->
-    <div id="withdrawConfirmModalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="color: var(--primary-color);">Confirm Withdraw</h3>
-            <p id="withdrawConfirmText" style="color: var(--text-body); margin-bottom: 20px;">...</p>
-            <div style="display:flex; gap:10px;">
-                <button id="withdrawConfirmCancelBtn" class="form-button close-modal-btn" style="background:var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Cancel</button>
-                <button id="withdrawConfirmSubmitBtn" class="form-button">Confirm</button>
-            </div>
+            <button id="activateAccountBtn" class="form-button">Verify & Start Earning</button>
         </div>
     </div>
     
@@ -558,16 +440,19 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        // --- UPDATED REFERRAL AMOUNT ---
-        const REFERRAL_REWARD_POINTS = 400; 
-        
+        const REFERRAL_REWARD_POINTS = 350; 
         const POINTS_TO_TON_RATE = 0.00002; 
-        const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 1500 } };
         
+        // --- NEW DAILY RESET LOGIC ---
+        // BD Time Onujayi ajker Date string ber kora
+        function getTodayDateString() {
+            return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
+        }
+
         const AD_CONFIG = { 
-            mixed: { limit: 20, cooldown: 24 * 60 * 60 * 1000 }, 
-            monetag: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }, 
-            giga: { limit: 15, cooldown: 12 * 60 * 60 * 1000 }
+            mixed: { limit: 20 }, 
+            monetag: { limit: 15 }, 
+            giga: { limit: 15 }
         };
 
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag missing'));
@@ -582,92 +467,68 @@
             } catch(err) { await showFallbackAd(); } 
         }
 
-        // --- 6 SECOND STRICT WATCH LOGIC ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
-            
-            btn.dataset.busy = "true";
-            btn.disabled = true;
+            btn.dataset.busy = "true"; btn.disabled = true;
             let originalText = btn.innerHTML;
-            
-            const minDuration = 6000; // 6 seconds required
-            const startTime = Date.now();
+            const minDuration = 6000; const startTime = Date.now();
 
             const timerInterval = setInterval(() => {
-                let elapsed = Date.now() - startTime;
-                let left = Math.ceil((minDuration - elapsed) / 1000);
-                if (left > 0) {
-                    btn.textContent = `Watch ${left}s...`;
-                } else {
-                    btn.textContent = "Processing...";
-                }
+                let left = Math.ceil((minDuration - (Date.now() - startTime)) / 1000);
+                if (left > 0) btn.textContent = `Watch ${left}s...`; else btn.textContent = "Processing...";
             }, 500);
 
             return new Promise(async (resolve) => {
                 let adClosedEarly = false;
-
-                const visibilityHandler = () => {
-                    if (!document.hidden) {
-                        let elapsed = Date.now() - startTime;
-                        if (elapsed < minDuration) {
-                            adClosedEarly = true;
-                        }
-                    }
-                };
+                const visibilityHandler = () => { if (!document.hidden && (Date.now() - startTime) < minDuration) adClosedEarly = true; };
                 document.addEventListener('visibilitychange', visibilityHandler);
-
                 try {
                     let adExecStart = Date.now();
-                    if (adFunc) { await adFunc(); }
-                    let adExecDuration = Date.now() - adExecStart;
-                    
-                    if (adExecDuration > 500 && adExecDuration < minDuration) {
-                        adClosedEarly = true;
-                    }
-
+                    if (adFunc) await adFunc();
+                    if ((Date.now() - adExecStart) > 500 && (Date.now() - adExecStart) < minDuration) adClosedEarly = true;
                     let remaining = minDuration - (Date.now() - startTime);
-                    if (remaining > 0) { 
-                        await new Promise(r => setTimeout(r, remaining)); 
-                    }
-                } catch (err) {
-                    adClosedEarly = true; 
-                }
+                    if (remaining > 0) await new Promise(r => setTimeout(r, remaining)); 
+                } catch (err) { adClosedEarly = true; }
 
-                clearInterval(timerInterval);
-                document.removeEventListener('visibilitychange', visibilityHandler);
+                clearInterval(timerInterval); document.removeEventListener('visibilitychange', visibilityHandler);
                 btn.dataset.busy = "false"; 
-
                 if (adClosedEarly) {
-                    alert("⚠️ Ad failed or was closed too early! You MUST watch the ad for at least 6 seconds to receive points.");
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                    resolve(false);
-                } else {
-                    resolve(true); 
-                }
+                    alert("⚠️ Ad closed too early! Watch for at least 6 seconds to receive points.");
+                    btn.innerHTML = originalText; btn.disabled = false; resolve(false);
+                } else { resolve(true); }
             });
         }
 
-        function showBanScreen() { document.body.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; background:var(--bg-color); color:var(--text-title);"><div><h3>Account Banned</h3><p style="color:var(--danger-color);">Your account has been banned due to violation of TOS.</p></div></div>`; }
-
-        async function cleanupAndGetUser(userId) {
-            const userRef = doc(db, 'users', userId);
-            const userSnap = await getDoc(userRef);
-            if (!userSnap.exists()) return null;
-            return { id: userSnap.id, ...userSnap.data() };
+        // --- DAILY MIDNIGHT RESET HANDLER ---
+        // Ai function check korbe jodi user er lastResetDate ajker date na hoy, tahole fatiye sob zero kore dibe
+        async function checkDailyReset(user) {
+            const todayStr = getTodayDateString();
+            if (user.lastResetDate !== todayStr) {
+                const updates = {
+                    adsWatchedMixed: 0,
+                    adsWatchedMonetag: 0,
+                    adsWatchedGiga: 0,
+                    dailyBonusClaimed: false,
+                    dailySpinsUsed: 0,
+                    lastResetDate: todayStr
+                };
+                Object.assign(user, updates); // local update
+                try { await updateDoc(doc(db, 'users', user.id), updates); } catch(e){} // backend update
+                return true;
+            }
+            return false;
         }
 
         async function fetchAndUpdateCurrentUser() {
             if (!currentUser?.id) return;
             try {
-                const updatedUser = await cleanupAndGetUser(currentUser.id);
-                if (updatedUser) {
-                    currentUser = updatedUser;
-                    checkAdCooldowns(currentUser);
-                    updateBalanceUI(currentUser.pointBalance);
-                    updateAdButtonStats();
-                    updateLotteryUI();
+                const userRef = doc(db, 'users', currentUser.id);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    currentUser = { id: userSnap.id, ...userSnap.data() };
+                    await checkDailyReset(currentUser);
+                    updateBalanceUI(); updateAdButtonStats(); updateLotteryUI();
                 }
             } catch (error) {}
         }
@@ -676,253 +537,117 @@
             const userId = String(tgUser.id);
             const userRef = doc(db, 'users', userId);
             let userSnap = await getDoc(userRef);
-            let isNewUser = false;
+
+            const todayStr = getTodayDateString();
 
             if (!userSnap.exists()) {
-                isNewUser = true;
                 const defaultUserData = {
-                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, spentReferrals: 0, 
-                    completedTasks: [], completedEvents: [], // <-- ADDED completedEvents
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
-                    isGroupVerified: false, lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
-                    dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null,
-                    dailySpinsUsed: 0, lastSpinDate: new Date().toDateString()
+                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, 
+                    referralCount: 0, // This is Valid Referrals (who watched 15 ads)
+                    totalInvites: 0,  // This is Normal Invites (who just joined)
+                    spentReferrals: 0, completedTasks: [], 
+                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', 
+                    isBanned: false, isActivated: false, isGroupVerified: false, 
+                    lifetimeAdsWatched: 0, 
+                    adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
+                    dailyBonusClaimed: false, dailySpinsUsed: 0, 
+                    lastResetDate: todayStr // Setup Reset Date
                 };
 
+                // Track Normal Referrals instantly
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
-                    fetch("https://new-ton-p2rd.vercel.app/api/ref", {
-                        method: "POST", headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ userId: userId, refId: referrerCode })
-                    }).catch(e => console.log("Referral track err"));
+                    try {
+                        await updateDoc(doc(db, 'users', referrerCode), { totalInvites: increment(1) });
+                    } catch(e) {}
                 }
                 await setDoc(userRef, defaultUserData);
                 userSnap = await getDoc(userRef);
             }
 
-            const userData = userSnap.data();
-            if (userData?.isBanned === true) { showBanScreen(); return null; }
-            
             currentUser = { id: userSnap.id, ...userSnap.data() };
-            await checkAdCooldowns(currentUser);
-            updateBalanceUI(currentUser.pointBalance); 
-            generateReferralLink(currentUser.id);
-            updateAdButtonStats();
-            await updateLotteryUI();
+            if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center; margin-top:50px; color:red;">Account Banned</h3>`; return null; }
             
-            setInterval(updateAdButtonStats, 1000);
-
-            return { isNewUser, isActivated: currentUser.isActivated };
-        }
-
-        async function checkAdCooldowns(user) {
-            const now = Date.now();
-            const updates = {};
-            let needsUpdate = false;
-
-            const checkCategory = (countKey, resetKey, limit, cooldown) => {
-                let resetTime = 0;
-                if (user[resetKey]) {
-                    if (typeof user[resetKey].toDate === 'function') resetTime = user[resetKey].toDate().getTime();
-                    else if (typeof user[resetKey] === 'number') resetTime = user[resetKey];
-                    else resetTime = new Date(user[resetKey]).getTime();
-                }
-
-                if (resetTime > 0 && now > resetTime) {
-                    updates[countKey] = 0; updates[resetKey] = null;
-                    user[countKey] = 0; user[resetKey] = null; 
-                    needsUpdate = true;
-                    if(countKey === 'adsWatchedMixed') { updates.dailyBonusClaimed = false; user.dailyBonusClaimed = false; }
-                }
-            };
+            await checkDailyReset(currentUser); // Ensure ads are reset if new day
+            updateBalanceUI(); 
             
-            checkCategory('adsWatchedMixed', 'adResetTimeMixed', AD_CONFIG.mixed.limit, AD_CONFIG.mixed.cooldown);
-            checkCategory('adsWatchedMonetag', 'adResetTimeMonetag', AD_CONFIG.monetag.limit, AD_CONFIG.monetag.cooldown);
-            checkCategory('adsWatchedGiga', 'adResetTimeGiga', AD_CONFIG.giga.limit, AD_CONFIG.giga.cooldown);
+            const link = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
+            document.getElementById('modalReferralLinkInput').value = link;
 
-            if (needsUpdate) { 
-                await updateDoc(doc(db, 'users', user.id), updates); 
-                updateAdButtonStats(); 
-            }
-        }
-
-        function formatTimeRemaining(ms) {
-            if (ms <= 0) return "Ready";
-            const h = Math.floor(ms / (1000 * 60 * 60));
-            const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((ms % (1000 * 60)) / 1000);
-            return `${h}h ${m}m ${s}s`;
+            updateAdButtonStats(); updateLotteryUI();
+            return { isActivated: currentUser.isActivated };
         }
 
         function updateAdButtonStats() {
             if(!currentUser) return;
-            const now = Date.now();
-            let needsCheck = false;
 
-            const checkRes = (resetTimestamp) => {
-                if (!resetTimestamp) return;
-                let t = 0;
-                if (typeof resetTimestamp.toDate === 'function') t = resetTimestamp.toDate().getTime();
-                else if (typeof resetTimestamp === 'number') t = resetTimestamp;
-                else t = new Date(resetTimestamp).getTime();
-                
-                if (t > 0 && now > t) needsCheck = true;
-            };
-
-            checkRes(currentUser.adResetTimeMixed);
-            checkRes(currentUser.adResetTimeMonetag);
-            checkRes(currentUser.adResetTimeGiga);
-
-            if (needsCheck) {
-                checkAdCooldowns(currentUser);
-                return; 
-            }
-
-            const updateButton = (btnId, limitId, count, resetTimestamp, maxLimit) => {
+            const updateButton = (btnId, limitId, count, maxLimit) => {
                 const btn = document.getElementById(btnId);
-                const limitSpan = document.getElementById(limitId);
-                limitSpan.textContent = `${count}/${maxLimit}`;
-                
-                let resetTime = 0;
-                if (resetTimestamp) {
-                    if (typeof resetTimestamp.toDate === 'function') resetTime = resetTimestamp.toDate().getTime();
-                    else if (typeof resetTimestamp === 'number') resetTime = resetTimestamp;
-                    else resetTime = new Date(resetTimestamp).getTime();
-                }
-                
+                document.getElementById(limitId).textContent = `${count}/${maxLimit}`;
                 if (btn.dataset.busy === "true") return;
                 
                 if (count >= maxLimit) {
-                    if (resetTime > now) {
-                        btn.disabled = true; 
-                        btn.textContent = formatTimeRemaining(resetTime - now);
-                        btn.style.background = 'var(--disabled-bg)'; 
-                        btn.style.color = 'var(--danger-color)';
-                    } else {
-                        btn.disabled = false; btn.textContent = "Watch";
-                        btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
-                    }
+                    btn.disabled = true; btn.textContent = "Reset at 12:00 AM";
+                    btn.style.background = 'var(--disabled-bg)'; btn.style.color = 'var(--danger-color)';
                 } else {
-                    btn.disabled = false; btn.textContent = "Watch"; 
+                    btn.disabled = false; btn.textContent = "Watch";
                     btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
                 }
             };
 
-            updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, currentUser.adResetTimeMixed, AD_CONFIG.mixed.limit);
-            updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, currentUser.adResetTimeMonetag, AD_CONFIG.monetag.limit);
-            updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, currentUser.adResetTimeGiga, AD_CONFIG.giga.limit);
+            updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, AD_CONFIG.mixed.limit);
+            updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, AD_CONFIG.monetag.limit);
+            updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, AD_CONFIG.giga.limit);
         }
 
-        function updateBalanceUI(pointBalance) {
-            const points = pointBalance || 0;
+        function updateBalanceUI() {
+            const points = currentUser.pointBalance || 0;
             const equivalentTon = points * POINTS_TO_TON_RATE; 
             
-            document.getElementById('userTONBalanceDisplay').textContent = equivalentTon.toFixed(4);
-            document.getElementById('userPointBalanceDisplay').textContent = Math.floor(points);
-            document.getElementById('grid-ton').textContent = equivalentTon.toFixed(4);
-            document.getElementById('grid-pts').textContent = Math.floor(points);
-            document.getElementById('grid-ref').textContent = currentUser?.referralCount || 0;
-            document.getElementById('grid-life').textContent = Math.floor(currentUser?.lifetimePointsEarned || 0);
+            document.getElementById('home-ton').textContent = equivalentTon.toFixed(4);
+            document.getElementById('home-pts').textContent = Math.floor(points);
+            document.getElementById('home-life').textContent = `${Math.floor(currentUser.lifetimePointsEarned || 0)} Pts`;
+            
+            document.getElementById('home-normal-ref').textContent = currentUser.totalInvites || 0;
+            document.getElementById('home-valid-ref').textContent = currentUser.referralCount || 0;
 
             const withdrawDisplay = document.getElementById('withdrawPointBalance');
             if(withdrawDisplay) withdrawDisplay.textContent = `${equivalentTon.toFixed(4)} TON`;
         }
 
-        function generateReferralLink(userId) {
-            const referralLink = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
-            document.getElementById('modalReferralLinkInput').value = referralLink;
-        }
+        // --- AD WATCH EVENTS ---
+        const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
+            const watchCount = type === 'mixed' ? currentUser.adsWatchedMixed : type === 'monetag' ? currentUser.adsWatchedMonetag : currentUser.adsWatchedGiga;
+            if((watchCount || 0) >= maxLimit) return;
+            const success = await runAdAndVerifyTime(btnId, adFunc);
+            if (success) await processAdReward(type, 10);
+        };
 
-        document.getElementById('claimPromoBtn').addEventListener('click', async () => {
-            const code = document.getElementById('promoCodeInput').value.trim();
-            if (!code) return;
-            
-            const success = await runAdAndVerifyTime('claimPromoBtn', showRandomAd);
-            if (!success) return; 
-
-            const btn = document.getElementById('claimPromoBtn'); 
-            btn.disabled = true; btn.textContent = "Checking...";
-            
-            try {
-                await runTransaction(db, async (t) => {
-                    const promoRef = doc(db, 'promo_codes', code);
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const promoDoc = await t.get(promoRef);
-                    if (!promoDoc.exists()) throw new Error("Invalid Code.");
-                    const p = promoDoc.data();
-                    if (!p.isActive || p.currentUses >= p.maxUses || (p.usersClaimed && p.usersClaimed.includes(currentUser.id))) throw new Error("Code invalid or used.");
-                    
-                    t.update(userRef, { pointBalance: increment(p.rewardAmount), lifetimePointsEarned: increment(p.rewardAmount) });
-                    t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
-                    
-                    t.set(doc(collection(db, 'transactions')), { userId: currentUser.id, type: 'Promo Code', details: `Code: ${code}`, pointAmount: p.rewardAmount, createdAt: serverTimestamp() });
-                    return p;
-                }).then((p) => { 
-                    document.getElementById('promoModalOverlay').classList.remove('show');
-                    showSuccessModal("Success!", `Received ${p.rewardAmount} Points.`); 
-                    document.getElementById('promoCodeInput').value=""; 
-                    fetchAndUpdateCurrentUser(); 
-                });
-            } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
-        });
-
-        // --- AD EVENT LISTENERS ---
-        document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
-            if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
-            const success = await runAdAndVerifyTime('btn-watch-mixed', showRandomAd);
-            if (success) await processAdReward('mixed', 10);
-        });
-
-        document.getElementById('btn-watch-monetag').addEventListener('click', async () => {
-            if((currentUser.adsWatchedMonetag || 0) >= AD_CONFIG.monetag.limit) return;
-            const success = await runAdAndVerifyTime('btn-watch-monetag', showMonetagAd);
-            if (success) await processAdReward('monetag', 10);
-        });
-
-        document.getElementById('btn-watch-giga').addEventListener('click', async () => {
-            if((currentUser.adsWatchedGiga || 0) >= AD_CONFIG.giga.limit) return;
-            const success = await runAdAndVerifyTime('btn-watch-giga', showGigaPubAd);
-            if (success) await processAdReward('giga', 10);
-        });
+        document.getElementById('btn-watch-mixed').addEventListener('click', () => handleAdClick('mixed', 'btn-watch-mixed', AD_CONFIG.mixed.limit, showRandomAd));
+        document.getElementById('btn-watch-monetag').addEventListener('click', () => handleAdClick('monetag', 'btn-watch-monetag', AD_CONFIG.monetag.limit, showMonetagAd));
+        document.getElementById('btn-watch-giga').addEventListener('click', () => handleAdClick('giga', 'btn-watch-giga', AD_CONFIG.giga.limit, showGigaPubAd));
 
         async function processAdReward(type, points) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1) };
-            let bonusPoints = 0;
             
-            let currentCount = 0; let limit = 0; let cooldown = 0; let resetKey = ''; let countKey = '';
+            if (type === 'mixed') updates.adsWatchedMixed = increment(1); 
+            else if (type === 'monetag') updates.adsWatchedMonetag = increment(1); 
+            else if (type === 'giga') updates.adsWatchedGiga = increment(1); 
 
-            if (type === 'mixed') { 
-                updates.adsWatchedMixed = increment(1); 
-                currentCount = (currentUser.adsWatchedMixed || 0) + 1; 
-                cooldown = AD_CONFIG.mixed.cooldown; resetKey = 'adResetTimeMixed'; 
-            } 
-            else if (type === 'monetag') { 
-                updates.adsWatchedMonetag = increment(1); 
-                currentCount = (currentUser.adsWatchedMonetag || 0) + 1; 
-                cooldown = AD_CONFIG.monetag.cooldown; resetKey = 'adResetTimeMonetag'; 
-            } 
-            else if (type === 'giga') { 
-                updates.adsWatchedGiga = increment(1); 
-                currentCount = (currentUser.adsWatchedGiga || 0) + 1; 
-                cooldown = AD_CONFIG.giga.cooldown; resetKey = 'adResetTimeGiga'; 
+            let totalAdsNow = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
+            let bonusPoints = 0;
+            if(totalAdsNow >= 30 && !currentUser.dailyBonusClaimed) { 
+                bonusPoints = 40; updates.dailyBonusClaimed = true; 
             }
-
-            if (currentCount === 1) {
-                updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
-            }
-
-            let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
-            if(totalAds >= 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
             const totalToGrant = points + bonusPoints;
+            updates.pointBalance = increment(totalToGrant);
+            updates.lifetimePointsEarned = increment(totalToGrant);
             
-            if(totalToGrant > 0) {
-                updates.pointBalance = increment(totalToGrant);
-                updates.lifetimePointsEarned = increment(totalToGrant);
-            }
             await updateDoc(userRef, updates);
 
+            // Valid Referral Logic (Triggers when user hits exactly 15 ads lifetime)
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
             if (currentAdsTotal === 15 && currentUser.referredBy) {
                 try {
@@ -933,14 +658,10 @@
                             t.update(refDocRef, { 
                                 pointBalance: increment(REFERRAL_REWARD_POINTS), 
                                 lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS),
-                                referralCount: increment(1) 
+                                referralCount: increment(1) // Increments Valid Referrals
                             });
                             t.set(doc(collection(db, 'transactions')), {
-                                userId: currentUser.referredBy,
-                                type: 'Referral Reward',
-                                details: `From UID: ${currentUser.id}`,
-                                pointAmount: REFERRAL_REWARD_POINTS,
-                                createdAt: serverTimestamp()
+                                userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp()
                             });
                         }
                     });
@@ -953,25 +674,24 @@
             await fetchAndUpdateCurrentUser();
         }
 
-        // --- TASKS FETCHING ---
-        async function fetchAndRenderTasks(containerId, count) {
-            const taskListContainer = document.getElementById(containerId);
-            taskListContainer.innerHTML = '<div class="loader"></div>';
-            if (!currentUser) return;
+        // --- TASKS ---
+        async function fetchAndRenderTasks() {
+            const container = document.getElementById('task-list');
+            container.innerHTML = '<div class="loader"></div>';
             try {
-                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(count));
+                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(20));
                 const snapshot = await getDocs(q);
-                taskListContainer.innerHTML = '';
-                let tasksRendered = 0;
+                container.innerHTML = '';
+                let count = 0;
                 snapshot.forEach(docSnap => {
                     const task = docSnap.data();
-                    if (currentUser.completedTasks?.includes(docSnap.id)) return;
-                    if ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit) return;
-                    const card = document.createElement('div'); card.className = 'task-card';
-                    card.innerHTML = `<div class="task-card-info"><h4>${task.title}</h4><p>Reward: <span class="task-reward-points">${(task.rewardPoints || 5)} Points</span></p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
-                    taskListContainer.appendChild(card); tasksRendered++;
+                    if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit)) return;
+                    const card = document.createElement('div'); 
+                    card.style = "background: var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;";
+                    card.innerHTML = `<div><h4 style="margin:0 0 5px; color:var(--text-title);">${task.title}</h4><p style="margin:0; font-size:0.85rem; color:var(--primary-color);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
+                    container.appendChild(card); count++;
                 });
-                if (tasksRendered === 0) taskListContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: var(--text-body);">No new tasks available.</p>';
+                if (count === 0) container.innerHTML = '<p style="text-align:center;">No new tasks.</p>';
             } catch (error) {}
         }
 
@@ -979,574 +699,156 @@
             const button = e.target.closest('.task-button'); if (!button || button.disabled) return;
             const { taskId, taskUrl, state } = button.dataset;
             if (state === 'start') {
-                tg.openLink(taskUrl); button.disabled = true; let countdown = 6; button.textContent = `Wait ${countdown}s`;
-                const timer = setInterval(() => { countdown--; button.textContent = `Wait ${countdown}s`; if (countdown <= 0) { clearInterval(timer); button.disabled = false; button.textContent = 'Claim Reward'; button.dataset.state = 'claim'; } }, 1000);
+                tg.openLink(taskUrl); button.disabled = true; let c = 6; button.textContent = `Wait ${c}s`;
+                const t = setInterval(() => { c--; button.textContent = `Wait ${c}s`; if (c <= 0) { clearInterval(t); button.disabled = false; button.textContent = 'Claim'; button.dataset.state = 'claim'; } }, 1000);
             } else if (state === 'claim') { 
-                await processTaskClaim(taskId, button);
+                button.disabled = true; button.textContent = 'Verifying...';
+                try {
+                    const taskSnap = await getDoc(doc(db, 'tasks', taskId));
+                    if(!taskSnap.exists()) throw "Not found";
+                    const reward = taskSnap.data().rewardPoints || 0;
+                    await updateDoc(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
+                    await updateDoc(doc(db, 'tasks', taskId), { completionCount: increment(1) });
+                    showSuccessModal("Task Verified!", `${reward} Points added.`);
+                    button.closest('div').remove(); fetchAndUpdateCurrentUser();
+                } catch(err) { alert('Failed'); button.disabled = false; button.textContent = 'Claim'; }
             }
         });
 
-        async function processTaskClaim(taskId, button) {
-             const taskCard = button.closest('.task-card'); button.disabled = true; button.textContent = 'Verifying...';
-             try {
-                const taskDocSnap = await getDoc(doc(db, 'tasks', taskId));
-                if (!taskDocSnap.exists()) throw new Error("Task not found.");
-                const rewardAmount = taskDocSnap.data().rewardPoints || 0;
-                
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const taskRef = doc(db, 'tasks', taskId);
-                    const userDoc = await t.get(userRef);
-                    if (userDoc.data().completedTasks?.includes(taskId)) throw "ALREADY_COMPLETED";
-                    
-                    t.update(userRef, { 
-                        completedTasks: arrayUnion(taskId),
-                        pointBalance: increment(rewardAmount),
-                        lifetimePointsEarned: increment(rewardAmount)
-                    });
-                    t.update(taskRef, { completionCount: increment(1) });
-                });
-                showSuccessModal("Task Verified!", `${rewardAmount} Points added.`);
-                if (taskCard) taskCard.remove(); await fetchAndUpdateCurrentUser();
-            } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
-        }
-
-        // --- NEW DYNAMIC EVENT SYSTEM ---
-        async function fetchAndRenderEvents(containerId, count) {
-            const listContainer = document.getElementById(containerId);
-            listContainer.innerHTML = '<div class="loader"></div>';
-            if (!currentUser) return;
-            try {
-                // Assuming admin uses a collection named 'events' and field 'isActive' == true
-                const q = query(collection(db, 'events'), where("isActive", "==", true), limit(count));
-                const snapshot = await getDocs(q);
-                listContainer.innerHTML = '';
-                let rendered = 0;
-                
-                snapshot.forEach(docSnap => {
-                    const event = docSnap.data();
-                    if (currentUser.completedEvents?.includes(docSnap.id)) return;
-                    if ((event.limit || 0) > 0 && (event.completionCount || 0) >= event.limit) return;
-                    
-                    const card = document.createElement('div'); 
-                    card.className = 'card';
-                    card.style.padding = '15px';
-                    card.style.marginBottom = '10px';
-                    
-                    // Decide icon based on event type dynamically set from admin panel
-                    let icon = 'fa-star';
-                    if(event.type === 'visit') icon = 'fa-globe';
-                    else if(event.type === 'normal_refer' || event.type === 'valid_refer') icon = 'fa-users';
-                    else if(event.type === 'channel_join' || event.type === 'group_join') icon = 'fa-telegram-plane';
-
-                    card.innerHTML = `
-                        <div style="display:flex; align-items:center; gap: 15px;">
-                            <div style="background: rgba(0, 163, 255, 0.1); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color);">
-                                <i class="fas ${icon}" style="font-size: 1.5rem; color: var(--primary-color);"></i>
-                            </div>
-                            <div style="flex-grow: 1;">
-                                <h4 style="margin: 0 0 5px; color: var(--text-title); font-size: 1rem;">${event.title || 'Special Event'}</h4>
-                                <p style="margin: 0 0 8px; font-size: 0.8rem; color: var(--text-body);">${event.description || 'Complete this event to earn rewards.'}</p>
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="color: var(--success-color); font-weight: bold; font-size: 0.9rem;">+${event.rewardPoints || 0} Pts</span>
-                                    <button class="task-button event-btn" data-event-id="${docSnap.id}" data-type="${event.type}" data-url="${event.url || ''}" data-req="${event.requirement || 0}" data-state="start">Claim</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    listContainer.appendChild(card); rendered++;
-                });
-                if (rendered === 0) listContainer.innerHTML = '<p style="text-align:center; color: var(--text-body);">No active events at the moment.</p>';
-            } catch (error) {
-                listContainer.innerHTML = '<p style="text-align:center; color: var(--danger-color);">Wait until admin adds events!</p>';
-            }
-        }
-
-        document.getElementById('event-list').addEventListener('click', async (e) => {
-            const button = e.target.closest('.event-btn'); 
-            if (!button || button.disabled) return;
-            
-            const { eventId, type, url, req, state } = button.dataset;
-            const requirement = parseInt(req) || 0;
-            
-            if (state === 'start') {
-                if(type === 'visit' || type === 'channel_join' || type === 'group_join') {
-                    if(url) tg.openLink(url);
-                    button.disabled = true; 
-                    let countdown = 10; 
-                    button.textContent = `Wait ${countdown}s`;
-                    const timer = setInterval(() => { 
-                        countdown--; 
-                        button.textContent = `Wait ${countdown}s`; 
-                        if (countdown <= 0) { 
-                            clearInterval(timer); 
-                            button.disabled = false; 
-                            button.textContent = 'Verify'; 
-                            button.dataset.state = 'claim'; 
-                        } 
-                    }, 1000);
-                } else if (type === 'normal_refer' || type === 'valid_refer') {
-                    // Instantly check stats logic
-                    await processEventClaim(eventId, type, requirement, button);
-                } else {
-                    button.textContent = 'Verify'; 
-                    button.dataset.state = 'claim';
-                }
-            } else if (state === 'claim') { 
-                await processEventClaim(eventId, type, requirement, button);
-            }
+        // --- WITHDRAW ---
+        document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
+            const amt = parseFloat(e.target.value);
+            const display = document.getElementById('realtime-ton-display');
+            if(amt > 0) { document.getElementById('calc-ton-val').textContent = (amt * POINTS_TO_TON_RATE).toFixed(4); display.style.display = 'block'; }
+            else { display.style.display = 'none'; }
         });
 
-        async function processEventClaim(eventId, type, requirement, button) {
-            const card = button.closest('.card'); 
-            button.disabled = true; 
-            button.textContent = 'Verifying...';
-            try {
-                // Client-side quick checks
-                if (type === 'normal_refer' || type === 'valid_refer') {
-                    if ((currentUser.referralCount || 0) < requirement) {
-                        throw new Error(`You need ${requirement} referrals to claim this event. You currently have ${currentUser.referralCount || 0}.`);
-                    }
-                }
-
-                const eventDocSnap = await getDoc(doc(db, 'events', eventId));
-                if (!eventDocSnap.exists()) throw new Error("Event not found or expired.");
-                const eventData = eventDocSnap.data();
-                const rewardAmount = eventData.rewardPoints || 0;
-                
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const eventRef = doc(db, 'events', eventId);
-                    const userDoc = await t.get(userRef);
-                    
-                    if (userDoc.data().completedEvents?.includes(eventId)) throw new Error("Already claimed.");
-                    
-                    t.update(userRef, { 
-                        completedEvents: arrayUnion(eventId),
-                        pointBalance: increment(rewardAmount),
-                        lifetimePointsEarned: increment(rewardAmount)
-                    });
-                    t.update(eventRef, { completionCount: increment(1) });
-                });
-                
-                showSuccessModal("Event Completed!", `${rewardAmount} Points added to your balance.`);
-                if (card) card.remove(); 
-                await fetchAndUpdateCurrentUser();
-            } catch (error) { 
-                alert(error.message || 'Claim failed.'); 
-                button.disabled = false; 
-                button.textContent = 'Verify'; 
-            }
-        }
-        // --- END OF DYNAMIC EVENT SYSTEM ---
-
-
-        function setupWithdrawalUI() {
-            if (!currentUser) return;
-            const balance = currentUser.pointBalance || 0;
-            const equivalentTon = balance * POINTS_TO_TON_RATE;
-            
-            document.getElementById('withdrawPointBalance').textContent = `${equivalentTon.toFixed(4)} TON`;
-            
-            const amountInput = document.getElementById('withdrawalAmount');
-            const realtimeDisplay = document.getElementById('realtime-ton-display');
-            const calcTonVal = document.getElementById('calc-ton-val');
-
-            const updateSummary = () => {
-                const amount = parseFloat(amountInput.value); 
-                if(!isNaN(amount) && amount > 0) { 
-                    calcTonVal.textContent = (amount * POINTS_TO_TON_RATE).toFixed(4); 
-                    realtimeDisplay.style.display = 'block'; 
-                } else { 
-                    realtimeDisplay.style.display = 'none'; 
-                }
-            };
-            amountInput.addEventListener('input', updateSummary); updateSummary();
-        }
-
-        document.getElementById('submitWithdrawalBtn').addEventListener('click', (e) => {
+        document.getElementById('submitWithdrawalBtn').addEventListener('click', async (e) => {
             e.preventDefault(); if(isSubmittingWithdrawal) return;
-            const method = document.getElementById('withdrawalMethod').value; 
             const amount = parseFloat(document.getElementById('withdrawalAmount').value);
             const details = document.getElementById('accountDetails').value.trim(); 
-            const config = WITHDRAWAL_CONFIG[method];
             
-            if (!details) return alert('Please enter your Tonkeeper address.');
-            if (isNaN(amount) || amount <= 0) return alert('Please enter a valid amount.');
-            if (amount < config.min) return alert(`Minimum withdrawal for ${method} is ${config.min} Points.`);
-            if ((currentUser.pointBalance || 0) < amount) return alert('Insufficient Points balance.');
-            if (((currentUser.referralCount || 0) - (currentUser.spentReferrals || 0)) < 1) return alert("Withdrawal Locked!\nYou need at least 1 Valid Referral to withdraw.\n\n(A Valid Referral is someone who has watched 15 ads).");
+            if (!details || isNaN(amount) || amount < 1500) return alert('Min withdraw 1500 Pts and address required.');
+            if ((currentUser.pointBalance || 0) < amount) return alert('Insufficient Points.');
+            if (((currentUser.referralCount || 0) - (currentUser.spentReferrals || 0)) < 1) return alert("You need at least 1 Valid Referral to withdraw.");
             
-            const modal = document.getElementById('withdrawConfirmModalOverlay');
-            document.getElementById('withdrawConfirmText').textContent = `Withdraw ${amount} Points to ${method} (${details})? Approx ${(amount * POINTS_TO_TON_RATE).toFixed(4)} TON.\nThis will cost 1 Referral.`;
-            document.getElementById('withdrawConfirmCancelBtn').onclick = () => modal.classList.remove('show');
-            document.getElementById('withdrawConfirmSubmitBtn').onclick = async () => { modal.classList.remove('show'); await processWithdrawal(amount, method, details); };
-            modal.classList.add('show');
-        });
+            if(!confirm(`Withdraw ${amount} Pts to Tonkeeper?\nCosts 1 Valid Referral.`)) return;
 
-        async function processWithdrawal(amount, method, details) {
             isSubmittingWithdrawal = true;
             try {
-                const today = new Date(); today.setHours(0, 0, 0, 0); 
-                const snapWd = await getDocs(query(collection(db, 'withdrawals'), where('userId', '==', currentUser.id), where('createdAt', '>=', Timestamp.fromDate(today))));
-                if (!snapWd.empty) throw new Error("Withdrawal Limit Reached!\nYou can only withdraw 1 time per day.");
-
                 await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id); const userDoc = await t.get(userRef); const uData = userDoc.data();
-                    if ((uData.pointBalance || 0) < amount) throw new Error(`Insufficient balance.`);
-                    if (((uData.referralCount || 0) - (uData.spentReferrals || 0)) < 1) throw new Error("Withdrawal Locked. You need 1 Valid Referral.");
-                    t.set(doc(collection(db, 'withdrawals')), { userId: currentUser.id, telegramUsername: currentUser.telegramUsername, method, details, status: 'pending', createdAt: serverTimestamp(), pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE });
+                    const userRef = doc(db, 'users', currentUser.id); const uData = (await t.get(userRef)).data();
+                    if (uData.pointBalance < amount || (uData.referralCount - uData.spentReferrals) < 1) throw new Error("Requirements not met.");
+                    t.set(doc(collection(db, 'withdrawals')), { userId: currentUser.id, method: 'Tonkeeper', details, status: 'pending', createdAt: serverTimestamp(), pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE });
                     t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(1) });
                 });
+                document.getElementById('withdrawalForm').reset(); showSuccessModal("Request Sent!", `Withdrawal pending.`);
                 await fetchAndUpdateCurrentUser(); 
-                document.getElementById('withdrawalForm').reset(); 
-                showSuccessModal("Request Sent!", `Withdrawal pending.`);
-            } catch (error) { alert(`Error: ${error.message}`); } finally { isSubmittingWithdrawal = false; setupWithdrawalUI(); }
-        }
+            } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
+        });
 
-        async function showCombinedHistory() {
-             const historyContainer = document.getElementById('combined-history-list');
-             document.getElementById('historyModalOverlay').classList.add('show'); 
-             historyContainer.innerHTML = '<div class="loader"></div>';
-             
-             try {
-                const wSnap = await getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id)));
-                const tSnap = await getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id)));
-                
-                let combinedList = [];
-                wSnap.forEach(doc => combinedList.push({ ...doc.data(), isWithdrawalDoc: true, timestamp: doc.data().createdAt }));
-                
-                tSnap.forEach(doc => {
-                    const data = doc.data();
-                    if(data.type === 'Referral Reward' || data.type === 'Promo Code' || data.type === 'Lottery Reward' || data.type === 'Event Reward') {
-                        combinedList.push({ ...data, isWithdrawalDoc: false, timestamp: data.createdAt });
-                    }
-                });
+        // --- PROMO CODE ---
+        document.getElementById('claimPromoBtn').addEventListener('click', async () => {
+            const code = document.getElementById('promoCodeInput').value.trim();
+            if (!code) return;
+            const success = await runAdAndVerifyTime('claimPromoBtn', showRandomAd);
+            if (!success) return; 
+            const btn = document.getElementById('claimPromoBtn'); btn.disabled = true; btn.textContent = "Checking...";
+            try {
+                await runTransaction(db, async (t) => {
+                    const promoRef = doc(db, 'promo_codes', code); const p = (await t.get(promoRef)).data();
+                    if (!p || !p.isActive || p.currentUses >= p.maxUses || (p.usersClaimed && p.usersClaimed.includes(currentUser.id))) throw new Error("Invalid/Used Code.");
+                    t.update(doc(db, 'users', currentUser.id), { pointBalance: increment(p.rewardAmount), lifetimePointsEarned: increment(p.rewardAmount) });
+                    t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
+                    return p.rewardAmount;
+                }).then((amt) => { document.getElementById('promoModalOverlay').classList.remove('show'); showSuccessModal("Success!", `Got ${amt} Pts.`); document.getElementById('promoCodeInput').value=""; fetchAndUpdateCurrentUser(); });
+            } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
+        });
 
-                combinedList.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-                combinedList = combinedList.slice(0, 25);
-                
-                if(combinedList.length === 0) { historyContainer.innerHTML = '<p style="text-align:center;">No history.</p>'; return; }
-                
-                historyContainer.innerHTML = combinedList.map(data => {
-                    const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString() : '';
-                    let title = data.type || "Transaction"; 
-                    let amt = data.pointAmount ? `+${data.pointAmount}` : `+${data.tonAmount} TON`; 
-                    let color = "text-green";
-                    
-                    if(data.isWithdrawalDoc || data.type === 'Withdrawal') { 
-                        title = "Withdraw " + data.status; 
-                        amt = `-${data.pointAmount} Pts`; 
-                        color = "text-red"; 
-                    }
-                    
-                    return `<div class="history-item" style="display:flex; justify-content:space-between;"><div style="text-align:left;"><strong style="display:block; color:var(--text-title);">${title}</strong><small style="color:var(--disabled-text);">${date}</small></div><strong class="${color}">${amt}</strong></div>`;
-                }).join('');
-             } catch(e) { historyContainer.innerHTML = '<p style="color:red; text-align:center;">Error loading history.</p>'; }
-        }
+        // --- UI CLICKS ---
+        document.getElementById('profile-id-display').addEventListener('click', () => { navigator.clipboard.writeText(currentUser.id); showSuccessModal("Copied!", `ID Copied.`); });
+        document.getElementById('modalCopyReferralLinkBtn').addEventListener('click', () => { navigator.clipboard.writeText(document.getElementById('modalReferralLinkInput').value); });
         
-        document.getElementById('history-btn').addEventListener('click', showCombinedHistory);
-
-        document.getElementById('action-start-earning').addEventListener('click', () => switchTab('#ads-content', 1));
-        document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
-        document.getElementById('action-tasks').addEventListener('click', () => switchTab('#task-content', 3)); 
         document.getElementById('action-invite').addEventListener('click', () => document.getElementById('inviteModalOverlay').classList.add('show'));
+        document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
+        document.querySelectorAll('.close-modal-btn').forEach(b => b.addEventListener('click', (e) => e.target.closest('.modal-overlay').classList.remove('show')));
 
-        document.querySelectorAll('.close-modal-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => { e.target.closest('.modal-overlay').classList.remove('show'); });
-        });
-
-        function switchTab(targetId, navIndex) {
-            if (!currentUser) return;
-            document.querySelectorAll('.bottom-nav-item.active, .content-section.active').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.bottom-nav-item')[navIndex].classList.add('active');
-            document.querySelector(targetId).classList.add('active');
-            
-            if(targetId === '#task-content') { fetchAndRenderTasks('task-list', 50); }
-            else if(targetId === '#event-content') fetchAndRenderEvents('event-list', 50);
-            else if(targetId === '#withdraw-content') setupWithdrawalUI();
-            else if(targetId === '#ads-content') updateAdButtonStats();
-            else if(targetId === '#lottery-content') updateLotteryUI();
-        }
-
-        document.querySelectorAll('.bottom-nav-item').forEach((link, index) => {
-            link.addEventListener('click', async (e) => { e.preventDefault(); switchTab(link.dataset.tabTarget, index); });
-        });
-        
-        function showSuccessModal(title, message) {
-            document.getElementById('successModalTitle').textContent = title;
-            document.getElementById('successModalMessage').innerHTML = message;
-            document.getElementById('successModalOverlay').classList.add('show');
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            setTimeout(() => { document.getElementById('successModalOverlay').classList.remove('show'); }, 3000);
-        }
-        
-        function setupUserIdDisplay(userId) {
-            const c = document.getElementById('header-user-id'); c.querySelector('span').textContent = `ID: ${userId}`;
-            c.addEventListener('click', () => { navigator.clipboard.writeText(userId); showSuccessModal("Copied!", `ID Copied.`); });
-        }
-        
-        document.getElementById('modalCopyReferralLinkBtn').addEventListener('click', () => { 
-            const b = document.getElementById('modalCopyReferralLinkBtn'); 
-            navigator.clipboard.writeText(document.getElementById('modalReferralLinkInput').value); 
-            b.querySelector('i').className='fas fa-check'; 
-            setTimeout(() => b.querySelector('i').className='fas fa-copy', 2000); 
-        });
-
-        // ==========================================
-        //  LOTTERY WHEEL INTEGRATION LOGIC
-        // ==========================================
-        const MAX_LOTTERY_SPINS = 10;
-        
-        class LotteryWheel {
-            constructor(canvasId) {
-                this.canvas = document.getElementById(canvasId);
-                this.ctx = this.canvas.getContext("2d");
-                this.currentRotation = 0;
-                
-                this.segments = [
-                    { label: "3 Pts", value: 3, color: "#1abc9c", weight: 35 },
-                    { label: "5 Pts", value: 5, color: "#2980b9", weight: 30 },
-                    { label: "7 Pts", value: 7, color: "#8e44ad", weight: 20 },
-                    { label: "9 Pts", value: 9, color: "#d35400", weight: 10 },
-                    { label: "12 Pts", value: 12, color: "#c0392b", weight: 4 }, 
-                    { label: "15 Pts", value: 15, color: "#f39c12", weight: 1 }  
-                ];
-                this.drawWheel();
-            }
-
-            drawWheel() {
-                const numSegments = this.segments.length;
-                const anglePerSegment = (2 * Math.PI) / numSegments;
-                const centerX = this.canvas.width / 2;
-                const centerY = this.canvas.height / 2;
-                const radius = this.canvas.width / 2;
-
-                for (let i = 0; i < numSegments; i++) {
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(centerX, centerY);
-                    this.ctx.arc(centerX, centerY, radius, i * anglePerSegment, (i + 1) * anglePerSegment);
-                    this.ctx.fillStyle = this.segments[i].color;
-                    this.ctx.fill();
-                    
-                    this.ctx.lineWidth = 4;
-                    this.ctx.strokeStyle = "rgba(255,255,255,0.2)";
-                    this.ctx.stroke();
-
-                    this.ctx.save();
-                    this.ctx.translate(centerX, centerY);
-                    this.ctx.rotate(i * anglePerSegment + anglePerSegment / 2);
-                    this.ctx.textAlign = "right";
-                    this.ctx.fillStyle = "#ffffff";
-                    this.ctx.font = "bold 34px Arial";
-                    this.ctx.shadowColor = "rgba(0,0,0,0.5)";
-                    this.ctx.shadowBlur = 5;
-                    this.ctx.fillText(this.segments[i].label, radius - 30, 12);
-                    this.ctx.restore();
-                }
-            }
-
-            getWinnerIndex() {
-                let totalWeight = this.segments.reduce((acc, curr) => acc + curr.weight, 0);
-                let randomNum = Math.random() * totalWeight;
-                let weightSum = 0;
-                for (let i = 0; i < this.segments.length; i++) {
-                    weightSum += this.segments[i].weight;
-                    if (randomNum <= weightSum) return i;
-                }
-                return 0;
-            }
-
-            spin(resultElement, onComplete) {
-                const winnerIndex = this.getWinnerIndex();
-                const segmentAngle = 360 / this.segments.length;
-                const targetAngle = (winnerIndex * segmentAngle) + (segmentAngle / 2);
-                
-                const offset = (Math.random() * (segmentAngle - 10)) - ((segmentAngle - 10) / 2);
-                const rotationToTarget = 360 - targetAngle + offset;
-                const extraSpins = (Math.floor(Math.random() * 4) + 6) * 360; 
-                const finalRotation = this.currentRotation + extraSpins + rotationToTarget - (this.currentRotation % 360);
-
-                this.canvas.style.transform = `rotate(${finalRotation}deg)`;
-                this.currentRotation = finalRotation;
-
-                resultElement.innerText = "Spinning... 🌀";
-                resultElement.style.color = "#f39c12";
-
-                setTimeout(() => {
-                    const prize = this.segments[winnerIndex];
-                    resultElement.innerHTML = `Congratulations! You won <span>${prize.label}</span> 🎉`;
-                    resultElement.style.color = prize.value >= 12 ? "#f1c40f" : "#7bed9f";
-                    if(onComplete) onComplete(prize);
-                }, 4000);
-            }
-        }
-
-        const gameWheel = new LotteryWheel("wheelCanvas");
-        const confettiCanvas = document.getElementById('confettiCanvas');
-        const confettiCtx = confettiCanvas.getContext('2d');
-        let particles = [];
-        const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
-
-        function resizeConfetti() {
-            confettiCanvas.width = document.getElementById('lottery-content').offsetWidth || window.innerWidth;
-            confettiCanvas.height = document.getElementById('lottery-content').offsetHeight || 400;
-        }
-
-        function createConfetti() {
-            resizeConfetti();
-            particles = [];
-            for (let i = 0; i < 150; i++) {
-                particles.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-                    size: Math.random() * 8 + 4,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    speed: Math.random() * 3 + 2,
-                    angle: Math.random() * 360,
-                    spin: Math.random() * 10 - 5
-                });
-            }
-        }
-
-        function drawConfetti() {
-            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            particles.forEach((p, index) => {
-                confettiCtx.save();
-                confettiCtx.translate(p.x, p.y);
-                confettiCtx.rotate((p.angle * Math.PI) / 180);
-                confettiCtx.fillStyle = p.color;
-                confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-                confettiCtx.restore();
-                p.y += p.speed; p.angle += p.spin;
-                if (p.y > confettiCanvas.height) particles.splice(index, 1);
+        document.querySelectorAll('.bottom-nav-item').forEach((link, idx) => {
+            link.addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                document.querySelectorAll('.bottom-nav-item, .content-section').forEach(el => el.classList.remove('active'));
+                link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
+                if(link.dataset.tabTarget === '#task-content') fetchAndRenderTasks();
+                if(link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
             });
-            if (particles.length > 0) requestAnimationFrame(drawConfetti);
+        });
+
+        function showSuccessModal(title, msg) {
+            document.getElementById('successModalTitle').textContent = title;
+            document.getElementById('successModalMessage').innerHTML = msg;
+            document.getElementById('successModalOverlay').classList.add('show');
+            setTimeout(() => document.getElementById('successModalOverlay').classList.remove('show'), 3000);
         }
 
+        // --- LOTTERY ---
+        class LotteryWheel {
+            constructor(cId) { this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0; this.seg = [{ l: "3 Pts", v: 3, c: "#1abc9c", w: 35 }, { l: "5 Pts", v: 5, c: "#2980b9", w: 30 }, { l: "7 Pts", v: 7, c: "#8e44ad", w: 20 }, { l: "9 Pts", v: 9, c: "#d35400", w: 10 }, { l: "12 Pts", v: 12, c: "#c0392b", w: 4 }, { l: "15 Pts", v: 15, c: "#f39c12", w: 1 }]; this.draw(); }
+            draw() { const a = (2*Math.PI)/this.seg.length; const cx = this.c.width/2; const cy = this.c.height/2; const r = cx; this.seg.forEach((s, i) => { this.ctx.beginPath(); this.ctx.moveTo(cx, cy); this.ctx.arc(cx, cy, r, i*a, (i+1)*a); this.ctx.fillStyle = s.c; this.ctx.fill(); this.ctx.lineWidth=4; this.ctx.strokeStyle="rgba(255,255,255,0.2)"; this.ctx.stroke(); this.ctx.save(); this.ctx.translate(cx, cy); this.ctx.rotate(i*a + a/2); this.ctx.textAlign="right"; this.ctx.fillStyle="#fff"; this.ctx.font="bold 34px Arial"; this.ctx.fillText(s.l, r-30, 12); this.ctx.restore(); }); }
+            spin(resEl, cb) { const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){ s+=this.seg[i].w; if(rnd<=s) return i; } return 0;})(); const a = 360/this.seg.length; const tg = (wId*a)+(a/2); const fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360); this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn; resEl.innerText = "Spinning... 🌀"; setTimeout(() => { resEl.innerHTML = `Won ${this.seg[wId].l} 🎉`; if(cb) cb(this.seg[wId]); }, 4000); }
+        }
+        const wheel = new LotteryWheel("wheelCanvas");
+        
         async function updateLotteryUI() {
             if(!currentUser) return;
-            const todayDate = new Date().toDateString();
-            
-            if (currentUser.lastSpinDate !== todayDate) {
-                await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: 0, lastSpinDate: todayDate });
-                currentUser.dailySpinsUsed = 0; currentUser.lastSpinDate = todayDate;
-            }
-            
-            let spinsUsed = currentUser.dailySpinsUsed || 0;
-            let spinsLeft = MAX_LOTTERY_SPINS - spinsUsed;
-            
-            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${spinsLeft}/${MAX_LOTTERY_SPINS}`;
-            
-            const spinBtn = document.getElementById("spinBtn");
-            if (spinBtn.dataset.busy === "true") return;
-
-            if (spinsLeft <= 0) {
-                spinBtn.innerHTML = '<i class="fas fa-ban"></i> Daily Limit Reached';
-                spinBtn.disabled = true; spinBtn.style.background = 'var(--disabled-bg)'; spinBtn.style.boxShadow = 'none';
-            } else {
-                spinBtn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
-                spinBtn.disabled = false; spinBtn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)';
-            }
+            let left = 10 - (currentUser.dailySpinsUsed || 0);
+            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${left}/10`;
+            const btn = document.getElementById("spinBtn");
+            if(left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; btn.style.background = 'var(--disabled-bg)'; }
+            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; btn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)'; }
         }
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
-            const spinBtn = document.getElementById('spinBtn');
-            if (spinBtn.dataset.busy === "true" || (currentUser.dailySpinsUsed || 0) >= MAX_LOTTERY_SPINS) return;
-            
-            spinBtn.dataset.busy = "true";
-            const success = await runAdAndVerifyTime('spinBtn', showRandomAd);
-            if (!success) { spinBtn.dataset.busy = "false"; updateLotteryUI(); return; }
-            
-            particles = []; confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            spinBtn.disabled = true; spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
-            spinBtn.style.background = 'var(--disabled-bg)';
-
-            gameWheel.spin(document.getElementById("lotteryResult"), async (prizeInfo) => {
-                createConfetti(); drawConfetti();
+            if ((currentUser.dailySpinsUsed || 0) >= 10) return;
+            const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
+            const ok = await runAdAndVerifyTime('spinBtn', showRandomAd);
+            if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
+            btn.disabled = true; btn.innerHTML = 'Spinning...';
+            wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
                 try {
-                    const batch = writeBatch(db);
-                    const userRef = doc(db, 'users', currentUser.id);
-                    batch.update(userRef, { dailySpinsUsed: increment(1), pointBalance: increment(prizeInfo.value), lifetimePointsEarned: increment(prizeInfo.value) });
-                    const txRef = doc(collection(db, 'transactions'));
-                    batch.set(txRef, { userId: currentUser.id, type: 'Lottery Reward', details: 'Wheel Spin', status: 'Completed', createdAt: serverTimestamp(), pointAmount: prizeInfo.value });
-                    await batch.commit();
-
-                    currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
-                    showSuccessModal("You Won!", `You received ${prizeInfo.value} Points!`);
-                } catch(e) { alert("Failed to save reward."); } 
-                finally { spinBtn.dataset.busy = "false"; await fetchAndUpdateCurrentUser(); }
+                    await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: increment(1), pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
+                    showSuccessModal("Won!", `Got ${pz.v} Pts!`);
+                } catch(e){} finally { btn.dataset.busy = "false"; await fetchAndUpdateCurrentUser(); }
             });
         });
-        
-        // --- VERIFICATION LOGIC ---
-        function showActivationModal() { 
-            document.getElementById('activationModalOverlay').classList.add('show'); 
-            document.querySelector('main').style.display = 'none'; 
-            document.querySelector('.bottom-nav').style.display = 'none'; 
-        }
 
-        async function verifyMembershipAPI(userId) {
-            try {
-                const res = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${userId}`);
-                const data = await res.json();
-                return { inChannel: data.channel === true, inGroup: data.group === true };
-            } catch(e) { return { inChannel: false, inGroup: false }; }
-        }
-
+        // --- VERIFICATION API ---
         async function checkMembershipAndEnforce() {
-            const status = await verifyMembershipAPI(currentUser.id);
-            if (!status.inChannel || !status.inGroup) { showActivationModal(); } 
-            else { proceedToApp(); }
-        }
-
-        document.getElementById('activateAccountBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('activateAccountBtn'); 
-            btn.disabled = true; btn.textContent = 'Verifying...';
-
             try {
-                const status = await verifyMembershipAPI(currentUser.id);
-                if (!status.inChannel || !status.inGroup) {
-                    alert("❌ Please join BOTH our official Telegram Channel and Group to continue.");
-                    btn.disabled = false; btn.textContent = 'Start Earning Now'; return;
-                }
-
-                const updates = {};
-                if (!currentUser.isGroupVerified) { updates.isGroupVerified = true; currentUser.isGroupVerified = true; }
-                if (!currentUser.isActivated) { updates.isActivated = true; currentUser.isActivated = true; }
-                if (Object.keys(updates).length > 0) { await updateDoc(doc(db, 'users', currentUser.id), updates); }
-
-                document.getElementById('activationModalOverlay').classList.remove('show');
-                const thankYouOverlay = document.getElementById('thankYouOverlay');
-                thankYouOverlay.classList.add('show');
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-                setTimeout(() => { thankYouOverlay.classList.remove('show'); proceedToApp(); }, 2500);
-            } catch (error) { 
-                alert("Verification failed. Please try again."); btn.disabled = false; btn.textContent = 'Start Earning Now'; 
-            }
-        });
-
-        function proceedToApp() {
-            document.getElementById('activationModalOverlay').classList.remove('show');
-            document.querySelector('main').style.display = 'block';
-            document.querySelector('.bottom-nav').style.display = 'flex';
-            updateAdButtonStats();
+                const res = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const data = await res.json();
+                if(!data.channel || !data.group) document.getElementById('activationModalOverlay').classList.add('show');
+            } catch(e) { document.getElementById('activationModalOverlay').classList.add('show'); }
         }
+        document.getElementById('activateAccountBtn').addEventListener('click', async () => {
+            document.getElementById('activateAccountBtn').textContent = "Verifying...";
+            try {
+                const res = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const data = await res.json();
+                if(data.channel && data.group) { document.getElementById('activationModalOverlay').classList.remove('show'); }
+                else alert("Join BOTH groups to continue!");
+            } catch(e) {}
+            document.getElementById('activateAccountBtn').textContent = "Verify & Start Earning";
+        });
 
         async function main() {
             try {
-                if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<div class="card" style="margin:20px;text-align:center;"><h3>Error</h3><p>Open in Telegram.</p></div>`; return; }
+                if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;">Open in Telegram.</h3>`; return; }
                 tg.ready(); tg.expand(); tg.setHeaderColor('#0B0E14'); 
-                const initStatus = await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
-                if (!initStatus) return;
-                setupUserIdDisplay(currentUser.id);
-                
+                await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
+                document.getElementById('profile-id-display').querySelector('span').textContent = currentUser.id;
                 await checkMembershipAndEnforce();
-
-            } catch (error) { document.body.innerHTML = `<div class="card"><h3>Error</h3><p>${error.message}</p></div>`; }
+            } catch (error) {}
         }
-        window.addEventListener("resize", resizeConfetti);
         main();
     </script>
 </body>
