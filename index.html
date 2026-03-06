@@ -149,9 +149,9 @@
         .notice-box i { color: var(--warning-color); font-size: 1.2rem; margin-top: 2px; }
         .notice-box p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: #D1D5DB; }
 
-        /* NAVIGATION */
+        /* NAVIGATION - UPDATED FOR 6 TABS */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 20%; transition: all 0.2s; }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--disabled-text); text-decoration: none; font-size: 0.65rem; font-weight: 500; flex: 1; transition: all 0.2s; }
         .bottom-nav-item:hover { color: var(--text-title); }
         .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px); text-shadow: 0 0 8px rgba(0, 163, 255, 0.5);}
 
@@ -286,7 +286,7 @@
                     <i class="fas fa-bullhorn" style="font-size:2rem; color:var(--primary-color);"></i>
                     <div>
                         <h4 style="margin:0 0 5px; color:var(--text-title);">Refer & Earn Big!</h4>
-                        <p style="margin:0; font-size:0.85rem; color:var(--text-body);">Invite friends and earn <b style="color:var(--success-color);">350 Points</b> per referral. The more you invite, the more you earn!</p>
+                        <p style="margin:0; font-size:0.85rem; color:var(--text-body);">Invite friends and earn <b style="color:var(--success-color);">400 Points</b> per referral. The more you invite, the more you earn!</p>
                     </div>
                 </div>
             </div>
@@ -390,6 +390,12 @@
             <div id="task-list" class="item-grid"></div>
         </section>
 
+        <!-- EVENTS SECTION (DYNAMIC ADMIN INTEGRATED) -->
+        <section id="event-content" class="content-section">
+            <h3 class="section-title">Special Events</h3>
+            <div id="event-list" class="item-grid"></div>
+        </section>
+
         <!-- WITHDRAW SECTION -->
         <section id="withdraw-content" class="content-section">
              <div class="card" style="text-align: left; position: relative;">
@@ -432,13 +438,14 @@
         </section>
     </main>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVIGATION (Updated with Events Tab) -->
     <nav class="bottom-nav">
         <a href="#" class="bottom-nav-item active" data-tab-target="#home-content"><i class="fas fa-home"></i> Home</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content"><i class="fas fa-play"></i> Ads</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i> Lottery</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#task-content"><i class="fas fa-list"></i> Tasks</a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Withdraw</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#event-content"><i class="fas fa-fire"></i> Events</a>
+        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Wallet</a>
     </nav>
 
     <!-- MODALS -->
@@ -463,7 +470,7 @@
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
                 1 Valid Invite = <b style="color:var(--primary-color);">1 Withdrawal Unlock</b>.<br>
-                Plus, get <b style="color:var(--success-color);">350 Points</b>!<br>
+                Plus, get <b style="color:var(--success-color);">400 Points</b>!<br>
                 <span style="font-size: 0.75rem; color: var(--danger-color);">*Valid means your friend MUST watch 15 ads.</span>
             </p>
             <div class="input-group">
@@ -487,7 +494,7 @@
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="modal-content" style="max-height: 80vh; padding: 20px;">
             <h3 style="margin-top:0; color: var(--primary-color);">History</h3>
-            <p style="font-size:0.75rem; color:var(--warning-color); margin-top:-10px;">Showing Withdrawals & Referral Rewards</p>
+            <p style="font-size:0.75rem; color:var(--warning-color); margin-top:-10px;">Showing Withdrawals & Rewards</p>
             <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
             <button id="closeHistoryBtn" class="form-button close-modal-btn" style="margin-top: 15px; background: var(--disabled-bg); color: var(--text-body); border: 1px solid var(--border-subtle); box-shadow: none;">Close</button>
         </div>
@@ -551,7 +558,9 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         
-        const REFERRAL_REWARD_POINTS = 350; 
+        // --- UPDATED REFERRAL AMOUNT ---
+        const REFERRAL_REWARD_POINTS = 400; 
+        
         const POINTS_TO_TON_RATE = 0.00002; 
         const WITHDRAWAL_CONFIG = { 'Tonkeeper': { min: 1500 } };
         
@@ -573,7 +582,7 @@
             } catch(err) { await showFallbackAd(); } 
         }
 
-        // --- 6 SECOND STRICT WATCH LOGIC UPDATE ---
+        // --- 6 SECOND STRICT WATCH LOGIC ---
         async function runAdAndVerifyTime(btnId, adFunc) {
             const btn = document.getElementById(btnId);
             if (!btn) return false;
@@ -585,7 +594,6 @@
             const minDuration = 6000; // 6 seconds required
             const startTime = Date.now();
 
-            // Visual Timer on button
             const timerInterval = setInterval(() => {
                 let elapsed = Date.now() - startTime;
                 let left = Math.ceil((minDuration - elapsed) / 1000);
@@ -599,12 +607,11 @@
             return new Promise(async (resolve) => {
                 let adClosedEarly = false;
 
-                // Listen if the user goes to the background (switches tabs/clicks Back)
                 const visibilityHandler = () => {
                     if (!document.hidden) {
                         let elapsed = Date.now() - startTime;
                         if (elapsed < minDuration) {
-                            adClosedEarly = true; // They returned before 6s
+                            adClosedEarly = true;
                         }
                     }
                 };
@@ -615,22 +622,18 @@
                     if (adFunc) { await adFunc(); }
                     let adExecDuration = Date.now() - adExecStart;
                     
-                    // If SDK resolved between 500ms and 6s, user likely closed an interstitial early.
                     if (adExecDuration > 500 && adExecDuration < minDuration) {
                         adClosedEarly = true;
                     }
 
-                    // If ad executed very quickly, we still manually wait out the rest of the 6 seconds
-                    // During this time, the visibilityHandler will catch them if they try to bypass it.
                     let remaining = minDuration - (Date.now() - startTime);
                     if (remaining > 0) { 
                         await new Promise(r => setTimeout(r, remaining)); 
                     }
                 } catch (err) {
-                    adClosedEarly = true; // Error or ad block failed it
+                    adClosedEarly = true; 
                 }
 
-                // Cleanup
                 clearInterval(timerInterval);
                 document.removeEventListener('visibilitychange', visibilityHandler);
                 btn.dataset.busy = "false"; 
@@ -641,7 +644,7 @@
                     btn.disabled = false;
                     resolve(false);
                 } else {
-                    resolve(true); // Successfully completed minimum 6s
+                    resolve(true); 
                 }
             });
         }
@@ -678,7 +681,8 @@
             if (!userSnap.exists()) {
                 isNewUser = true;
                 const defaultUserData = {
-                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, spentReferrals: 0, completedTasks: [], 
+                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, spentReferrals: 0, 
+                    completedTasks: [], completedEvents: [], // <-- ADDED completedEvents
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false,
                     isGroupVerified: false, lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
                     dailyBonusClaimed: false, adResetTimeMixed: null, adResetTimeMonetag: null, adResetTimeGiga: null,
@@ -706,13 +710,11 @@
             updateAdButtonStats();
             await updateLotteryUI();
             
-            // Checking UI states every second
             setInterval(updateAdButtonStats, 1000);
 
             return { isNewUser, isActivated: currentUser.isActivated };
         }
 
-        // --- UPDATE 2: Improved Ad Reset logic (Checks correctly for expired 12h/24h delays) ---
         async function checkAdCooldowns(user) {
             const now = Date.now();
             const updates = {};
@@ -721,7 +723,6 @@
             const checkCategory = (countKey, resetKey, limit, cooldown) => {
                 let resetTime = 0;
                 if (user[resetKey]) {
-                    // Make completely resilient against missing/corrupted timestamp objects
                     if (typeof user[resetKey].toDate === 'function') resetTime = user[resetKey].toDate().getTime();
                     else if (typeof user[resetKey] === 'number') resetTime = user[resetKey];
                     else resetTime = new Date(user[resetKey]).getTime();
@@ -753,13 +754,11 @@
             return `${h}h ${m}m ${s}s`;
         }
 
-        // --- UPDATE 2: Ensures Buttons Reset Without App Reload ---
         function updateAdButtonStats() {
             if(!currentUser) return;
             const now = Date.now();
             let needsCheck = false;
 
-            // Automatically check if an active cooldown has expired inside our UI loop
             const checkRes = (resetTimestamp) => {
                 if (!resetTimestamp) return;
                 let t = 0;
@@ -774,7 +773,6 @@
             checkRes(currentUser.adResetTimeMonetag);
             checkRes(currentUser.adResetTimeGiga);
 
-            // If a cooldown just passed, instantly reset it in Firebase and skip this current UI paint.
             if (needsCheck) {
                 checkAdCooldowns(currentUser);
                 return; 
@@ -868,7 +866,7 @@
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
-        // --- AD EVENT LISTENERS (Monetag, GigaPub, Mixed) ---
+        // --- AD EVENT LISTENERS ---
         document.getElementById('btn-watch-mixed').addEventListener('click', async () => {
             if((currentUser.adsWatchedMixed || 0) >= AD_CONFIG.mixed.limit) return;
             const success = await runAdAndVerifyTime('btn-watch-mixed', showRandomAd);
@@ -914,7 +912,6 @@
                 updates[resetKey] = Timestamp.fromMillis(Date.now() + cooldown);
             }
 
-            // Calculate total based only on remaining ad networks
             let totalAds = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
             if(totalAds >= 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
@@ -956,6 +953,7 @@
             await fetchAndUpdateCurrentUser();
         }
 
+        // --- TASKS FETCHING ---
         async function fetchAndRenderTasks(containerId, count) {
             const taskListContainer = document.getElementById(containerId);
             taskListContainer.innerHTML = '<div class="loader"></div>';
@@ -1012,6 +1010,136 @@
                 if (taskCard) taskCard.remove(); await fetchAndUpdateCurrentUser();
             } catch (error) { alert('Claim failed: ' + error); button.disabled = false; button.textContent = 'Claim Reward'; }
         }
+
+        // --- NEW DYNAMIC EVENT SYSTEM ---
+        async function fetchAndRenderEvents(containerId, count) {
+            const listContainer = document.getElementById(containerId);
+            listContainer.innerHTML = '<div class="loader"></div>';
+            if (!currentUser) return;
+            try {
+                // Assuming admin uses a collection named 'events' and field 'isActive' == true
+                const q = query(collection(db, 'events'), where("isActive", "==", true), limit(count));
+                const snapshot = await getDocs(q);
+                listContainer.innerHTML = '';
+                let rendered = 0;
+                
+                snapshot.forEach(docSnap => {
+                    const event = docSnap.data();
+                    if (currentUser.completedEvents?.includes(docSnap.id)) return;
+                    if ((event.limit || 0) > 0 && (event.completionCount || 0) >= event.limit) return;
+                    
+                    const card = document.createElement('div'); 
+                    card.className = 'card';
+                    card.style.padding = '15px';
+                    card.style.marginBottom = '10px';
+                    
+                    // Decide icon based on event type dynamically set from admin panel
+                    let icon = 'fa-star';
+                    if(event.type === 'visit') icon = 'fa-globe';
+                    else if(event.type === 'normal_refer' || event.type === 'valid_refer') icon = 'fa-users';
+                    else if(event.type === 'channel_join' || event.type === 'group_join') icon = 'fa-telegram-plane';
+
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap: 15px;">
+                            <div style="background: rgba(0, 163, 255, 0.1); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-color);">
+                                <i class="fas ${icon}" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <h4 style="margin: 0 0 5px; color: var(--text-title); font-size: 1rem;">${event.title || 'Special Event'}</h4>
+                                <p style="margin: 0 0 8px; font-size: 0.8rem; color: var(--text-body);">${event.description || 'Complete this event to earn rewards.'}</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--success-color); font-weight: bold; font-size: 0.9rem;">+${event.rewardPoints || 0} Pts</span>
+                                    <button class="task-button event-btn" data-event-id="${docSnap.id}" data-type="${event.type}" data-url="${event.url || ''}" data-req="${event.requirement || 0}" data-state="start">Claim</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    listContainer.appendChild(card); rendered++;
+                });
+                if (rendered === 0) listContainer.innerHTML = '<p style="text-align:center; color: var(--text-body);">No active events at the moment.</p>';
+            } catch (error) {
+                listContainer.innerHTML = '<p style="text-align:center; color: var(--danger-color);">Wait until admin adds events!</p>';
+            }
+        }
+
+        document.getElementById('event-list').addEventListener('click', async (e) => {
+            const button = e.target.closest('.event-btn'); 
+            if (!button || button.disabled) return;
+            
+            const { eventId, type, url, req, state } = button.dataset;
+            const requirement = parseInt(req) || 0;
+            
+            if (state === 'start') {
+                if(type === 'visit' || type === 'channel_join' || type === 'group_join') {
+                    if(url) tg.openLink(url);
+                    button.disabled = true; 
+                    let countdown = 10; 
+                    button.textContent = `Wait ${countdown}s`;
+                    const timer = setInterval(() => { 
+                        countdown--; 
+                        button.textContent = `Wait ${countdown}s`; 
+                        if (countdown <= 0) { 
+                            clearInterval(timer); 
+                            button.disabled = false; 
+                            button.textContent = 'Verify'; 
+                            button.dataset.state = 'claim'; 
+                        } 
+                    }, 1000);
+                } else if (type === 'normal_refer' || type === 'valid_refer') {
+                    // Instantly check stats logic
+                    await processEventClaim(eventId, type, requirement, button);
+                } else {
+                    button.textContent = 'Verify'; 
+                    button.dataset.state = 'claim';
+                }
+            } else if (state === 'claim') { 
+                await processEventClaim(eventId, type, requirement, button);
+            }
+        });
+
+        async function processEventClaim(eventId, type, requirement, button) {
+            const card = button.closest('.card'); 
+            button.disabled = true; 
+            button.textContent = 'Verifying...';
+            try {
+                // Client-side quick checks
+                if (type === 'normal_refer' || type === 'valid_refer') {
+                    if ((currentUser.referralCount || 0) < requirement) {
+                        throw new Error(`You need ${requirement} referrals to claim this event. You currently have ${currentUser.referralCount || 0}.`);
+                    }
+                }
+
+                const eventDocSnap = await getDoc(doc(db, 'events', eventId));
+                if (!eventDocSnap.exists()) throw new Error("Event not found or expired.");
+                const eventData = eventDocSnap.data();
+                const rewardAmount = eventData.rewardPoints || 0;
+                
+                await runTransaction(db, async (t) => {
+                    const userRef = doc(db, 'users', currentUser.id);
+                    const eventRef = doc(db, 'events', eventId);
+                    const userDoc = await t.get(userRef);
+                    
+                    if (userDoc.data().completedEvents?.includes(eventId)) throw new Error("Already claimed.");
+                    
+                    t.update(userRef, { 
+                        completedEvents: arrayUnion(eventId),
+                        pointBalance: increment(rewardAmount),
+                        lifetimePointsEarned: increment(rewardAmount)
+                    });
+                    t.update(eventRef, { completionCount: increment(1) });
+                });
+                
+                showSuccessModal("Event Completed!", `${rewardAmount} Points added to your balance.`);
+                if (card) card.remove(); 
+                await fetchAndUpdateCurrentUser();
+            } catch (error) { 
+                alert(error.message || 'Claim failed.'); 
+                button.disabled = false; 
+                button.textContent = 'Verify'; 
+            }
+        }
+        // --- END OF DYNAMIC EVENT SYSTEM ---
+
 
         function setupWithdrawalUI() {
             if (!currentUser) return;
@@ -1090,7 +1218,7 @@
                 
                 tSnap.forEach(doc => {
                     const data = doc.data();
-                    if(data.type === 'Referral Reward' || data.type === 'Promo Code' || data.type === 'Lottery Reward') {
+                    if(data.type === 'Referral Reward' || data.type === 'Promo Code' || data.type === 'Lottery Reward' || data.type === 'Event Reward') {
                         combinedList.push({ ...data, isWithdrawalDoc: false, timestamp: data.createdAt });
                     }
                 });
@@ -1135,6 +1263,7 @@
             document.querySelector(targetId).classList.add('active');
             
             if(targetId === '#task-content') { fetchAndRenderTasks('task-list', 50); }
+            else if(targetId === '#event-content') fetchAndRenderEvents('event-list', 50);
             else if(targetId === '#withdraw-content') setupWithdrawalUI();
             else if(targetId === '#ads-content') updateAdButtonStats();
             else if(targetId === '#lottery-content') updateLotteryUI();
@@ -1165,7 +1294,7 @@
         });
 
         // ==========================================
-        //  LOTTERY WHEEL INTEGRATION LOGIC 🛞
+        //  LOTTERY WHEEL INTEGRATION LOGIC
         // ==========================================
         const MAX_LOTTERY_SPINS = 10;
         
