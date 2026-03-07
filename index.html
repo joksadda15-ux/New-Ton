@@ -16,41 +16,40 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- === ANTI-CHEAT SYSTEM START === -->
+    <!-- === ANTI-CHEAT SYSTEM === -->
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function (e) {
-            if (e.keyCode == 123) { return false; } 
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } 
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } 
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
+            if (e.keyCode == 123) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
         }
     </script>
-    <!-- === ANTI-CHEAT SYSTEM END === -->
 
     <!-- --- AD INTEGRATIONS --- -->
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
 
     <style>
-        /* === THEME VARIABLES === */
+        /* === BLACK & WHITE THEME VARIABLES === */
         :root {
-            --bg-color: #0B0E14;        
-            --card-bg: rgba(21, 26, 35, 0.85); 
-            --header-bg: rgba(11, 14, 20, 0.95); 
-            --primary-color: #00A3FF;   
-            --primary-hover: #008be5;
+            --bg-color: #000000;        
+            --card-bg: #111111; 
+            --header-bg: rgba(10, 10, 10, 0.95); 
+            --primary-color: #FFFFFF;   
+            --primary-hover: #E0E0E0;
             --text-title: #FFFFFF;      
-            --text-body: #9CA3AF;       
-            --border-subtle: rgba(31, 41, 55, 0.7); 
-            --input-bg: rgba(13, 17, 23, 0.8); 
+            --text-body: #A3A3A3;       
+            --border-subtle: #333333; 
+            --input-bg: #1A1A1A; 
             --success-color: #10B981;   
             --danger-color: #EF4444;    
             --warning-color: #F59E0B;   
-            --disabled-bg: #1A202C;
-            --disabled-text: #4B5563;
-            --shadow-card: 0 8px 32px rgba(0, 163, 255, 0.05);
+            --disabled-bg: #1A1A1A;
+            --disabled-text: #555555;
+            --shadow-card: 0 8px 32px rgba(255, 255, 255, 0.05);
             --radius-card: 16px;
             --radius-btn: 12px;
         }
@@ -61,7 +60,7 @@
             -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
         }
 
-        /* === SHINY STARRY BACKGROUND EFFECTS === */
+        /* === STARRY BACKGROUND === */
         .stars-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background-image: 
@@ -70,32 +69,26 @@
                 radial-gradient(3px 3px at 50px 160px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(3px 3px at 160px 120px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 250px 250px, #00A3FF, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 200px 200px; animation: twinkle 3s infinite alternate; opacity: 0.4;
+                radial-gradient(2px 2px at 250px 250px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 200px 200px; animation: twinkle 4s infinite alternate; opacity: 0.3;
         }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.98); } 100% { opacity: 0.6; transform: scale(1); } }
-
-        .glow-orb-1, .glow-orb-2 { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; animation: floatOrb 10s infinite alternate ease-in-out; }
-        .glow-orb-1 { width: 300px; height: 300px; background: rgba(0, 163, 255, 0.3); top: -50px; left: -50px; }
-        .glow-orb-2 { width: 350px; height: 350px; background: rgba(168, 85, 247, 0.2); bottom: -100px; right: -50px; animation-delay: -5s; }
-        @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(40px) scale(1.15); } }
+        @keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.98); } 100% { opacity: 0.4; transform: scale(1); } }
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 
         /* HEADER */
         .main-header { background-color: var(--header-bg); padding: 0 16px; border-bottom: 1px solid var(--border-subtle); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 64px; backdrop-filter: blur(10px); }
-        .site-branding { display: flex; align-items: center; gap: 10px; }
-        .site-title { font-size: 1.2rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 12px rgba(0, 163, 255, 0.6); }
-        .header-right { display: flex; align-items: center; gap: 12px; }
-        .header-icon-btn { background: var(--card-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .header-icon-btn:hover { background: var(--border-subtle); color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 163, 255, 0.3); }
+        .site-title { font-size: 1.2rem; color: var(--text-title); font-weight: 800; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-icon-btn { background: var(--card-bg); border: 1px solid var(--border-subtle); color: var(--text-title); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1.1rem;}
+        .header-icon-btn:hover { background: var(--border-subtle); color: var(--primary-color); box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
 
-        /* === NEW HOME PROFILE SECTION === */
-        .profile-card { background: linear-gradient(145deg, rgba(21, 26, 35, 0.9), rgba(11, 14, 20, 0.95)); border-radius: 20px; padding: 30px 20px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0, 163, 255, 0.1); margin-bottom: 20px; position: relative; overflow: hidden; }
-        .profile-avatar { width: 70px; height: 70px; background: rgba(0, 163, 255, 0.1); border: 2px solid var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary-color); margin: 0 auto 15px; box-shadow: 0 0 20px rgba(0, 163, 255, 0.3); }
+        /* === HOME PROFILE SECTION === */
+        .profile-card { background: linear-gradient(145deg, #1A1A1A, #0A0A0A); border-radius: 20px; padding: 30px 20px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; position: relative; overflow: hidden; }
+        .profile-avatar { width: 70px; height: 70px; background: #111; border: 2px solid var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary-color); margin: 0 auto 15px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
         .profile-id { background: var(--input-bg); padding: 6px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-family: 'Roboto Mono', monospace; border: 1px solid var(--border-subtle); margin-bottom: 20px; cursor: pointer; color: var(--text-body); }
         .profile-balances { display: flex; flex-direction: column; gap: 5px; }
-        .main-ton-balance { font-size: 2.5rem; font-weight: 800; color: var(--text-title); text-shadow: 0 0 15px rgba(0, 163, 255, 0.4); margin: 0; line-height: 1; }
+        .main-ton-balance { font-size: 2.5rem; font-weight: 800; color: var(--text-title); margin: 0; line-height: 1; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
         .sub-pts-balance { font-size: 1rem; color: var(--success-color); font-weight: 600; margin: 0; text-shadow: 0 0 8px rgba(16, 185, 129, 0.3); }
 
         .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
@@ -107,13 +100,13 @@
 
         /* CARDS & BUTTONS */
         .card, .special-ad-card { background-color: var(--card-bg); backdrop-filter: blur(8px); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-card); margin-bottom: 20px; position: relative; }
-        .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-shadow: 0 0 8px rgba(0, 163, 255, 0.4); }
+        .section-title { font-size: 1.25rem; margin-bottom: 20px; color: var(--text-title); font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 12px; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
         
-        .form-button, .task-button { width: 100%; padding: 16px; border: none; border-radius: var(--radius-btn); font-weight: 600; font-size: 1rem; cursor: pointer; background-color: var(--primary-color); color: #fff; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 163, 255, 0.3); }
-        .form-button.outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); box-shadow: none; }
-        .form-button.outline:hover { background: rgba(0, 163, 255, 0.1); }
+        .form-button, .task-button { width: 100%; padding: 16px; border: none; border-radius: var(--radius-btn); font-weight: 700; font-size: 1rem; cursor: pointer; background-color: var(--primary-color); color: #000; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); }
+        .form-button.outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); box-shadow: none; font-weight: 600; }
+        .form-button.outline:hover { background: rgba(255, 255, 255, 0.1); }
         .task-button { width: auto; padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
-        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 163, 255, 0.5); }
+        .form-button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2); }
         .form-button:disabled, .task-button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; border: 1px solid var(--border-subtle); box-shadow: none; }
 
         .special-ad-card { display: flex; flex-direction: column; gap: 10px; text-align: left; }
@@ -125,17 +118,17 @@
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-body); font-size: 0.9rem; }
         input[type="text"], input[type="number"], select { width: 100%; padding: 14px; box-sizing: border-box; border-radius: var(--radius-btn); border: 1px solid var(--border-subtle); background-color: var(--input-bg); color: var(--text-title); font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif; transition: all 0.2s; }
-        input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(0, 163, 255, 0.2); }
+        input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
         input:read-only { background-color: var(--disabled-bg); color: var(--text-body); }
         .input-group { display: flex; gap: 10px; margin-bottom: 16px; }
         .input-group input { flex-grow: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
         .input-group button { width: auto; flex-shrink: 0; padding: 0 20px; }
 
         /* NAVIGATION */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 20%; transition: all 0.2s; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 1000; }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--disabled-text); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 25%; transition: all 0.2s; }
         .bottom-nav-item:hover { color: var(--text-title); }
-        .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px); text-shadow: 0 0 8px rgba(0, 163, 255, 0.5);}
+        .bottom-nav-item.active { color: var(--primary-color); transform: translateY(-2px); text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);}
 
         .content-section { display: none; opacity: 0; animation: fadeEffect 0.3s forwards; }
         .content-section.active { display: block; }
@@ -147,23 +140,21 @@
         /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-overlay.show { display: flex; }
-        .modal-content { background-color: var(--bg-color); color: var(--text-title); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; max-height: 80vh; position: relative; overflow: hidden; }
+        .modal-content { background-color: var(--card-bg); color: var(--text-title); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; flex-direction: column; max-height: 80vh; position: relative; overflow: hidden; }
         
-        .activation-modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 163, 255, 0.25); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .activation-modal { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
         /* LOTTERY WHEEL CSS */
         .wheel-container { position: relative; width: 250px; height: 250px; margin: 0 auto; }
-        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 15px rgba(0,163,255,0.4), 0 0 0 6px var(--border-subtle); transition: transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.05); }
-        .pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 25px solid #ff4757; z-index: 10; filter: drop-shadow(-3px 3px 3px rgba(0,0,0,0.6)); }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 20px rgba(255,255,255,0.1), 0 0 0 6px var(--border-subtle); transition: transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.05); }
+        .pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 25px solid #FFFFFF; z-index: 10; filter: drop-shadow(-3px 3px 3px rgba(0,0,0,0.8)); }
         #confettiCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
     </style>
 </head>
 <body>
 
     <div class="stars-bg"></div>
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
 
     <!-- HEADER -->
     <header class="main-header">
@@ -171,12 +162,14 @@
             <h1 class="site-title">NEWTUBE TON</h1>
         </div>
         <div class="header-right">
+            <!-- New Wallet & History Buttons -->
+            <button class="header-icon-btn" id="withdraw-modal-btn"><i class="fas fa-wallet"></i></button>
             <button class="header-icon-btn" id="history-btn"><i class="fas fa-history"></i></button>
         </div>
     </header>
 
     <main class="container">
-        <!-- === NEW HOME SECTION === -->
+        <!-- === HOME SECTION === -->
         <section id="home-content" class="content-section active">
             
             <div class="profile-card">
@@ -195,12 +188,12 @@
                     <span>Lifetime</span>
                     <strong id="home-life">0 Pts</strong>
                 </div>
-                <div class="stat-item" style="border-color: rgba(168, 85, 247, 0.5);">
-                    <span style="color: #A855F7;">Normal Invites</span>
+                <div class="stat-item">
+                    <span>Normal Invites</span>
                     <strong id="home-normal-ref">0</strong>
                 </div>
-                <div class="stat-item" style="border-color: rgba(16, 185, 129, 0.5);">
-                    <span style="color: var(--success-color);">Valid Referrals</span>
+                <div class="stat-item" style="border-color: rgba(255, 255, 255, 0.3);">
+                    <span style="color: var(--primary-color);">Valid Referrals</span>
                     <strong id="home-valid-ref">0</strong>
                 </div>
             </div>
@@ -214,25 +207,25 @@
                  <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="form-button outline" style="flex: 1; padding: 12px; font-size: 0.9rem;">
                      <i class="fab fa-telegram-plane"></i> Official
                  </a>
-                 <a href="https://t.me/Your_Admin11" target="_blank" class="form-button outline" style="flex: 1; padding: 12px; font-size: 0.9rem; border-color: var(--border-subtle); color: var(--text-body);">
+                 <a href="https://t.me/Your_Admin11" target="_blank" class="form-button outline" style="flex: 1; padding: 12px; font-size: 0.9rem;">
                      <i class="fas fa-headset"></i> Support
                  </a>
              </div>
         </section>
 
-        <!-- ADS SECTION (Daily Midnight Reset) -->
+        <!-- ADS SECTION -->
         <section id="ads-content" class="content-section">
              <h3 class="section-title">Daily Ad Mission</h3>
              <div style="text-align: center; margin-bottom: 15px; color: var(--primary-color); font-size: 0.9rem; background: var(--card-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border-subtle);">
                  <i class="fas fa-info-circle"></i> Ads & Spins reset automatically everyday at <b>12:00 AM</b>.<br>
-                 <span style="color: var(--warning-color); font-size: 0.8rem; font-weight: normal;">Daily Bonus: Watch 30 Ads total = +40 Points!</span>
+                 <span style="color: var(--text-body); font-size: 0.8rem; font-weight: normal;">Daily Bonus: Watch 30 Ads total = +40 Points!</span>
              </div>
              
              <!-- 1. Mixed Random Ad Button -->
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
-                        <h4><i class="fas fa-random" style="color:var(--primary-color); margin-right:5px;"></i> Lucky View</h4>
+                        <h4><i class="fas fa-random" style="margin-right:5px;"></i> Lucky View</h4>
                         <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Mixed Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-mixed">0/20</span>
@@ -247,7 +240,7 @@
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
-                        <h4><i class="fas fa-eye" style="color:#2AABEE; margin-right:5px;"></i> Fast View</h4>
+                        <h4><i class="fas fa-eye" style="margin-right:5px;"></i> Fast View</h4>
                         <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">Monetag Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-monetag">0/15</span>
@@ -262,7 +255,7 @@
              <div class="special-ad-card">
                  <div class="special-ad-header">
                      <div>
-                        <h4><i class="fas fa-mouse-pointer" style="color:#FFD700; margin-right:5px;"></i> Click View</h4>
+                        <h4><i class="fas fa-mouse-pointer" style="margin-right:5px;"></i> Click View</h4>
                         <p style="font-size:0.8rem; color:var(--disabled-text); margin:0;">GigaPub Network</p>
                      </div>
                      <span class="special-ad-limit" id="limit-giga">0/15</span>
@@ -279,17 +272,17 @@
             <h3 class="section-title">Lucky Spin Wheel</h3>
             <div class="card" style="text-align: center; position: relative; padding-bottom: 30px; overflow: hidden;">
                 <canvas id="confettiCanvas"></canvas>
-                <h2 style="margin: 0 0 10px; font-size: 24px; text-transform: uppercase; color: #eccc68; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                <h2 style="margin: 0 0 10px; font-size: 24px; text-transform: uppercase; color: var(--text-title); text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
                     <i class="fas fa-dharmachakra"></i> Premium Wheel
                 </h2>
-                <div class="spin-limit" id="spinLimitText" style="font-size: 13px; color: var(--success-color); background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 25px; border: 1px solid rgba(123, 237, 159, 0.3);">
+                <div class="spin-limit" id="spinLimitText" style="font-size: 13px; color: var(--text-title); background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 25px; border: 1px solid var(--border-subtle);">
                     Remaining Spins Today: 10/10
                 </div>
                 <div class="wheel-container">
                     <div class="pointer"></div>
                     <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 </div>
-                <button id="spinBtn" class="form-button" style="margin-top: 30px; border-radius: 50px; background: linear-gradient(90deg, #ff6b81, #ff4757); padding: 15px; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);">
+                <button id="spinBtn" class="form-button" style="margin-top: 30px; border-radius: 50px; padding: 15px;">
                     <i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)
                 </button>
                 <div id="lotteryResult" style="margin-top: 20px; font-size: 16px; font-weight: 600; min-height: 25px; color: #fff;">Test your luck to win points!</div>
@@ -302,42 +295,6 @@
             <div id="task-list" style="display: grid; gap: 16px;"></div>
         </section>
 
-        <!-- WITHDRAW SECTION -->
-        <section id="withdraw-content" class="content-section">
-             <div class="card" style="text-align: left;">
-                <h3 style="border-left: 3px solid var(--primary-color); padding-left: 10px; margin-top: 0;">Withdraw Funds</h3>
-                <h2 style="text-align: center; font-size: 2.5rem; margin: 20px 0 5px; text-shadow: 0 0 15px rgba(0,163,255,0.4);" id="withdrawPointBalance">0.0000 TON</h2>
-                <p style="text-align: center; color: var(--text-body); margin-bottom: 25px;">Rate: 50,000 Pts = 1.00 TON</p>
-
-                <form id="withdrawalForm">
-                     <div style="border: 2px solid var(--primary-color); background: rgba(0, 163, 255, 0.05); padding: 20px; border-radius: var(--radius-btn); text-align: center; font-weight: bold; color: var(--text-title); margin-bottom: 20px;">
-                         <i class="fas fa-wallet" style="font-size: 1.5rem; color: var(--primary-color); margin-bottom: 8px;"></i><br>Tonkeeper Wallet
-                     </div>
-
-                     <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 10px;">
-                         <i class="fas fa-info-circle" style="color: var(--warning-color); margin-top: 2px;"></i>
-                         <div style="font-size: 0.85rem; line-height: 1.5; color: #D1D5DB;">
-                             <strong>Important Notice</strong><br>
-                             Minimum withdraw: 1500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.<br>
-                             <b style="color:var(--danger-color);">Note:</b> Tonkeeper bade onno Kono wrong address Dile payment back kora Hobe na!
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                        <label>Amount to Withdraw (Points)</label>
-                        <input type="number" id="withdrawalAmount" placeholder="Ex: 1500" required>
-                        <div id="realtime-ton-display" style="margin-top: 5px; font-size: 0.9rem; color: var(--success-color); font-weight: bold; display: none;">
-                            You Receive: <span id="calc-ton-val">0.0000</span> TON
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label>Tonkeeper Wallet Address</label>
-                        <input type="text" id="accountDetails" placeholder="Enter Tonkeeper address" required>
-                     </div>
-                     <button id="submitWithdrawalBtn" class="form-button">Submit Withdrawal</button>
-                </form>
-             </div>
-        </section>
     </main>
 
     <!-- BOTTOM NAVIGATION -->
@@ -346,10 +303,43 @@
         <a href="#" class="bottom-nav-item" data-tab-target="#ads-content"><i class="fas fa-play"></i> Ads</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i> Lottery</a>
         <a href="#" class="bottom-nav-item" data-tab-target="#task-content"><i class="fas fa-list"></i> Tasks</a>
-        <a href="#" class="bottom-nav-item" data-tab-target="#withdraw-content"><i class="fas fa-wallet"></i> Withdraw</a>
     </nav>
 
-    <!-- MODALS -->
+    <!-- === MODALS === -->
+
+    <!-- Withdraw Modal (Now accessible from Wallet Icon) -->
+    <div id="withdrawModalOverlay" class="modal-overlay">
+        <div class="modal-content" style="text-align: left;">
+            <h3 style="margin-top: 0; color: var(--primary-color); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;"><i class="fas fa-wallet"></i> Withdraw Funds</h3>
+            <h2 style="text-align: center; font-size: 2.2rem; margin: 15px 0 5px;" id="withdrawPointBalance">0.0000 TON</h2>
+            <p style="text-align: center; color: var(--text-body); margin-bottom: 25px; font-size: 0.9rem;">Rate: 50,000 Pts = 1.00 TON</p>
+
+            <form id="withdrawalForm">
+                 <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 10px;">
+                     <i class="fas fa-info-circle" style="color: var(--primary-color); margin-top: 2px;"></i>
+                     <div style="font-size: 0.85rem; line-height: 1.5; color: #D1D5DB;">
+                         <strong>Important Notice</strong><br>
+                         Minimum withdraw: 1500 Pts<br>Requirement: You need 1 Valid Referral per withdrawal.<br>
+                         <b style="color:var(--danger-color);">Note:</b> Please use only a valid Tonkeeper address. Payments sent to wrong addresses cannot be refunded!
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                    <label>Amount to Withdraw (Points)</label>
+                    <input type="number" id="withdrawalAmount" placeholder="Ex: 1500" required>
+                    <div id="realtime-ton-display" style="margin-top: 5px; font-size: 0.9rem; color: var(--success-color); font-weight: bold; display: none;">
+                        You Receive: <span id="calc-ton-val">0.0000</span> TON
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <label>Tonkeeper Wallet Address</label>
+                    <input type="text" id="accountDetails" placeholder="Enter Tonkeeper address" required>
+                 </div>
+                 <button id="submitWithdrawalBtn" class="form-button">Submit Request</button>
+                 <button type="button" class="form-button outline close-modal-btn" style="margin-top: 10px;">Close</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Promo Code Modal -->
     <div id="promoModalOverlay" class="modal-overlay">
@@ -360,7 +350,7 @@
                 <input type="text" id="promoCodeInput" placeholder="Enter Code Here">
             </div>
             <button id="claimPromoBtn" class="form-button">Claim Reward</button>
-            <button class="form-button close-modal-btn outline" style="margin-top: 10px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
+            <button class="form-button close-modal-btn outline" style="margin-top: 10px;">Close</button>
         </div>
     </div>
 
@@ -370,15 +360,15 @@
             <i class="fas fa-gift" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px;"></i>
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
-                When your friend registers: <b style="color:#A855F7">+1 Normal Invite</b><br>
+                When your friend registers: <b style="color:#FFFFFF;">+1 Normal Invite</b><br>
                 When friend watches 15 ads: <b style="color:var(--success-color);">+1 Valid Referral & 350 Pts!</b><br>
-                <span style="font-size: 0.75rem; color: var(--warning-color);">*1 Valid Referral unlocks 1 Withdrawal.</span>
+                <span style="font-size: 0.75rem; color: var(--text-body);">*1 Valid Referral unlocks 1 Withdrawal.</span>
             </p>
             <div class="input-group">
                <input type="text" id="modalReferralLinkInput" readonly value="Loading...">
                <button id="modalCopyReferralLinkBtn" class="form-button"><i class="fas fa-copy"></i></button>
             </div>
-            <button class="form-button close-modal-btn outline" style="margin-top: 10px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
+            <button class="form-button close-modal-btn outline" style="margin-top: 10px;">Close</button>
         </div>
     </div>
 
@@ -394,9 +384,9 @@
     <!-- History Modal -->
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="modal-content" style="max-height: 80vh; padding: 20px;">
-            <h3 style="margin-top:0; color: var(--primary-color);">History</h3>
-            <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left;"></div>
-            <button class="form-button close-modal-btn outline" style="margin-top: 15px; border-color:var(--border-subtle); color:var(--text-body);">Close</button>
+            <h3 style="margin-top:0; color: var(--primary-color); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;">History</h3>
+            <div id="combined-history-list" style="overflow-y: auto; flex-grow: 1; text-align: left; margin-top: 10px;"></div>
+            <button class="form-button close-modal-btn outline" style="margin-top: 15px;">Close</button>
         </div>
     </div>
 
@@ -443,17 +433,11 @@
         const REFERRAL_REWARD_POINTS = 350; 
         const POINTS_TO_TON_RATE = 0.00002; 
         
-        // --- NEW DAILY RESET LOGIC ---
-        // BD Time Onujayi ajker Date string ber kora
         function getTodayDateString() {
             return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
         }
 
-        const AD_CONFIG = { 
-            mixed: { limit: 20 }, 
-            monetag: { limit: 15 }, 
-            giga: { limit: 15 }
-        };
+        const AD_CONFIG = { mixed: { limit: 20 }, monetag: { limit: 15 }, giga: { limit: 15 } };
 
         const showMonetagAd = () => new Promise((res, rej) => typeof show_9442539 === 'function' ? show_9442539().then(res).catch(rej) : rej('Monetag missing'));
         const showGigaPubAd = () => new Promise((res, rej) => typeof window.showGiga === 'function' ? window.showGiga("main").then(res).catch(rej) : rej('GigaPub missing'));
@@ -500,21 +484,12 @@
             });
         }
 
-        // --- DAILY MIDNIGHT RESET HANDLER ---
-        // Ai function check korbe jodi user er lastResetDate ajker date na hoy, tahole fatiye sob zero kore dibe
         async function checkDailyReset(user) {
             const todayStr = getTodayDateString();
             if (user.lastResetDate !== todayStr) {
-                const updates = {
-                    adsWatchedMixed: 0,
-                    adsWatchedMonetag: 0,
-                    adsWatchedGiga: 0,
-                    dailyBonusClaimed: false,
-                    dailySpinsUsed: 0,
-                    lastResetDate: todayStr
-                };
-                Object.assign(user, updates); // local update
-                try { await updateDoc(doc(db, 'users', user.id), updates); } catch(e){} // backend update
+                const updates = { adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: todayStr };
+                Object.assign(user, updates); 
+                try { await updateDoc(doc(db, 'users', user.id), updates); } catch(e){} 
                 return true;
             }
             return false;
@@ -537,29 +512,18 @@
             const userId = String(tgUser.id);
             const userRef = doc(db, 'users', userId);
             let userSnap = await getDoc(userRef);
-
             const todayStr = getTodayDateString();
 
             if (!userSnap.exists()) {
                 const defaultUserData = {
-                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, 
-                    referralCount: 0, // This is Valid Referrals (who watched 15 ads)
-                    totalInvites: 0,  // This is Normal Invites (who just joined)
-                    spentReferrals: 0, completedTasks: [], 
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', 
-                    isBanned: false, isActivated: false, isGroupVerified: false, 
-                    lifetimeAdsWatched: 0, 
-                    adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
-                    dailyBonusClaimed: false, dailySpinsUsed: 0, 
-                    lastResetDate: todayStr // Setup Reset Date
+                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [], 
+                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false, isGroupVerified: false, 
+                    lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: todayStr 
                 };
 
-                // Track Normal Referrals instantly
                 if (referrerCode && referrerCode !== userId) {
                     defaultUserData.referredBy = referrerCode;
-                    try {
-                        await updateDoc(doc(db, 'users', referrerCode), { totalInvites: increment(1) });
-                    } catch(e) {}
+                    try { await updateDoc(doc(db, 'users', referrerCode), { totalInvites: increment(1) }); } catch(e) {}
                 }
                 await setDoc(userRef, defaultUserData);
                 userSnap = await getDoc(userRef);
@@ -568,7 +532,7 @@
             currentUser = { id: userSnap.id, ...userSnap.data() };
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center; margin-top:50px; color:red;">Account Banned</h3>`; return null; }
             
-            await checkDailyReset(currentUser); // Ensure ads are reset if new day
+            await checkDailyReset(currentUser); 
             updateBalanceUI(); 
             
             const link = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
@@ -580,7 +544,6 @@
 
         function updateAdButtonStats() {
             if(!currentUser) return;
-
             const updateButton = (btnId, limitId, count, maxLimit) => {
                 const btn = document.getElementById(btnId);
                 document.getElementById(limitId).textContent = `${count}/${maxLimit}`;
@@ -588,13 +551,12 @@
                 
                 if (count >= maxLimit) {
                     btn.disabled = true; btn.textContent = "Reset at 12:00 AM";
-                    btn.style.background = 'var(--disabled-bg)'; btn.style.color = 'var(--danger-color)';
+                    btn.style.background = 'var(--disabled-bg)'; btn.style.color = 'var(--text-body)'; btn.style.border = '1px solid var(--border-subtle)';
                 } else {
                     btn.disabled = false; btn.textContent = "Watch";
-                    btn.style.background = 'var(--primary-color)'; btn.style.color = '#fff';
+                    btn.style.background = 'var(--primary-color)'; btn.style.color = '#000'; btn.style.border = 'none';
                 }
             };
-
             updateButton('btn-watch-mixed', 'limit-mixed', currentUser.adsWatchedMixed || 0, AD_CONFIG.mixed.limit);
             updateButton('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, AD_CONFIG.monetag.limit);
             updateButton('btn-watch-giga', 'limit-giga', currentUser.adsWatchedGiga || 0, AD_CONFIG.giga.limit);
@@ -607,15 +569,11 @@
             document.getElementById('home-ton').textContent = equivalentTon.toFixed(4);
             document.getElementById('home-pts').textContent = Math.floor(points);
             document.getElementById('home-life').textContent = `${Math.floor(currentUser.lifetimePointsEarned || 0)} Pts`;
-            
             document.getElementById('home-normal-ref').textContent = currentUser.totalInvites || 0;
             document.getElementById('home-valid-ref').textContent = currentUser.referralCount || 0;
-
-            const withdrawDisplay = document.getElementById('withdrawPointBalance');
-            if(withdrawDisplay) withdrawDisplay.textContent = `${equivalentTon.toFixed(4)} TON`;
+            if(document.getElementById('withdrawPointBalance')) document.getElementById('withdrawPointBalance').textContent = `${equivalentTon.toFixed(4)} TON`;
         }
 
-        // --- AD WATCH EVENTS ---
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
             const watchCount = type === 'mixed' ? currentUser.adsWatchedMixed : type === 'monetag' ? currentUser.adsWatchedMonetag : currentUser.adsWatchedGiga;
             if((watchCount || 0) >= maxLimit) return;
@@ -630,24 +588,19 @@
         async function processAdReward(type, points) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1) };
-            
             if (type === 'mixed') updates.adsWatchedMixed = increment(1); 
             else if (type === 'monetag') updates.adsWatchedMonetag = increment(1); 
             else if (type === 'giga') updates.adsWatchedGiga = increment(1); 
 
             let totalAdsNow = (currentUser.adsWatchedMixed||0) + (currentUser.adsWatchedMonetag||0) + (currentUser.adsWatchedGiga||0) + 1;
             let bonusPoints = 0;
-            if(totalAdsNow >= 30 && !currentUser.dailyBonusClaimed) { 
-                bonusPoints = 40; updates.dailyBonusClaimed = true; 
-            }
+            if(totalAdsNow >= 30 && !currentUser.dailyBonusClaimed) { bonusPoints = 40; updates.dailyBonusClaimed = true; }
 
             const totalToGrant = points + bonusPoints;
             updates.pointBalance = increment(totalToGrant);
             updates.lifetimePointsEarned = increment(totalToGrant);
-            
             await updateDoc(userRef, updates);
 
-            // Valid Referral Logic (Triggers when user hits exactly 15 ads lifetime)
             const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
             if (currentAdsTotal === 15 && currentUser.referredBy) {
                 try {
@@ -655,26 +608,18 @@
                         const refDocRef = doc(db, 'users', currentUser.referredBy);
                         const refDoc = await t.get(refDocRef);
                         if(refDoc.exists()) {
-                            t.update(refDocRef, { 
-                                pointBalance: increment(REFERRAL_REWARD_POINTS), 
-                                lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS),
-                                referralCount: increment(1) // Increments Valid Referrals
-                            });
-                            t.set(doc(collection(db, 'transactions')), {
-                                userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp()
-                            });
+                            t.update(refDocRef, { pointBalance: increment(REFERRAL_REWARD_POINTS), lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS), referralCount: increment(1) });
+                            t.set(doc(collection(db, 'transactions')), { userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp() });
                         }
                     });
                 } catch(e) {}
             }
-
             let msg = `+${points} Points`;
-            if(bonusPoints > 0) msg += `<br><b style="color:#F59E0B">Daily Bonus: +40 Points!</b>`;
+            if(bonusPoints > 0) msg += `<br><b>Daily Bonus: +40 Points!</b>`;
             showSuccessModal("Ad Complete", msg);
             await fetchAndUpdateCurrentUser();
         }
 
-        // --- TASKS ---
         async function fetchAndRenderTasks() {
             const container = document.getElementById('task-list');
             container.innerHTML = '<div class="loader"></div>';
@@ -688,7 +633,7 @@
                     if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit)) return;
                     const card = document.createElement('div'); 
                     card.style = "background: var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;";
-                    card.innerHTML = `<div><h4 style="margin:0 0 5px; color:var(--text-title);">${task.title}</h4><p style="margin:0; font-size:0.85rem; color:var(--primary-color);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
+                    card.innerHTML = `<div><h4 style="margin:0 0 5px; color:var(--text-title);">${task.title}</h4><p style="margin:0; font-size:0.85rem; color:var(--text-body);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
                     container.appendChild(card); count++;
                 });
                 if (count === 0) container.innerHTML = '<p style="text-align:center;">No new tasks.</p>';
@@ -715,7 +660,12 @@
             }
         });
 
-        // --- WITHDRAW ---
+        // --- WITHDRAW LOGIC ---
+        document.getElementById('withdraw-modal-btn').addEventListener('click', () => {
+            document.getElementById('withdrawModalOverlay').classList.add('show');
+            updateBalanceUI(); // Ensure fresh balance is shown
+        });
+
         document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
             const amt = parseFloat(e.target.value);
             const display = document.getElementById('realtime-ton-display');
@@ -731,7 +681,6 @@
             if (!details || isNaN(amount) || amount < 1500) return alert('Min withdraw 1500 Pts and address required.');
             if ((currentUser.pointBalance || 0) < amount) return alert('Insufficient Points.');
             if (((currentUser.referralCount || 0) - (currentUser.spentReferrals || 0)) < 1) return alert("You need at least 1 Valid Referral to withdraw.");
-            
             if(!confirm(`Withdraw ${amount} Pts to Tonkeeper?\nCosts 1 Valid Referral.`)) return;
 
             isSubmittingWithdrawal = true;
@@ -742,9 +691,50 @@
                     t.set(doc(collection(db, 'withdrawals')), { userId: currentUser.id, method: 'Tonkeeper', details, status: 'pending', createdAt: serverTimestamp(), pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE });
                     t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(1) });
                 });
-                document.getElementById('withdrawalForm').reset(); showSuccessModal("Request Sent!", `Withdrawal pending.`);
+                document.getElementById('withdrawalForm').reset(); 
+                document.getElementById('withdrawModalOverlay').classList.remove('show');
+                showSuccessModal("Request Sent!", `Withdrawal pending.`);
                 await fetchAndUpdateCurrentUser(); 
             } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
+        });
+
+        // --- HISTORY LOGIC ---
+        document.getElementById('history-btn').addEventListener('click', async () => {
+            document.getElementById('historyModalOverlay').classList.add('show');
+            const container = document.getElementById('combined-history-list');
+            container.innerHTML = '<div class="loader"></div>';
+            try {
+                const wQ = query(collection(db, "withdrawals"), where("userId", "==", currentUser.id));
+                const tQ = query(collection(db, "transactions"), where("userId", "==", currentUser.id));
+                const [wSnap, tSnap] = await Promise.all([getDocs(wQ), getDocs(tQ)]);
+                
+                let list = [];
+                wSnap.forEach(d => list.push({ ...d.data(), isW: true, time: d.data().createdAt }));
+                tSnap.forEach(d => list.push({ ...d.data(), isW: false, time: d.data().createdAt }));
+                
+                list.sort((a, b) => (b.time?.toMillis() || 0) - (a.time?.toMillis() || 0));
+                list = list.slice(0, 20); // Show last 20
+                
+                if(list.length === 0) { container.innerHTML = '<p style="text-align:center;">No history found.</p>'; return; }
+                
+                container.innerHTML = list.map(d => {
+                    const date = d.time ? d.time.toDate().toLocaleDateString() : '';
+                    let title = d.type || "Transaction";
+                    let amt = d.pointAmount ? `+${d.pointAmount}` : `+${d.tonAmount} TON`;
+                    let color = "var(--success-color)";
+                    
+                    if(d.isW || d.type === 'Withdrawal') { 
+                        title = "Withdraw (" + d.status + ")"; 
+                        amt = `-${d.pointAmount} Pts`; 
+                        color = "var(--danger-color)"; 
+                    }
+                    
+                    return `<div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <div><strong style="display:block; color:var(--text-title); font-size:0.95rem;">${title}</strong><small style="color:var(--text-body); font-size:0.75rem;">${date}</small></div>
+                        <strong style="color:${color}; font-size:0.95rem;">${amt}</strong>
+                    </div>`;
+                }).join('');
+            } catch(e) { container.innerHTML = '<p style="text-align:center; color:red;">Failed to load history.</p>'; }
         });
 
         // --- PROMO CODE ---
@@ -792,8 +782,8 @@
 
         // --- LOTTERY ---
         class LotteryWheel {
-            constructor(cId) { this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0; this.seg = [{ l: "3 Pts", v: 3, c: "#1abc9c", w: 35 }, { l: "5 Pts", v: 5, c: "#2980b9", w: 30 }, { l: "7 Pts", v: 7, c: "#8e44ad", w: 20 }, { l: "9 Pts", v: 9, c: "#d35400", w: 10 }, { l: "12 Pts", v: 12, c: "#c0392b", w: 4 }, { l: "15 Pts", v: 15, c: "#f39c12", w: 1 }]; this.draw(); }
-            draw() { const a = (2*Math.PI)/this.seg.length; const cx = this.c.width/2; const cy = this.c.height/2; const r = cx; this.seg.forEach((s, i) => { this.ctx.beginPath(); this.ctx.moveTo(cx, cy); this.ctx.arc(cx, cy, r, i*a, (i+1)*a); this.ctx.fillStyle = s.c; this.ctx.fill(); this.ctx.lineWidth=4; this.ctx.strokeStyle="rgba(255,255,255,0.2)"; this.ctx.stroke(); this.ctx.save(); this.ctx.translate(cx, cy); this.ctx.rotate(i*a + a/2); this.ctx.textAlign="right"; this.ctx.fillStyle="#fff"; this.ctx.font="bold 34px Arial"; this.ctx.fillText(s.l, r-30, 12); this.ctx.restore(); }); }
+            constructor(cId) { this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0; this.seg = [{ l: "3 Pts", v: 3, c: "#333", w: 35 }, { l: "5 Pts", v: 5, c: "#555", w: 30 }, { l: "7 Pts", v: 7, c: "#777", w: 20 }, { l: "9 Pts", v: 9, c: "#999", w: 10 }, { l: "12 Pts", v: 12, c: "#BBB", w: 4 }, { l: "15 Pts", v: 15, c: "#DDD", w: 1 }]; this.draw(); }
+            draw() { const a = (2*Math.PI)/this.seg.length; const cx = this.c.width/2; const cy = this.c.height/2; const r = cx; this.seg.forEach((s, i) => { this.ctx.beginPath(); this.ctx.moveTo(cx, cy); this.ctx.arc(cx, cy, r, i*a, (i+1)*a); this.ctx.fillStyle = s.c; this.ctx.fill(); this.ctx.lineWidth=4; this.ctx.strokeStyle="rgba(0,0,0,0.5)"; this.ctx.stroke(); this.ctx.save(); this.ctx.translate(cx, cy); this.ctx.rotate(i*a + a/2); this.ctx.textAlign="right"; this.ctx.fillStyle = (i === 4 || i === 5) ? "#000" : "#FFF"; this.ctx.font="bold 34px Arial"; this.ctx.fillText(s.l, r-30, 12); this.ctx.restore(); }); }
             spin(resEl, cb) { const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){ s+=this.seg[i].w; if(rnd<=s) return i; } return 0;})(); const a = 360/this.seg.length; const tg = (wId*a)+(a/2); const fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360); this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn; resEl.innerText = "Spinning... 🌀"; setTimeout(() => { resEl.innerHTML = `Won ${this.seg[wId].l} 🎉`; if(cb) cb(this.seg[wId]); }, 4000); }
         }
         const wheel = new LotteryWheel("wheelCanvas");
@@ -803,8 +793,8 @@
             let left = 10 - (currentUser.dailySpinsUsed || 0);
             document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${left}/10`;
             const btn = document.getElementById("spinBtn");
-            if(left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; btn.style.background = 'var(--disabled-bg)'; }
-            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; btn.style.background = 'linear-gradient(90deg, #ff6b81, #ff4757)'; }
+            if(left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; btn.style.background = 'var(--disabled-bg)'; btn.style.color = 'var(--text-body)'; }
+            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; btn.style.background = 'var(--primary-color)'; btn.style.color = '#000'; }
         }
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
@@ -843,7 +833,7 @@
         async function main() {
             try {
                 if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;">Open in Telegram.</h3>`; return; }
-                tg.ready(); tg.expand(); tg.setHeaderColor('#0B0E14'); 
+                tg.ready(); tg.expand(); tg.setHeaderColor('#000000'); 
                 await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
                 document.getElementById('profile-id-display').querySelector('span').textContent = currentUser.id;
                 await checkMembershipAndEnforce();
