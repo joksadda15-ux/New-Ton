@@ -305,10 +305,10 @@
             <h3 class="section-title">Earn Tasks</h3>
             <!-- Task Tabs -->
             <div style="display:flex; gap:8px; margin-bottom:18px;">
-                <button id="tab-channel" onclick="switchTaskTab('channel')" style="flex:1; padding:10px 8px; border:1px solid var(--primary-color); background:var(--primary-color); color:#fff; border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                <button id="tab-channel" data-task-tab="channel" style="flex:1; padding:10px 8px; border:1px solid var(--primary-color); background:var(--primary-color); color:#fff; border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
                     <i class="fab fa-telegram-plane"></i> Channel / Group
                 </button>
-                <button id="tab-partner" onclick="switchTaskTab('partner')" style="flex:1; padding:10px 8px; border:1px solid var(--border-subtle); background:var(--card-bg); color:var(--text-body); border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                <button id="tab-partner" data-task-tab="partner" style="flex:1; padding:10px 8px; border:1px solid var(--border-subtle); background:var(--card-bg); color:var(--text-body); border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
                     <i class="fas fa-robot"></i> Partner Tasks
                 </button>
             </div>
@@ -656,107 +656,216 @@
             updateAdButtonStats();
         }
 
-        // ===== TASK SYSTEM WITH TELEGRAM CHANNEL/GROUP VERIFY =====
+        // ===== TASK SYSTEM — FIXED =====
         const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
         let activeTaskTab = 'channel';
         let tasksCacheChannel = null;
         let tasksCachePartner = null;
 
-        function switchTaskTab(tab) {
-            activeTaskTab = tab;
-            const btnChannel = document.getElementById('tab-channel');
-            const btnPartner = document.getElementById('tab-partner');
-            const listChannel = document.getElementById('task-list-channel');
-            const listPartner = document.getElementById('task-list-partner');
-            if (tab === 'channel') {
-                btnChannel.style.background = 'var(--primary-color)'; btnChannel.style.color = '#fff'; btnChannel.style.borderColor = 'var(--primary-color)';
-                btnPartner.style.background = 'var(--card-bg)'; btnPartner.style.color = 'var(--text-body)'; btnPartner.style.borderColor = 'var(--border-subtle)';
-                listChannel.style.display = 'grid'; listPartner.style.display = 'none';
-                if (!tasksCacheChannel) fetchAndRenderTasks('channel');
-            } else {
-                btnPartner.style.background = 'var(--primary-color)'; btnPartner.style.color = '#fff'; btnPartner.style.borderColor = 'var(--primary-color)';
-                btnChannel.style.background = 'var(--card-bg)'; btnChannel.style.color = 'var(--text-body)'; btnChannel.style.borderColor = 'var(--border-subtle)';
-                listPartner.style.display = 'grid'; listChannel.style.display = 'none';
-                if (!tasksCachePartner) fetchAndRenderTasks('partner');
-            }
-        }
-
-        async function verifyTaskJoin(taskId, channelId) {
-            // Uses GitHub API: /api/checkMember?userId=X&channel=@username
-            try {
-                const res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
-                const data = await res.json();
-                return data.joined === true;
-            } catch(e) { return false; }
-        }
-
-        async function fetchAndRenderTasks(category = 'channel') {
-            const containerId = category === 'channel' ? 'task-list-channel' : 'task-list-partner';
-            const container = document.getElementById(containerId);
-            container.innerHTML = '<div class="loader"></div>';
-            try {
-                // category field: 'channel' = Telegram channels/groups, 'partner' = bots/other
-                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), where("category", "==", category), orderBy("createdAt", "desc"), limit(20));
-                const snapshot = await getDocs(q);
-                if (category === 'channel') tasksCacheChannel = snapshot;
-                else tasksCachePartner = snapshot;
-                container.innerHTML = '';
-                let count = 0;
-                snapshot.forEach(docSnap => {
-                    const task = docSnap.data();
-                    if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit)) return;
-                    const isChannelTask = category === 'channel';
-                    const card = document.createElement('div'); 
-                    card.style = "background: var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; gap:10px;";
-                    const iconHtml = isChannelTask 
-                        ? `<i class="fab fa-telegram-plane" style="color:#2AABEE; font-size:1.1rem;"></i>` 
-                        : `<i class="fas fa-robot" style="color:var(--primary-color); font-size:1.1rem;"></i>`;
-                    card.innerHTML = `<div style="flex:1;">${iconHtml} <h4 style="margin:4px 0 3px; color:var(--text-title); display:inline; font-size:0.95rem;">${task.title}</h4><p style="margin:0; font-size:0.8rem; color:var(--text-body);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url || ''}" data-channel-id="${task.channelId || ''}" data-category="${category}" data-state="start">Join</button>`;
-                    container.appendChild(card); count++;
-                });
-                if (count === 0) container.innerHTML = '<p style="text-align:center; color:var(--text-body); padding:20px 0;">No tasks available.</p>';
-            } catch (error) { container.innerHTML = '<p style="text-align:center; color:var(--danger-color);">Failed to load tasks.</p>'; }
-        }
-
-        // Task click handler — works for both channel and partner tasks
+        // Tab buttons — use event delegation (fixes module scope issue)
         document.getElementById('task-content').addEventListener('click', async (e) => {
-            const button = e.target.closest('.task-button'); if (!button || button.disabled) return;
+
+            // ── TAB SWITCH ──
+            const tabBtn = e.target.closest('[data-task-tab]');
+            if (tabBtn) {
+                const tab = tabBtn.dataset.taskTab;
+                switchTaskTab(tab);
+                return;
+            }
+
+            // ── TASK BUTTON (Join / Verify) ──
+            const button = e.target.closest('.task-button');
+            if (!button || button.disabled) return;
+
             const { taskId, taskUrl, channelId, category, state } = button.dataset;
+            
+            // --- STATE: start → open link, countdown, then show Verify ---
             if (state === 'start') {
                 if (taskUrl) tg.openLink(taskUrl);
-                button.disabled = true; let c = 8; button.textContent = `Wait ${c}s`;
-                const t = setInterval(() => { c--; button.textContent = `Wait ${c}s`; if (c <= 0) { clearInterval(t); button.disabled = false; button.textContent = 'Verify'; button.dataset.state = 'claim'; } }, 1000);
-            } else if (state === 'claim') { 
-                button.disabled = true; button.textContent = 'Verifying...';
+                button.disabled = true;
+                let c = 8;
+                button.textContent = `Wait ${c}s`;
+                const t = setInterval(() => {
+                    c--;
+                    if (c > 0) {
+                        button.textContent = `Wait ${c}s`;
+                    } else {
+                        clearInterval(t);
+                        button.disabled = false;
+                        button.textContent = 'Verify';
+                        button.dataset.state = 'claim';
+                    }
+                }, 1000);
+
+            // --- STATE: claim → verify then reward ---
+            } else if (state === 'claim') {
+                button.disabled = true;
+                button.textContent = 'Checking...';
                 try {
-                    button.textContent = 'Checking...';
-                    // For channel/group tasks: verify via Telegram API first
+                    // Channel/Group tasks: verify membership via Telegram Bot API
                     if (category === 'channel' && channelId) {
-                        const joined = await verifyTaskJoin(taskId, channelId);
+                        const joined = await verifyTaskJoin(channelId);
                         if (!joined) {
-                            alert('⚠️ Please join the channel/group first, then verify!');
-                            button.disabled = false; button.textContent = 'Verify'; return;
+                            alert('⚠️ Please join the channel/group first, then tap Verify!');
+                            button.disabled = false;
+                            button.textContent = 'Verify';
+                            return;
                         }
                     }
+                    // Partner tasks: no membership check needed — just reward
                     const taskSnap = await getDoc(doc(db, 'tasks', taskId));
-                    if(!taskSnap.exists()) throw "Not found";
+                    if (!taskSnap.exists()) throw new Error('Task not found');
                     const taskData = taskSnap.data();
                     const reward = taskData.rewardPoints || 0;
-                    // writeBatch: 2 writes in 1 atomic round-trip
+
                     const batch = writeBatch(db);
-                    batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
+                    batch.update(doc(db, 'users', currentUser.id), {
+                        completedTasks: arrayUnion(taskId),
+                        pointBalance: increment(reward),
+                        lifetimePointsEarned: increment(reward)
+                    });
                     batch.update(doc(db, 'tasks', taskId), { completionCount: increment(1) });
                     await batch.commit();
-                    // LOCAL STATE UPDATE — no extra Firestore read
+
                     currentUser.completedTasks = [...(currentUser.completedTasks || []), taskId];
                     currentUser.pointBalance = (currentUser.pointBalance || 0) + reward;
                     currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + reward;
                     updateBalanceUI();
-                    showSuccessModal("Task Verified!", `+${reward} Points added!`);
-                    button.closest('div').remove();
-                } catch(err) { alert('Verification failed. Try again.'); button.disabled = false; button.textContent = 'Verify'; }
+                    showSuccessModal('Task Complete! 🎉', `+${reward} Points added!`);
+                    button.closest('div[data-task-card]').remove();
+                } catch(err) {
+                    alert('Verification failed. Please try again.');
+                    button.disabled = false;
+                    button.textContent = 'Verify';
+                }
             }
         });
+
+        function switchTaskTab(tab) {
+            activeTaskTab = tab;
+            const btnChannel  = document.getElementById('tab-channel');
+            const btnPartner  = document.getElementById('tab-partner');
+            const listChannel = document.getElementById('task-list-channel');
+            const listPartner = document.getElementById('task-list-partner');
+
+            if (tab === 'channel') {
+                btnChannel.style.background   = 'var(--primary-color)';
+                btnChannel.style.color        = '#fff';
+                btnChannel.style.borderColor  = 'var(--primary-color)';
+                btnPartner.style.background   = 'var(--card-bg)';
+                btnPartner.style.color        = 'var(--text-body)';
+                btnPartner.style.borderColor  = 'var(--border-subtle)';
+                listChannel.style.display = 'grid';
+                listPartner.style.display = 'none';
+                if (!tasksCacheChannel) fetchAndRenderTasks('channel');
+            } else {
+                btnPartner.style.background   = 'var(--primary-color)';
+                btnPartner.style.color        = '#fff';
+                btnPartner.style.borderColor  = 'var(--primary-color)';
+                btnChannel.style.background   = 'var(--card-bg)';
+                btnChannel.style.color        = 'var(--text-body)';
+                btnChannel.style.borderColor  = 'var(--border-subtle)';
+                listPartner.style.display = 'grid';
+                listChannel.style.display = 'none';
+                if (!tasksCachePartner) fetchAndRenderTasks('partner');
+            }
+        }
+
+        // Verify membership via Vercel API → Telegram Bot API
+        async function verifyTaskJoin(channelId) {
+            try {
+                const res = await fetch(
+                    `${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`
+                );
+                if (!res.ok) return false;
+                const data = await res.json();
+                return data.joined === true;
+            } catch(e) {
+                return false;
+            }
+        }
+
+        async function fetchAndRenderTasks(category = 'channel') {
+            const containerId = category === 'channel' ? 'task-list-channel' : 'task-list-partner';
+            const container   = document.getElementById(containerId);
+            container.innerHTML = '<div class="loader"></div>';
+
+            try {
+                const q = query(
+                    collection(db, 'tasks'),
+                    where('isApproved', '==', true),
+                    where('category',   '==', category),
+                    orderBy('createdAt', 'desc'),
+                    limit(30)
+                );
+                const snapshot = await getDocs(q);
+
+                if (category === 'channel') tasksCacheChannel = snapshot;
+                else                        tasksCachePartner  = snapshot;
+
+                container.innerHTML = '';
+                let count = 0;
+
+                snapshot.forEach(docSnap => {
+                    const task = docSnap.data();
+                    // skip already completed or full tasks
+                    if (
+                        currentUser.completedTasks?.includes(docSnap.id) ||
+                        ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit)
+                    ) return;
+
+                    const isChannel = category === 'channel';
+                    const iconHtml  = isChannel
+                        ? `<i class="fab fa-telegram-plane" style="color:#2AABEE; font-size:1.2rem;"></i>`
+                        : `<i class="fas fa-robot" style="color:var(--primary-color); font-size:1.2rem;"></i>`;
+
+                    const card = document.createElement('div');
+                    card.setAttribute('data-task-card', docSnap.id);
+                    card.style.cssText = `
+                        background: var(--card-bg);
+                        padding: 14px 15px;
+                        border-radius: 12px;
+                        border: 1px solid var(--border-subtle);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 12px;
+                    `;
+                    card.innerHTML = `
+                        <div style="flex:1; min-width:0;">
+                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                                ${iconHtml}
+                                <span style="font-size:0.92rem; font-weight:600; color:var(--text-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${task.title}</span>
+                            </div>
+                            <p style="margin:0; font-size:0.8rem; color:var(--success-color); font-weight:600;">+${task.rewardPoints || 5} Points</p>
+                        </div>
+                        <button
+                            class="task-button"
+                            data-task-id="${docSnap.id}"
+                            data-task-url="${task.url || ''}"
+                            data-channel-id="${task.channelId || ''}"
+                            data-category="${category}"
+                            data-state="start"
+                            style="flex-shrink:0;"
+                        >Join</button>
+                    `;
+                    container.appendChild(card);
+                    count++;
+                });
+
+                if (count === 0) {
+                    container.innerHTML = `<p style="text-align:center; color:var(--text-body); padding:30px 0;">No tasks available right now.</p>`;
+                }
+            } catch (error) {
+                console.error('Task load error:', error);
+                // If Firestore index missing, show helpful message
+                const isIndexError = error.message && error.message.includes('index');
+                const msg = isIndexError
+                    ? 'Firestore index not ready. Check console for index creation link.'
+                    : error.message;
+                container.innerHTML = `<p style="text-align:center; color:var(--danger-color); padding:20px 0;">Failed to load tasks.<br><small style="color:var(--text-body);">${msg}</small></p>`;
+            }
+        }
 
         // --- WITHDRAW LOGIC ---
         document.getElementById('withdraw-modal-btn').addEventListener('click', () => {
