@@ -303,7 +303,19 @@
         <!-- TASKS SECTION -->
         <section id="task-content" class="content-section">
             <h3 class="section-title">Earn Tasks</h3>
-            <div id="task-list" style="display: grid; gap: 16px;"></div>
+            <!-- Task Tabs -->
+            <div style="display:flex; gap:8px; margin-bottom:18px;">
+                <button id="tab-channel" onclick="switchTaskTab('channel')" style="flex:1; padding:10px 8px; border:1px solid var(--primary-color); background:var(--primary-color); color:#fff; border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <i class="fab fa-telegram-plane"></i> Channel / Group
+                </button>
+                <button id="tab-partner" onclick="switchTaskTab('partner')" style="flex:1; padding:10px 8px; border:1px solid var(--border-subtle); background:var(--card-bg); color:var(--text-body); border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <i class="fas fa-robot"></i> Partner Tasks
+                </button>
+            </div>
+            <!-- Channel/Group Task List -->
+            <div id="task-list-channel" style="display:grid; gap:16px;"></div>
+            <!-- Partner Task List -->
+            <div id="task-list-partner" style="display:none; gap:16px;"></div>
         </section>
 
     </main>
@@ -377,7 +389,7 @@
             <h3 style="margin-top: 0; color: var(--text-title);">Invite Friends & Earn</h3>
             <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-body); margin-bottom: 20px;">
                 When your friend registers: <b style="color:#A855F7;">+1 Normal Invite</b><br>
-                When friend watches 15 ads: <b style="color:var(--success-color);">+1 Valid Referral & 400 Pts!</b><br>
+                When friend watches 20 ads: <b style="color:var(--success-color);">+1 Valid Referral & 400 Pts!</b><br>
                 <span style="font-size: 0.75rem; color: var(--warning-color);">*1 Valid Referral unlocks 1 Withdrawal.</span>
             </p>
             <div class="input-group">
@@ -546,10 +558,11 @@
                     try { await updateDoc(doc(db, 'users', referrerCode), { totalInvites: increment(1) }); } catch(e) {}
                 }
                 await setDoc(userRef, defaultUserData);
-                userSnap = await getDoc(userRef);
+                // Skip extra getDoc — use defaultUserData directly (saves 1 read per new user)
+                currentUser = { id: userId, ...defaultUserData };
+            } else {
+                currentUser = { id: userSnap.id, ...userSnap.data() };
             }
-
-            currentUser = { id: userSnap.id, ...userSnap.data() };
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center; margin-top:50px; color:red;">Account Banned</h3>`; return null; }
             
             await checkDailyReset(currentUser); 
@@ -617,8 +630,16 @@
             updates.lifetimePointsEarned = increment(totalToGrant);
             await updateDoc(userRef, updates);
 
-            const currentAdsTotal = (currentUser.lifetimeAdsWatched || 0) + 1;
-            if (currentAdsTotal === 15 && currentUser.referredBy) {
+            // === LOCAL STATE UPDATE — no extra Firestore read ===
+            if (type === 'mixed') currentUser.adsWatchedMixed = (currentUser.adsWatchedMixed || 0) + 1;
+            else if (type === 'monetag') currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + 1;
+            else if (type === 'giga') currentUser.adsWatchedGiga = (currentUser.adsWatchedGiga || 0) + 1;
+            currentUser.lifetimeAdsWatched = (currentUser.lifetimeAdsWatched || 0) + 1;
+            currentUser.pointBalance = (currentUser.pointBalance || 0) + totalToGrant;
+            currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + totalToGrant;
+
+            const VALID_REF_ADS_REQUIRED = 20;
+            if (currentUser.lifetimeAdsWatched === VALID_REF_ADS_REQUIRED && currentUser.referredBy) {
                 try {
                     await runTransaction(db, async (t) => {
                         const refDocRef = doc(db, 'users', currentUser.referredBy);
@@ -630,48 +651,110 @@
                     });
                 } catch(e) {}
             }
-            let msg = `+${points} Points`;
-            showSuccessModal("Ad Complete", msg);
-            await fetchAndUpdateCurrentUser();
+            showSuccessModal("Ad Complete", `+${points} Points`);
+            updateBalanceUI();
+            updateAdButtonStats();
         }
 
-        async function fetchAndRenderTasks() {
-            const container = document.getElementById('task-list');
+        // ===== TASK SYSTEM WITH TELEGRAM CHANNEL/GROUP VERIFY =====
+        const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
+        let activeTaskTab = 'channel';
+        let tasksCacheChannel = null;
+        let tasksCachePartner = null;
+
+        function switchTaskTab(tab) {
+            activeTaskTab = tab;
+            const btnChannel = document.getElementById('tab-channel');
+            const btnPartner = document.getElementById('tab-partner');
+            const listChannel = document.getElementById('task-list-channel');
+            const listPartner = document.getElementById('task-list-partner');
+            if (tab === 'channel') {
+                btnChannel.style.background = 'var(--primary-color)'; btnChannel.style.color = '#fff'; btnChannel.style.borderColor = 'var(--primary-color)';
+                btnPartner.style.background = 'var(--card-bg)'; btnPartner.style.color = 'var(--text-body)'; btnPartner.style.borderColor = 'var(--border-subtle)';
+                listChannel.style.display = 'grid'; listPartner.style.display = 'none';
+                if (!tasksCacheChannel) fetchAndRenderTasks('channel');
+            } else {
+                btnPartner.style.background = 'var(--primary-color)'; btnPartner.style.color = '#fff'; btnPartner.style.borderColor = 'var(--primary-color)';
+                btnChannel.style.background = 'var(--card-bg)'; btnChannel.style.color = 'var(--text-body)'; btnChannel.style.borderColor = 'var(--border-subtle)';
+                listPartner.style.display = 'grid'; listChannel.style.display = 'none';
+                if (!tasksCachePartner) fetchAndRenderTasks('partner');
+            }
+        }
+
+        async function verifyTaskJoin(taskId, channelId) {
+            // Uses GitHub API: /api/checkMember?userId=X&channel=@username
+            try {
+                const res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
+                const data = await res.json();
+                return data.joined === true;
+            } catch(e) { return false; }
+        }
+
+        async function fetchAndRenderTasks(category = 'channel') {
+            const containerId = category === 'channel' ? 'task-list-channel' : 'task-list-partner';
+            const container = document.getElementById(containerId);
             container.innerHTML = '<div class="loader"></div>';
             try {
-                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), orderBy("createdAt", "desc"), limit(20));
+                // category field: 'channel' = Telegram channels/groups, 'partner' = bots/other
+                const q = query(collection(db, 'tasks'), where("isApproved", "==", true), where("category", "==", category), orderBy("createdAt", "desc"), limit(20));
                 const snapshot = await getDocs(q);
+                if (category === 'channel') tasksCacheChannel = snapshot;
+                else tasksCachePartner = snapshot;
                 container.innerHTML = '';
                 let count = 0;
                 snapshot.forEach(docSnap => {
                     const task = docSnap.data();
                     if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit || 0) > 0 && (task.completionCount || 0) >= task.limit)) return;
+                    const isChannelTask = category === 'channel';
                     const card = document.createElement('div'); 
-                    card.style = "background: var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;";
-                    card.innerHTML = `<div><h4 style="margin:0 0 5px; color:var(--text-title);">${task.title}</h4><p style="margin:0; font-size:0.85rem; color:var(--text-body);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url}" data-state="start">Go</button>`;
+                    card.style = "background: var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; gap:10px;";
+                    const iconHtml = isChannelTask 
+                        ? `<i class="fab fa-telegram-plane" style="color:#2AABEE; font-size:1.1rem;"></i>` 
+                        : `<i class="fas fa-robot" style="color:var(--primary-color); font-size:1.1rem;"></i>`;
+                    card.innerHTML = `<div style="flex:1;">${iconHtml} <h4 style="margin:4px 0 3px; color:var(--text-title); display:inline; font-size:0.95rem;">${task.title}</h4><p style="margin:0; font-size:0.8rem; color:var(--text-body);">${(task.rewardPoints || 5)} Points</p></div><button class="task-button" data-task-id="${docSnap.id}" data-task-url="${task.url || ''}" data-channel-id="${task.channelId || ''}" data-category="${category}" data-state="start">Join</button>`;
                     container.appendChild(card); count++;
                 });
-                if (count === 0) container.innerHTML = '<p style="text-align:center;">No new tasks.</p>';
-            } catch (error) {}
+                if (count === 0) container.innerHTML = '<p style="text-align:center; color:var(--text-body); padding:20px 0;">No tasks available.</p>';
+            } catch (error) { container.innerHTML = '<p style="text-align:center; color:var(--danger-color);">Failed to load tasks.</p>'; }
         }
 
-        document.getElementById('task-list').addEventListener('click', async (e) => {
+        // Task click handler — works for both channel and partner tasks
+        document.getElementById('task-content').addEventListener('click', async (e) => {
             const button = e.target.closest('.task-button'); if (!button || button.disabled) return;
-            const { taskId, taskUrl, state } = button.dataset;
+            const { taskId, taskUrl, channelId, category, state } = button.dataset;
             if (state === 'start') {
-                tg.openLink(taskUrl); button.disabled = true; let c = 6; button.textContent = `Wait ${c}s`;
-                const t = setInterval(() => { c--; button.textContent = `Wait ${c}s`; if (c <= 0) { clearInterval(t); button.disabled = false; button.textContent = 'Claim'; button.dataset.state = 'claim'; } }, 1000);
+                if (taskUrl) tg.openLink(taskUrl);
+                button.disabled = true; let c = 8; button.textContent = `Wait ${c}s`;
+                const t = setInterval(() => { c--; button.textContent = `Wait ${c}s`; if (c <= 0) { clearInterval(t); button.disabled = false; button.textContent = 'Verify'; button.dataset.state = 'claim'; } }, 1000);
             } else if (state === 'claim') { 
                 button.disabled = true; button.textContent = 'Verifying...';
                 try {
+                    button.textContent = 'Checking...';
+                    // For channel/group tasks: verify via Telegram API first
+                    if (category === 'channel' && channelId) {
+                        const joined = await verifyTaskJoin(taskId, channelId);
+                        if (!joined) {
+                            alert('⚠️ Please join the channel/group first, then verify!');
+                            button.disabled = false; button.textContent = 'Verify'; return;
+                        }
+                    }
                     const taskSnap = await getDoc(doc(db, 'tasks', taskId));
                     if(!taskSnap.exists()) throw "Not found";
-                    const reward = taskSnap.data().rewardPoints || 0;
-                    await updateDoc(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
-                    await updateDoc(doc(db, 'tasks', taskId), { completionCount: increment(1) });
-                    showSuccessModal("Task Verified!", `${reward} Points added.`);
-                    button.closest('div').remove(); fetchAndUpdateCurrentUser();
-                } catch(err) { alert('Failed'); button.disabled = false; button.textContent = 'Claim'; }
+                    const taskData = taskSnap.data();
+                    const reward = taskData.rewardPoints || 0;
+                    // writeBatch: 2 writes in 1 atomic round-trip
+                    const batch = writeBatch(db);
+                    batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
+                    batch.update(doc(db, 'tasks', taskId), { completionCount: increment(1) });
+                    await batch.commit();
+                    // LOCAL STATE UPDATE — no extra Firestore read
+                    currentUser.completedTasks = [...(currentUser.completedTasks || []), taskId];
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + reward;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + reward;
+                    updateBalanceUI();
+                    showSuccessModal("Task Verified!", `+${reward} Points added!`);
+                    button.closest('div').remove();
+                } catch(err) { alert('Verification failed. Try again.'); button.disabled = false; button.textContent = 'Verify'; }
             }
         });
 
@@ -709,7 +792,10 @@
                 document.getElementById('withdrawalForm').reset(); 
                 document.getElementById('withdrawModalOverlay').classList.remove('show');
                 showSuccessModal("Request Sent!", `Withdrawal pending.`);
-                await fetchAndUpdateCurrentUser(); 
+                // LOCAL STATE UPDATE — no extra Firestore read
+                currentUser.pointBalance = (currentUser.pointBalance || 0) - amount;
+                currentUser.spentReferrals = (currentUser.spentReferrals || 0) + 1;
+                updateBalanceUI();
             } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
         });
 
@@ -766,7 +852,15 @@
                     t.update(doc(db, 'users', currentUser.id), { pointBalance: increment(p.rewardAmount), lifetimePointsEarned: increment(p.rewardAmount) });
                     t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
                     return p.rewardAmount;
-                }).then((amt) => { document.getElementById('promoModalOverlay').classList.remove('show'); showSuccessModal("Success!", `Got ${amt} Pts.`); document.getElementById('promoCodeInput').value=""; fetchAndUpdateCurrentUser(); });
+                }).then((amt) => { 
+                    document.getElementById('promoModalOverlay').classList.remove('show'); 
+                    showSuccessModal("Success!", `Got ${amt} Pts.`); 
+                    document.getElementById('promoCodeInput').value=""; 
+                    // LOCAL STATE UPDATE — no extra Firestore read
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + amt;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + amt;
+                    updateBalanceUI();
+                });
             } catch(e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
@@ -783,7 +877,7 @@
                 e.preventDefault(); 
                 document.querySelectorAll('.bottom-nav-item, .content-section').forEach(el => el.classList.remove('active'));
                 link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
-                if(link.dataset.tabTarget === '#task-content') fetchAndRenderTasks();
+                if(link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if(link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
             });
         });
@@ -822,7 +916,12 @@
                 try {
                     await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: increment(1), pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
                     showSuccessModal("Won!", `Got ${pz.v} Pts!`);
-                } catch(e){} finally { btn.dataset.busy = "false"; await fetchAndUpdateCurrentUser(); }
+                    // LOCAL STATE UPDATE
+                    currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + pz.v;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
+                    updateBalanceUI(); updateLotteryUI();
+                } catch(e){} finally { btn.dataset.busy = "false"; btn.disabled = false; }
             });
         });
 
