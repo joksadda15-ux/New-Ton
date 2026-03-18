@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-  const { userId, channel } = req.query;
 
+  const { userId, channel } = req.query;
   const BOT_TOKEN = process.env.BOT_TOKEN;
 
   if (!userId || !channel) {
@@ -8,9 +8,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${channel}&user_id=${userId}`;
 
-    const response = await fetch(url);
+    const response = await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${channel}&user_id=${userId}`
+    );
+
     const data = await response.json();
 
     if (!data.ok) {
@@ -19,11 +21,15 @@ export default async function handler(req, res) {
 
     const status = data.result.status;
 
-    const joined = ["member", "administrator", "creator"].includes(status);
+    const joined =
+      status === "member" ||
+      status === "administrator" ||
+      status === "creator";
 
     res.json({ joined });
 
   } catch (error) {
     res.json({ joined: false });
   }
+
 }
