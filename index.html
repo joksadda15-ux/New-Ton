@@ -831,28 +831,53 @@
                         border-radius: 12px;
                         border: 1px solid var(--border-subtle);
                         display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        gap: 12px;
+                        flex-direction: column;
+                        gap: 10px;
                     `;
-                    card.innerHTML = `
-                        <div style="flex:1; min-width:0;">
-                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                                ${iconHtml}
-                                <span style="font-size:0.92rem; font-weight:600; color:var(--text-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${task.title}</span>
+
+                    if (isChannel) {
+                        // Channel: row layout (title left, button right)
+                        card.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                                <div style="flex:1; min-width:0;">
+                                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                                        ${iconHtml}
+                                        <span style="font-size:0.92rem; font-weight:600; color:var(--text-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${task.title}</span>
+                                    </div>
+                                    <p style="margin:0; font-size:0.8rem; color:var(--success-color); font-weight:600;">+${task.rewardPoints || 5} Points</p>
+                                </div>
+                                <button
+                                    class="task-button"
+                                    data-task-id="${docSnap.id}"
+                                    data-task-url="${task.url || ''}"
+                                    data-channel-id="${task.channelId || ''}"
+                                    data-category="${category}"
+                                    data-state="start"
+                                    style="flex-shrink:0; min-width:60px;"
+                                >Join</button>
                             </div>
-                            <p style="margin:0; font-size:0.8rem; color:var(--success-color); font-weight:600;">+${task.rewardPoints || 5} Points</p>
-                        </div>
-                        <button
-                            class="task-button"
-                            data-task-id="${docSnap.id}"
-                            data-task-url="${task.url || ''}"
-                            data-channel-id="${task.channelId || ''}"
-                            data-category="${category}"
-                            data-state="start"
-                            style="flex-shrink:0; ${!isChannel ? 'background: linear-gradient(135deg, #7C3AED, #A855F7); box-shadow: 0 4px 12px rgba(124,58,237,0.4);' : ''}"
-                        >${isChannel ? 'Join' : 'Go ➜'}</button>
-                    `;
+                        `;
+                    } else {
+                        // Partner: column layout — title on top, full-width button below
+                        card.innerHTML = `
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                ${iconHtml}
+                                <div style="flex:1; min-width:0;">
+                                    <span style="font-size:0.92rem; font-weight:600; color:var(--text-title); display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${task.title}</span>
+                                    <p style="margin:0; font-size:0.8rem; color:var(--success-color); font-weight:600;">+${task.rewardPoints || 5} Points</p>
+                                </div>
+                            </div>
+                            <button
+                                class="task-button"
+                                data-task-id="${docSnap.id}"
+                                data-task-url="${task.url || ''}"
+                                data-channel-id="${task.channelId || ''}"
+                                data-category="${category}"
+                                data-state="start"
+                                style="width:100%; padding:10px; font-size:0.9rem; background:linear-gradient(135deg, #7C3AED, #A855F7); box-shadow:0 4px 12px rgba(124,58,237,0.4); border-radius:8px; border:none; color:#fff; font-weight:600; cursor:pointer;"
+                            >🚀 Go & Complete Task</button>
+                        `;
+                    }
                     container.appendChild(card);
                     count++;
                 });
