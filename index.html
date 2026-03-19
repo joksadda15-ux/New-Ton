@@ -692,7 +692,11 @@
                     } else {
                         clearInterval(t);
                         button.disabled = false;
-                        button.textContent = 'Verify';
+                        button.textContent = category === 'partner' ? '✅ Claim' : 'Verify';
+                        if (category === 'partner') {
+                            button.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+                            button.style.boxShadow = '0 4px 12px rgba(16,185,129,0.4)';
+                        }
                         button.dataset.state = 'claim';
                     }
                 }, 1000);
@@ -846,8 +850,8 @@
                             data-channel-id="${task.channelId || ''}"
                             data-category="${category}"
                             data-state="start"
-                            style="flex-shrink:0;"
-                        >Join</button>
+                            style="flex-shrink:0; ${!isChannel ? 'background: linear-gradient(135deg, #7C3AED, #A855F7); box-shadow: 0 4px 12px rgba(124,58,237,0.4);' : ''}"
+                        >${isChannel ? 'Join' : 'Go ➜'}</button>
                     `;
                     container.appendChild(card);
                     count++;
