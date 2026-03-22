@@ -612,7 +612,7 @@
                     <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 </div>
 
-                <button id="spinBtn" class="btn" style="margin-top:22px; border-radius:50px; background:linear-gradient(135deg,#ff6b81,#ff4757); box-shadow:0 5px 18px rgba(255,71,87,0.45); padding:14px 30px; width:auto;">
+                <button id="spinBtn" class="btn" style="margin-top:22px; border-radius:50px; background:linear-gradient(135deg,#ff6b81,#ff4757); box-shadow:0 5px 18px rgba(255,71,87,0.45); padding:14px 30px; width:100%; max-width:280px; display:block; margin-left:auto; margin-right:auto;">
                     <i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)
                 </button>
                 <div id="lotteryResult" style="margin-top:16px; font-size:0.95rem; font-weight:600; min-height:24px; color:var(--text);">Test your luck!</div>
@@ -1405,18 +1405,20 @@
                                     </div>
                                     <p style="margin:0;font-size:0.78rem;color:var(--green);font-weight:600;">+${task.rewardPoints||5} Points</p>
                                 </div>
-                                <button class="btn task-btn" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;">Join</button>
+                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;padding:8px 14px;font-size:0.82rem;border-radius:9px;width:auto;">Join</button>
                             </div>`;
                     } else {
                         card.innerHTML = `
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                                ${iconHtml}
+                            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
                                 <div style="flex:1;min-width:0;">
-                                    <span style="font-size:0.9rem;font-weight:600;color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${task.title}</span>
+                                    <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
+                                        ${iconHtml}
+                                        <span style="font-size:0.9rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${task.title}</span>
+                                    </div>
                                     <p style="margin:0;font-size:0.78rem;color:var(--green);font-weight:600;">+${task.rewardPoints||5} Points</p>
                                 </div>
-                            </div>
-                            <button class="btn violet" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="width:100%;padding:10px;font-size:0.88rem;" >🚀 Go & Complete Task</button>`;
+                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;padding:8px 14px;font-size:0.82rem;border-radius:9px;width:auto;">Go</button>
+                            </div>`;
                     }
                     container.appendChild(card); count++;
                 });
