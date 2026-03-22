@@ -1408,16 +1408,22 @@
                                 <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;padding:8px 14px;font-size:0.82rem;border-radius:9px;width:auto;">Join</button>
                             </div>`;
                     } else {
+                        card.style.cssText = 'background:var(--card);border-radius:16px;border:1px solid rgba(168,85,247,0.25);overflow:hidden;position:relative;';
                         card.innerHTML = `
-                            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-                                <div style="flex:1;min-width:0;">
-                                    <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
-                                        ${iconHtml}
-                                        <span style="font-size:0.9rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${task.title}</span>
+                            <div style="background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(168,85,247,0.08));padding:14px 15px 12px;">
+                                <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;">
+                                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                        <i class="fas fa-robot" style="color:#A855F7;font-size:1rem;"></i>
                                     </div>
-                                    <p style="margin:0;font-size:0.78rem;color:var(--green);font-weight:600;">+${task.rewardPoints||5} Points</p>
+                                    <div style="flex:1;min-width:0;">
+                                        <div style="font-size:0.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${task.title}</div>
+                                        <div style="font-size:0.75rem;color:var(--green);font-weight:600;margin-top:2px;">+${task.rewardPoints||5} Points</div>
+                                    </div>
+                                    <div style="background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.4);border-radius:20px;padding:3px 10px;font-size:0.68rem;font-weight:700;color:#A855F7;letter-spacing:0.5px;white-space:nowrap;">PARTNER</div>
                                 </div>
-                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;padding:8px 14px;font-size:0.82rem;border-radius:9px;width:auto;">Go</button>
+                            </div>
+                            <div style="padding:10px 15px 13px;">
+                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="width:100%;padding:11px;font-size:0.88rem;background:linear-gradient(135deg,#7C3AED,#A855F7);border-radius:10px;box-shadow:0 4px 14px rgba(124,58,237,0.35);">🚀 Go & Complete Task</button>
                             </div>`;
                     }
                     container.appendChild(card); count++;
