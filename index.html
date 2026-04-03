@@ -233,7 +233,6 @@
         .ti-blue { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(0,163,255,0.3); }
         .ti-gold  { background: var(--gold-dim);    color: var(--gold);    border: 1px solid rgba(245,158,11,0.3); }
         .ti-violet{ background: var(--violet-dim);  color: var(--violet);  border: 1px solid rgba(168,85,247,0.3); }
-        .ti-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
 
         /* ── AD CARDS ── */
         .ad-card {
@@ -444,25 +443,6 @@
                 </div>
             </div>
 
-            <!-- DAILY WEBSITE VISIT TASK -->
-            <div class="card" style="margin-top: 16px; padding: 20px;">
-                <div class="section-title" style="margin-bottom: 14px; font-size: 1.1rem;">
-                    <div class="title-icon ti-green"><i class="fas fa-globe"></i></div>
-                    Daily Website Visit
-                </div>
-                <div class="info-bar" style="margin-bottom: 14px;">
-                    <i class="fas fa-clock"></i> Visit 5 times (15s each) to earn 50 Points!
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                    <span style="font-size: 0.88rem; color: var(--text2); font-weight: 500;">Progress Today:</span>
-                    <span id="visit-progress" style="font-weight:700; color:var(--primary); font-size: 0.95rem;">0/5</span>
-                </div>
-                <div style="width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; height:10px; margin-bottom:18px; overflow:hidden;">
-                    <div id="visit-progress-bar" style="width:0%; background:linear-gradient(90deg, var(--primary), var(--violet)); height:100%; transition: width 0.3s ease;"></div>
-                </div>
-                <button id="btn-daily-visit" class="btn"><i class="fas fa-external-link-alt"></i> Visit Website</button>
-            </div>
-
         </section>
 
         <!-- ══ ADS ══ -->
@@ -475,7 +455,7 @@
 
             <div class="info-bar">
                 <i class="fas fa-info-circle"></i>
-                Ads & Spins reset daily at <strong style="color:var(--primary); margin:0 3px;">12:00 AM</strong>.
+                Ads & History limits reset daily at <strong style="color:var(--primary); margin:0 3px;">12:00 AM</strong>.
             </div>
 
             <!-- Adsgram Special -->
@@ -589,8 +569,9 @@
                     PREMIUM WHEEL
                 </div>
 
-                <div id="spinLimitText" style="font-size:0.82rem; color:var(--green); background:var(--green-dim); border:1px solid rgba(16,185,129,0.25); padding:6px 16px; border-radius:20px; display:inline-block; margin-bottom:22px;">
-                    Remaining Spins Today: 10/10
+                <!-- Live Timer UI -->
+                <div id="spinLimitText" style="font-size:0.82rem; color:var(--green); background:var(--green-dim); border:1px solid rgba(16,185,129,0.25); padding:6px 16px; border-radius:20px; display:inline-block; margin-bottom:22px; transition:all 0.3s;">
+                    Loading Spin...
                 </div>
 
                 <div class="wheel-wrap">
@@ -736,7 +717,10 @@
                 <div class="modal-header-icon" style="background:var(--gold-dim); color:var(--gold); border:1px solid rgba(245,158,11,0.3);"><i class="fas fa-clock-rotate-left"></i></div>
                 <h3 class="modal-title">Transaction History</h3>
             </div>
-            <div id="combined-history-list" style="max-height:55vh; overflow-y:auto;"></div>
+            <div class="info-bar" style="margin-bottom: 12px; font-size: 0.75rem;">
+                <i class="fas fa-shield-alt"></i> You can view history up to 2 times per day.
+            </div>
+            <div id="combined-history-list" style="max-height:50vh; overflow-y:auto;"></div>
             <button class="btn ghost close-modal-btn" style="margin-top:14px;">Close</button>
         </div>
     </div>
@@ -781,6 +765,7 @@
         let currentUser = null;
         let isSubmittingWithdrawal = false;
         let isAdRunning = false; 
+        let spinTimerInterval = null;
 
         const REFERRAL_REWARD_POINTS = 400;
         const POINTS_TO_TON_RATE = 0.00002;
@@ -813,10 +798,34 @@
 
         const showFallbackAd = () => new Promise((res) => { setTimeout(res, 2000); });
 
+        const showAdsgramAd = async (blockId) => {
+            return new Promise((resolve) => {
+                if (window.Adsgram) {
+                    window.Adsgram.init({ blockId: blockId }).show()
+                    .then(() => resolve(true))
+                    .catch(() => resolve(false));
+                } else {
+                    resolve(false);
+                }
+            });
+        };
+
         async function showRandomAd() {
             try {
                 if (Math.random() < 0.5) { await showGigaPubAd(); } else { await showMonetagAd(); }
             } catch (e) { await showFallbackAd(); }
+        }
+
+        async function showRandomSpinAd() {
+            const r = Math.random();
+            if (r < 0.33) {
+                await showGigaPubAd();
+            } else if (r < 0.66) {
+                await showMonetagAd();
+            } else {
+                const success = await showAdsgramAd(AD_CONFIG.adsgram_daily.blockId);
+                if (!success) await showFallbackAd();
+            }
         }
 
         async function runAdAndVerifyTime(btnId, adFunc) {
@@ -863,8 +872,8 @@
                 const updates = { 
                     adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, 
                     adsWatchedAdsgramSpecial: 0, adsWatchedAdsgramDaily: 0, 
-                    dailyVisitRewardClaimed: false, 
-                    dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today 
+                    dailyHistoryViews: 0, 
+                    dailyBonusClaimed: false, lastResetDate: today 
                 };
                 Object.assign(user, updates);
                 try { await updateDoc(doc(db, 'users', user.id), updates); } catch (e) {}
@@ -881,7 +890,7 @@
                 if (snap.exists()) {
                     currentUser = { id: snap.id, ...snap.data() };
                     await checkDailyReset(currentUser);
-                    updateBalanceUI(); updateAdButtonStats(); updateVisitUI(); updateLotteryUI();
+                    updateBalanceUI(); updateAdButtonStats(); updateLotteryUI();
                 }
             } catch (e) {}
         }
@@ -904,8 +913,8 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks:[],
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false, isGroupVerified: false,
                     lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, 
-                    adsWatchedAdsgramSpecial: 0, adsWatchedAdsgramDaily: 0, dailyVisitRewardClaimed: false,
-                    dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today
+                    adsWatchedAdsgramSpecial: 0, adsWatchedAdsgramDaily: 0, dailyHistoryViews: 0,
+                    dailyBonusClaimed: false, lastSpinTime: 0, lastResetDate: today
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -919,7 +928,7 @@
 
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;color:#EF4444;">Account Banned.</h3>`; return null; }
             await checkDailyReset(currentUser);
-            updateBalanceUI(); updateVisitUI();
+            updateBalanceUI();
 
             document.getElementById('modalReferralLinkInput').value = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             updateAdButtonStats(); updateLotteryUI();
@@ -970,20 +979,6 @@
         document.getElementById('btn-watch-mixed').addEventListener('click',   () => handleAdClick('mixed',   'btn-watch-mixed',   AD_CONFIG.mixed.limit,   showRandomAd));
         document.getElementById('btn-watch-monetag').addEventListener('click', () => handleAdClick('monetag', 'btn-watch-monetag', AD_CONFIG.monetag.limit, showMonetagAd));
         document.getElementById('btn-watch-giga').addEventListener('click',    () => handleAdClick('giga',    'btn-watch-giga',    AD_CONFIG.giga.limit,    showGigaPubAd));
-
-        // ═════ ADSGRAM INTEGRATION ═════
-        const showAdsgramAd = async (blockId) => {
-            return new Promise((resolve) => {
-                if (window.Adsgram) {
-                    window.Adsgram.init({ blockId: blockId }).show()
-                    .then(() => resolve(true))
-                    .catch(() => resolve(false));
-                } else {
-                    alert("Adsgram framework failed to load. Please try again.");
-                    resolve(false);
-                }
-            });
-        };
 
         const handleAdsgramClick = async (type, btnId, maxLimit, blockId, rewardPoints) => {
             const count = type === 'adsgram_special' ? currentUser.adsWatchedAdsgramSpecial : currentUser.adsWatchedAdsgramDaily;
@@ -1049,112 +1044,6 @@
             updateBalanceUI(); updateAdButtonStats();
         }
 
-        // ═════ DAILY WEBSITE VISIT TASK ═════
-        function getDailyVisits() {
-            try {
-                const data = JSON.parse(localStorage.getItem('nt_daily_visits') || '{}');
-                if (data.date === getTodayDateString()) return data.count || 0;
-            } catch(e) {}
-            return 0;
-        }
-
-        function incrementDailyVisits() {
-            const current = getDailyVisits();
-            localStorage.setItem('nt_daily_visits', JSON.stringify({
-                date: getTodayDateString(),
-                count: current + 1
-            }));
-            return current + 1;
-        }
-
-        function updateVisitUI() {
-            if (!currentUser) return;
-            const progressEl = document.getElementById('visit-progress');
-            const barEl = document.getElementById('visit-progress-bar');
-            const btn = document.getElementById('btn-daily-visit');
-            
-            if (currentUser.dailyVisitRewardClaimed) {
-                progressEl.textContent = "5/5";
-                barEl.style.width = "100%";
-                btn.disabled = true;
-                btn.innerHTML = `<i class="fas fa-check-circle"></i> Completed`;
-                btn.style.background = "";
-            } else {
-                const visits = Math.min(getDailyVisits(), 5);
-                progressEl.textContent = `${visits}/5`;
-                barEl.style.width = `${(visits/5)*100}%`;
-                
-                if (visits >= 5) {
-                    btn.disabled = false;
-                    btn.innerHTML = `<i class="fas fa-gift"></i> Claim 50 Points`;
-                    btn.style.background = "var(--green)";
-                    btn.style.boxShadow = "0 4px 15px rgba(16,185,129,0.3)";
-                } else {
-                    btn.disabled = false;
-                    btn.innerHTML = `<i class="fas fa-external-link-alt"></i> Visit Website`;
-                    btn.style.background = "var(--primary)";
-                    btn.style.boxShadow = "none";
-                }
-            }
-        }
-
-        let isVisiting = false;
-        document.getElementById('btn-daily-visit').addEventListener('click', async () => {
-            if (isVisiting || currentUser.dailyVisitRewardClaimed) return;
-
-            const visits = getDailyVisits();
-            
-            if (visits >= 5) {
-                // Submit single Firebase Write to claim
-                isVisiting = true;
-                const btn = document.getElementById('btn-daily-visit');
-                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Claiming...`;
-                
-                try {
-                    await updateDoc(doc(db, 'users', currentUser.id), {
-                        dailyVisitRewardClaimed: true,
-                        pointBalance: increment(50),
-                        lifetimePointsEarned: increment(50)
-                    });
-                    currentUser.dailyVisitRewardClaimed = true;
-                    currentUser.pointBalance = (currentUser.pointBalance || 0) + 50;
-                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + 50;
-                    updateBalanceUI(); updateVisitUI();
-                    showSuccessModal("Task Complete! 🎉", "+50 Points added!");
-                } catch (e) {
-                    alert("Failed to claim reward. Try again.");
-                    updateVisitUI(); // reset button
-                }
-                isVisiting = false;
-                return;
-            }
-
-            const targetUrl = "https://www.profitablecpmratenetwork.com/x5ym9fzzyi?key=443fce3d0e91698e9efb03d03f841dd7";
-            if (window.Telegram?.WebApp?.openLink) {
-                window.Telegram.WebApp.openLink(targetUrl);
-            } else {
-                window.open(targetUrl, '_blank');
-            }
-            
-            isVisiting = true;
-            const btn = document.getElementById('btn-daily-visit');
-            btn.disabled = true;
-            
-            const duration = 15;
-            const endTime = Date.now() + duration * 1000;
-            
-            const interval = setInterval(() => {
-                const left = Math.ceil((endTime - Date.now()) / 1000);
-                if (left <= 0) {
-                    clearInterval(interval);
-                    incrementDailyVisits();
-                    updateVisitUI();
-                    isVisiting = false;
-                } else {
-                    btn.textContent = `Wait ${left}s...`;
-                }
-            }, 500);
-        });
 
         // ═════ TASK SYSTEM ═════
         const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
@@ -1352,12 +1241,25 @@
         });
 
         // ═════ MODALS & UI TRIGGERS ═════
+
+        // Firebase Read/Write Safe History System (Max 2 views per day)
         document.getElementById('history-btn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            if ((currentUser.dailyHistoryViews || 0) >= 2) {
+                alert("⚠️ Quota Reached: To save server resources, you can view your history maximum 2 times per day.");
+                return;
+            }
+
             document.getElementById('historyModalOverlay').classList.add('show');
             const container = document.getElementById('combined-history-list');
             container.innerHTML = '<div class="loader"></div>';
+
             try {
-                const [wSnap, tSnap] = await Promise.all([
+                // Instantly update view count locally and on server
+                await updateDoc(doc(db, 'users', currentUser.id), { dailyHistoryViews: increment(1) });
+                currentUser.dailyHistoryViews = (currentUser.dailyHistoryViews || 0) + 1;
+
+                const[wSnap, tSnap] = await Promise.all([
                     getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id))),
                     getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id)))
                 ]);
@@ -1416,7 +1318,7 @@
             setTimeout(() => document.getElementById('successModalOverlay').classList.remove('show'), 3000);
         }
 
-        // ═════ LOTTERY ═════
+        // ═════ LOTTERY (1 Hour Limits) ═════
         class LotteryWheel {
             constructor(cId) {
                 this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0;
@@ -1449,26 +1351,66 @@
         }
         const wheel = new LotteryWheel("wheelCanvas");
 
-        async function updateLotteryUI() {
+        function updateLotteryUI() {
             if (!currentUser) return;
-            const left = 10 - (currentUser.dailySpinsUsed || 0);
-            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${left}/10`;
+            clearInterval(spinTimerInterval);
             const btn = document.getElementById("spinBtn");
-            if (left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; }
-            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; }
+            const limitText = document.getElementById("spinLimitText");
+            
+            const checkTime = () => {
+                const now = Date.now();
+                const lastSpin = currentUser.lastSpinTime || 0;
+                const timeDiff = now - lastSpin;
+                const cooldown = 3600000; // 1 hour in ms
+                
+                if (timeDiff < cooldown) {
+                    const left = cooldown - timeDiff;
+                    const m = Math.floor(left / 60000);
+                    const s = Math.floor((left % 60000) / 1000);
+                    limitText.innerText = `Next Spin in: ${m}m ${s}s`;
+                    limitText.style.color = "var(--gold)";
+                    limitText.style.background = "var(--gold-dim)";
+                    limitText.style.borderColor = "rgba(245,158,11,0.25)";
+                    btn.innerHTML = `<i class="fas fa-clock"></i> Wait ${m}m ${s}s`;
+                    btn.disabled = true;
+                } else {
+                    limitText.innerText = `Spin is Ready!`;
+                    limitText.style.color = "var(--green)";
+                    limitText.style.background = "var(--green-dim)";
+                    limitText.style.borderColor = "rgba(16,185,129,0.25)";
+                    btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
+                    btn.disabled = false;
+                    clearInterval(spinTimerInterval); // stop polling if ready
+                }
+            };
+            
+            checkTime();
+            spinTimerInterval = setInterval(checkTime, 1000);
         }
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
-            if ((currentUser.dailySpinsUsed || 0) >= 10) return;
-            const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
-            const ok = await runAdAndVerifyTime('spinBtn', showRandomAd);
+            const now = Date.now();
+            const cooldown = 3600000;
+            if (now - (currentUser.lastSpinTime || 0) < cooldown) return;
+            
+            const btn = document.getElementById('spinBtn'); 
+            btn.dataset.busy = "true";
+            
+            // This will show a random ad from the 3 networks
+            const ok = await runAdAndVerifyTime('spinBtn', showRandomSpinAd);
             if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
+            
             btn.disabled = true; btn.innerHTML = 'Spinning...';
             wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
                 try {
-                    await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: increment(1), pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
+                    const newSpinTime = Date.now();
+                    await updateDoc(doc(db, 'users', currentUser.id), { 
+                        lastSpinTime: newSpinTime, 
+                        pointBalance: increment(pz.v), 
+                        lifetimePointsEarned: increment(pz.v) 
+                    });
                     showSuccessModal("You Won! 🎰", `+${pz.v} Points added!`);
-                    currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
+                    currentUser.lastSpinTime = newSpinTime;
                     currentUser.pointBalance = (currentUser.pointBalance || 0) + pz.v;
                     currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
                     updateBalanceUI(); updateLotteryUI();
