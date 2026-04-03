@@ -6,6 +6,9 @@
     <title>NEWTUBE TON - Earning Platform</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <!-- ADSGRAM INTEGRATION SCRIPT -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
@@ -15,7 +18,7 @@
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode == 123) return false;
-            if (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) return false;
+            if (e.ctrlKey && e.shiftKey &&['I','C','J'].includes(String.fromCharCode(e.keyCode))) return false;
             if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         }
     </script>
@@ -60,9 +63,7 @@
         }
 
         /* ── ANIMATED BG ── */
-        .bg-canvas {
-            position: fixed; inset: 0; z-index: -2; overflow: hidden;
-        }
+        .bg-canvas { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
         .bg-canvas::before {
             content: '';
             position: absolute; inset: 0;
@@ -70,7 +71,6 @@
                 radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,163,255,0.18) 0%, transparent 60%),
                 radial-gradient(ellipse 60% 40% at 80% 110%, rgba(168,85,247,0.14) 0%, transparent 60%);
         }
-        /* Animated grid lines */
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
             background-image:
@@ -81,11 +81,8 @@
         }
         @keyframes gridMove { 0%{background-position:0 0} 100%{background-position:40px 40px} }
 
-        /* Floating particles */
         .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        .particle {
-            position: absolute; border-radius: 50%; animation: float linear infinite;
-        }
+        .particle { position: absolute; border-radius: 50%; animation: float linear infinite; }
         @keyframes float {
             0%   { transform: translateY(100vh) scale(0); opacity: 0; }
             10%  { opacity: 1; }
@@ -123,7 +120,6 @@
         }
         .hbtn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 12px rgba(0,163,255,0.3); }
 
-        /* ── CONTAINER ── */
         .container { max-width: 780px; margin: 0 auto; padding: 0 14px; position: relative; z-index: 1; }
 
         /* ── PROFILE CARD ── */
@@ -135,16 +131,12 @@
         .profile-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--violet), var(--primary));
-            background-size: 200% 100%;
-            animation: shimmer 3s ease-in-out infinite;
+            background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite;
         }
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
         .profile-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-        .avatar-wrap {
-            position: relative; flex-shrink: 0;
-            width: 62px; height: 62px;
-        }
+        .avatar-wrap { position: relative; flex-shrink: 0; width: 62px; height: 62px; }
         .avatar-ring {
             width: 62px; height: 62px; border-radius: 50%;
             background: var(--primary-dim); border: 2px solid var(--primary);
@@ -186,25 +178,19 @@
         .bal-ton-label { font-size: 0.75rem; color: var(--primary); font-weight: 600; letter-spacing: 1px; margin-top: 2px; }
         .bal-pts { font-size: 1rem; color: var(--green); font-weight: 700; margin-top: 6px; }
 
-        /* ── STATS GRID ── */
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
         .stat-box {
             background: var(--input-bg); border: 1px solid var(--border);
             border-radius: 13px; padding: 12px 8px; text-align: center;
             transition: all 0.2s; position: relative; overflow: hidden;
         }
-        .stat-box::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-        }
+        .stat-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
         .stat-box.s1::after { background: var(--primary); }
         .stat-box.s2::after { background: var(--violet); }
         .stat-box.s3::after { background: var(--green); }
         .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; color: var(--text2); margin-bottom: 5px; }
         .stat-val { font-size: 1.1rem; font-weight: 700; color: var(--text); }
 
-        /* ── ACTION BUTTONS ── */
         .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
         .action-link-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
@@ -232,10 +218,7 @@
         .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
         .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid var(--border) !important; box-shadow: none !important; transform: none !important; }
         .btn:disabled::after { display: none; }
-        .task-btn {
-            padding: 8px 14px; font-size: 0.82rem; border-radius: 9px; width: auto;
-            flex-shrink: 0;
-        }
+        .task-btn { padding: 8px 14px; font-size: 0.82rem; border-radius: 9px; width: auto; flex-shrink: 0; }
 
         /* ── SECTION TITLES ── */
         .section-title {
@@ -250,6 +233,7 @@
         .ti-blue { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(0,163,255,0.3); }
         .ti-gold  { background: var(--gold-dim);    color: var(--gold);    border: 1px solid rgba(245,158,11,0.3); }
         .ti-violet{ background: var(--violet-dim);  color: var(--violet);  border: 1px solid rgba(168,85,247,0.3); }
+        .ti-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
 
         /* ── AD CARDS ── */
         .ad-card {
@@ -258,9 +242,7 @@
             position: relative; overflow: hidden; transition: all 0.25s;
         }
         .ad-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-1px); }
-        .ad-card-accent {
-            position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px 0 0 2px;
-        }
+        .ad-card-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px 0 0 2px; }
         .ad-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
         .ad-name { font-size: 0.98rem; font-weight: 700; color: var(--text); }
         .ad-network { font-size: 0.72rem; color: var(--text2); margin-top: 2px; }
@@ -272,15 +254,18 @@
         .ad-reward { font-size: 0.95rem; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 5px; }
         .ad-limit-text { font-size: 0.78rem; color: var(--text2); }
 
-        /* Ad card colors */
         .ad-mixed .ad-card-accent { background: linear-gradient(#00A3FF, #A855F7); }
         .ad-mixed .ad-badge { background: rgba(0,163,255,0.15); color: var(--primary); border: 1px solid rgba(0,163,255,0.3); }
         .ad-monetag .ad-card-accent { background: linear-gradient(#2AABEE, #00bfff); }
         .ad-monetag .ad-badge { background: rgba(42,171,238,0.15); color: #2AABEE; border: 1px solid rgba(42,171,238,0.3); }
         .ad-giga .ad-card-accent { background: linear-gradient(#FFD700, #F59E0B); }
         .ad-giga .ad-badge { background: rgba(255,215,0,0.15); color: #FFD700; border: 1px solid rgba(255,215,0,0.3); }
+        
+        .ad-adsgram-special .ad-card-accent { background: linear-gradient(#FF007A, #7928CA); }
+        .ad-adsgram-special .ad-badge { background: rgba(255,0,122,0.15); color: #FF007A; border: 1px solid rgba(255,0,122,0.3); }
+        .ad-adsgram-daily .ad-card-accent { background: linear-gradient(#00E1D9, #007AFF); }
+        .ad-adsgram-daily .ad-badge { background: rgba(0,225,217,0.15); color: #00E1D9; border: 1px solid rgba(0,225,217,0.3); }
 
-        /* info bar */
         .info-bar {
             background: rgba(0,163,255,0.06); border: 1px solid rgba(0,163,255,0.15);
             border-radius: 12px; padding: 10px 14px; margin-bottom: 16px;
@@ -288,7 +273,6 @@
         }
         .info-bar i { color: var(--primary); flex-shrink: 0; }
 
-        /* ── GENERIC CARD ── */
         .card {
             background: var(--card); border: 1px solid var(--border);
             border-radius: var(--r-card); padding: 20px; margin-bottom: 16px;
@@ -318,22 +302,17 @@
         .nav-item {
             flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
             text-decoration: none; color: var(--disabled-text); font-size: 0.68rem;
-            font-weight: 600; transition: all 0.25s; padding: 4px 0;
-            position: relative;
+            font-weight: 600; transition: all 0.25s; padding: 4px 0; position: relative;
         }
         .nav-item i { font-size: 1.1rem; transition: all 0.25s; }
         .nav-item.active { color: var(--primary); }
-        .nav-item.active i {
-            color: var(--primary);
-            filter: drop-shadow(0 0 6px rgba(0,163,255,0.7));
-        }
+        .nav-item.active i { color: var(--primary); filter: drop-shadow(0 0 6px rgba(0,163,255,0.7)); }
         .nav-item.active::before {
             content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
             width: 30px; height: 2px; background: var(--primary); border-radius: 2px;
             box-shadow: 0 0 8px rgba(0,163,255,0.6);
         }
 
-        /* ── CONTENT SECTIONS ── */
         .content-section { display: none; animation: fadeUp 0.3s ease forwards; }
         .content-section.active { display: block; }
         @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
@@ -357,98 +336,48 @@
         }
         @keyframes modalPop { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
         .modal-header {
-            display: flex; align-items: center; gap: 10px;
-            padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 10px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--border);
         }
-        .modal-header-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; font-size: 1rem;
-        }
+        .modal-header-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
         .modal-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 0; }
 
-        /* ── WITHDRAW TIERS ── */
-        .tier-info {
-            background: var(--input-bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
-        }
+        .tier-info { background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
         .tier-info-title { font-size: 0.78rem; font-weight: 700; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .tier-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem;
-        }
+        .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
         .tier-row:last-child { border-bottom: none; }
         .tier-range { color: var(--text2); }
         .tier-ref { font-weight: 700; color: var(--gold); }
         .tier-active { background: rgba(0,163,255,0.08); border-radius: 6px; padding: 5px 8px; }
         .tier-active .tier-range { color: var(--primary); }
 
-        .required-refs-display {
-            text-align: center; padding: 10px; background: var(--primary-dim);
-            border: 1px solid rgba(0,163,255,0.3); border-radius: 10px;
-            margin-bottom: 14px; font-size: 0.85rem;
-        }
+        .required-refs-display { text-align: center; padding: 10px; background: var(--primary-dim); border: 1px solid rgba(0,163,255,0.3); border-radius: 10px; margin-bottom: 14px; font-size: 0.85rem; }
         .required-refs-display strong { color: var(--primary); font-size: 1.1rem; }
-
-        .notice-box {
-            background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25);
-            border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;
-            font-size: 0.78rem; line-height: 1.5; color: var(--text2); display: flex; gap: 8px;
-        }
+        .notice-box { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px; font-size: 0.78rem; line-height: 1.5; color: var(--text2); display: flex; gap: 8px; }
         .notice-box i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
-        .ton-preview {
-            margin-top: 6px; font-size: 0.82rem; color: var(--green); font-weight: 700; display: none;
-        }
+        .ton-preview { margin-top: 6px; font-size: 0.82rem; color: var(--green); font-weight: 700; display: none; }
 
-        /* ── LOTTERY ── */
         .wheel-wrap { position: relative; width: 240px; height: 240px; margin: 0 auto 20px; }
-        #wheelCanvas {
-            width: 100%; height: 100%; border-radius: 50%;
-            box-shadow: 0 0 0 5px var(--border), 0 0 20px rgba(0,163,255,0.3);
-            transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05);
-        }
-        .spin-pointer {
-            position: absolute; top: 50%; right: -12px; transform: translateY(-50%);
-            width: 0; height: 0;
-            border-top: 10px solid transparent; border-bottom: 10px solid transparent;
-            border-right: 22px solid #ff4757; z-index: 10;
-            filter: drop-shadow(-2px 2px 3px rgba(0,0,0,0.5));
-        }
-        #confettiCanvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 0 5px var(--border), 0 0 20px rgba(0,163,255,0.3); transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05); }
+        .spin-pointer { position: absolute; top: 50%; right: -12px; transform: translateY(-50%); width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-right: 22px solid #ff4757; z-index: 10; filter: drop-shadow(-2px 2px 3px rgba(0,0,0,0.5)); }
 
-        /* ── VERIFICATION MODAL ── */
-        .verify-link-btn {
-            display: flex; align-items: center; gap: 10px;
-            background: var(--input-bg); border: 1px solid var(--border);
-            color: var(--text); padding: 13px 16px; border-radius: 12px;
-            text-decoration: none; font-weight: 500; font-size: 0.92rem;
-            transition: all 0.2s; margin-bottom: 10px;
-        }
+        .verify-link-btn { display: flex; align-items: center; gap: 10px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 13px 16px; border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; margin-bottom: 10px; }
         .verify-link-btn:hover { border-color: var(--primary); color: var(--primary); }
         .verify-link-btn i { color: var(--primary); font-size: 1.1rem; }
 
-        /* ── TASK TABS ── */
         .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-        .tab-btn {
-            flex: 1; padding: 10px 8px; border-radius: 11px; border: 1px solid var(--border);
-            background: var(--card); color: var(--text2); font-weight: 600; font-size: 0.84rem;
-            cursor: pointer; transition: all 0.2s; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
-        }
+        .tab-btn { flex: 1; padding: 10px 8px; border-radius: 11px; border: 1px solid var(--border); background: var(--card); color: var(--text2); font-weight: 600; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,163,255,0.35); }
 
-        /* ── SUCCESS MODAL ── */
         .success-icon { font-size: 3rem; margin-bottom: 12px; animation: iconBounce 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
         @keyframes iconBounce { from{transform:scale(0)} to{transform:scale(1)} }
     </style>
 </head>
 <body>
 
-    <!-- ANIMATED BACKGROUND -->
     <div class="bg-canvas"></div>
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- HEADER -->
     <header class="main-header">
         <div class="site-branding">
             <div class="logo-ring"><i class="fas fa-bolt"></i></div>
@@ -515,6 +444,25 @@
                 </div>
             </div>
 
+            <!-- DAILY WEBSITE VISIT TASK -->
+            <div class="card" style="margin-top: 16px; padding: 20px;">
+                <div class="section-title" style="margin-bottom: 14px; font-size: 1.1rem;">
+                    <div class="title-icon ti-green"><i class="fas fa-globe"></i></div>
+                    Daily Website Visit
+                </div>
+                <div class="info-bar" style="margin-bottom: 14px;">
+                    <i class="fas fa-clock"></i> Visit 5 times (15s each) to earn 50 Points!
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                    <span style="font-size: 0.88rem; color: var(--text2); font-weight: 500;">Progress Today:</span>
+                    <span id="visit-progress" style="font-weight:700; color:var(--primary); font-size: 0.95rem;">0/5</span>
+                </div>
+                <div style="width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; height:10px; margin-bottom:18px; overflow:hidden;">
+                    <div id="visit-progress-bar" style="width:0%; background:linear-gradient(90deg, var(--primary), var(--violet)); height:100%; transition: width 0.3s ease;"></div>
+                </div>
+                <button id="btn-daily-visit" class="btn"><i class="fas fa-external-link-alt"></i> Visit Website</button>
+            </div>
+
         </section>
 
         <!-- ══ ADS ══ -->
@@ -527,7 +475,45 @@
 
             <div class="info-bar">
                 <i class="fas fa-info-circle"></i>
-                Ads & Spins reset daily at <strong style="color:var(--primary); margin:0 3px;">12:00 AM</strong>. Each network shows its own ads only.
+                Ads & Spins reset daily at <strong style="color:var(--primary); margin:0 3px;">12:00 AM</strong>.
+            </div>
+
+            <!-- Adsgram Special -->
+            <div class="ad-card ad-adsgram-special">
+                <div class="ad-card-accent"></div>
+                <div class="ad-card-top">
+                    <div>
+                        <div class="ad-name">🌟 Special View</div>
+                        <div class="ad-network">Adsgram Network — Premium Ads</div>
+                    </div>
+                    <div>
+                        <div class="ad-badge">ADSGRAM</div>
+                        <div class="ad-limit-text" style="text-align:right; margin-top:4px;" id="limit-adsgram-special">0/10</div>
+                    </div>
+                </div>
+                <div class="ad-card-bottom">
+                    <div class="ad-reward"><i class="fas fa-coins"></i> +15 Points</div>
+                    <button id="btn-watch-adsgram-special" class="btn task-btn">Watch</button>
+                </div>
+            </div>
+
+            <!-- Adsgram Daily -->
+            <div class="ad-card ad-adsgram-daily">
+                <div class="ad-card-accent"></div>
+                <div class="ad-card-top">
+                    <div>
+                        <div class="ad-name">📅 Daily View</div>
+                        <div class="ad-network">Adsgram Network — Standard Ads</div>
+                    </div>
+                    <div>
+                        <div class="ad-badge">ADSGRAM</div>
+                        <div class="ad-limit-text" style="text-align:right; margin-top:4px;" id="limit-adsgram-daily">0/15</div>
+                    </div>
+                </div>
+                <div class="ad-card-bottom">
+                    <div class="ad-reward"><i class="fas fa-coins"></i> +10 Points</div>
+                    <button id="btn-watch-adsgram-daily" class="btn task-btn">Watch</button>
+                </div>
             </div>
 
             <!-- Mixed -->
@@ -666,35 +652,16 @@
                 <div style="font-size:0.75rem; color:var(--text2); margin-top:3px;">Rate: 50,000 Pts = 1.00 TON</div>
             </div>
 
-            <!-- Tier Table -->
             <div class="tier-info">
                 <div class="tier-info-title"><i class="fas fa-layer-group" style="margin-right:5px;"></i>Referral Requirements</div>
-                <div class="tier-row" id="tier-row-1">
-                    <span class="tier-range">1 – 1,500 Pts</span>
-                    <span class="tier-ref">1 Valid Ref</span>
-                </div>
-                <div class="tier-row" id="tier-row-2">
-                    <span class="tier-range">1,501 – 3,000 Pts</span>
-                    <span class="tier-ref">2 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-3">
-                    <span class="tier-range">3,001 – 4,500 Pts</span>
-                    <span class="tier-ref">3 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-4">
-                    <span class="tier-range">4,501 – 6,000 Pts</span>
-                    <span class="tier-ref">4 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-5">
-                    <span class="tier-range">6,001+ Pts</span>
-                    <span class="tier-ref">5 Valid Refs</span>
-                </div>
+                <div class="tier-row" id="tier-row-1"><span class="tier-range">1 – 1,500 Pts</span><span class="tier-ref">1 Valid Ref</span></div>
+                <div class="tier-row" id="tier-row-2"><span class="tier-range">1,501 – 3,000 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-3"><span class="tier-range">3,001 – 4,500 Pts</span><span class="tier-ref">3 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-4"><span class="tier-range">4,501 – 6,000 Pts</span><span class="tier-ref">4 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-5"><span class="tier-range">6,001+ Pts</span><span class="tier-ref">5 Valid Refs</span></div>
             </div>
 
-            <!-- Live required refs display -->
-            <div class="required-refs-display" id="requiredRefsDisplay">
-                Enter amount to see required referrals
-            </div>
+            <div class="required-refs-display" id="requiredRefsDisplay">Enter amount to see required referrals</div>
 
             <div class="notice-box">
                 <i class="fas fa-triangle-exclamation"></i>
@@ -725,15 +692,11 @@
     <div id="promoModalOverlay" class="modal-overlay">
         <div class="modal-box" style="max-width:310px;">
             <div class="modal-header">
-                <div class="modal-header-icon" style="background:var(--violet-dim); color:var(--violet); border:1px solid rgba(168,85,247,0.3);">
-                    <i class="fas fa-ticket-alt"></i>
-                </div>
+                <div class="modal-header-icon" style="background:var(--violet-dim); color:var(--violet); border:1px solid rgba(168,85,247,0.3);"><i class="fas fa-ticket-alt"></i></div>
                 <h3 class="modal-title">Promo Code</h3>
             </div>
             <p style="font-size:0.84rem; color:var(--text2); margin:0 0 14px;">Enter a promo code to claim your reward. Watching 1 ad is required.</p>
-            <div class="form-group">
-                <input type="text" id="promoCodeInput" placeholder="Enter code here">
-            </div>
+            <div class="form-group"><input type="text" id="promoCodeInput" placeholder="Enter code here"></div>
             <button id="claimPromoBtn" class="btn" style="margin-bottom:10px;">Claim Reward</button>
             <button class="btn ghost close-modal-btn">Close</button>
         </div>
@@ -770,9 +733,7 @@
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-header-icon" style="background:var(--gold-dim); color:var(--gold); border:1px solid rgba(245,158,11,0.3);">
-                    <i class="fas fa-clock-rotate-left"></i>
-                </div>
+                <div class="modal-header-icon" style="background:var(--gold-dim); color:var(--gold); border:1px solid rgba(245,158,11,0.3);"><i class="fas fa-clock-rotate-left"></i></div>
                 <h3 class="modal-title">Transaction History</h3>
             </div>
             <div id="combined-history-list" style="max-height:55vh; overflow-y:auto;"></div>
@@ -819,7 +780,7 @@
 
         let currentUser = null;
         let isSubmittingWithdrawal = false;
-        let isAdRunning = false; // Global ad lock — prevents chain/concurrent ads
+        let isAdRunning = false; 
 
         const REFERRAL_REWARD_POINTS = 400;
         const POINTS_TO_TON_RATE = 0.00002;
@@ -828,17 +789,17 @@
             return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
         }
 
-        const AD_CONFIG = { mixed: { limit: 20 }, monetag: { limit: 15 }, giga: { limit: 15 } };
+        const AD_CONFIG = { 
+            mixed: { limit: 20 }, 
+            monetag: { limit: 15 }, 
+            giga: { limit: 15 },
+            adsgram_special: { limit: 10, blockId: "22908", points: 15 },
+            adsgram_daily: { limit: 15, blockId: "int-21249", points: 10 }
+        };
 
-        // ════════════════════════════════════════════
-        // FIX 1: SEPARATE AD NETWORKS — no cross-mixing
-        // Monetag button → Monetag only
-        // GigaPub button → GigaPub only
-        // Mixed button   → randomly picks one each time
-        // ════════════════════════════════════════════
         const showMonetagAd = () => new Promise((res) => {
             if (typeof show_9442539 === 'function') {
-                const t = setTimeout(res, 15000); // safety timeout
+                const t = setTimeout(res, 15000); 
                 show_9442539().then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
             } else { setTimeout(res, 2000); }
         });
@@ -852,17 +813,12 @@
 
         const showFallbackAd = () => new Promise((res) => { setTimeout(res, 2000); });
 
-        // Mixed = random choice between the two networks, once per click
         async function showRandomAd() {
             try {
-                if (Math.random() < 0.5) { await showGigaPubAd(); }
-                else { await showMonetagAd(); }
+                if (Math.random() < 0.5) { await showGigaPubAd(); } else { await showMonetagAd(); }
             } catch (e) { await showFallbackAd(); }
         }
 
-        // ════════════════════════════════════════════
-        // AD TIMER + GLOBAL LOCK (prevents double ads)
-        // ════════════════════════════════════════════
         async function runAdAndVerifyTime(btnId, adFunc) {
             if (isAdRunning) { alert("⚠️ Please wait, an ad is already playing."); return false; }
             const btn = document.getElementById(btnId);
@@ -904,7 +860,12 @@
         async function checkDailyReset(user) {
             const today = getTodayDateString();
             if (user.lastResetDate !== today) {
-                const updates = { adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today };
+                const updates = { 
+                    adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, 
+                    adsWatchedAdsgramSpecial: 0, adsWatchedAdsgramDaily: 0, 
+                    dailyVisitRewardClaimed: false, 
+                    dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today 
+                };
                 Object.assign(user, updates);
                 try { await updateDoc(doc(db, 'users', user.id), updates); } catch (e) {}
                 return true;
@@ -912,7 +873,6 @@
             return false;
         }
 
-        // Fetch fresh data — rate-limited to once per 3 minutes
         let lastRefreshTime = 0;
         async function fetchAndUpdateCurrentUser() {
             if (!currentUser?.id) return;
@@ -921,7 +881,7 @@
                 if (snap.exists()) {
                     currentUser = { id: snap.id, ...snap.data() };
                     await checkDailyReset(currentUser);
-                    updateBalanceUI(); updateAdButtonStats(); updateLotteryUI();
+                    updateBalanceUI(); updateAdButtonStats(); updateVisitUI(); updateLotteryUI();
                 }
             } catch (e) {}
         }
@@ -941,9 +901,11 @@
 
             if (!userSnap.exists()) {
                 const data = {
-                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [],
+                    tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks:[],
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false, isGroupVerified: false,
-                    lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today
+                    lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, 
+                    adsWatchedAdsgramSpecial: 0, adsWatchedAdsgramDaily: 0, dailyVisitRewardClaimed: false,
+                    dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -957,7 +919,7 @@
 
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;color:#EF4444;">Account Banned.</h3>`; return null; }
             await checkDailyReset(currentUser);
-            updateBalanceUI();
+            updateBalanceUI(); updateVisitUI();
 
             document.getElementById('modalReferralLinkInput').value = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             updateAdButtonStats(); updateLotteryUI();
@@ -968,6 +930,7 @@
             if (!currentUser) return;
             const upd = (btnId, limitId, count, max) => {
                 const btn = document.getElementById(btnId);
+                if (!btn) return;
                 document.getElementById(limitId).textContent = `${count}/${max}`;
                 if (btn.dataset.busy === "true") return;
                 if (count >= max) {
@@ -980,6 +943,8 @@
             upd('btn-watch-mixed',   'limit-mixed',   currentUser.adsWatchedMixed   || 0, AD_CONFIG.mixed.limit);
             upd('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, AD_CONFIG.monetag.limit);
             upd('btn-watch-giga',    'limit-giga',    currentUser.adsWatchedGiga    || 0, AD_CONFIG.giga.limit);
+            upd('btn-watch-adsgram-special', 'limit-adsgram-special', currentUser.adsWatchedAdsgramSpecial || 0, AD_CONFIG.adsgram_special.limit);
+            upd('btn-watch-adsgram-daily',   'limit-adsgram-daily',   currentUser.adsWatchedAdsgramDaily   || 0, AD_CONFIG.adsgram_daily.limit);
         }
 
         function updateBalanceUI() {
@@ -994,12 +959,7 @@
             if (wEl) wEl.textContent = `${ton.toFixed(4)} TON`;
         }
 
-        // ════════════════════════════════════════════
-        // FIX 1 CONT: Ad buttons use their OWN network
-        // Mixed → showRandomAd (picks one randomly)
-        // Monetag → showMonetagAd ONLY
-        // GigaPub → showGigaPubAd ONLY
-        // ════════════════════════════════════════════
+        // ═════ STANDARD ADS ═════
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
             const count = type === 'mixed' ? currentUser.adsWatchedMixed : type === 'monetag' ? currentUser.adsWatchedMonetag : currentUser.adsWatchedGiga;
             if ((count || 0) >= maxLimit) return;
@@ -1011,17 +971,63 @@
         document.getElementById('btn-watch-monetag').addEventListener('click', () => handleAdClick('monetag', 'btn-watch-monetag', AD_CONFIG.monetag.limit, showMonetagAd));
         document.getElementById('btn-watch-giga').addEventListener('click',    () => handleAdClick('giga',    'btn-watch-giga',    AD_CONFIG.giga.limit,    showGigaPubAd));
 
+        // ═════ ADSGRAM INTEGRATION ═════
+        const showAdsgramAd = async (blockId) => {
+            return new Promise((resolve) => {
+                if (window.Adsgram) {
+                    window.Adsgram.init({ blockId: blockId }).show()
+                    .then(() => resolve(true))
+                    .catch(() => resolve(false));
+                } else {
+                    alert("Adsgram framework failed to load. Please try again.");
+                    resolve(false);
+                }
+            });
+        };
+
+        const handleAdsgramClick = async (type, btnId, maxLimit, blockId, rewardPoints) => {
+            const count = type === 'adsgram_special' ? currentUser.adsWatchedAdsgramSpecial : currentUser.adsWatchedAdsgramDaily;
+            if ((count || 0) >= maxLimit) return;
+            
+            if (isAdRunning) { alert("⚠️ Please wait, an ad is already playing."); return false; }
+            const btn = document.getElementById(btnId);
+            isAdRunning = true;
+            btn.dataset.busy = "true"; btn.disabled = true;
+            const originalHTML = btn.innerHTML;
+            btn.textContent = "Loading...";
+
+            const success = await showAdsgramAd(blockId);
+
+            isAdRunning = false;
+            btn.dataset.busy = "false";
+            btn.innerHTML = originalHTML; btn.disabled = false;
+
+            if (success) {
+                await processAdReward(type, rewardPoints);
+            } else {
+                alert("⚠️ Ad failed to load or closed early.");
+            }
+        };
+
+        document.getElementById('btn-watch-adsgram-special').addEventListener('click', () => handleAdsgramClick('adsgram_special', 'btn-watch-adsgram-special', AD_CONFIG.adsgram_special.limit, AD_CONFIG.adsgram_special.blockId, AD_CONFIG.adsgram_special.points));
+        document.getElementById('btn-watch-adsgram-daily').addEventListener('click', () => handleAdsgramClick('adsgram_daily', 'btn-watch-adsgram-daily', AD_CONFIG.adsgram_daily.limit, AD_CONFIG.adsgram_daily.blockId, AD_CONFIG.adsgram_daily.points));
+
         async function processAdReward(type, points) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1), pointBalance: increment(points), lifetimePointsEarned: increment(points) };
             if (type === 'mixed')   updates.adsWatchedMixed   = increment(1);
             else if (type === 'monetag') updates.adsWatchedMonetag = increment(1);
             else if (type === 'giga')    updates.adsWatchedGiga    = increment(1);
+            else if (type === 'adsgram_special') updates.adsWatchedAdsgramSpecial = increment(1);
+            else if (type === 'adsgram_daily') updates.adsWatchedAdsgramDaily = increment(1);
             await updateDoc(userRef, updates);
 
             if (type === 'mixed')   currentUser.adsWatchedMixed   = (currentUser.adsWatchedMixed   || 0) + 1;
             else if (type === 'monetag') currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + 1;
             else if (type === 'giga')    currentUser.adsWatchedGiga    = (currentUser.adsWatchedGiga    || 0) + 1;
+            else if (type === 'adsgram_special') currentUser.adsWatchedAdsgramSpecial = (currentUser.adsWatchedAdsgramSpecial || 0) + 1;
+            else if (type === 'adsgram_daily') currentUser.adsWatchedAdsgramDaily = (currentUser.adsWatchedAdsgramDaily || 0) + 1;
+            
             currentUser.lifetimeAdsWatched = (currentUser.lifetimeAdsWatched || 0) + 1;
             currentUser.pointBalance       = (currentUser.pointBalance       || 0) + points;
             currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + points;
@@ -1043,266 +1049,114 @@
             updateBalanceUI(); updateAdButtonStats();
         }
 
-        // ════════════════════════════════════════════
-        // FIX 2: TIERED REFERRAL WITHDRAW SYSTEM
-        // 1–1500 pts   → 1 ref
-        // 1501–3000    → 2 refs
-        // 3001–4500    → 3 refs
-        // 4501–6000    → 4 refs
-        // 6001+        → 5 refs
-        // ════════════════════════════════════════════
-        function getRequiredRefs(amount) {
-            if (amount <= 1500) return 1;
-            if (amount <= 3000) return 2;
-            if (amount <= 4500) return 3;
-            if (amount <= 6000) return 4;
-            return 5;
-        }
-
-        function highlightTierRow(amount) {
-            const rows = ['tier-row-1','tier-row-2','tier-row-3','tier-row-4','tier-row-5'];
-            rows.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.remove('tier-active');
-            });
-            if (!amount || amount < 1500) return;
-            let rowIdx = 1;
-            if (amount <= 1500) rowIdx = 1;
-            else if (amount <= 3000) rowIdx = 2;
-            else if (amount <= 4500) rowIdx = 3;
-            else if (amount <= 6000) rowIdx = 4;
-            else rowIdx = 5;
-            const activeRow = document.getElementById(`tier-row-${rowIdx}`);
-            if (activeRow) activeRow.classList.add('tier-active');
-        }
-
-        document.getElementById('withdraw-modal-btn').addEventListener('click', () => {
-            document.getElementById('withdrawModalOverlay').classList.add('show');
-            updateBalanceUI();
-        });
-
-        document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
-            const amt = parseFloat(e.target.value);
-            const preview = document.getElementById('realtime-ton-display');
-            const refsDisplay = document.getElementById('requiredRefsDisplay');
-
-            if (amt >= 1500) {
-                document.getElementById('calc-ton-val').textContent = (amt * POINTS_TO_TON_RATE).toFixed(4);
-                preview.style.display = 'block';
-                const needed = getRequiredRefs(amt);
-                const avail = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
-                const color = avail >= needed ? 'var(--green)' : 'var(--red)';
-                refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.2rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
-                highlightTierRow(amt);
-            } else {
-                preview.style.display = 'none';
-                refsDisplay.innerHTML = 'Enter amount to see required referrals';
-                highlightTierRow(0);
-            }
-        });
-
-        document.getElementById('submitWithdrawalBtn').addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (isSubmittingWithdrawal) return;
-
-            const amount  = parseFloat(document.getElementById('withdrawalAmount').value);
-            const details = document.getElementById('accountDetails').value.trim();
-
-            if (!details || isNaN(amount) || amount < 1500) return alert('Min 1,500 Pts and Tonkeeper address required.');
-            if ((currentUser.pointBalance || 0) < amount)   return alert('Insufficient Points.');
-
-            const refsNeeded = getRequiredRefs(amount);
-            const refsAvail  = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
-            if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount. You have ${refsAvail}.`);
-
-            if (!confirm(`Withdraw ${amount} Pts to Tonkeeper?\nThis costs ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
-
-            isSubmittingWithdrawal = true;
+        // ═════ DAILY WEBSITE VISIT TASK ═════
+        function getDailyVisits() {
             try {
-                await runTransaction(db, async (t) => {
-                    const userRef = doc(db, 'users', currentUser.id);
-                    const uData = (await t.get(userRef)).data();
-                    const serverAvail = (uData.referralCount || 0) - (uData.spentReferrals || 0);
-                    if (uData.pointBalance < amount || serverAvail < refsNeeded) throw new Error("Requirements not met (server check).");
-                    t.set(doc(collection(db, 'withdrawals')), {
-                        userId: currentUser.id, method: 'Tonkeeper', details,
-                        status: 'pending', createdAt: serverTimestamp(),
-                        pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE,
-                        refsUsed: refsNeeded
-                    });
-                    t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(refsNeeded) });
-                });
-
-                document.getElementById('withdrawalAmount').value = '';
-                document.getElementById('accountDetails').value = '';
-                document.getElementById('realtime-ton-display').style.display = 'none';
-                document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount to see required referrals';
-                highlightTierRow(0);
-                document.getElementById('withdrawModalOverlay').classList.remove('show');
-                showSuccessModal("Request Sent! ✅", `Withdrawal pending review.`);
-
-                currentUser.pointBalance     = (currentUser.pointBalance     || 0) - amount;
-                currentUser.spentReferrals   = (currentUser.spentReferrals   || 0) + refsNeeded;
-                updateBalanceUI();
-            } catch (err) { alert(err.message); }
-            finally { isSubmittingWithdrawal = false; }
-        });
-
-        // --- HISTORY ---
-        document.getElementById('history-btn').addEventListener('click', async () => {
-            document.getElementById('historyModalOverlay').classList.add('show');
-            const container = document.getElementById('combined-history-list');
-            container.innerHTML = '<div class="loader"></div>';
-            try {
-                const [wSnap, tSnap] = await Promise.all([
-                    getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id))),
-                    getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id)))
-                ]);
-                let list = [];
-                wSnap.forEach(d => list.push({ ...d.data(), isW: true,  time: d.data().createdAt }));
-                tSnap.forEach(d => list.push({ ...d.data(), isW: false, time: d.data().createdAt }));
-                list.sort((a, b) => (b.time?.toMillis() || 0) - (a.time?.toMillis() || 0));
-                list = list.slice(0, 20);
-
-                if (!list.length) { container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text2);">No history yet.</p>'; return; }
-
-                container.innerHTML = list.map(d => {
-                    const date = d.time ? d.time.toDate().toLocaleDateString() : '';
-                    let title, amt, color, icon;
-                    if (d.isW || d.type === 'Withdrawal') {
-                        const ton = d.tonAmount ? parseFloat(d.tonAmount).toFixed(4) : (d.pointAmount * POINTS_TO_TON_RATE).toFixed(4);
-                        title = `Withdraw (${d.status || 'pending'})`;
-                        amt   = `-${d.pointAmount} Pts • ${ton} TON`;
-                        color = 'var(--red)'; icon = '💸';
-                    } else {
-                        title = d.type || 'Reward';
-                        amt   = d.pointAmount ? `+${d.pointAmount} Pts` : `+${parseFloat(d.tonAmount||0).toFixed(4)} TON`;
-                        color = 'var(--green)'; icon = '✨';
-                    }
-                    return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);">
-                        <span style="font-size:1.3rem;">${icon}</span>
-                        <div style="flex:1;">
-                            <strong style="display:block;color:var(--text);font-size:0.88rem;">${title}</strong>
-                            <small style="color:var(--text2);font-size:0.72rem;">${date}</small>
-                        </div>
-                        <strong style="color:${color};font-size:0.88rem;">${amt}</strong>
-                    </div>`;
-                }).join('');
-            } catch (e) { container.innerHTML = '<p style="text-align:center;color:var(--red);">Failed to load.</p>'; }
-        });
-
-        // --- PROMO CODE ---
-        document.getElementById('claimPromoBtn').addEventListener('click', async () => {
-            const code = document.getElementById('promoCodeInput').value.trim();
-            if (!code) return;
-            const ok = await runAdAndVerifyTime('claimPromoBtn', showRandomAd);
-            if (!ok) return;
-            const btn = document.getElementById('claimPromoBtn'); btn.disabled = true; btn.textContent = "Checking...";
-            try {
-                await runTransaction(db, async (t) => {
-                    const promoRef = doc(db, 'promo_codes', code);
-                    const p = (await t.get(promoRef)).data();
-                    if (!p || !p.isActive || p.currentUses >= p.maxUses || p.usersClaimed?.includes(currentUser.id)) throw new Error("Invalid or already used code.");
-                    t.update(doc(db, 'users', currentUser.id), { pointBalance: increment(p.rewardAmount), lifetimePointsEarned: increment(p.rewardAmount) });
-                    t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
-                    return p.rewardAmount;
-                }).then(amt => {
-                    document.getElementById('promoModalOverlay').classList.remove('show');
-                    showSuccessModal("Code Claimed! 🎉", `+${amt} Points added`);
-                    document.getElementById('promoCodeInput').value = '';
-                    currentUser.pointBalance = (currentUser.pointBalance || 0) + amt;
-                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + amt;
-                    updateBalanceUI();
-                });
-            } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
-        });
-
-        // --- UI CLICKS ---
-        document.getElementById('profile-id-display').addEventListener('click', () => { navigator.clipboard.writeText(currentUser.id); showSuccessModal("Copied! ✅", "User ID copied."); });
-        document.getElementById('modalCopyReferralLinkBtn').addEventListener('click', () => { navigator.clipboard.writeText(document.getElementById('modalReferralLinkInput').value); showSuccessModal("Copied! ✅", "Referral link copied."); });
-        document.getElementById('action-invite').addEventListener('click',     () => document.getElementById('inviteModalOverlay').classList.add('show'));
-        document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
-        document.querySelectorAll('.close-modal-btn').forEach(b => b.addEventListener('click', e => e.target.closest('.modal-overlay').classList.remove('show')));
-
-        document.querySelectorAll('.nav-item').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
-                link.classList.add('active');
-                document.querySelector(link.dataset.tabTarget).classList.add('active');
-                if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
-                if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
-            });
-        });
-
-        function showSuccessModal(title, msg) {
-            document.getElementById('successModalTitle').textContent = title;
-            document.getElementById('successModalMessage').innerHTML = msg;
-            document.getElementById('successModalOverlay').classList.add('show');
-            setTimeout(() => document.getElementById('successModalOverlay').classList.remove('show'), 3000);
+                const data = JSON.parse(localStorage.getItem('nt_daily_visits') || '{}');
+                if (data.date === getTodayDateString()) return data.count || 0;
+            } catch(e) {}
+            return 0;
         }
 
-        // --- LOTTERY ---
-        class LotteryWheel {
-            constructor(cId) {
-                this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0;
-                this.seg = [
-                    { l: "5 Pts",  v: 5,  c: "#1abc9c", w: 40 }, { l: "8 Pts",  v: 8,  c: "#2980b9", w: 30 },
-                    { l: "10 Pts", v: 10, c: "#8e44ad", w: 20 }, { l: "15 Pts", v: 15, c: "#d35400", w: 5  },
-                    { l: "17 Pts", v: 17, c: "#c0392b", w: 3  }, { l: "20 Pts", v: 20, c: "#f39c12", w: 2  }
-                ];
-                this.draw();
-            }
-            draw() {
-                const a = (2*Math.PI)/this.seg.length, cx = this.c.width/2, cy = this.c.height/2, r = cx;
-                this.seg.forEach((s, i) => {
-                    this.ctx.beginPath(); this.ctx.moveTo(cx,cy); this.ctx.arc(cx,cy,r,i*a,(i+1)*a);
-                    this.ctx.fillStyle = s.c; this.ctx.fill();
-                    this.ctx.lineWidth = 4; this.ctx.strokeStyle = "rgba(255,255,255,0.2)"; this.ctx.stroke();
-                    this.ctx.save(); this.ctx.translate(cx,cy); this.ctx.rotate(i*a+a/2);
-                    this.ctx.textAlign = "right"; this.ctx.fillStyle = "#fff"; this.ctx.font = "bold 34px Arial";
-                    this.ctx.fillText(s.l, r-30, 12); this.ctx.restore();
-                });
-            }
-            spin(resEl, cb) {
-                const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){s+=this.seg[i].w;if(rnd<=s)return i;} return 0;})();
-                const a = 360/this.seg.length, tg = (wId*a)+(a/2);
-                const fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360);
-                this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn;
-                resEl.innerText = "Spinning... 🌀";
-                setTimeout(() => { resEl.innerHTML = `🎉 Won ${this.seg[wId].l}!`; if(cb) cb(this.seg[wId]); }, 4000);
-            }
+        function incrementDailyVisits() {
+            const current = getDailyVisits();
+            localStorage.setItem('nt_daily_visits', JSON.stringify({
+                date: getTodayDateString(),
+                count: current + 1
+            }));
+            return current + 1;
         }
-        const wheel = new LotteryWheel("wheelCanvas");
 
-        async function updateLotteryUI() {
+        function updateVisitUI() {
             if (!currentUser) return;
-            const left = 10 - (currentUser.dailySpinsUsed || 0);
-            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${left}/10`;
-            const btn = document.getElementById("spinBtn");
-            if (left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; }
-            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; }
+            const progressEl = document.getElementById('visit-progress');
+            const barEl = document.getElementById('visit-progress-bar');
+            const btn = document.getElementById('btn-daily-visit');
+            
+            if (currentUser.dailyVisitRewardClaimed) {
+                progressEl.textContent = "5/5";
+                barEl.style.width = "100%";
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fas fa-check-circle"></i> Completed`;
+                btn.style.background = "";
+            } else {
+                const visits = Math.min(getDailyVisits(), 5);
+                progressEl.textContent = `${visits}/5`;
+                barEl.style.width = `${(visits/5)*100}%`;
+                
+                if (visits >= 5) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-gift"></i> Claim 50 Points`;
+                    btn.style.background = "var(--green)";
+                    btn.style.boxShadow = "0 4px 15px rgba(16,185,129,0.3)";
+                } else {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-external-link-alt"></i> Visit Website`;
+                    btn.style.background = "var(--primary)";
+                    btn.style.boxShadow = "none";
+                }
+            }
         }
 
-        document.getElementById('spinBtn').addEventListener('click', async () => {
-            if ((currentUser.dailySpinsUsed || 0) >= 10) return;
-            const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
-            const ok = await runAdAndVerifyTime('spinBtn', showRandomAd);
-            if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
-            btn.disabled = true; btn.innerHTML = 'Spinning...';
-            wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
+        let isVisiting = false;
+        document.getElementById('btn-daily-visit').addEventListener('click', async () => {
+            if (isVisiting || currentUser.dailyVisitRewardClaimed) return;
+
+            const visits = getDailyVisits();
+            
+            if (visits >= 5) {
+                // Submit single Firebase Write to claim
+                isVisiting = true;
+                const btn = document.getElementById('btn-daily-visit');
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Claiming...`;
+                
                 try {
-                    await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: increment(1), pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
-                    showSuccessModal("You Won! 🎰", `+${pz.v} Points added!`);
-                    currentUser.dailySpinsUsed      = (currentUser.dailySpinsUsed      || 0) + 1;
-                    currentUser.pointBalance         = (currentUser.pointBalance         || 0) + pz.v;
-                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
-                    updateBalanceUI(); updateLotteryUI();
-                } catch (e) {} finally { btn.dataset.busy = "false"; btn.disabled = false; }
-            });
+                    await updateDoc(doc(db, 'users', currentUser.id), {
+                        dailyVisitRewardClaimed: true,
+                        pointBalance: increment(50),
+                        lifetimePointsEarned: increment(50)
+                    });
+                    currentUser.dailyVisitRewardClaimed = true;
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + 50;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + 50;
+                    updateBalanceUI(); updateVisitUI();
+                    showSuccessModal("Task Complete! 🎉", "+50 Points added!");
+                } catch (e) {
+                    alert("Failed to claim reward. Try again.");
+                    updateVisitUI(); // reset button
+                }
+                isVisiting = false;
+                return;
+            }
+
+            const targetUrl = "https://www.profitablecpmratenetwork.com/x5ym9fzzyi?key=443fce3d0e91698e9efb03d03f841dd7";
+            if (window.Telegram?.WebApp?.openLink) {
+                window.Telegram.WebApp.openLink(targetUrl);
+            } else {
+                window.open(targetUrl, '_blank');
+            }
+            
+            isVisiting = true;
+            const btn = document.getElementById('btn-daily-visit');
+            btn.disabled = true;
+            
+            const duration = 15;
+            const endTime = Date.now() + duration * 1000;
+            
+            const interval = setInterval(() => {
+                const left = Math.ceil((endTime - Date.now()) / 1000);
+                if (left <= 0) {
+                    clearInterval(interval);
+                    incrementDailyVisits();
+                    updateVisitUI();
+                    isVisiting = false;
+                } else {
+                    btn.textContent = `Wait ${left}s...`;
+                }
+            }, 500);
         });
 
-        // --- TASK SYSTEM ---
+        // ═════ TASK SYSTEM ═════
         const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
         let activeTaskTab = 'channel';
         let tasksCacheChannel = null;
@@ -1346,7 +1200,7 @@
                     batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
                     batch.update(doc(db, 'tasks', taskId), { completionCount: increment(1) });
                     await batch.commit();
-                    currentUser.completedTasks       = [...(currentUser.completedTasks || []), taskId];
+                    currentUser.completedTasks       =[...(currentUser.completedTasks || []), taskId];
                     currentUser.pointBalance          = (currentUser.pointBalance          || 0) + reward;
                     currentUser.lifetimePointsEarned  = (currentUser.lifetimePointsEarned  || 0) + reward;
                     updateBalanceUI();
@@ -1362,8 +1216,8 @@
                 const btn  = document.getElementById(`tab-${t}`);
                 const list = document.getElementById(`task-list-${t}`);
                 const isActive = t === tab;
-                btn.classList.toggle('active', isActive);
-                list.style.display = isActive ? 'grid' : 'none';
+                if(btn) btn.classList.toggle('active', isActive);
+                if(list) list.style.display = isActive ? 'grid' : 'none';
                 if (isActive && !(t === 'channel' ? tasksCacheChannel : tasksCachePartner)) fetchAndRenderTasks(t);
             });
         }
@@ -1435,7 +1289,194 @@
             }
         }
 
-        // --- VERIFICATION ---
+        // ═════ WITHDRAW ═════
+        function getRequiredRefs(amount) {
+            if (amount <= 1500) return 1; if (amount <= 3000) return 2; if (amount <= 4500) return 3; if (amount <= 6000) return 4; return 5;
+        }
+
+        function highlightTierRow(amount) {['tier-row-1','tier-row-2','tier-row-3','tier-row-4','tier-row-5'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.classList.remove('tier-active');
+            });
+            if (!amount || amount < 1500) return;
+            let rowIdx = amount <= 1500 ? 1 : amount <= 3000 ? 2 : amount <= 4500 ? 3 : amount <= 6000 ? 4 : 5;
+            document.getElementById(`tier-row-${rowIdx}`)?.classList.add('tier-active');
+        }
+
+        document.getElementById('withdraw-modal-btn').addEventListener('click', () => { document.getElementById('withdrawModalOverlay').classList.add('show'); updateBalanceUI(); });
+
+        document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
+            const amt = parseFloat(e.target.value);
+            const preview = document.getElementById('realtime-ton-display');
+            const refsDisplay = document.getElementById('requiredRefsDisplay');
+
+            if (amt >= 1500) {
+                document.getElementById('calc-ton-val').textContent = (amt * POINTS_TO_TON_RATE).toFixed(4);
+                preview.style.display = 'block';
+                const needed = getRequiredRefs(amt), avail = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
+                const color = avail >= needed ? 'var(--green)' : 'var(--red)';
+                refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.2rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
+                highlightTierRow(amt);
+            } else { preview.style.display = 'none'; refsDisplay.innerHTML = 'Enter amount to see required referrals'; highlightTierRow(0); }
+        });
+
+        document.getElementById('submitWithdrawalBtn').addEventListener('click', async (e) => {
+            e.preventDefault(); if (isSubmittingWithdrawal) return;
+            const amount  = parseFloat(document.getElementById('withdrawalAmount').value), details = document.getElementById('accountDetails').value.trim();
+            if (!details || isNaN(amount) || amount < 1500) return alert('Min 1,500 Pts and Tonkeeper address required.');
+            if ((currentUser.pointBalance || 0) < amount)   return alert('Insufficient Points.');
+            const refsNeeded = getRequiredRefs(amount), refsAvail  = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
+            if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount. You have ${refsAvail}.`);
+            if (!confirm(`Withdraw ${amount} Pts to Tonkeeper?\nThis costs ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
+
+            isSubmittingWithdrawal = true;
+            try {
+                await runTransaction(db, async (t) => {
+                    const userRef = doc(db, 'users', currentUser.id);
+                    const uData = (await t.get(userRef)).data();
+                    const serverAvail = (uData.referralCount || 0) - (uData.spentReferrals || 0);
+                    if (uData.pointBalance < amount || serverAvail < refsNeeded) throw new Error("Requirements not met (server check).");
+                    t.set(doc(collection(db, 'withdrawals')), {
+                        userId: currentUser.id, method: 'Tonkeeper', details, status: 'pending', createdAt: serverTimestamp(),
+                        pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE, refsUsed: refsNeeded
+                    });
+                    t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(refsNeeded) });
+                });
+                document.getElementById('withdrawalAmount').value = ''; document.getElementById('accountDetails').value = '';
+                document.getElementById('realtime-ton-display').style.display = 'none'; document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount to see required referrals';
+                highlightTierRow(0); document.getElementById('withdrawModalOverlay').classList.remove('show');
+                showSuccessModal("Request Sent! ✅", `Withdrawal pending review.`);
+                currentUser.pointBalance     = (currentUser.pointBalance     || 0) - amount;
+                currentUser.spentReferrals   = (currentUser.spentReferrals   || 0) + refsNeeded;
+                updateBalanceUI();
+            } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
+        });
+
+        // ═════ MODALS & UI TRIGGERS ═════
+        document.getElementById('history-btn').addEventListener('click', async () => {
+            document.getElementById('historyModalOverlay').classList.add('show');
+            const container = document.getElementById('combined-history-list');
+            container.innerHTML = '<div class="loader"></div>';
+            try {
+                const [wSnap, tSnap] = await Promise.all([
+                    getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id))),
+                    getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id)))
+                ]);
+                let list =[];
+                wSnap.forEach(d => list.push({ ...d.data(), isW: true,  time: d.data().createdAt }));
+                tSnap.forEach(d => list.push({ ...d.data(), isW: false, time: d.data().createdAt }));
+                list.sort((a, b) => (b.time?.toMillis() || 0) - (a.time?.toMillis() || 0));
+                list = list.slice(0, 20);
+
+                if (!list.length) { container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text2);">No history yet.</p>'; return; }
+
+                container.innerHTML = list.map(d => {
+                    const date = d.time ? d.time.toDate().toLocaleDateString() : '';
+                    let title, amt, color, icon;
+                    if (d.isW || d.type === 'Withdrawal') {
+                        const ton = d.tonAmount ? parseFloat(d.tonAmount).toFixed(4) : (d.pointAmount * POINTS_TO_TON_RATE).toFixed(4);
+                        title = `Withdraw (${d.status || 'pending'})`;
+                        amt   = `-${d.pointAmount} Pts • ${ton} TON`;
+                        color = 'var(--red)'; icon = '💸';
+                    } else {
+                        title = d.type || 'Reward';
+                        amt   = d.pointAmount ? `+${d.pointAmount} Pts` : `+${parseFloat(d.tonAmount||0).toFixed(4)} TON`;
+                        color = 'var(--green)'; icon = '✨';
+                    }
+                    return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);">
+                        <span style="font-size:1.3rem;">${icon}</span>
+                        <div style="flex:1;">
+                            <strong style="display:block;color:var(--text);font-size:0.88rem;">${title}</strong>
+                            <small style="color:var(--text2);font-size:0.72rem;">${date}</small>
+                        </div>
+                        <strong style="color:${color};font-size:0.88rem;">${amt}</strong>
+                    </div>`;
+                }).join('');
+            } catch (e) { container.innerHTML = '<p style="text-align:center;color:var(--red);">Failed to load.</p>'; }
+        });
+
+        document.getElementById('action-invite').addEventListener('click',     () => document.getElementById('inviteModalOverlay').classList.add('show'));
+        document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
+        document.querySelectorAll('.close-modal-btn').forEach(b => b.addEventListener('click', e => e.target.closest('.modal-overlay').classList.remove('show')));
+
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
+                link.classList.add('active'); 
+                document.querySelector(link.dataset.tabTarget).classList.add('active');
+                if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
+                if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
+            });
+        });
+
+        function showSuccessModal(title, msg) {
+            document.getElementById('successModalTitle').textContent = title;
+            document.getElementById('successModalMessage').innerHTML = msg;
+            document.getElementById('successModalOverlay').classList.add('show');
+            setTimeout(() => document.getElementById('successModalOverlay').classList.remove('show'), 3000);
+        }
+
+        // ═════ LOTTERY ═════
+        class LotteryWheel {
+            constructor(cId) {
+                this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0;
+                this.seg =[
+                    { l: "5 Pts",  v: 5,  c: "#1abc9c", w: 40 }, { l: "8 Pts",  v: 8,  c: "#2980b9", w: 30 },
+                    { l: "10 Pts", v: 10, c: "#8e44ad", w: 20 }, { l: "15 Pts", v: 15, c: "#d35400", w: 5  },
+                    { l: "17 Pts", v: 17, c: "#c0392b", w: 3  }, { l: "20 Pts", v: 20, c: "#f39c12", w: 2  }
+                ];
+                this.draw();
+            }
+            draw() {
+                const a = (2*Math.PI)/this.seg.length, cx = this.c.width/2, cy = this.c.height/2, r = cx;
+                this.seg.forEach((s, i) => {
+                    this.ctx.beginPath(); this.ctx.moveTo(cx,cy); this.ctx.arc(cx,cy,r,i*a,(i+1)*a);
+                    this.ctx.fillStyle = s.c; this.ctx.fill();
+                    this.ctx.lineWidth = 4; this.ctx.strokeStyle = "rgba(255,255,255,0.2)"; this.ctx.stroke();
+                    this.ctx.save(); this.ctx.translate(cx,cy); this.ctx.rotate(i*a+a/2);
+                    this.ctx.textAlign = "right"; this.ctx.fillStyle = "#fff"; this.ctx.font = "bold 34px Arial";
+                    this.ctx.fillText(s.l, r-30, 12); this.ctx.restore();
+                });
+            }
+            spin(resEl, cb) {
+                const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){s+=this.seg[i].w;if(rnd<=s)return i;} return 0;})();
+                const a = 360/this.seg.length, tg = (wId*a)+(a/2);
+                const fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360);
+                this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn;
+                resEl.innerText = "Spinning... 🌀";
+                setTimeout(() => { resEl.innerHTML = `🎉 Won ${this.seg[wId].l}!`; if(cb) cb(this.seg[wId]); }, 4000);
+            }
+        }
+        const wheel = new LotteryWheel("wheelCanvas");
+
+        async function updateLotteryUI() {
+            if (!currentUser) return;
+            const left = 10 - (currentUser.dailySpinsUsed || 0);
+            document.getElementById("spinLimitText").innerText = `Remaining Spins Today: ${left}/10`;
+            const btn = document.getElementById("spinBtn");
+            if (left <= 0) { btn.innerHTML = '<i class="fas fa-ban"></i> Limit Reached'; btn.disabled = true; }
+            else { btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false; }
+        }
+
+        document.getElementById('spinBtn').addEventListener('click', async () => {
+            if ((currentUser.dailySpinsUsed || 0) >= 10) return;
+            const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
+            const ok = await runAdAndVerifyTime('spinBtn', showRandomAd);
+            if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
+            btn.disabled = true; btn.innerHTML = 'Spinning...';
+            wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
+                try {
+                    await updateDoc(doc(db, 'users', currentUser.id), { dailySpinsUsed: increment(1), pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
+                    showSuccessModal("You Won! 🎰", `+${pz.v} Points added!`);
+                    currentUser.dailySpinsUsed = (currentUser.dailySpinsUsed || 0) + 1;
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + pz.v;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
+                    updateBalanceUI(); updateLotteryUI();
+                } catch (e) {} finally { btn.dataset.busy = "false"; btn.disabled = false; }
+            });
+        });
+
+        // ═════ MAIN INIT ═════
         async function checkMembershipAndEnforce() {
             try {
                 const res  = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
@@ -1454,7 +1495,6 @@
             document.getElementById('activateAccountBtn').textContent = "Verify Account";
         });
 
-        // --- MAIN ---
         async function main() {
             try {
                 if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
@@ -1466,21 +1506,13 @@
         }
         main();
 
-        // --- PARTICLE ANIMATION ---
         (function spawnParticles() {
             const container = document.getElementById('particles');
-            const colors = ['rgba(0,163,255,0.6)', 'rgba(168,85,247,0.5)', 'rgba(16,185,129,0.4)', 'rgba(245,158,11,0.3)'];
+            const colors =['rgba(0,163,255,0.6)', 'rgba(168,85,247,0.5)', 'rgba(16,185,129,0.4)', 'rgba(245,158,11,0.3)'];
             for (let i = 0; i < 18; i++) {
                 const p = document.createElement('div');
-                p.className = 'particle';
-                const size = Math.random() * 3 + 1;
-                p.style.cssText = `
-                    width:${size}px; height:${size}px;
-                    left:${Math.random()*100}%;
-                    background:${colors[Math.floor(Math.random()*colors.length)]};
-                    animation-duration:${Math.random()*15+10}s;
-                    animation-delay:${Math.random()*-20}s;
-                `;
+                p.className = 'particle'; const size = Math.random() * 3 + 1;
+                p.style.cssText = `width:${size}px; height:${size}px; left:${Math.random()*100}%; background:${colors[Math.floor(Math.random()*colors.length)]}; animation-duration:${Math.random()*15+10}s; animation-delay:${Math.random()*-20}s;`;
                 container.appendChild(p);
             }
         })();
