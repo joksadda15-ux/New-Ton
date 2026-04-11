@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NEWTUBE TON - Earning Platform</title>
+    <title>NEWTUBE TON - Premium Platform</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,37 +21,35 @@
     </script>
 
     <!-- AD INTEGRATIONS -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <script src='//libtl.com/sdk.js' data-zone='9442539' data-sdk='show_9442539'></script>
     <script src="https://ad.gigapub.tech/script?id=846"></script>
 
     <style>
+        /* ── NEW UNIQUE OBSIDIAN & CYAN THEME ── */
         :root {
-            --bg: #06030F;
-            --card: rgba(18, 10, 35, 0.92);
-            --card2: rgba(22, 12, 40, 0.88);
-            --header-bg: rgba(6, 3, 15, 0.97);
-            --primary: #C084FC;
-            --primary-dim: rgba(192,132,252,0.15);
-            --primary-hover: #a855f7;
-            --violet: #F59E0B;
-            --violet-dim: rgba(245,158,11,0.15);
-            --gold: #FB923C;
-            --gold-dim: rgba(251,146,60,0.15);
-            --green: #34D399;
-            --green-dim: rgba(52,211,153,0.15);
-            --red: #F87171;
-            --text: #F3E8FF;
-            --text2: #9B80C4;
-            --border: rgba(192,132,252,0.1);
-            --border-glow: rgba(192,132,252,0.35);
-            --input-bg: rgba(6,3,15,0.85);
-            --disabled-bg: #100820;
-            --disabled-text: #4A3660;
-            --r-card: 18px;
+            --bg: #030509;
+            --card: rgba(15, 20, 30, 0.85);
+            --header-bg: rgba(3, 5, 9, 0.95);
+            --primary: #00E5FF;
+            --primary-dim: rgba(0, 229, 255, 0.15);
+            --primary-hover: #00b8cc;
+            --secondary: #3b82f6;
+            --violet: #8B5CF6;
+            --violet-dim: rgba(139, 92, 246, 0.15);
+            --gold: #FBBF24;
+            --gold-dim: rgba(251, 191, 36, 0.15);
+            --green: #10B981;
+            --green-dim: rgba(16, 185, 129, 0.15);
+            --red: #F43F5E;
+            --text: #F8FAFC;
+            --text2: #94A3B8;
+            --border: rgba(0, 229, 255, 0.15);
+            --input-bg: rgba(3, 5, 9, 0.85);
+            --disabled-bg: #0B0F19;
+            --disabled-text: #475569;
+            --r-card: 16px;
             --r-btn: 12px;
-            --accent1: #C084FC;
-            --accent2: #FB923C;
-            --accent3: #34D399;
         }
 
         * { box-sizing: border-box; }
@@ -62,29 +60,23 @@
             -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
         }
 
-        /* ── ANIMATED BG ── */
+        /* ── ANIMATED PREMIUM BG ── */
         .bg-canvas {
             position: fixed; inset: 0; z-index: -2; overflow: hidden;
+            background: radial-gradient(circle at 50% 0%, #0c1524 0%, var(--bg) 60%);
         }
-        .bg-canvas::before {
-            content: '';
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse 70% 55% at 15% -5%, rgba(192,132,252,0.22) 0%, transparent 55%),
-                radial-gradient(ellipse 55% 45% at 85% 105%, rgba(251,146,60,0.16) 0%, transparent 55%),
-                radial-gradient(ellipse 40% 35% at 50% 50%, rgba(124,58,237,0.08) 0%, transparent 60%);
-        }
-        /* Animated hex grid */
+        /* Geometric Tech Grid */
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
             background-image:
-                linear-gradient(rgba(192,132,252,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(192,132,252,0.05) 1px, transparent 1px),
-                linear-gradient(45deg, rgba(251,146,60,0.02) 1px, transparent 1px);
-            background-size: 36px 36px, 36px 36px, 72px 72px;
-            animation: gridMove 25s linear infinite;
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 30s linear infinite;
+            mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
         }
-        @keyframes gridMove { 0%{background-position:0 0,0 0,0 0} 100%{background-position:36px 36px,36px 36px,72px 72px} }
+        @keyframes gridMove { 0%{background-position:0 0;} 100%{background-position:40px 40px;} }
 
         /* Floating particles */
         .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
@@ -92,43 +84,38 @@
             position: absolute; border-radius: 50%; animation: float linear infinite;
         }
         @keyframes float {
-            0%   { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
-            10%  { opacity: 1; }
-            90%  { opacity: 0.6; }
-            100% { transform: translateY(-10vh) scale(1) rotate(360deg); opacity: 0; }
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            20%  { opacity: 1; }
+            80%  { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
         /* ── HEADER ── */
         .main-header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 64px;
-            background: var(--header-bg); border-bottom: 1px solid rgba(192,132,252,0.18);
-            backdrop-filter: blur(24px); display: flex; align-items: center;
+            background: var(--header-bg); border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px); display: flex; align-items: center;
             justify-content: space-between; padding: 0 16px;
-            box-shadow: 0 1px 30px rgba(192,132,252,0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
         .site-branding { display: flex; align-items: center; gap: 10px; }
         .logo-ring {
-            width: 38px; height: 38px; border-radius: 12px;
-            background: linear-gradient(135deg, rgba(192,132,252,0.2), rgba(251,146,60,0.15));
-            border: 1.5px solid rgba(192,132,252,0.5);
+            width: 38px; height: 38px; border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(59,130,246,0.1));
+            border: 1px solid var(--primary);
             display: flex; align-items: center; justify-content: center;
             color: var(--primary); font-size: 1rem;
-            box-shadow: 0 0 16px rgba(192,132,252,0.35), inset 0 0 8px rgba(192,132,252,0.1);
-            animation: logoGlow 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 15px rgba(0,229,255,0.3);
         }
-        @keyframes logoGlow {
-            0% { box-shadow: 0 0 10px rgba(192,132,252,0.35), inset 0 0 8px rgba(192,132,252,0.1); }
-            100% { box-shadow: 0 0 24px rgba(192,132,252,0.7), 0 0 50px rgba(192,132,252,0.25), inset 0 0 12px rgba(192,132,252,0.2); }
-        }
-        .site-title { font-size: 1.1rem; color: var(--text); font-weight: 800; margin: 0; letter-spacing: 0.5px; }
-        .site-title span { background: linear-gradient(90deg, var(--primary), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .site-title { font-size: 1.15rem; color: var(--text); font-weight: 800; margin: 0; letter-spacing: 0.5px; }
+        .site-title span { color: var(--primary); }
         .header-right { display: flex; gap: 8px; }
         .hbtn {
-            background: rgba(192,132,252,0.08); border: 1px solid rgba(192,132,252,0.2); color: var(--text);
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text);
             width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center;
             justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1rem;
         }
-        .hbtn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 14px rgba(192,132,252,0.4); background: rgba(192,132,252,0.15); }
+        .hbtn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 10px var(--primary-dim); background: var(--primary-dim); }
 
         /* ── CONTAINER ── */
         .container { max-width: 780px; margin: 0 auto; padding: 0 14px; position: relative; z-index: 1; }
@@ -136,86 +123,59 @@
         /* ── PROFILE CARD ── */
         .profile-card {
             position: relative; overflow: hidden; margin-bottom: 18px;
-            background: linear-gradient(135deg, rgba(30,15,55,0.9), rgba(18,8,35,0.95));
-            border: 1px solid rgba(192,132,252,0.2);
-            border-radius: 22px; padding: 26px 20px 22px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(192,132,252,0.1);
+            background: var(--card); backdrop-filter: blur(10px);
+            border: 1px solid var(--border); border-radius: 20px; padding: 26px 20px 22px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
         .profile-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--gold), var(--green), var(--primary));
-            background-size: 300% 100%;
-            animation: shimmer 4s ease-in-out infinite;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary), var(--green));
         }
-        @keyframes shimmer { 0%{background-position:300% 0} 100%{background-position:-300% 0} }
 
         .profile-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-        .avatar-wrap {
-            position: relative; flex-shrink: 0;
-            width: 62px; height: 62px;
-        }
+        .avatar-wrap { position: relative; flex-shrink: 0; width: 60px; height: 60px; }
         .avatar-ring {
-            width: 62px; height: 62px; border-radius: 50%;
-            background: linear-gradient(135deg, rgba(192,132,252,0.2), rgba(251,146,60,0.15));
-            border: 2px solid var(--primary);
+            width: 60px; height: 60px; border-radius: 16px;
+            background: var(--primary-dim); border: 2px solid var(--primary);
             display: flex; align-items: center; justify-content: center;
             font-size: 1.8rem; color: var(--primary);
-            box-shadow: 0 0 24px rgba(192,132,252,0.45), inset 0 0 12px rgba(192,132,252,0.1);
+            box-shadow: 0 0 20px rgba(0,229,255,0.2);
         }
         .avatar-status {
-            position: absolute; bottom: 2px; right: 2px;
-            width: 13px; height: 13px; background: var(--green);
+            position: absolute; bottom: -2px; right: -2px;
+            width: 14px; height: 14px; background: var(--green);
             border: 2px solid var(--bg); border-radius: 50%;
-            box-shadow: 0 0 8px rgba(52,211,153,0.7);
         }
         .profile-info { flex: 1; min-width: 0; }
         .profile-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 0 0 4px; }
         .profile-id {
             display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(192,132,252,0.08); border: 1px solid rgba(192,132,252,0.2);
-            padding: 4px 10px; border-radius: 20px; cursor: pointer;
-            font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--text2);
+            background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+            padding: 4px 10px; border-radius: 8px; cursor: pointer;
+            font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--primary);
             transition: all 0.2s;
         }
-        .profile-id:hover { border-color: var(--primary); color: var(--primary); background: rgba(192,132,252,0.15); }
 
         .balance-display {
-            background: linear-gradient(135deg, rgba(192,132,252,0.08), rgba(251,146,60,0.05));
-            border: 1px solid rgba(192,132,252,0.2);
-            border-radius: 16px; padding: 18px; text-align: center;
-            margin-bottom: 16px;
-            box-shadow: inset 0 1px 0 rgba(192,132,252,0.1);
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px; padding: 18px; text-align: center; margin-bottom: 16px;
         }
         .bal-ton {
-            font-size: 2.2rem; font-weight: 800; color: var(--text); line-height: 1;
-            background: linear-gradient(90deg, var(--primary), var(--gold));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            animation: balPulse 4s ease-in-out infinite;
+            font-size: 2.4rem; font-weight: 800; color: var(--text); line-height: 1;
+            text-shadow: 0 0 15px rgba(0,229,255,0.4);
+            font-family: 'Roboto Mono', monospace;
         }
-        @keyframes balPulse {
-            0%,100% { filter: brightness(1); }
-            50% { filter: brightness(1.2) drop-shadow(0 0 12px rgba(192,132,252,0.5)); }
-        }
-        .bal-ton-label { font-size: 0.75rem; color: var(--primary); font-weight: 600; letter-spacing: 1px; margin-top: 2px; }
+        .bal-ton-label { font-size: 0.75rem; color: var(--text2); font-weight: 600; letter-spacing: 1px; margin-top: 4px; }
         .bal-pts { font-size: 1rem; color: var(--green); font-weight: 700; margin-top: 6px; }
 
         /* ── STATS GRID ── */
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
         .stat-box {
-            background: rgba(192,132,252,0.06); border: 1px solid rgba(192,132,252,0.15);
-            border-radius: 13px; padding: 12px 8px; text-align: center;
-            transition: all 0.2s; position: relative; overflow: hidden;
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 12px 8px; text-align: center;
         }
-        .stat-box::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-        }
-        .stat-box.s1::after { background: linear-gradient(90deg, var(--primary), #a855f7); }
-        .stat-box.s2::after { background: linear-gradient(90deg, var(--gold), var(--violet)); }
-        .stat-box.s3::after { background: linear-gradient(90deg, var(--green), #06b6d4); }
-        .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; color: var(--text2); margin-bottom: 5px; }
-        .stat-val { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; font-weight: 600; color: var(--text2); margin-bottom: 5px; }
+        .stat-val { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
 
         /* ── ACTION BUTTONS ── */
         .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
@@ -224,33 +184,21 @@
         /* ── BUTTONS ── */
         .btn {
             width: 100%; padding: 13px; border: none; border-radius: var(--r-btn);
-            font-weight: 600; font-size: 0.9rem; cursor: pointer;
-            background: linear-gradient(135deg, var(--primary), #a855f7);
-            color: #fff; transition: all 0.25s;
+            font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            background: var(--primary); color: #000; transition: all 0.25s;
             display: flex; align-items: center; justify-content: center; gap: 7px;
-            text-decoration: none; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(192,132,252,0.3);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,229,255,0.3);
         }
-        .btn::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(rgba(255,255,255,0.1), transparent);
-            border-radius: inherit;
-        }
-        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,132,252,0.5); filter: brightness(1.1); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,229,255,0.5); }
         .btn.outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none; }
-        .btn.outline::after { display: none; }
-        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(192,132,252,0.3); }
-        .btn.violet { background: linear-gradient(135deg, #FB923C, #F59E0B); box-shadow: 0 4px 15px rgba(251,146,60,0.35); }
-        .btn.violet:hover:not(:disabled) { box-shadow: 0 6px 22px rgba(251,146,60,0.55); transform: translateY(-2px); }
-        .btn.ghost { background: rgba(192,132,252,0.06); border: 1px solid rgba(192,132,252,0.2); color: var(--text); box-shadow: none; }
-        .btn.ghost::after { display: none; }
-        .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); background: rgba(192,132,252,0.12); }
-        .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid rgba(192,132,252,0.1) !important; box-shadow: none !important; transform: none !important; }
-        .btn:disabled::after { display: none; }
-        .task-btn {
-            padding: 8px 14px; font-size: 0.82rem; border-radius: 9px; width: auto;
-            flex-shrink: 0;
-        }
+        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 15px var(--primary-dim); }
+        .btn.violet { background: var(--violet); color: #fff; box-shadow: 0 4px 15px rgba(139,92,246,0.3); }
+        .btn.violet:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(139,92,246,0.5); }
+        .btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text); box-shadow: none; }
+        .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); }
+        .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid #222 !important; box-shadow: none !important; transform: none !important; }
+        .task-btn { padding: 8px 14px; font-size: 0.8rem; border-radius: 8px; width: auto; flex-shrink: 0; }
 
         /* ── SECTION TITLES ── */
         .section-title {
@@ -258,71 +206,66 @@
             display: flex; align-items: center; gap: 10px;
         }
         .section-title .title-icon {
-            width: 32px; height: 32px; border-radius: 9px;
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
-            flex-shrink: 0;
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0;
         }
-        .ti-blue { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(192,132,252,0.3); }
-        .ti-gold  { background: var(--gold-dim);    color: var(--gold);    border: 1px solid rgba(251,146,60,0.3); }
-        .ti-violet{ background: var(--violet-dim);  color: var(--violet);  border: 1px solid rgba(245,158,11,0.3); }
+        .ti-blue { background: var(--primary-dim); color: var(--primary); border: 1px solid var(--border); }
+        .ti-gold  { background: var(--gold-dim);    color: var(--gold);    border: 1px solid rgba(251,191,36,0.3); }
+        .ti-violet{ background: var(--violet-dim);  color: var(--violet);  border: 1px solid rgba(139,92,246,0.3); }
 
         /* ── AD CARDS ── */
         .ad-card {
-            background: linear-gradient(135deg, rgba(30,15,55,0.85), rgba(18,8,35,0.9));
-            border: 1px solid rgba(192,132,252,0.15);
-            border-radius: var(--r-card); padding: 16px 18px; margin-bottom: 14px;
-            position: relative; overflow: hidden; transition: all 0.25s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--r-card); padding: 16px 18px; margin-bottom: 12px;
+            transition: all 0.25s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 3px solid transparent;
         }
-        .ad-card:hover { border-color: rgba(192,132,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(192,132,252,0.15); }
-        .ad-card-accent {
-            position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px 0 0 2px;
-        }
+        .ad-card:hover { border-color: var(--primary); transform: translateY(-2px); background: rgba(20,25,35,0.9); }
+        
         .ad-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-        .ad-name { font-size: 0.98rem; font-weight: 700; color: var(--text); }
-        .ad-network { font-size: 0.72rem; color: var(--text2); margin-top: 2px; }
-        .ad-badge {
-            font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 20px;
-            letter-spacing: 0.3px;
-        }
+        .ad-name { font-size: 0.98rem; font-weight: 700; color: var(--text); display:flex; align-items:center; gap:6px;}
+        .ad-network { font-size: 0.72rem; color: var(--text2); margin-top: 4px; }
+        .ad-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.5px; }
         .ad-card-bottom { display: flex; justify-content: space-between; align-items: center; }
         .ad-reward { font-size: 0.95rem; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 5px; }
-        .ad-limit-text { font-size: 0.78rem; color: var(--text2); }
+        .ad-limit-text { font-size: 0.75rem; color: var(--text2); font-family: monospace; }
 
-        /* Ad card colors */
-        .ad-mixed .ad-card-accent { background: linear-gradient(var(--primary), var(--gold)); }
-        .ad-mixed .ad-badge { background: rgba(192,132,252,0.15); color: var(--primary); border: 1px solid rgba(192,132,252,0.3); }
-        .ad-monetag .ad-card-accent { background: linear-gradient(#38BDF8, #0EA5E9); }
-        .ad-monetag .ad-badge { background: rgba(56,189,248,0.15); color: #38BDF8; border: 1px solid rgba(56,189,248,0.3); }
-        .ad-giga .ad-card-accent { background: linear-gradient(var(--gold), var(--violet)); }
-        .ad-giga .ad-badge { background: rgba(251,146,60,0.15); color: var(--gold); border: 1px solid rgba(251,146,60,0.3); }
+        /* Custom Ad Styles */
+        .ad-adsgram-daily { border-left-color: var(--primary); }
+        .ad-adsgram-daily .ad-badge { background: var(--primary-dim); color: var(--primary); }
+        
+        .ad-adsgram-special { border-left-color: var(--gold); }
+        .ad-adsgram-special .ad-badge { background: var(--gold-dim); color: var(--gold); }
+        
+        .ad-monetag { border-left-color: var(--secondary); }
+        .ad-monetag .ad-badge { background: rgba(59,130,246,0.15); color: var(--secondary); }
+        
+        .ad-giga { border-left-color: var(--red); }
+        .ad-giga .ad-badge { background: rgba(244,63,94,0.15); color: var(--red); }
 
         /* info bar */
         .info-bar {
-            background: rgba(192,132,252,0.07); border: 1px solid rgba(192,132,252,0.2);
-            border-radius: 12px; padding: 10px 14px; margin-bottom: 16px;
-            font-size: 0.82rem; color: var(--text2); display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;
+            font-size: 0.8rem; color: var(--text2); display: flex; align-items: center; gap: 10px;
         }
-        .info-bar i { color: var(--primary); flex-shrink: 0; }
+        .info-bar i { color: var(--primary); font-size:1.1rem; flex-shrink: 0; }
 
         /* ── GENERIC CARD ── */
         .card {
-            background: linear-gradient(135deg, rgba(30,15,55,0.85), rgba(18,8,35,0.9));
-            border: 1px solid rgba(192,132,252,0.15);
+            background: var(--card); border: 1px solid rgba(255,255,255,0.05);
             border-radius: var(--r-card); padding: 20px; margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         /* ── FORMS ── */
         .form-group { margin-bottom: 14px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 0.82rem; font-weight: 500; color: var(--text2); }
         input[type="text"], input[type="number"] {
-            width: 100%; padding: 12px 14px; border-radius: var(--r-btn);
-            border: 1px solid rgba(192,132,252,0.2); background: rgba(6,3,15,0.85);
-            color: var(--text); font-size: 0.92rem; outline: none;
-            font-family: 'Inter', sans-serif; transition: all 0.2s;
+            width: 100%; padding: 12px 14px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5);
+            color: var(--text); font-size: 0.92rem; outline: none; transition: all 0.2s;
         }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(192,132,252,0.15); }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-dim); }
         input:read-only { background: var(--disabled-bg); color: var(--text2); }
         .input-row { display: flex; gap: 8px; margin-bottom: 14px; }
         .input-row input { flex: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
@@ -331,138 +274,89 @@
         /* ── BOTTOM NAV ── */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(6,3,15,0.97); border-top: 1px solid rgba(192,132,252,0.15);
-            backdrop-filter: blur(24px); display: flex; padding: 8px 0 20px;
-            box-shadow: 0 -4px 30px rgba(192,132,252,0.08);
+            background: rgba(3,5,9,0.95); border-top: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px); display: flex; padding: 10px 0 20px;
         }
         .nav-item {
-            flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+            flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
             text-decoration: none; color: var(--disabled-text); font-size: 0.68rem;
-            font-weight: 600; transition: all 0.25s; padding: 4px 0;
-            position: relative;
+            font-weight: 600; transition: all 0.25s; text-transform: uppercase;
         }
-        .nav-item i { font-size: 1.1rem; transition: all 0.25s; }
+        .nav-item i { font-size: 1.2rem; transition: transform 0.2s; }
         .nav-item.active { color: var(--primary); }
-        .nav-item.active i {
-            color: var(--primary);
-            filter: drop-shadow(0 0 8px rgba(192,132,252,0.8));
-        }
-        .nav-item.active::before {
-            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 30px; height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--gold));
-            border-radius: 2px;
-            box-shadow: 0 0 10px rgba(192,132,252,0.7);
-        }
+        .nav-item.active i { transform: translateY(-3px); filter: drop-shadow(0 0 5px var(--primary)); }
 
         /* ── CONTENT SECTIONS ── */
         .content-section { display: none; animation: fadeUp 0.3s ease forwards; }
         .content-section.active { display: block; }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
 
-        .loader { border: 3px solid rgba(192,132,252,0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 28px; height: 28px; animation: spin 0.7s linear infinite; margin: 28px auto; }
+        .loader { border: 3px solid rgba(0,229,255,0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 28px; height: 28px; animation: spin 0.7s linear infinite; margin: 28px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ── MODALS ── */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000;
             display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(12px); padding: 16px;
+            backdrop-filter: blur(8px); padding: 16px;
         }
         .modal-overlay.show { display: flex; }
         .modal-box {
-            background: linear-gradient(135deg, rgba(30,15,55,0.98), rgba(18,8,35,0.99));
-            color: var(--text); padding: 22px; border-radius: 22px;
-            width: 100%; max-width: 360px;
-            border: 1px solid rgba(192,132,252,0.25);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(192,132,252,0.1), 0 0 40px rgba(192,132,252,0.08);
-            animation: modalPop 0.35s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
-            max-height: 88vh; overflow-y: auto;
+            background: #0B0F19; border: 1px solid var(--border);
+            color: var(--text); padding: 24px; border-radius: 20px;
+            width: 100%; max-width: 350px;
+            box-shadow: 0 10px 50px rgba(0,229,255,0.15);
+            animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+            max-height: 85vh; overflow-y: auto;
         }
-        @keyframes modalPop { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
-        .modal-header {
-            display: flex; align-items: center; gap: 10px;
-            padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid rgba(192,132,252,0.15);
-        }
-        .modal-header-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; font-size: 1rem;
-        }
-        .modal-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 0; }
+        @keyframes modalPop { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
+        .modal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .modal-header-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .modal-title { font-size: 1.1rem; font-weight: 700; margin: 0; }
 
         /* ── WITHDRAW TIERS ── */
         .tier-info {
-            background: rgba(192,132,252,0.06); border: 1px solid rgba(192,132,252,0.15);
-            border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 12px; margin-bottom: 14px;
         }
-        .tier-info-title { font-size: 0.78rem; font-weight: 700; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .tier-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 5px 0; border-bottom: 1px solid rgba(192,132,252,0.1); font-size: 0.8rem;
-        }
+        .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
         .tier-row:last-child { border-bottom: none; }
         .tier-range { color: var(--text2); }
         .tier-ref { font-weight: 700; color: var(--gold); }
-        .tier-active { background: rgba(192,132,252,0.1); border-radius: 6px; padding: 5px 8px; }
-        .tier-active .tier-range { color: var(--primary); }
+        .tier-active { background: var(--primary-dim); border-radius: 6px; padding: 5px 8px; border:1px solid var(--border); }
+        .tier-active .tier-range { color: var(--primary); font-weight:bold; }
 
         .required-refs-display {
-            text-align: center; padding: 10px; background: var(--primary-dim);
-            border: 1px solid rgba(192,132,252,0.3); border-radius: 10px;
+            text-align: center; padding: 12px; background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(255,255,255,0.1); border-radius: 10px;
             margin-bottom: 14px; font-size: 0.85rem;
         }
-        .required-refs-display strong { color: var(--primary); font-size: 1.1rem; }
-
-        .notice-box {
-            background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.25);
-            border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;
-            font-size: 0.78rem; line-height: 1.5; color: var(--text2); display: flex; gap: 8px;
-        }
-        .notice-box i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
-        .ton-preview {
-            margin-top: 6px; font-size: 0.82rem; color: var(--green); font-weight: 700; display: none;
-        }
+        .ton-preview { margin-top: 6px; font-size: 0.85rem; color: var(--green); font-weight: 700; display: none; text-align:center; }
 
         /* ── LOTTERY ── */
-        .wheel-wrap { position: relative; width: 240px; height: 240px; margin: 0 auto 20px; }
+        .wheel-wrap { position: relative; width: 230px; height: 230px; margin: 0 auto 20px; }
         #wheelCanvas {
             width: 100%; height: 100%; border-radius: 50%;
-            box-shadow: 0 0 0 5px rgba(192,132,252,0.2), 0 0 30px rgba(192,132,252,0.4);
+            box-shadow: 0 0 0 4px var(--border), 0 0 30px var(--primary-dim);
             transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05);
         }
         .spin-pointer {
-            position: absolute; top: 50%; right: -12px; transform: translateY(-50%);
-            width: 0; height: 0;
-            border-top: 10px solid transparent; border-bottom: 10px solid transparent;
-            border-right: 22px solid var(--gold); z-index: 10;
-            filter: drop-shadow(-2px 2px 6px rgba(251,146,60,0.6));
+            position: absolute; top: 50%; right: -15px; transform: translateY(-50%);
+            width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+            border-right: 24px solid var(--primary); z-index: 10;
         }
-        #confettiCanvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-
-        /* ── VERIFICATION MODAL ── */
-        .verify-link-btn {
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(192,132,252,0.08); border: 1px solid rgba(192,132,252,0.2);
-            color: var(--text); padding: 13px 16px; border-radius: 12px;
-            text-decoration: none; font-weight: 500; font-size: 0.92rem;
-            transition: all 0.2s; margin-bottom: 10px;
-        }
-        .verify-link-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(192,132,252,0.15); }
-        .verify-link-btn i { color: var(--primary); font-size: 1.1rem; }
 
         /* ── TASK TABS ── */
         .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
         .tab-btn {
-            flex: 1; padding: 10px 8px; border-radius: 11px; border: 1px solid rgba(192,132,252,0.2);
-            background: rgba(192,132,252,0.05); color: var(--text2); font-weight: 600; font-size: 0.84rem;
-            cursor: pointer; transition: all 0.2s; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
+            flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.3); color: var(--text2); font-weight: 600; font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s;
         }
-        .tab-btn.active { background: linear-gradient(135deg, var(--primary), #a855f7); color: #fff; border-color: var(--primary); box-shadow: 0 4px 14px rgba(192,132,252,0.4); }
+        .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        /* ── SUCCESS MODAL ── */
-        .success-icon { font-size: 3rem; margin-bottom: 12px; animation: iconBounce 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
-        @keyframes iconBounce { from{transform:scale(0)} to{transform:scale(1)} }
+        .success-icon { font-size: 3rem; margin-bottom: 12px; animation: iconPop 0.4s ease; }
+        @keyframes iconPop { 0%{transform:scale(0)} 80%{transform:scale(1.2)} 100%{transform:scale(1)} }
     </style>
 </head>
 <body>
@@ -475,12 +369,12 @@
     <!-- HEADER -->
     <header class="main-header">
         <div class="site-branding">
-            <div class="logo-ring"><i class="fas fa-bolt"></i></div>
+            <div class="logo-ring"><i class="fas fa-cube"></i></div>
             <h1 class="site-title">NEW<span>TUBE</span> TON</h1>
         </div>
         <div class="header-right">
-            <button class="hbtn" id="withdraw-modal-btn" title="Withdraw"><i class="fas fa-wallet"></i></button>
-            <button class="hbtn" id="history-btn" title="History"><i class="fas fa-clock-rotate-left"></i></button>
+            <button class="hbtn" id="withdraw-modal-btn"><i class="fas fa-wallet"></i></button>
+            <button class="hbtn" id="history-btn"><i class="fas fa-clock-rotate-left"></i></button>
         </div>
     </header>
 
@@ -492,48 +386,48 @@
             <div class="profile-card">
                 <div class="profile-top">
                     <div class="avatar-wrap">
-                        <div class="avatar-ring"><i class="fas fa-user-astronaut"></i></div>
+                        <div class="avatar-ring"><i class="fas fa-user-ninja"></i></div>
                         <div class="avatar-status"></div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Your Wallet</div>
+                        <div class="profile-name">Terminal Access</div>
                         <div class="profile-id" id="profile-id-display">
-                            ID: <span>...</span>&nbsp;<i class="fas fa-copy" style="font-size:0.7rem;"></i>
+                            UID: <span>...</span>&nbsp;<i class="fas fa-copy" style="font-size:0.7rem;"></i>
                         </div>
                     </div>
                 </div>
 
                 <div class="balance-display">
                     <div class="bal-ton"><span id="home-ton">0.0000</span> TON</div>
-                    <div class="bal-ton-label">BALANCE</div>
-                    <div class="bal-pts"><i class="fas fa-coins" style="font-size:0.85rem;"></i> <span id="home-pts">0</span> Points</div>
+                    <div class="bal-ton-label">ESTIMATED BALANCE</div>
+                    <div class="bal-pts"><i class="fas fa-database" style="font-size:0.85rem;"></i> <span id="home-pts">0</span> Data Points</div>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-box s1">
+                    <div class="stat-box">
                         <div class="stat-label">Lifetime</div>
-                        <div class="stat-val" id="home-life">0 Pts</div>
+                        <div class="stat-val" id="home-life">0</div>
                     </div>
-                    <div class="stat-box s2">
-                        <div class="stat-label">Invites</div>
-                        <div class="stat-val" id="home-normal-ref">0</div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Invites</div>
+                        <div class="stat-val" style="color:var(--text);" id="home-normal-ref">0</div>
                     </div>
-                    <div class="stat-box s3">
+                    <div class="stat-box">
                         <div class="stat-label">Valid Refs</div>
-                        <div class="stat-val" id="home-valid-ref">0</div>
+                        <div class="stat-val" style="color:var(--gold);" id="home-valid-ref">0</div>
                     </div>
                 </div>
 
                 <div class="action-row">
-                    <button class="btn" id="action-invite"><i class="fas fa-user-plus"></i> Invite & Earn</button>
-                    <button class="btn outline" id="action-promo-code"><i class="fas fa-ticket-alt"></i> Promo Code</button>
+                    <button class="btn" id="action-invite"><i class="fas fa-users"></i> Referrals</button>
+                    <button class="btn outline" id="action-promo-code"><i class="fas fa-gift"></i> Gift Code</button>
                 </div>
 
                 <div class="action-link-row">
-                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="btn ghost" style="font-size:0.85rem; padding:10px;">
+                    <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="btn ghost" style="padding:10px;">
                         <i class="fab fa-telegram-plane"></i> Official
                     </a>
-                    <a href="https://t.me/Your_Admin11" target="_blank" class="btn ghost" style="font-size:0.85rem; padding:10px;">
+                    <a href="https://t.me/Your_Admin11" target="_blank" class="btn ghost" style="padding:10px;">
                         <i class="fas fa-headset"></i> Support
                     </a>
                 </div>
@@ -545,69 +439,84 @@
         <section id="ads-content" class="content-section">
 
             <div class="section-title">
-                <div class="title-icon ti-blue"><i class="fas fa-play"></i></div>
-                Daily Ad Mission
+                <div class="title-icon ti-blue"><i class="fas fa-satellite-dish"></i></div>
+                Network Missions
             </div>
 
             <div class="info-bar">
                 <i class="fas fa-info-circle"></i>
-                Ads & Spins reset daily at <strong style="color:var(--primary); margin:0 3px;">12:00 AM</strong>. Each network shows its own ads only.
+                <div>Data resets daily at <strong>12:00 AM</strong>. Higher rewards on special networks.</div>
             </div>
 
-            <!-- Mixed -->
-            <div class="ad-card ad-mixed">
-                <div class="ad-card-accent"></div>
+            <!-- Adsgram Daily -->
+            <div class="ad-card ad-adsgram-daily">
                 <div class="ad-card-top">
                     <div>
-                        <div class="ad-name">🎲 Lucky View</div>
-                        <div class="ad-network">Mixed Network — Random ad each watch</div>
+                        <div class="ad-name"><i class="fas fa-bolt" style="color:var(--primary);"></i> AdsGram Daily</div>
+                        <div class="ad-network">Standard Video Network</div>
                     </div>
-                    <div>
-                        <div class="ad-badge">MIXED</div>
-                        <div class="ad-limit-text" style="text-align:right; margin-top:4px;" id="limit-mixed">0/20</div>
+                    <div style="text-align:right;">
+                        <div class="ad-badge">ADSGRAM</div>
+                        <div class="ad-limit-text" id="limit-adsgram-daily">0/10</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward"><i class="fas fa-coins"></i> +12 Points</div>
-                    <button id="btn-watch-mixed" class="btn task-btn">Watch</button>
+                    <div class="ad-reward">+10 Points</div>
+                    <button id="btn-watch-adsgram-daily" class="btn outline task-btn">Watch</button>
+                </div>
+            </div>
+
+            <!-- Adsgram Special -->
+            <div class="ad-card ad-adsgram-special">
+                <div class="ad-card-top">
+                    <div>
+                        <div class="ad-name"><i class="fas fa-star" style="color:var(--gold);"></i> AdsGram Special</div>
+                        <div class="ad-network">Premium Video Network</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="ad-badge">PREMIUM</div>
+                        <div class="ad-limit-text" id="limit-adsgram-special">0/5</div>
+                    </div>
+                </div>
+                <div class="ad-card-bottom">
+                    <div class="ad-reward" style="color:var(--gold);">+20 Points</div>
+                    <button id="btn-watch-adsgram-special" class="btn task-btn" style="background:var(--gold);color:#000;">Watch</button>
                 </div>
             </div>
 
             <!-- Monetag -->
             <div class="ad-card ad-monetag">
-                <div class="ad-card-accent"></div>
                 <div class="ad-card-top">
                     <div>
-                        <div class="ad-name">⚡ Fast View</div>
-                        <div class="ad-network">Monetag Network — Monetag ads only</div>
+                        <div class="ad-name"><i class="fas fa-external-link-alt" style="color:var(--secondary);"></i> Monetag Web</div>
+                        <div class="ad-network">External Display Network</div>
                     </div>
-                    <div>
+                    <div style="text-align:right;">
                         <div class="ad-badge">MONETAG</div>
-                        <div class="ad-limit-text" style="text-align:right; margin-top:4px;" id="limit-monetag">0/10</div>
+                        <div class="ad-limit-text" id="limit-monetag">0/10</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward"><i class="fas fa-coins"></i> +12 Points</div>
-                    <button id="btn-watch-monetag" class="btn task-btn">Watch</button>
+                    <div class="ad-reward">+15 Points</div>
+                    <button id="btn-watch-monetag" class="btn outline task-btn" style="border-color:var(--secondary);color:var(--secondary);">Watch</button>
                 </div>
             </div>
 
             <!-- GigaPub -->
             <div class="ad-card ad-giga">
-                <div class="ad-card-accent"></div>
                 <div class="ad-card-top">
                     <div>
-                        <div class="ad-name">👆 Click View</div>
-                        <div class="ad-network">GigaPub Network — GigaPub ads only</div>
+                        <div class="ad-name"><i class="fas fa-hand-pointer" style="color:var(--red);"></i> GigaPub Display</div>
+                        <div class="ad-network">Interactive Ad Network</div>
                     </div>
-                    <div>
+                    <div style="text-align:right;">
                         <div class="ad-badge">GIGAPUB</div>
-                        <div class="ad-limit-text" style="text-align:right; margin-top:4px;" id="limit-giga">0/10</div>
+                        <div class="ad-limit-text" id="limit-giga">0/10</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward"><i class="fas fa-coins"></i> +12 Points</div>
-                    <button id="btn-watch-giga" class="btn task-btn">Watch</button>
+                    <div class="ad-reward" style="color:var(--text);">+15 Points</div>
+                    <button id="btn-watch-giga" class="btn outline task-btn" style="border-color:var(--red);color:var(--red);">Watch</button>
                 </div>
             </div>
 
@@ -617,18 +526,12 @@
         <section id="lottery-content" class="content-section">
             <div class="section-title">
                 <div class="title-icon ti-gold"><i class="fas fa-dharmachakra"></i></div>
-                Lucky Spin Wheel
+                Data Spinner
             </div>
 
-            <div class="card" style="text-align:center; position:relative; overflow:hidden;">
-                <canvas id="confettiCanvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></canvas>
-
-                <div style="display:inline-block; background:var(--gold-dim); border:1px solid rgba(245,158,11,0.3); padding:5px 16px; border-radius:20px; font-size:0.78rem; font-weight:700; color:var(--gold); margin-bottom:18px; letter-spacing:0.5px;">
-                    PREMIUM WHEEL
-                </div>
-
-                <div id="spinLimitText" style="font-size:0.82rem; color:var(--green); background:var(--green-dim); border:1px solid rgba(52,211,153,0.25); padding:6px 16px; border-radius:20px; display:inline-block; margin-bottom:22px;">
-                    🎰 Spin Available! (1 per hour)
+            <div class="card" style="text-align:center;">
+                <div id="spinLimitText" style="font-size:0.85rem; color:var(--primary); background:var(--primary-dim); border:1px solid var(--border); padding:8px 16px; border-radius:10px; display:inline-block; margin-bottom:20px; font-weight:600;">
+                    🎰 Loading Spin Status...
                 </div>
 
                 <div class="wheel-wrap">
@@ -636,26 +539,26 @@
                     <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 </div>
 
-                <button id="spinBtn" class="btn" style="margin-top:22px; border-radius:50px; background:linear-gradient(135deg,#ff6b81,#ff4757); box-shadow:0 5px 18px rgba(255,71,87,0.45); padding:14px 30px; width:100%; max-width:280px; display:block; margin-left:auto; margin-right:auto;">
-                    <i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)
+                <button id="spinBtn" class="btn" style="margin-top:20px; padding:14px; max-width:280px; margin-left:auto; margin-right:auto;">
+                    <i class="fas fa-sync-alt"></i> INITIALIZE SPIN (AD)
                 </button>
-                <div id="lotteryResult" style="margin-top:16px; font-size:0.95rem; font-weight:600; min-height:24px; color:var(--text);">Test your luck!</div>
+                <div id="lotteryResult" style="margin-top:16px; font-size:0.95rem; font-weight:600; color:var(--text);">Awaiting spin...</div>
             </div>
         </section>
 
         <!-- ══ TASKS ══ -->
         <section id="task-content" class="content-section">
             <div class="section-title">
-                <div class="title-icon ti-violet"><i class="fas fa-list-check"></i></div>
-                Earn Tasks
+                <div class="title-icon ti-violet"><i class="fas fa-microchip"></i></div>
+                Smart Contracts
             </div>
 
             <div class="tab-bar">
                 <button id="tab-channel" class="tab-btn active" data-task-tab="channel">
-                    <i class="fab fa-telegram-plane"></i> Channel / Group
+                    <i class="fab fa-telegram-plane"></i> Channels
                 </button>
                 <button id="tab-partner" class="tab-btn" data-task-tab="partner">
-                    <i class="fas fa-robot"></i> Partner Tasks
+                    <i class="fas fa-robot"></i> Partners
                 </button>
             </div>
 
@@ -667,97 +570,65 @@
 
     <!-- ══ BOTTOM NAV ══ -->
     <nav class="bottom-nav">
-        <a href="#" class="nav-item active" data-tab-target="#home-content"><i class="fas fa-house"></i>Home</a>
-        <a href="#" class="nav-item" data-tab-target="#ads-content"><i class="fas fa-play-circle"></i>Ads</a>
-        <a href="#" class="nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i>Lottery</a>
-        <a href="#" class="nav-item" data-tab-target="#task-content"><i class="fas fa-list-check"></i>Tasks</a>
+        <a href="#" class="nav-item active" data-tab-target="#home-content"><i class="fas fa-layer-group"></i>Panel</a>
+        <a href="#" class="nav-item" data-tab-target="#ads-content"><i class="fas fa-bolt"></i>Extract</a>
+        <a href="#" class="nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i>Spin</a>
+        <a href="#" class="nav-item" data-tab-target="#task-content"><i class="fas fa-check-double"></i>Tasks</a>
     </nav>
 
     <!-- ══ MODALS ══ -->
 
     <!-- Withdraw Modal -->
     <div id="withdrawModalOverlay" class="modal-overlay">
-        <div class="modal-box" style="max-width:340px;">
+        <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-header-icon" style="background:var(--primary-dim); color:var(--primary); border:1px solid rgba(0,163,255,0.3);">
-                    <i class="fas fa-wallet"></i>
-                </div>
+                <div class="modal-header-icon" style="background:var(--primary-dim); color:var(--primary);"><i class="fas fa-wallet"></i></div>
                 <h3 class="modal-title">Withdraw Funds</h3>
             </div>
 
-            <div style="text-align:center; margin-bottom:14px;">
-                <div style="font-size:1.7rem; font-weight:800; color:var(--text);" id="withdrawPointBalance">0.0000 TON</div>
-                <div style="font-size:0.75rem; color:var(--text2); margin-top:3px;">Rate: 50,000 Pts = 1.00 TON</div>
+            <div style="text-align:center; margin-bottom:15px;">
+                <div style="font-size:1.8rem; font-weight:800; color:var(--text); font-family:monospace;" id="withdrawPointBalance">0.0000 TON</div>
+                <div style="font-size:0.75rem; color:var(--text2); margin-top:4px;">Rate: 50,000 Pts = 1.00 TON</div>
             </div>
 
-            <!-- Tier Table -->
             <div class="tier-info">
-                <div class="tier-info-title"><i class="fas fa-layer-group" style="margin-right:5px;"></i>Referral Requirements</div>
-                <div class="tier-row" id="tier-row-1">
-                    <span class="tier-range">1 – 1,500 Pts</span>
-                    <span class="tier-ref">1 Valid Ref</span>
-                </div>
-                <div class="tier-row" id="tier-row-2">
-                    <span class="tier-range">1,501 – 3,000 Pts</span>
-                    <span class="tier-ref">2 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-3">
-                    <span class="tier-range">3,001 – 4,500 Pts</span>
-                    <span class="tier-ref">3 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-4">
-                    <span class="tier-range">4,501 – 6,000 Pts</span>
-                    <span class="tier-ref">4 Valid Refs</span>
-                </div>
-                <div class="tier-row" id="tier-row-5">
-                    <span class="tier-range">6,001+ Pts</span>
-                    <span class="tier-ref">5 Valid Refs</span>
-                </div>
+                <div style="font-size:0.75rem; color:var(--text2); margin-bottom:8px; font-weight:600;">REQUIREMENTS</div>
+                <div class="tier-row" id="tier-row-1"><span class="tier-range">1 – 1,500 Pts</span><span class="tier-ref">1 Valid Ref</span></div>
+                <div class="tier-row" id="tier-row-2"><span class="tier-range">1,501 – 3,000 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-3"><span class="tier-range">3,001 – 4,500 Pts</span><span class="tier-ref">3 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-4"><span class="tier-range">4,501 – 6,000 Pts</span><span class="tier-ref">4 Valid Refs</span></div>
+                <div class="tier-row" id="tier-row-5"><span class="tier-range">6,001+ Pts</span><span class="tier-ref">5 Valid Refs</span></div>
             </div>
 
-            <!-- Live required refs display -->
-            <div class="required-refs-display" id="requiredRefsDisplay">
-                Enter amount to see required referrals
-            </div>
-
-            <div class="notice-box">
-                <i class="fas fa-triangle-exclamation"></i>
-                <div><strong>Notice:</strong> Min 1,500 Pts. Tonkeeper address only. Referrals are deducted after approval.</div>
-            </div>
+            <div class="required-refs-display" id="requiredRefsDisplay">Enter amount to verify</div>
 
             <div class="form-group">
                 <label>Amount (Points)</label>
                 <input type="number" id="withdrawalAmount" placeholder="Min: 1500">
-                <div class="ton-preview" id="realtime-ton-display">
-                    You receive: <span id="calc-ton-val">0.0000</span> TON
-                </div>
+                <div class="ton-preview" id="realtime-ton-display">You receive: <span id="calc-ton-val">0.0000</span> TON</div>
             </div>
 
             <div class="form-group" style="margin-bottom:16px;">
                 <label>Tonkeeper Address</label>
-                <input type="text" id="accountDetails" placeholder="Enter your address">
+                <input type="text" id="accountDetails" placeholder="UQ... Address">
             </div>
 
             <div style="display:flex; gap:10px;">
-                <button class="btn outline close-modal-btn" style="flex:1; padding:12px;">Cancel</button>
-                <button id="submitWithdrawalBtn" class="btn" style="flex:1; padding:12px;">Submit</button>
+                <button class="btn outline close-modal-btn" style="flex:1;">Cancel</button>
+                <button id="submitWithdrawalBtn" class="btn" style="flex:1;">Submit</button>
             </div>
         </div>
     </div>
 
     <!-- Promo Code Modal -->
     <div id="promoModalOverlay" class="modal-overlay">
-        <div class="modal-box" style="max-width:310px;">
+        <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-header-icon" style="background:var(--violet-dim); color:var(--violet); border:1px solid rgba(168,85,247,0.3);">
-                    <i class="fas fa-ticket-alt"></i>
-                </div>
+                <div class="modal-header-icon" style="background:rgba(255,255,255,0.1); color:#fff;"><i class="fas fa-gift"></i></div>
                 <h3 class="modal-title">Promo Code</h3>
             </div>
-            <p style="font-size:0.84rem; color:var(--text2); margin:0 0 14px;">Enter a promo code to claim your reward. Watching 1 ad is required.</p>
-            <div class="form-group">
-                <input type="text" id="promoCodeInput" placeholder="Enter code here">
-            </div>
+            <p style="font-size:0.85rem; color:var(--text2); margin-bottom:15px;">Redeem secret codes for extra Data Points. Ad verification required.</p>
+            <div class="form-group"><input type="text" id="promoCodeInput" placeholder="Enter code..."></div>
             <button id="claimPromoBtn" class="btn" style="margin-bottom:10px;">Claim Reward</button>
             <button class="btn ghost close-modal-btn">Close</button>
         </div>
@@ -765,28 +636,27 @@
 
     <!-- Invite Modal -->
     <div id="inviteModalOverlay" class="modal-overlay">
-        <div class="modal-box" style="max-width:330px; text-align:center;">
-            <div style="font-size:2.8rem; margin-bottom:12px;">🎁</div>
-            <h3 style="margin:0 0 10px; color:var(--text); font-size:1.1rem;">Invite Friends & Earn</h3>
-            <p style="font-size:0.84rem; line-height:1.7; color:var(--text2); margin:0 0 16px;">
-                Friend registers → <strong style="color:var(--violet);">+1 Normal Invite</strong><br>
-                Friend watches 20 ads → <strong style="color:var(--green);">+1 Valid Ref & 400 Pts!</strong><br>
-                <span style="font-size:0.75rem; color:var(--gold);">*Valid Refs unlock withdrawals (tiered)</span>
+        <div class="modal-box" style="text-align:center;">
+            <i class="fas fa-user-plus" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+            <h3 style="margin:0 0 10px; font-size:1.2rem;">Referral Network</h3>
+            <p style="font-size:0.85rem; color:var(--text2); margin-bottom:15px; line-height:1.5;">
+                Get <b style="color:#fff;">+1 Invite</b> on registration.<br>
+                Get <b style="color:var(--green);">+1 Valid Ref & 400 Pts</b> when your friend completes 20 ads!
             </p>
             <div class="input-row">
-                <input type="text" id="modalReferralLinkInput" readonly value="Loading...">
-                <button id="modalCopyReferralLinkBtn" class="btn" style="padding:0 14px;"><i class="fas fa-copy"></i></button>
+                <input type="text" id="modalReferralLinkInput" readonly value="...">
+                <button id="modalCopyReferralLinkBtn" class="btn" style="padding:0 15px;"><i class="fas fa-copy"></i></button>
             </div>
-            <button class="btn ghost close-modal-btn" style="margin-top:8px;">Close</button>
+            <button class="btn ghost close-modal-btn">Close</button>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div id="successModalOverlay" class="modal-overlay">
-        <div class="modal-box" style="max-width:270px; text-align:center;">
-            <div class="success-icon">✅</div>
-            <h3 id="successModalTitle" style="margin:0 0 8px; font-size:1.1rem;">Success!</h3>
-            <p id="successModalMessage" style="color:var(--text2); margin:0; font-size:0.9rem;">Action completed.</p>
+    <div id="successModalOverlay" class="modal-overlay" style="z-index: 3000;">
+        <div class="modal-box" style="max-width:260px; text-align:center; padding:30px 20px;">
+            <div class="success-icon" style="color:var(--green);"><i class="fas fa-check-circle"></i></div>
+            <h3 id="successModalTitle" style="margin:0 0 10px;">Success!</h3>
+            <p id="successModalMessage" style="color:var(--text2); margin:0; font-size:0.9rem;"></p>
         </div>
     </div>
 
@@ -794,39 +664,29 @@
     <div id="historyModalOverlay" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-header-icon" style="background:var(--gold-dim); color:var(--gold); border:1px solid rgba(245,158,11,0.3);">
-                    <i class="fas fa-clock-rotate-left"></i>
-                </div>
-                <h3 class="modal-title">Transaction History</h3>
+                <div class="modal-header-icon" style="background:var(--gold-dim); color:var(--gold);"><i class="fas fa-history"></i></div>
+                <h3 class="modal-title">Log History</h3>
             </div>
-            <div id="combined-history-list" style="max-height:55vh; overflow-y:auto;"></div>
-            <button class="btn ghost close-modal-btn" style="margin-top:14px;">Close</button>
+            <div id="combined-history-list" style="max-height:50vh; overflow-y:auto; padding-right:5px;"></div>
+            <button class="btn ghost close-modal-btn" style="margin-top:15px;">Close</button>
         </div>
     </div>
 
     <!-- Verification Modal -->
-    <div id="activationModalOverlay" class="modal-overlay">
-        <div class="modal-box" style="max-width:330px; text-align:center;">
-            <div style="background:var(--primary-dim); width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; border:1px solid rgba(0,163,255,0.3);">
-                <i class="fas fa-shield-halved" style="font-size:1.8rem; color:var(--primary);"></i>
-            </div>
-            <h3 style="color:var(--text); margin:0 0 8px; font-size:1.2rem;">Verification Required</h3>
-            <p style="color:var(--text2); margin:0 0 20px; font-size:0.84rem; line-height:1.6;">
-                Join our Official Channel and Group to unlock all earning features.
-            </p>
-            <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="verify-link-btn">
-                <i class="fab fa-telegram-plane"></i> Join Official Channel
-            </a>
-            <a href="https://t.me/newTon_Gc" target="_blank" class="verify-link-btn">
-                <i class="fas fa-users"></i> Join Community Group
-            </a>
-            <button id="activateAccountBtn" class="btn" style="width:100%; margin-top:4px; padding:13px;">Verify Account</button>
+    <div id="activationModalOverlay" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-box" style="text-align:center;">
+            <i class="fas fa-shield-alt" style="font-size:3rem; color:var(--red); margin-bottom:15px;"></i>
+            <h3 style="margin:0 0 10px; font-size:1.2rem;">Security Check</h3>
+            <p style="color:var(--text2); font-size:0.85rem; margin-bottom:20px;">Join our networks to authenticate your device and claim <b style="color:var(--primary);">+10 Pts</b>.</p>
+            <a href="https://t.me/NEEWTON_OFFICIAL" target="_blank" class="btn outline" style="margin-bottom:10px;"><i class="fab fa-telegram-plane"></i> 1. Official Channel</a>
+            <a href="https://t.me/newTon_Gc" target="_blank" class="btn outline" style="margin-bottom:15px;"><i class="fas fa-users"></i> 2. Community Group</a>
+            <button id="activateAccountBtn" class="btn">Verify Access</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, writeBatch } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
@@ -843,26 +703,67 @@
 
         let currentUser = null;
         let isSubmittingWithdrawal = false;
-        let isAdRunning = false; // Global ad lock — prevents chain/concurrent ads
+        let isAdRunning = false; 
 
         const REFERRAL_REWARD_POINTS = 400;
         const POINTS_TO_TON_RATE = 0.00002;
 
-        function getTodayDateString() {
-            return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
+        // ════════════════════════════════════════════
+        // DEVICE FINGERPRINTING & MULTI-ACCOUNT SYSTEM
+        // ════════════════════════════════════════════
+        async function generateDeviceFingerprint() {
+            return new Promise(resolve => {
+                let fp = "";
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.textBaseline = "top"; ctx.font = "14px 'Arial'"; ctx.textBaseline = "alphabetic";
+                    ctx.fillStyle = "#f60"; ctx.fillRect(125,1,62,20);
+                    ctx.fillStyle = "#069"; ctx.fillText("NewTubeTON", 2, 15);
+                    ctx.fillStyle = "rgba(102, 204, 0, 0.7)"; ctx.fillText("NewTubeTON", 4, 17);
+                    const dataUrl = canvas.toDataURL();
+                    
+                    let hash = 0;
+                    for (let i = 0; i < dataUrl.length; i++) {
+                        let char = dataUrl.charCodeAt(i);
+                        hash = ((hash << 5) - hash) + char; hash = hash & hash;
+                    }
+                    const rawString = `${hash}_${navigator.userAgent}_${screen.width}x${screen.height}x${screen.colorDepth}`;
+                    
+                    let finalHash = 0;
+                    for (let i = 0; i < rawString.length; i++) {
+                        let char = rawString.charCodeAt(i);
+                        finalHash = ((finalHash << 5) - finalHash) + char; finalHash = finalHash & finalHash;
+                    }
+                    fp = Math.abs(finalHash).toString(16);
+                } catch(e) { fp = "fallback_" + Math.random().toString(36).substr(2, 9); }
+                resolve(fp);
+            });
         }
 
-        const AD_CONFIG = { mixed: { limit: 20 }, monetag: { limit: 10 }, giga: { limit: 10 } };
+        // ════════════════════════════════════════════
+        // UPDATED AD CONFIGURATION
+        // ════════════════════════════════════════════
+        const AD_CONFIG = { 
+            adsgramDaily:   { limit: 10, reward: 10 },
+            adsgramSpecial: { limit: 5,  reward: 20 },
+            monetag:        { limit: 10, reward: 15 },
+            giga:           { limit: 10, reward: 15 }
+        };
 
-        // ════════════════════════════════════════════
-        // FIX 1: SEPARATE AD NETWORKS — no cross-mixing
-        // Monetag button → Monetag only
-        // GigaPub button → GigaPub only
-        // Mixed button   → randomly picks one each time
-        // ════════════════════════════════════════════
+        const showAdsgramDailyAd = () => new Promise((res, rej) => {
+            if (window.Adsgram) { window.Adsgram.init({blockId:"int-21249"}).show().then(res).catch(rej); } 
+            else { setTimeout(res, 2000); }
+        });
+
+        const showAdsgramSpecialAd = () => new Promise((res, rej) => {
+            if (window.Adsgram) { window.Adsgram.init({blockId:"22908"}).show().then(res).catch(rej); } 
+            else { setTimeout(res, 2000); }
+        });
+
         const showMonetagAd = () => new Promise((res) => {
             if (typeof show_9442539 === 'function') {
-                const t = setTimeout(res, 15000); // safety timeout
+                const t = setTimeout(res, 15000);
                 show_9442539().then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
             } else { setTimeout(res, 2000); }
         });
@@ -874,37 +775,24 @@
             } else { setTimeout(res, 2000); }
         });
 
-        const showFallbackAd = () => new Promise((res) => { setTimeout(res, 2000); });
-
-        // Mixed = random choice between the two networks, once per click
-        async function showRandomAd() {
-            try {
-                if (Math.random() < 0.5) { await showGigaPubAd(); }
-                else { await showMonetagAd(); }
-            } catch (e) { await showFallbackAd(); }
-        }
-
-        // ════════════════════════════════════════════
-        // AD TIMER + GLOBAL LOCK (prevents double ads)
-        // ════════════════════════════════════════════
         async function runAdAndVerifyTime(btnId, adFunc) {
             if (isAdRunning) { alert("⚠️ Please wait, an ad is already playing."); return false; }
             const btn = document.getElementById(btnId);
             if (!btn) return false;
-            isAdRunning = true;
-            btn.dataset.busy = "true"; btn.disabled = true;
+            isAdRunning = true; btn.dataset.busy = "true"; btn.disabled = true;
             const originalHTML = btn.innerHTML;
             const minDuration = 6000; const startTime = Date.now();
 
             const timer = setInterval(() => {
                 const left = Math.ceil((minDuration - (Date.now() - startTime)) / 1000);
-                btn.textContent = left > 0 ? `Watch ${left}s...` : "Processing...";
+                btn.textContent = left > 0 ? `Wait ${left}s...` : "Checking...";
             }, 500);
 
             return new Promise(async (resolve) => {
                 let closedEarly = false;
                 const visHandler = () => { if (!document.hidden && (Date.now() - startTime) < minDuration) closedEarly = true; };
                 document.addEventListener('visibilitychange', visHandler);
+                
                 try {
                     const adStart = Date.now();
                     if (adFunc) await adFunc();
@@ -913,22 +801,29 @@
                     if (remaining > 0) await new Promise(r => setTimeout(r, remaining));
                 } catch (e) { closedEarly = true; }
 
-                clearInterval(timer);
-                document.removeEventListener('visibilitychange', visHandler);
-                isAdRunning = false;
-                btn.dataset.busy = "false";
+                clearInterval(timer); document.removeEventListener('visibilitychange', visHandler);
+                isAdRunning = false; btn.dataset.busy = "false";
 
                 if (closedEarly) {
-                    alert("⚠️ Ad closed too early! Watch for at least 6 seconds to earn points.");
+                    alert("⚠️ Ad skipped or closed too early. No points awarded.");
                     btn.innerHTML = originalHTML; btn.disabled = false; resolve(false);
                 } else { resolve(true); }
             });
         }
 
+        function getTodayDateString() { return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }); }
+
         async function checkDailyReset(user) {
             const today = getTodayDateString();
             if (user.lastResetDate !== today) {
-                const updates = { adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0, lastResetDate: today };
+                const updates = { 
+                    adsWatchedAdsgramDaily: 0, 
+                    adsWatchedAdsgramSpecial: 0, 
+                    adsWatchedMonetag: 0, 
+                    adsWatchedGiga: 0, 
+                    dailySpinsUsed: 0, 
+                    lastResetDate: today 
+                };
                 Object.assign(user, updates);
                 try { await updateDoc(doc(db, 'users', user.id), updates); } catch (e) {}
                 return true;
@@ -936,29 +831,37 @@
             return false;
         }
 
-        // Fetch fresh data — rate-limited to once per 3 minutes
-        let lastRefreshTime = 0;
-        async function fetchAndUpdateCurrentUser() {
-            if (!currentUser?.id) return;
-            try {
-                const snap = await getDoc(doc(db, 'users', currentUser.id));
-                if (snap.exists()) {
-                    currentUser = { id: snap.id, ...snap.data() };
-                    await checkDailyReset(currentUser);
-                    updateBalanceUI(); updateAdButtonStats(); updateLotteryUI();
-                }
-            } catch (e) {}
-        }
-
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                const now = Date.now();
-                if (now - lastRefreshTime > 180000) { lastRefreshTime = now; fetchAndUpdateCurrentUser(); }
-            }
-        });
-
         async function initializeUser(tgUser, referrerCode) {
             const userId = String(tgUser.id);
+            
+            // ── ANTI BAN / 1 DEVICE 1 ACCOUNT SYSTEM ──
+            const fpHash = await generateDeviceFingerprint();
+            let localDevId = localStorage.getItem('newtube_device_id');
+            if(!localDevId) {
+                localDevId = 'dev_' + Date.now() + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('newtube_device_id', localDevId);
+            }
+
+            let isMultiAccount = false;
+            try {
+                const checkHash = await getDocs(query(collection(db, 'users'), where('deviceHash', '==', fpHash), limit(2)));
+                checkHash.forEach(d => { if(d.id !== userId) isMultiAccount = true; });
+
+                const checkLoc = await getDocs(query(collection(db, 'users'), where('deviceId', '==', localDevId), limit(2)));
+                checkLoc.forEach(d => { if(d.id !== userId) isMultiAccount = true; });
+            } catch(e) {}
+
+            if(isMultiAccount) {
+                document.body.innerHTML = `
+                    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center; padding:20px;">
+                        <i class="fas fa-lock" style="font-size:4rem; color:var(--red); margin-bottom:20px; filter:drop-shadow(0 0 20px var(--red));"></i>
+                        <h2 style="color:#fff; margin-bottom:10px;">Device Blocked</h2>
+                        <p style="color:var(--text2); font-size:0.9rem; line-height:1.5;">Multiple accounts are not allowed on the same device. Your access has been restricted to prevent fraud.</p>
+                        <div style="margin-top:20px; padding:10px; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); border-radius:10px; font-size:0.8rem; color:var(--red);">Error: MULTI_ACCOUNT_VIOLATION</div>
+                    </div>`;
+                return null;
+            }
+
             const userRef = doc(db, 'users', userId);
             const userSnap = await getDoc(userRef);
             const today = getTodayDateString();
@@ -966,9 +869,10 @@
             if (!userSnap.exists()) {
                 const data = {
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [],
-                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, isActivated: false, isGroupVerified: false,
-                    lifetimeAdsWatched: 0, adsWatchedMixed: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailyBonusClaimed: false, dailySpinsUsed: 0,
-                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false
+                    createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false,
+                    lifetimeAdsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailySpinsUsed: 0,
+                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false,
+                    deviceId: localDevId, deviceHash: fpHash
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -978,75 +882,70 @@
                 currentUser = { id: userId, ...data };
             } else {
                 currentUser = { id: userSnap.id, ...userSnap.data() };
+                if (!currentUser.deviceId || !currentUser.deviceHash) {
+                    try { await updateDoc(userRef, { deviceId: localDevId, deviceHash: fpHash }); } catch(e){}
+                }
             }
 
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;color:#EF4444;">Account Banned.</h3>`; return null; }
+            
             await checkDailyReset(currentUser);
             updateBalanceUI();
-
             document.getElementById('modalReferralLinkInput').value = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             updateAdButtonStats(); updateLotteryUI();
-            return { isActivated: currentUser.isActivated };
         }
 
         function updateAdButtonStats() {
             if (!currentUser) return;
             const upd = (btnId, limitId, count, max) => {
                 const btn = document.getElementById(btnId);
-                document.getElementById(limitId).textContent = `${count}/${max}`;
+                const lim = document.getElementById(limitId);
+                if(!btn || !lim) return;
+                lim.textContent = `${count}/${max}`;
                 if (btn.dataset.busy === "true") return;
-                if (count >= max) {
-                    btn.disabled = true; btn.textContent = "Reset 12AM";
-                } else {
-                    btn.disabled = false; btn.textContent = "Watch";
-                    btn.style.background = ''; btn.style.color = '';
-                }
+                if (count >= max) { btn.disabled = true; btn.textContent = "Done"; } 
+                else { btn.disabled = false; btn.textContent = "Watch"; btn.style.background = ''; btn.style.color = ''; }
             };
-            upd('btn-watch-mixed',   'limit-mixed',   currentUser.adsWatchedMixed   || 0, AD_CONFIG.mixed.limit);
-            upd('btn-watch-monetag', 'limit-monetag', currentUser.adsWatchedMonetag || 0, AD_CONFIG.monetag.limit);
-            upd('btn-watch-giga',    'limit-giga',    currentUser.adsWatchedGiga    || 0, AD_CONFIG.giga.limit);
+            upd('btn-watch-adsgram-daily',   'limit-adsgram-daily',   currentUser.adsWatchedAdsgramDaily   || 0, AD_CONFIG.adsgramDaily.limit);
+            upd('btn-watch-adsgram-special', 'limit-adsgram-special', currentUser.adsWatchedAdsgramSpecial || 0, AD_CONFIG.adsgramSpecial.limit);
+            upd('btn-watch-monetag',         'limit-monetag',         currentUser.adsWatchedMonetag        || 0, AD_CONFIG.monetag.limit);
+            upd('btn-watch-giga',            'limit-giga',            currentUser.adsWatchedGiga           || 0, AD_CONFIG.giga.limit);
         }
 
         function updateBalanceUI() {
+            if(!currentUser) return;
             const pts = currentUser.pointBalance || 0;
             const ton = pts * POINTS_TO_TON_RATE;
             document.getElementById('home-ton').textContent = ton.toFixed(4);
             document.getElementById('home-pts').textContent = Math.floor(pts);
-            document.getElementById('home-life').textContent = `${Math.floor(currentUser.lifetimePointsEarned || 0)} Pts`;
+            document.getElementById('home-life').textContent = `${Math.floor(currentUser.lifetimePointsEarned || 0)}`;
             document.getElementById('home-normal-ref').textContent = currentUser.totalInvites || 0;
             document.getElementById('home-valid-ref').textContent = currentUser.referralCount || 0;
             const wEl = document.getElementById('withdrawPointBalance');
             if (wEl) wEl.textContent = `${ton.toFixed(4)} TON`;
         }
 
-        // ════════════════════════════════════════════
-        // FIX 1 CONT: Ad buttons use their OWN network
-        // Mixed → showRandomAd (picks one randomly)
-        // Monetag → showMonetagAd ONLY
-        // GigaPub → showGigaPubAd ONLY
-        // ════════════════════════════════════════════
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
-            const count = type === 'mixed' ? currentUser.adsWatchedMixed : type === 'monetag' ? currentUser.adsWatchedMonetag : currentUser.adsWatchedGiga;
-            if ((count || 0) >= maxLimit) return;
+            const countName = `adsWatched${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            const count = currentUser[countName] || 0;
+            if (count >= maxLimit) return;
             const ok = await runAdAndVerifyTime(btnId, adFunc);
-            if (ok) await processAdReward(type, 12);
+            if (ok) await processAdReward(type, AD_CONFIG[type].reward, countName);
         };
 
-        document.getElementById('btn-watch-mixed').addEventListener('click',   () => handleAdClick('mixed',   'btn-watch-mixed',   AD_CONFIG.mixed.limit,   showRandomAd));
-        document.getElementById('btn-watch-monetag').addEventListener('click', () => handleAdClick('monetag', 'btn-watch-monetag', AD_CONFIG.monetag.limit, showMonetagAd));
-        document.getElementById('btn-watch-giga').addEventListener('click',    () => handleAdClick('giga',    'btn-watch-giga',    AD_CONFIG.giga.limit,    showGigaPubAd));
+        document.getElementById('btn-watch-adsgram-daily').addEventListener('click',   () => handleAdClick('adsgramDaily',   'btn-watch-adsgram-daily',   AD_CONFIG.adsgramDaily.limit,   showAdsgramDailyAd));
+        document.getElementById('btn-watch-adsgram-special').addEventListener('click', () => handleAdClick('adsgramSpecial', 'btn-watch-adsgram-special', AD_CONFIG.adsgramSpecial.limit, showAdsgramSpecialAd));
+        document.getElementById('btn-watch-monetag').addEventListener('click',         () => handleAdClick('monetag',        'btn-watch-monetag',         AD_CONFIG.monetag.limit,        showMonetagAd));
+        document.getElementById('btn-watch-giga').addEventListener('click',            () => handleAdClick('giga',           'btn-watch-giga',            AD_CONFIG.giga.limit,           showGigaPubAd));
 
-        async function processAdReward(type, points) {
+        async function processAdReward(type, points, dbField) {
             const userRef = doc(db, 'users', currentUser.id);
             const updates = { lifetimeAdsWatched: increment(1), pointBalance: increment(points), lifetimePointsEarned: increment(points) };
-            if (type === 'mixed')   updates.adsWatchedMixed   = increment(1);
-            else if (type === 'monetag') updates.adsWatchedMonetag = increment(1);
-            else if (type === 'giga')    updates.adsWatchedGiga    = increment(1);
-            await updateDoc(userRef, updates);
+            updates[dbField] = increment(1);
+            
+            try { await updateDoc(userRef, updates); } catch(e){}
 
-            if (type === 'mixed')   currentUser.adsWatchedMixed   = (currentUser.adsWatchedMixed   || 0) + 1;
-            else if (type === 'monetag') currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + 1;
-            else if (type === 'giga')    currentUser.adsWatchedGiga    = (currentUser.adsWatchedGiga    || 0) + 1;
+            currentUser[dbField] = (currentUser[dbField] || 0) + 1;
             currentUser.lifetimeAdsWatched = (currentUser.lifetimeAdsWatched || 0) + 1;
             currentUser.pointBalance       = (currentUser.pointBalance       || 0) + points;
             currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + points;
@@ -1069,42 +968,22 @@
         }
 
         // ════════════════════════════════════════════
-        // FIX 2: TIERED REFERRAL WITHDRAW SYSTEM
-        // 1–1500 pts   → 1 ref
-        // 1501–3000    → 2 refs
-        // 3001–4500    → 3 refs
-        // 4501–6000    → 4 refs
-        // 6001+        → 5 refs
+        // WITHDRAW LOGIC
         // ════════════════════════════════════════════
         function getRequiredRefs(amount) {
-            if (amount <= 1500) return 1;
-            if (amount <= 3000) return 2;
-            if (amount <= 4500) return 3;
-            if (amount <= 6000) return 4;
-            return 5;
+            if (amount <= 1500) return 1; if (amount <= 3000) return 2; if (amount <= 4500) return 3; if (amount <= 6000) return 4; return 5;
         }
 
         function highlightTierRow(amount) {
             const rows = ['tier-row-1','tier-row-2','tier-row-3','tier-row-4','tier-row-5'];
-            rows.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.remove('tier-active');
-            });
+            rows.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('tier-active'); });
             if (!amount || amount < 1500) return;
-            let rowIdx = 1;
-            if (amount <= 1500) rowIdx = 1;
-            else if (amount <= 3000) rowIdx = 2;
-            else if (amount <= 4500) rowIdx = 3;
-            else if (amount <= 6000) rowIdx = 4;
-            else rowIdx = 5;
+            let rowIdx = amount <= 1500 ? 1 : amount <= 3000 ? 2 : amount <= 4500 ? 3 : amount <= 6000 ? 4 : 5;
             const activeRow = document.getElementById(`tier-row-${rowIdx}`);
             if (activeRow) activeRow.classList.add('tier-active');
         }
 
-        document.getElementById('withdraw-modal-btn').addEventListener('click', () => {
-            document.getElementById('withdrawModalOverlay').classList.add('show');
-            updateBalanceUI();
-        });
+        document.getElementById('withdraw-modal-btn').addEventListener('click', () => { document.getElementById('withdrawModalOverlay').classList.add('show'); updateBalanceUI(); });
 
         document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
             const amt = parseFloat(e.target.value);
@@ -1117,18 +996,15 @@
                 const needed = getRequiredRefs(amt);
                 const avail = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
                 const color = avail >= needed ? 'var(--green)' : 'var(--red)';
-                refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.2rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
+                refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.1rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
                 highlightTierRow(amt);
             } else {
-                preview.style.display = 'none';
-                refsDisplay.innerHTML = 'Enter amount to see required referrals';
-                highlightTierRow(0);
+                preview.style.display = 'none'; refsDisplay.innerHTML = 'Enter amount to see required referrals'; highlightTierRow(0);
             }
         });
 
         document.getElementById('submitWithdrawalBtn').addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (isSubmittingWithdrawal) return;
+            e.preventDefault(); if (isSubmittingWithdrawal) return;
 
             const amount  = parseFloat(document.getElementById('withdrawalAmount').value);
             const details = document.getElementById('accountDetails').value.trim();
@@ -1138,9 +1014,9 @@
 
             const refsNeeded = getRequiredRefs(amount);
             const refsAvail  = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
-            if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount. You have ${refsAvail}.`);
+            if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount.`);
 
-            if (!confirm(`Withdraw ${amount} Pts to Tonkeeper?\nThis costs ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
+            if (!confirm(`Withdraw ${amount} Pts?\nCost: ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
 
             isSubmittingWithdrawal = true;
             try {
@@ -1148,29 +1024,19 @@
                     const userRef = doc(db, 'users', currentUser.id);
                     const uData = (await t.get(userRef)).data();
                     const serverAvail = (uData.referralCount || 0) - (uData.spentReferrals || 0);
-                    if (uData.pointBalance < amount || serverAvail < refsNeeded) throw new Error("Requirements not met (server check).");
-                    t.set(doc(collection(db, 'withdrawals')), {
-                        userId: currentUser.id, method: 'Tonkeeper', details,
-                        status: 'pending', createdAt: serverTimestamp(),
-                        pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE,
-                        refsUsed: refsNeeded
-                    });
+                    if (uData.pointBalance < amount || serverAvail < refsNeeded) throw new Error("Requirements not met on server.");
+                    t.set(doc(collection(db, 'withdrawals')), { userId: currentUser.id, method: 'Tonkeeper', details, status: 'pending', createdAt: serverTimestamp(), pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE, refsUsed: refsNeeded });
                     t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(refsNeeded) });
                 });
 
-                document.getElementById('withdrawalAmount').value = '';
-                document.getElementById('accountDetails').value = '';
-                document.getElementById('realtime-ton-display').style.display = 'none';
-                document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount to see required referrals';
-                highlightTierRow(0);
-                document.getElementById('withdrawModalOverlay').classList.remove('show');
+                document.getElementById('withdrawalAmount').value = ''; document.getElementById('accountDetails').value = '';
+                document.getElementById('realtime-ton-display').style.display = 'none'; document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount...';
+                highlightTierRow(0); document.getElementById('withdrawModalOverlay').classList.remove('show');
                 showSuccessModal("Request Sent! ✅", `Withdrawal pending review.`);
 
-                currentUser.pointBalance     = (currentUser.pointBalance     || 0) - amount;
-                currentUser.spentReferrals   = (currentUser.spentReferrals   || 0) + refsNeeded;
+                currentUser.pointBalance = (currentUser.pointBalance || 0) - amount; currentUser.spentReferrals = (currentUser.spentReferrals || 0) + refsNeeded;
                 updateBalanceUI();
-            } catch (err) { alert(err.message); }
-            finally { isSubmittingWithdrawal = false; }
+            } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
         });
 
         // --- HISTORY ---
@@ -1179,10 +1045,7 @@
             const container = document.getElementById('combined-history-list');
             container.innerHTML = '<div class="loader"></div>';
             try {
-                const [wSnap, tSnap] = await Promise.all([
-                    getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id))),
-                    getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id)))
-                ]);
+                const [wSnap, tSnap] = await Promise.all([ getDocs(query(collection(db, "withdrawals"), where("userId", "==", currentUser.id))), getDocs(query(collection(db, "transactions"), where("userId", "==", currentUser.id))) ]);
                 let list = [];
                 wSnap.forEach(d => list.push({ ...d.data(), isW: true,  time: d.data().createdAt }));
                 tSnap.forEach(d => list.push({ ...d.data(), isW: false, time: d.data().createdAt }));
@@ -1195,57 +1058,43 @@
                     const date = d.time ? d.time.toDate().toLocaleDateString() : '';
                     let title, amt, color, icon;
                     if (d.isW || d.type === 'Withdrawal') {
-                        const ton = d.tonAmount ? parseFloat(d.tonAmount).toFixed(4) : (d.pointAmount * POINTS_TO_TON_RATE).toFixed(4);
-                        title = `Withdraw (${d.status || 'pending'})`;
-                        amt   = `-${d.pointAmount} Pts • ${ton} TON`;
-                        color = 'var(--red)'; icon = '💸';
+                        title = `Withdraw (${d.status || 'pending'})`; amt = `-${d.pointAmount} Pts`; color = 'var(--red)'; icon = '💸';
                     } else {
-                        title = d.type || 'Reward';
-                        amt   = d.pointAmount ? `+${d.pointAmount} Pts` : `+${parseFloat(d.tonAmount||0).toFixed(4)} TON`;
-                        color = 'var(--green)'; icon = '✨';
+                        title = d.type || 'Reward'; amt = `+${d.pointAmount} Pts`; color = 'var(--green)'; icon = '✨';
                     }
                     return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);">
-                        <span style="font-size:1.3rem;">${icon}</span>
-                        <div style="flex:1;">
-                            <strong style="display:block;color:var(--text);font-size:0.88rem;">${title}</strong>
-                            <small style="color:var(--text2);font-size:0.72rem;">${date}</small>
-                        </div>
-                        <strong style="color:${color};font-size:0.88rem;">${amt}</strong>
-                    </div>`;
+                        <span style="font-size:1.3rem;">${icon}</span><div style="flex:1;"><strong style="display:block;color:var(--text);font-size:0.88rem;">${title}</strong><small style="color:var(--text2);font-size:0.72rem;">${date}</small></div>
+                        <strong style="color:${color};font-size:0.88rem;">${amt}</strong></div>`;
                 }).join('');
             } catch (e) { container.innerHTML = '<p style="text-align:center;color:var(--red);">Failed to load.</p>'; }
         });
 
         // --- PROMO CODE ---
         document.getElementById('claimPromoBtn').addEventListener('click', async () => {
-            const code = document.getElementById('promoCodeInput').value.trim();
-            if (!code) return;
-            const ok = await runAdAndVerifyTime('claimPromoBtn', showRandomAd);
-            if (!ok) return;
+            const code = document.getElementById('promoCodeInput').value.trim(); if (!code) return;
+            const ok = await runAdAndVerifyTime('claimPromoBtn', showAdsgramDailyAd); if (!ok) return;
             const btn = document.getElementById('claimPromoBtn'); btn.disabled = true; btn.textContent = "Checking...";
             try {
                 await runTransaction(db, async (t) => {
-                    const promoRef = doc(db, 'promo_codes', code);
-                    const p = (await t.get(promoRef)).data();
+                    const promoRef = doc(db, 'promo_codes', code); const p = (await t.get(promoRef)).data();
                     if (!p || !p.isActive || p.currentUses >= p.maxUses || p.usersClaimed?.includes(currentUser.id)) throw new Error("Invalid or already used code.");
                     t.update(doc(db, 'users', currentUser.id), { pointBalance: increment(p.rewardAmount), lifetimePointsEarned: increment(p.rewardAmount) });
                     t.update(promoRef, { currentUses: increment(1), usersClaimed: arrayUnion(currentUser.id) });
                     return p.rewardAmount;
                 }).then(amt => {
                     document.getElementById('promoModalOverlay').classList.remove('show');
-                    showSuccessModal("Code Claimed! 🎉", `+${amt} Points added`);
+                    showSuccessModal("Code Claimed!", `+${amt} Points added`);
                     document.getElementById('promoCodeInput').value = '';
-                    currentUser.pointBalance = (currentUser.pointBalance || 0) + amt;
-                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + amt;
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + amt; currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + amt;
                     updateBalanceUI();
                 });
             } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = "Claim Reward"; }
         });
 
-        // --- UI CLICKS ---
-        document.getElementById('profile-id-display').addEventListener('click', () => { navigator.clipboard.writeText(currentUser.id); showSuccessModal("Copied! ✅", "User ID copied."); });
-        document.getElementById('modalCopyReferralLinkBtn').addEventListener('click', () => { navigator.clipboard.writeText(document.getElementById('modalReferralLinkInput').value); showSuccessModal("Copied! ✅", "Referral link copied."); });
-        document.getElementById('action-invite').addEventListener('click',     () => document.getElementById('inviteModalOverlay').classList.add('show'));
+        // UI Modals & Nav
+        document.getElementById('profile-id-display').addEventListener('click', () => { navigator.clipboard.writeText(currentUser.id); showSuccessModal("Copied!", "User ID copied."); });
+        document.getElementById('modalCopyReferralLinkBtn').addEventListener('click', () => { navigator.clipboard.writeText(document.getElementById('modalReferralLinkInput').value); showSuccessModal("Copied!", "Referral link copied."); });
+        document.getElementById('action-invite').addEventListener('click', () => document.getElementById('inviteModalOverlay').classList.add('show'));
         document.getElementById('action-promo-code').addEventListener('click', () => document.getElementById('promoModalOverlay').classList.add('show'));
         document.querySelectorAll('.close-modal-btn').forEach(b => b.addEventListener('click', e => e.target.closest('.modal-overlay').classList.remove('show')));
 
@@ -1253,8 +1102,7 @@
             link.addEventListener('click', e => {
                 e.preventDefault();
                 document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
-                link.classList.add('active');
-                document.querySelector(link.dataset.tabTarget).classList.add('active');
+                link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
                 if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
             });
@@ -1271,28 +1119,22 @@
         class LotteryWheel {
             constructor(cId) {
                 this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0;
-                this.seg = [
-                    { l: "5 Pts",  v: 5,  c: "#1abc9c", w: 40 }, { l: "8 Pts",  v: 8,  c: "#2980b9", w: 30 },
-                    { l: "10 Pts", v: 10, c: "#8e44ad", w: 20 }, { l: "15 Pts", v: 15, c: "#d35400", w: 5  },
-                    { l: "17 Pts", v: 17, c: "#c0392b", w: 3  }, { l: "20 Pts", v: 20, c: "#f39c12", w: 2  }
-                ];
+                this.seg = [ { l: "5 Pts", v: 5, c: "#00E5FF", w: 40 }, { l: "8 Pts", v: 8, c: "#3b82f6", w: 30 }, { l: "10 Pts", v: 10, c: "#8B5CF6", w: 20 }, { l: "15 Pts", v: 15, c: "#F43F5E", w: 5 }, { l: "17 Pts", v: 17, c: "#10B981", w: 3 }, { l: "20 Pts", v: 20, c: "#FBBF24", w: 2 } ];
                 this.draw();
             }
             draw() {
                 const a = (2*Math.PI)/this.seg.length, cx = this.c.width/2, cy = this.c.height/2, r = cx;
                 this.seg.forEach((s, i) => {
                     this.ctx.beginPath(); this.ctx.moveTo(cx,cy); this.ctx.arc(cx,cy,r,i*a,(i+1)*a);
-                    this.ctx.fillStyle = s.c; this.ctx.fill();
-                    this.ctx.lineWidth = 4; this.ctx.strokeStyle = "rgba(255,255,255,0.2)"; this.ctx.stroke();
+                    this.ctx.fillStyle = s.c; this.ctx.fill(); this.ctx.lineWidth = 3; this.ctx.strokeStyle = "#0B0F19"; this.ctx.stroke();
                     this.ctx.save(); this.ctx.translate(cx,cy); this.ctx.rotate(i*a+a/2);
-                    this.ctx.textAlign = "right"; this.ctx.fillStyle = "#fff"; this.ctx.font = "bold 34px Arial";
-                    this.ctx.fillText(s.l, r-30, 12); this.ctx.restore();
+                    this.ctx.textAlign = "right"; this.ctx.fillStyle = "#fff"; this.ctx.font = "bold 32px Arial";
+                    this.ctx.fillText(s.l, r-35, 12); this.ctx.restore();
                 });
             }
             spin(resEl, cb) {
                 const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){s+=this.seg[i].w;if(rnd<=s)return i;} return 0;})();
-                const a = 360/this.seg.length, tg = (wId*a)+(a/2);
-                const fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360);
+                const a = 360/this.seg.length, tg = (wId*a)+(a/2), fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360);
                 this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn;
                 resEl.innerText = "Spinning... 🌀";
                 setTimeout(() => { resEl.innerHTML = `🎉 Won ${this.seg[wId].l}!`; if(cb) cb(this.seg[wId]); }, 4000);
@@ -1301,63 +1143,37 @@
         const wheel = new LotteryWheel("wheelCanvas");
 
         async function updateLotteryUI() {
-            if (!currentUser) return;
-            const now = Date.now();
-            const lastSpinTime = currentUser.lastSpinTimestamp || 0;
-            const hourMs = 60 * 60 * 1000;
-            const timeSinceLast = now - lastSpinTime;
-            const canSpin = timeSinceLast >= hourMs;
-            const btn = document.getElementById("spinBtn");
-            const spinLimitEl = document.getElementById("spinLimitText");
+            if (!currentUser) return; const now = Date.now(); const lastSpinTime = currentUser.lastSpinTimestamp || 0; const hourMs = 60 * 60 * 1000;
+            const canSpin = (now - lastSpinTime) >= hourMs;
+            const btn = document.getElementById("spinBtn"); const spinLimitEl = document.getElementById("spinLimitText");
 
             if (!canSpin) {
-                const remaining = hourMs - timeSinceLast;
-                const mins = Math.floor(remaining / 60000);
-                const secs = Math.floor((remaining % 60000) / 1000);
-                spinLimitEl.innerText = `Next Spin in: ${mins}m ${secs}s`;
-                btn.innerHTML = '<i class="fas fa-clock"></i> Wait for Next Spin';
-                btn.disabled = true;
-                // Start countdown timer
+                btn.innerHTML = '<i class="fas fa-clock"></i> Wait for Next Spin'; btn.disabled = true;
                 if (!window._spinCountdown) {
                     window._spinCountdown = setInterval(() => {
-                        const now2 = Date.now();
-                        const timeSince2 = now2 - (currentUser.lastSpinTimestamp || 0);
-                        if (timeSince2 >= hourMs) {
-                            clearInterval(window._spinCountdown);
-                            window._spinCountdown = null;
-                            updateLotteryUI();
-                        } else {
-                            const rem2 = hourMs - timeSince2;
-                            const m = Math.floor(rem2 / 60000);
-                            const s = Math.floor((rem2 % 60000) / 1000);
-                            document.getElementById("spinLimitText").innerText = `Next Spin in: ${m}m ${s}s`;
-                        }
+                        const rem = hourMs - (Date.now() - (currentUser.lastSpinTimestamp || 0));
+                        if (rem <= 0) { clearInterval(window._spinCountdown); window._spinCountdown = null; updateLotteryUI(); } 
+                        else { spinLimitEl.innerText = `Next Spin in: ${Math.floor(rem/60000)}m ${Math.floor((rem%60000)/1000)}s`; }
                     }, 1000);
                 }
             } else {
                 if (window._spinCountdown) { clearInterval(window._spinCountdown); window._spinCountdown = null; }
-                spinLimitEl.innerText = `🎰 Spin Available! (1 per hour)`;
-                btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)';
-                btn.disabled = false;
+                spinLimitEl.innerText = `🎰 Spin Available! (1 per hour)`; btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false;
             }
         }
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
-            const now = Date.now();
-            const lastSpinTime = currentUser.lastSpinTimestamp || 0;
-            const hourMs = 60 * 60 * 1000;
-            if ((now - lastSpinTime) < hourMs) { updateLotteryUI(); return; }
+            if ((Date.now() - (currentUser.lastSpinTimestamp || 0)) < 3600000) return;
             const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
-            const ok = await runAdAndVerifyTime('spinBtn', showRandomAd);
+            const ok = await runAdAndVerifyTime('spinBtn', showAdsgramDailyAd);
             if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
             btn.disabled = true; btn.innerHTML = 'Spinning...';
             wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
                 try {
                     const spinTs = Date.now();
                     await updateDoc(doc(db, 'users', currentUser.id), { lastSpinTimestamp: spinTs, pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
-                    showSuccessModal("You Won! 🎰", `+${pz.v} Points added!`);
-                    currentUser.lastSpinTimestamp    = spinTs;
-                    currentUser.pointBalance         = (currentUser.pointBalance         || 0) + pz.v;
+                    showSuccessModal("You Won!", `+${pz.v} Points added!`);
+                    currentUser.lastSpinTimestamp = spinTs; currentUser.pointBalance = (currentUser.pointBalance || 0) + pz.v;
                     currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
                     updateBalanceUI(); updateLotteryUI();
                 } catch (e) {} finally { btn.dataset.busy = "false"; btn.disabled = false; }
@@ -1366,31 +1182,31 @@
 
         // --- TASK SYSTEM ---
         const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
-        let activeTaskTab = 'channel';
-        let tasksCacheChannel = null;
-        let tasksCachePartner  = null;
+        let activeTaskTab = 'channel'; let tasksCacheChannel = null; let tasksCachePartner = null;
 
         document.getElementById('task-content').addEventListener('click', async (e) => {
             const tabBtn = e.target.closest('[data-task-tab]');
-            if (tabBtn) { switchTaskTab(tabBtn.dataset.taskTab); return; }
+            if (tabBtn) {
+                activeTaskTab = tabBtn.dataset.taskTab;
+                ['channel','partner'].forEach(t => {
+                    document.getElementById(`tab-${t}`).classList.toggle('active', t === activeTaskTab);
+                    document.getElementById(`task-list-${t}`).style.display = t === activeTaskTab ? 'grid' : 'none';
+                    if (t === activeTaskTab && !(t === 'channel' ? tasksCacheChannel : tasksCachePartner)) fetchAndRenderTasks(t);
+                }); return;
+            }
 
             const button = e.target.closest('.task-button');
             if (!button || button.disabled) return;
-
             const { taskId, taskUrl, channelId, category, state } = button.dataset;
 
             if (state === 'start') {
                 if (taskUrl) tg.openLink(taskUrl);
-                button.disabled = true;
-                let c = 8;
-                button.textContent = `Wait ${c}s`;
+                button.disabled = true; let c = 8; button.textContent = `Wait ${c}s`;
                 const iv = setInterval(() => {
-                    c--;
-                    if (c > 0) { button.textContent = `Wait ${c}s`; }
+                    c--; if (c > 0) { button.textContent = `Wait ${c}s`; }
                     else {
-                        clearInterval(iv); button.disabled = false;
-                        button.textContent = category === 'partner' ? '✅ Claim' : 'Verify';
-                        if (category === 'partner') { button.style.background = 'linear-gradient(135deg,#10B981,#059669)'; button.style.boxShadow = '0 4px 12px rgba(16,185,129,0.4)'; }
+                        clearInterval(iv); button.disabled = false; button.textContent = category === 'partner' ? '✅ Claim' : 'Verify';
+                        if (category === 'partner') { button.style.background = 'var(--green)'; button.style.color = '#000'; }
                         button.dataset.state = 'claim';
                     }
                 }, 1000);
@@ -1398,45 +1214,25 @@
                 button.disabled = true; button.textContent = 'Checking...';
                 try {
                     if (category === 'channel' && channelId) {
-                        const joined = await verifyTaskJoin(channelId);
-                        if (!joined) { alert('⚠️ Join the channel/group first, then tap Verify!'); button.disabled = false; button.textContent = 'Verify'; return; }
+                        try {
+                            const res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
+                            const j = await res.json();
+                            if (!j.joined) { alert('⚠️ Join the channel/group first, then tap Verify!'); button.disabled = false; button.textContent = 'Verify'; return; }
+                        } catch(e) { button.disabled = false; button.textContent = 'Verify'; return; }
                     }
                     const taskSnap = await getDoc(doc(db, 'tasks', taskId));
-                    if (!taskSnap.exists()) throw new Error('Task not found');
+                    if (!taskSnap.exists()) throw new Error('Task missing');
                     const reward = taskSnap.data().rewardPoints || 0;
                     const batch = writeBatch(db);
                     batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
                     batch.update(doc(db, 'tasks', taskId), { completionCount: increment(1) });
                     await batch.commit();
-                    currentUser.completedTasks       = [...(currentUser.completedTasks || []), taskId];
-                    currentUser.pointBalance          = (currentUser.pointBalance          || 0) + reward;
-                    currentUser.lifetimePointsEarned  = (currentUser.lifetimePointsEarned  || 0) + reward;
-                    updateBalanceUI();
-                    showSuccessModal('Task Done! 🎉', `+${reward} Points added!`);
-                    button.closest('[data-task-card]').remove();
-                } catch (err) { alert('Verification failed. Please try again.'); button.disabled = false; button.textContent = 'Verify'; }
+                    currentUser.completedTasks = [...(currentUser.completedTasks || []), taskId];
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + reward;
+                    updateBalanceUI(); showSuccessModal('Task Done!', `+${reward} Points`); button.closest('[data-task-card]').remove();
+                } catch (err) { button.disabled = false; button.textContent = 'Verify'; }
             }
         });
-
-        function switchTaskTab(tab) {
-            activeTaskTab = tab;
-            ['channel','partner'].forEach(t => {
-                const btn  = document.getElementById(`tab-${t}`);
-                const list = document.getElementById(`task-list-${t}`);
-                const isActive = t === tab;
-                btn.classList.toggle('active', isActive);
-                list.style.display = isActive ? 'grid' : 'none';
-                if (isActive && !(t === 'channel' ? tasksCacheChannel : tasksCachePartner)) fetchAndRenderTasks(t);
-            });
-        }
-
-        async function verifyTaskJoin(channelId) {
-            try {
-                const res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
-                if (!res.ok) return false;
-                return (await res.json()).joined === true;
-            } catch (e) { return false; }
-        }
 
         async function fetchAndRenderTasks(category = 'channel') {
             const container = document.getElementById(`task-list-${category}`);
@@ -1449,52 +1245,27 @@
                 snap.forEach(docSnap => {
                     const task = docSnap.data();
                     if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit||0)>0 && (task.completionCount||0)>=task.limit)) return;
-                    const isChannel = category === 'channel';
-                    const iconHtml = isChannel
-                        ? `<i class="fab fa-telegram-plane" style="color:#2AABEE;font-size:1.1rem;"></i>`
-                        : `<i class="fas fa-robot" style="color:var(--primary);font-size:1.1rem;"></i>`;
-
-                    const card = document.createElement('div');
-                    card.setAttribute('data-task-card', docSnap.id);
-                    card.style.cssText = 'background:var(--card);padding:13px 15px;border-radius:13px;border:1px solid var(--border);';
-                    if (isChannel) {
+                    
+                    const card = document.createElement('div'); card.setAttribute('data-task-card', docSnap.id);
+                    card.className = 'card'; card.style.padding = '15px';
+                    if (category === 'channel') {
                         card.innerHTML = `
-                            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-                                <div style="flex:1;min-width:0;">
-                                    <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
-                                        ${iconHtml}
-                                        <span style="font-size:0.9rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${task.title}</span>
-                                    </div>
-                                    <p style="margin:0;font-size:0.78rem;color:var(--green);font-weight:600;">+${task.rewardPoints||5} Points</p>
-                                </div>
-                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="flex-shrink:0;padding:8px 14px;font-size:0.82rem;border-radius:9px;width:auto;">Join</button>
+                            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                                <div style="flex:1;"><div style="font-weight:600;font-size:0.9rem;color:#fff;"><i class="fab fa-telegram-plane" style="color:var(--primary);"></i> ${task.title}</div><div style="color:var(--green);font-size:0.8rem;margin-top:3px;">+${task.rewardPoints||5} Points</div></div>
+                                <button class="btn outline task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="padding:8px 12px;width:auto;">Join</button>
                             </div>`;
                     } else {
-                        card.style.cssText = 'background:var(--card);border-radius:16px;border:1px solid rgba(168,85,247,0.25);overflow:hidden;position:relative;';
                         card.innerHTML = `
-                            <div style="background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(168,85,247,0.08));padding:14px 15px 12px;">
-                                <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;">
-                                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                        <i class="fas fa-robot" style="color:#A855F7;font-size:1rem;"></i>
-                                    </div>
-                                    <div style="flex:1;min-width:0;">
-                                        <div style="font-size:0.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${task.title}</div>
-                                        <div style="font-size:0.75rem;color:var(--green);font-weight:600;margin-top:2px;">+${task.rewardPoints||5} Points</div>
-                                    </div>
-                                    <div style="background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.4);border-radius:20px;padding:3px 10px;font-size:0.68rem;font-weight:700;color:#A855F7;letter-spacing:0.5px;white-space:nowrap;">PARTNER</div>
-                                </div>
+                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                <div style="width:35px;height:35px;background:var(--primary-dim);border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-robot" style="color:var(--primary);"></i></div>
+                                <div><div style="font-weight:700;color:#fff;font-size:0.95rem;">${task.title}</div><div style="color:var(--green);font-size:0.8rem;">+${task.rewardPoints||5} Points</div></div>
                             </div>
-                            <div style="padding:10px 15px 13px;">
-                                <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="width:100%;padding:11px;font-size:0.88rem;background:linear-gradient(135deg,#7C3AED,#A855F7);border-radius:10px;box-shadow:0 4px 14px rgba(124,58,237,0.35);">🚀 Go & Complete Task</button>
-                            </div>`;
+                            <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-category="${category}" data-state="start">🚀 Complete Task</button>`;
                     }
                     container.appendChild(card); count++;
                 });
-                if (!count) container.innerHTML = '<p style="text-align:center;color:var(--text2);padding:30px 0;">No tasks available right now.</p>';
-            } catch (err) {
-                const isIdx = err.message?.includes('index');
-                container.innerHTML = `<p style="text-align:center;color:var(--red);padding:20px 0;">Failed to load tasks.<br><small style="color:var(--text2);">${isIdx ? 'Firestore index not ready.' : err.message}</small></p>`;
-            }
+                if (!count) container.innerHTML = '<p style="text-align:center;color:var(--text2);">No tasks available.</p>';
+            } catch (err) { container.innerHTML = `<p style="text-align:center;color:var(--red);">Failed to load.</p>`; }
         }
 
         // --- VERIFICATION ---
@@ -1505,6 +1276,7 @@
                 if (!data.channel || !data.group) document.getElementById('activationModalOverlay').classList.add('show');
             } catch (e) { document.getElementById('activationModalOverlay').classList.add('show'); }
         }
+
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
             document.getElementById('activateAccountBtn').textContent = "Verifying...";
             try {
@@ -1512,58 +1284,35 @@
                 const data = await res.json();
                 if (data.channel && data.group) {
                     document.getElementById('activationModalOverlay').classList.remove('show');
-                    // Welcome bonus: 10 points for new users who haven't received it yet
                     if (!currentUser.welcomeBonusClaimed) {
-                        const WELCOME_BONUS = 10;
                         try {
-                            await updateDoc(doc(db, 'users', currentUser.id), {
-                                pointBalance: increment(WELCOME_BONUS),
-                                lifetimePointsEarned: increment(WELCOME_BONUS),
-                                welcomeBonusClaimed: true
-                            });
-                            currentUser.pointBalance = (currentUser.pointBalance || 0) + WELCOME_BONUS;
-                            currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + WELCOME_BONUS;
-                            currentUser.welcomeBonusClaimed = true;
-                            updateBalanceUI();
-                            setTimeout(() => showSuccessModal('🎁 Welcome Bonus!', `+${WELCOME_BONUS} Points added as welcome gift!`), 500);
+                            await updateDoc(doc(db, 'users', currentUser.id), { pointBalance: increment(10), lifetimePointsEarned: increment(10), welcomeBonusClaimed: true });
+                            currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; currentUser.welcomeBonusClaimed = true; updateBalanceUI();
+                            showSuccessModal('🎁 Welcome Bonus!', `+10 Points added!`);
                         } catch (e) {}
                     }
-                }
-                else alert("Please join BOTH the channel and group to continue!");
+                } else alert("Join BOTH the channel and group to verify!");
             } catch (e) {}
-            document.getElementById('activateAccountBtn').textContent = "Verify Account";
+            document.getElementById('activateAccountBtn').textContent = "Verify Access";
         });
 
-        // --- MAIN ---
+        // --- MAIN INIT ---
         async function main() {
-            try {
-                if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
-                tg.ready(); tg.expand(); tg.setHeaderColor('#06030F');
-                await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
-                document.getElementById('profile-id-display').querySelector('span').textContent = currentUser.id;
-                await checkMembershipAndEnforce();
-            } catch (e) {}
+            if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
+            tg.ready(); tg.expand(); tg.setHeaderColor('#030509');
+            await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
+            if(currentUser && !currentUser.isBanned) await checkMembershipAndEnforce();
         }
         main();
 
-        // --- PARTICLE ANIMATION ---
+        // Particles Background
         (function spawnParticles() {
             const container = document.getElementById('particles');
-            const colors = ['rgba(192,132,252,0.6)', 'rgba(251,146,60,0.5)', 'rgba(52,211,153,0.4)', 'rgba(168,85,247,0.5)'];
-            for (let i = 0; i < 22; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                const size = Math.random() * 4 + 1;
-                const shape = Math.random() > 0.5 ? '50%' : `${Math.floor(Math.random()*4+2)}px`;
-                p.style.cssText = `
-                    width:${size}px; height:${size}px;
-                    left:${Math.random()*100}%;
-                    background:${colors[Math.floor(Math.random()*colors.length)]};
-                    border-radius:${shape};
-                    animation-duration:${Math.random()*18+8}s;
-                    animation-delay:${Math.random()*-25}s;
-                    box-shadow: 0 0 ${size*3}px ${colors[Math.floor(Math.random()*colors.length)]};
-                `;
+            const colors = ['rgba(0,229,255,0.4)', 'rgba(59,130,246,0.3)', 'rgba(16,185,129,0.3)'];
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div'); p.className = 'particle';
+                const size = Math.random() * 3 + 1;
+                p.style.cssText = `width:${size}px; height:${size}px; left:${Math.random()*100}%; background:${colors[Math.floor(Math.random()*colors.length)]}; animation-duration:${Math.random()*15+10}s; animation-delay:${Math.random()*-20}s; box-shadow: 0 0 ${size*4}px ${colors[Math.floor(Math.random()*colors.length)]};`;
                 container.appendChild(p);
             }
         })();
