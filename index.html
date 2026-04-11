@@ -65,7 +65,6 @@
             position: fixed; inset: 0; z-index: -2; overflow: hidden;
             background: radial-gradient(circle at 50% 0%, #0c1524 0%, var(--bg) 60%);
         }
-        /* Geometric Tech Grid */
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
             background-image:
@@ -78,11 +77,8 @@
         }
         @keyframes gridMove { 0%{background-position:0 0;} 100%{background-position:40px 40px;} }
 
-        /* Floating particles */
         .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        .particle {
-            position: absolute; border-radius: 50%; animation: float linear infinite;
-        }
+        .particle { position: absolute; border-radius: 50%; animation: float linear infinite; }
         @keyframes float {
             0%   { transform: translateY(100vh) scale(0); opacity: 0; }
             20%  { opacity: 1; }
@@ -117,7 +113,6 @@
         }
         .hbtn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 10px var(--primary-dim); background: var(--primary-dim); }
 
-        /* ── CONTAINER ── */
         .container { max-width: 780px; margin: 0 auto; padding: 0 14px; position: relative; z-index: 1; }
 
         /* ── PROFILE CARD ── */
@@ -137,88 +132,55 @@
         .avatar-ring {
             width: 60px; height: 60px; border-radius: 16px;
             background: var(--primary-dim); border: 2px solid var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; color: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary);
             box-shadow: 0 0 20px rgba(0,229,255,0.2);
         }
-        .avatar-status {
-            position: absolute; bottom: -2px; right: -2px;
-            width: 14px; height: 14px; background: var(--green);
-            border: 2px solid var(--bg); border-radius: 50%;
-        }
+        .avatar-status { position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px; background: var(--green); border: 2px solid var(--bg); border-radius: 50%; }
         .profile-info { flex: 1; min-width: 0; }
         .profile-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 0 0 4px; }
         .profile-id {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(0,0,0,0.5); border: 1px solid var(--border);
-            padding: 4px 10px; border-radius: 8px; cursor: pointer;
-            font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--primary);
-            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+            padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--primary);
         }
 
-        .balance-display {
-            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px; padding: 18px; text-align: center; margin-bottom: 16px;
-        }
-        .bal-ton {
-            font-size: 2.4rem; font-weight: 800; color: var(--text); line-height: 1;
-            text-shadow: 0 0 15px rgba(0,229,255,0.4);
-            font-family: 'Roboto Mono', monospace;
-        }
+        .balance-display { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 18px; text-align: center; margin-bottom: 16px; }
+        .bal-ton { font-size: 2.4rem; font-weight: 800; color: var(--text); line-height: 1; text-shadow: 0 0 15px rgba(0,229,255,0.4); font-family: 'Roboto Mono', monospace; }
         .bal-ton-label { font-size: 0.75rem; color: var(--text2); font-weight: 600; letter-spacing: 1px; margin-top: 4px; }
         .bal-pts { font-size: 1rem; color: var(--green); font-weight: 700; margin-top: 6px; }
 
-        /* ── STATS GRID ── */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-        .stat-box {
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; padding: 12px 8px; text-align: center;
-        }
+        .stat-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px 8px; text-align: center; }
         .stat-label { font-size: 0.65rem; text-transform: uppercase; font-weight: 600; color: var(--text2); margin-bottom: 5px; }
         .stat-val { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
 
-        /* ── ACTION BUTTONS ── */
         .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
         .action-link-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         /* ── BUTTONS ── */
         .btn {
-            width: 100%; padding: 13px; border: none; border-radius: var(--r-btn);
-            font-weight: 700; font-size: 0.9rem; cursor: pointer;
-            background: var(--primary); color: #000; transition: all 0.25s;
-            display: flex; align-items: center; justify-content: center; gap: 7px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,229,255,0.3);
+            width: 100%; padding: 13px; border: none; border-radius: var(--r-btn); font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            background: var(--primary); color: #000; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 7px;
+            text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(0,229,255,0.3);
         }
         .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,229,255,0.5); }
         .btn.outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none; }
         .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 15px var(--primary-dim); }
         .btn.violet { background: var(--violet); color: #fff; box-shadow: 0 4px 15px rgba(139,92,246,0.3); }
-        .btn.violet:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(139,92,246,0.5); }
         .btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text); box-shadow: none; }
         .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); }
         .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid #222 !important; box-shadow: none !important; transform: none !important; }
         .task-btn { padding: 8px 14px; font-size: 0.8rem; border-radius: 8px; width: auto; flex-shrink: 0; }
 
-        /* ── SECTION TITLES ── */
-        .section-title {
-            font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 16px;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .section-title .title-icon {
-            width: 32px; height: 32px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0;
-        }
+        .section-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title .title-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
         .ti-blue { background: var(--primary-dim); color: var(--primary); border: 1px solid var(--border); }
         .ti-gold  { background: var(--gold-dim);    color: var(--gold);    border: 1px solid rgba(251,191,36,0.3); }
         .ti-violet{ background: var(--violet-dim);  color: var(--violet);  border: 1px solid rgba(139,92,246,0.3); }
 
         /* ── AD CARDS ── */
         .ad-card {
-            background: var(--card); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--r-card); padding: 16px 18px; margin-bottom: 12px;
-            transition: all 0.25s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-left: 3px solid transparent;
+            background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--r-card); padding: 16px 18px; margin-bottom: 12px;
+            transition: all 0.25s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 3px solid transparent;
         }
         .ad-card:hover { border-color: var(--primary); transform: translateY(-2px); background: rgba(20,25,35,0.9); }
         
@@ -230,63 +192,41 @@
         .ad-reward { font-size: 0.95rem; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 5px; }
         .ad-limit-text { font-size: 0.75rem; color: var(--text2); font-family: monospace; }
 
-        /* Custom Ad Styles */
         .ad-adsgram-daily { border-left-color: var(--primary); }
         .ad-adsgram-daily .ad-badge { background: var(--primary-dim); color: var(--primary); }
-        
         .ad-adsgram-special { border-left-color: var(--gold); }
         .ad-adsgram-special .ad-badge { background: var(--gold-dim); color: var(--gold); }
-        
         .ad-monetag { border-left-color: var(--secondary); }
         .ad-monetag .ad-badge { background: rgba(59,130,246,0.15); color: var(--secondary); }
-        
         .ad-giga { border-left-color: var(--red); }
         .ad-giga .ad-badge { background: rgba(244,63,94,0.15); color: var(--red); }
 
-        /* info bar */
-        .info-bar {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;
-            font-size: 0.8rem; color: var(--text2); display: flex; align-items: center; gap: 10px;
-        }
+        .info-bar { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.8rem; color: var(--text2); display: flex; align-items: center; gap: 10px; }
         .info-bar i { color: var(--primary); font-size:1.1rem; flex-shrink: 0; }
+        .card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--r-card); padding: 20px; margin-bottom: 16px; }
 
-        /* ── GENERIC CARD ── */
-        .card {
-            background: var(--card); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--r-card); padding: 20px; margin-bottom: 16px;
+        /* Lootbox Styles */
+        .lootbox-card {
+            background: linear-gradient(145deg, rgba(15,20,30,0.9), rgba(0,229,255,0.05));
+            border: 1px solid var(--primary); border-radius: var(--r-card); padding: 20px; text-align: center; margin-bottom: 16px;
+            box-shadow: 0 0 20px rgba(0,229,255,0.15);
         }
 
-        /* ── FORMS ── */
         .form-group { margin-bottom: 14px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 0.82rem; font-weight: 500; color: var(--text2); }
-        input[type="text"], input[type="number"] {
-            width: 100%; padding: 12px 14px; border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5);
-            color: var(--text); font-size: 0.92rem; outline: none; transition: all 0.2s;
-        }
+        input[type="text"], input[type="number"] { width: 100%; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: var(--text); font-size: 0.92rem; outline: none; transition: all 0.2s; }
         input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-dim); }
         input:read-only { background: var(--disabled-bg); color: var(--text2); }
         .input-row { display: flex; gap: 8px; margin-bottom: 14px; }
         .input-row input { flex: 1; text-align: center; font-family: 'Roboto Mono', monospace; }
         .input-row .btn { width: auto; padding: 0 18px; flex-shrink: 0; }
 
-        /* ── BOTTOM NAV ── */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(3,5,9,0.95); border-top: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(20px); display: flex; padding: 10px 0 20px;
-        }
-        .nav-item {
-            flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
-            text-decoration: none; color: var(--disabled-text); font-size: 0.68rem;
-            font-weight: 600; transition: all 0.25s; text-transform: uppercase;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; background: rgba(3,5,9,0.95); border-top: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); display: flex; padding: 10px 0 20px; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: var(--disabled-text); font-size: 0.68rem; font-weight: 600; transition: all 0.25s; text-transform: uppercase; }
         .nav-item i { font-size: 1.2rem; transition: transform 0.2s; }
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-3px); filter: drop-shadow(0 0 5px var(--primary)); }
 
-        /* ── CONTENT SECTIONS ── */
         .content-section { display: none; animation: fadeUp 0.3s ease forwards; }
         .content-section.active { display: block; }
         @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
@@ -294,65 +234,30 @@
         .loader { border: 3px solid rgba(0,229,255,0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 28px; height: 28px; animation: spin 0.7s linear infinite; margin: 28px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ── MODALS ── */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000;
-            display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(8px); padding: 16px;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 16px; }
         .modal-overlay.show { display: flex; }
-        .modal-box {
-            background: #0B0F19; border: 1px solid var(--border);
-            color: var(--text); padding: 24px; border-radius: 20px;
-            width: 100%; max-width: 350px;
-            box-shadow: 0 10px 50px rgba(0,229,255,0.15);
-            animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
-            max-height: 85vh; overflow-y: auto;
-        }
+        .modal-box { background: #0B0F19; border: 1px solid var(--border); color: var(--text); padding: 24px; border-radius: 20px; width: 100%; max-width: 350px; box-shadow: 0 10px 50px rgba(0,229,255,0.15); animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; max-height: 85vh; overflow-y: auto; }
         @keyframes modalPop { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
         .modal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
         .modal-header-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
         .modal-title { font-size: 1.1rem; font-weight: 700; margin: 0; }
 
-        /* ── WITHDRAW TIERS ── */
-        .tier-info {
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; padding: 12px; margin-bottom: 14px;
-        }
+        .tier-info { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 14px; }
         .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
         .tier-row:last-child { border-bottom: none; }
         .tier-range { color: var(--text2); }
         .tier-ref { font-weight: 700; color: var(--gold); }
         .tier-active { background: var(--primary-dim); border-radius: 6px; padding: 5px 8px; border:1px solid var(--border); }
         .tier-active .tier-range { color: var(--primary); font-weight:bold; }
-
-        .required-refs-display {
-            text-align: center; padding: 12px; background: rgba(255,255,255,0.03);
-            border: 1px dashed rgba(255,255,255,0.1); border-radius: 10px;
-            margin-bottom: 14px; font-size: 0.85rem;
-        }
+        .required-refs-display { text-align: center; padding: 12px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 14px; font-size: 0.85rem; }
         .ton-preview { margin-top: 6px; font-size: 0.85rem; color: var(--green); font-weight: 700; display: none; text-align:center; }
 
-        /* ── LOTTERY ── */
         .wheel-wrap { position: relative; width: 230px; height: 230px; margin: 0 auto 20px; }
-        #wheelCanvas {
-            width: 100%; height: 100%; border-radius: 50%;
-            box-shadow: 0 0 0 4px var(--border), 0 0 30px var(--primary-dim);
-            transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05);
-        }
-        .spin-pointer {
-            position: absolute; top: 50%; right: -15px; transform: translateY(-50%);
-            width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent;
-            border-right: 24px solid var(--primary); z-index: 10;
-        }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 0 4px var(--border), 0 0 30px var(--primary-dim); transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05); }
+        .spin-pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 24px solid var(--primary); z-index: 10; }
 
-        /* ── TASK TABS ── */
         .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-        .tab-btn {
-            flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.3); color: var(--text2); font-weight: 600; font-size: 0.85rem;
-            cursor: pointer; transition: all 0.2s;
-        }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: var(--text2); font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
         .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
         .success-icon { font-size: 3rem; margin-bottom: 12px; animation: iconPop 0.4s ease; }
@@ -441,6 +346,14 @@
             <div class="section-title">
                 <div class="title-icon ti-blue"><i class="fas fa-satellite-dish"></i></div>
                 Network Missions
+            </div>
+
+            <!-- LOOTBOX SECTION -->
+            <div class="lootbox-card">
+                <h3 style="margin:0 0 10px; color:var(--text);"><i class="fas fa-box-open" style="color:var(--primary);"></i> Ad Lootbox</h3>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 50 Points to save server loads.</p>
+                <div style="font-size:2.2rem; font-weight:800; color:var(--green); font-family:monospace; margin-bottom:15px; text-shadow: 0 0 10px rgba(16,185,129,0.4);" id="lootboxPointsDisplay">0 Pts</div>
+                <button id="claimLootboxBtn" class="btn" disabled><i class="fas fa-download"></i> Claim Lootbox</button>
             </div>
 
             <div class="info-bar">
@@ -709,6 +622,96 @@
         const POINTS_TO_TON_RATE = 0.00002;
 
         // ════════════════════════════════════════════
+        // LOOTBOX LOCAL STORAGE SYSTEM
+        // ════════════════════════════════════════════
+        let localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+
+        function updateLootboxUI() {
+            const display = document.getElementById('lootboxPointsDisplay');
+            const btn = document.getElementById('claimLootboxBtn');
+            display.textContent = `${localAdData.unclaimedPoints} Pts`;
+            
+            if (localAdData.unclaimedPoints >= 50) {
+                btn.disabled = false;
+                btn.classList.remove('outline');
+                btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
+            } else {
+                btn.disabled = true;
+                btn.classList.add('outline');
+                btn.innerHTML = '<i class="fas fa-lock"></i> Min 50 Pts Required';
+            }
+        }
+
+        document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
+            if (localAdData.unclaimedPoints < 50) return;
+            
+            // Security limit to prevent local storage hacking
+            if (localAdData.unclaimedPoints > 1500) {
+                alert("⚠️ Security Error: Invalid Lootbox Data.");
+                localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+                localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
+                updateLootboxUI(); updateAdButtonStats(); return;
+            }
+
+            const btn = document.getElementById('claimLootboxBtn');
+            btn.disabled = true; btn.textContent = "Claiming...";
+
+            try {
+                const userRef = doc(db, 'users', currentUser.id);
+                const updates = {
+                    pointBalance: increment(localAdData.unclaimedPoints),
+                    lifetimePointsEarned: increment(localAdData.unclaimedPoints),
+                    lifetimeAdsWatched: increment(localAdData.adsWatched),
+                };
+                if (localAdData.adsWatchedAdsgramDaily > 0) updates.adsWatchedAdsgramDaily = increment(localAdData.adsWatchedAdsgramDaily);
+                if (localAdData.adsWatchedAdsgramSpecial > 0) updates.adsWatchedAdsgramSpecial = increment(localAdData.adsWatchedAdsgramSpecial);
+                if (localAdData.adsWatchedMonetag > 0) updates.adsWatchedMonetag = increment(localAdData.adsWatchedMonetag);
+                if (localAdData.adsWatchedGiga > 0) updates.adsWatchedGiga = increment(localAdData.adsWatchedGiga);
+
+                // Check for Referral Reward logic
+                const oldAds = currentUser.lifetimeAdsWatched || 0;
+                const newAds = oldAds + localAdData.adsWatched;
+                
+                if (oldAds < 20 && newAds >= 20 && currentUser.referredBy) {
+                    try {
+                        await runTransaction(db, async (t) => {
+                            const refRef = doc(db, 'users', currentUser.referredBy);
+                            const refDoc = await t.get(refRef);
+                            if (refDoc.exists()) {
+                                t.update(refRef, { pointBalance: increment(REFERRAL_REWARD_POINTS), lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS), referralCount: increment(1) });
+                                t.set(doc(collection(db, 'transactions')), { userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp() });
+                            }
+                        });
+                    } catch(e) {}
+                }
+
+                // Push to Firebase (ONLY 1 WRITE!)
+                await updateDoc(userRef, updates);
+
+                // Update current user locally
+                currentUser.pointBalance = (currentUser.pointBalance || 0) + localAdData.unclaimedPoints;
+                currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + localAdData.unclaimedPoints;
+                currentUser.lifetimeAdsWatched = newAds;
+                currentUser.adsWatchedAdsgramDaily = (currentUser.adsWatchedAdsgramDaily || 0) + localAdData.adsWatchedAdsgramDaily;
+                currentUser.adsWatchedAdsgramSpecial = (currentUser.adsWatchedAdsgramSpecial || 0) + localAdData.adsWatchedAdsgramSpecial;
+                currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + localAdData.adsWatchedMonetag;
+                currentUser.adsWatchedGiga = (currentUser.adsWatchedGiga || 0) + localAdData.adsWatchedGiga;
+
+                showSuccessModal("Lootbox Claimed! 🎉", `+${localAdData.unclaimedPoints} Points Saved to Database!`);
+
+                // Reset Lootbox
+                localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+                localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
+                
+                updateBalanceUI(); updateAdButtonStats(); updateLootboxUI();
+
+            } catch(e) {
+                alert("Error saving data. Please try again.");
+                btn.disabled = false; btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
+            }
+        });
+
+        // ════════════════════════════════════════════
         // DEVICE FINGERPRINTING & MULTI-ACCOUNT SYSTEM
         // ════════════════════════════════════════════
         async function generateDeviceFingerprint() {
@@ -834,7 +837,6 @@
         async function initializeUser(tgUser, referrerCode) {
             const userId = String(tgUser.id);
             
-            // ── ANTI BAN / 1 DEVICE 1 ACCOUNT SYSTEM ──
             const fpHash = await generateDeviceFingerprint();
             let localDevId = localStorage.getItem('newtube_device_id');
             if(!localDevId) {
@@ -890,26 +892,39 @@
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;color:#EF4444;">Account Banned.</h3>`; return null; }
             
             await checkDailyReset(currentUser);
+
+            // Load local lootbox data
+            const savedLoot = localStorage.getItem('newtube_lootbox_' + currentUser.id);
+            if (savedLoot) {
+                try { localAdData = JSON.parse(savedLoot); } catch(e) {}
+            }
+            updateLootboxUI();
+
             updateBalanceUI();
+            document.querySelector('#profile-id-display span').textContent = currentUser.id;
             document.getElementById('modalReferralLinkInput').value = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
             updateAdButtonStats(); updateLotteryUI();
         }
 
         function updateAdButtonStats() {
             if (!currentUser) return;
-            const upd = (btnId, limitId, count, max) => {
+            const upd = (btnId, limitId, dbCount, localCount, max) => {
                 const btn = document.getElementById(btnId);
                 const lim = document.getElementById(limitId);
                 if(!btn || !lim) return;
-                lim.textContent = `${count}/${max}`;
+                
+                const totalCount = (dbCount || 0) + (localCount || 0);
+                lim.textContent = `${totalCount}/${max}`;
+                
                 if (btn.dataset.busy === "true") return;
-                if (count >= max) { btn.disabled = true; btn.textContent = "Done"; } 
+                if (totalCount >= max) { btn.disabled = true; btn.textContent = "Done"; } 
                 else { btn.disabled = false; btn.textContent = "Watch"; btn.style.background = ''; btn.style.color = ''; }
             };
-            upd('btn-watch-adsgram-daily',   'limit-adsgram-daily',   currentUser.adsWatchedAdsgramDaily   || 0, AD_CONFIG.adsgramDaily.limit);
-            upd('btn-watch-adsgram-special', 'limit-adsgram-special', currentUser.adsWatchedAdsgramSpecial || 0, AD_CONFIG.adsgramSpecial.limit);
-            upd('btn-watch-monetag',         'limit-monetag',         currentUser.adsWatchedMonetag        || 0, AD_CONFIG.monetag.limit);
-            upd('btn-watch-giga',            'limit-giga',            currentUser.adsWatchedGiga           || 0, AD_CONFIG.giga.limit);
+
+            upd('btn-watch-adsgram-daily',   'limit-adsgram-daily',   currentUser.adsWatchedAdsgramDaily,   localAdData.adsWatchedAdsgramDaily,   AD_CONFIG.adsgramDaily.limit);
+            upd('btn-watch-adsgram-special', 'limit-adsgram-special', currentUser.adsWatchedAdsgramSpecial, localAdData.adsWatchedAdsgramSpecial, AD_CONFIG.adsgramSpecial.limit);
+            upd('btn-watch-monetag',         'limit-monetag',         currentUser.adsWatchedMonetag,        localAdData.adsWatchedMonetag,        AD_CONFIG.monetag.limit);
+            upd('btn-watch-giga',            'limit-giga',            currentUser.adsWatchedGiga,           localAdData.adsWatchedGiga,           AD_CONFIG.giga.limit);
         }
 
         function updateBalanceUI() {
@@ -927,45 +942,30 @@
 
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
             const countName = `adsWatched${type.charAt(0).toUpperCase() + type.slice(1)}`;
-            const count = currentUser[countName] || 0;
-            if (count >= maxLimit) return;
+            const totalCount = (currentUser[countName] || 0) + (localAdData[countName] || 0);
+            
+            if (totalCount >= maxLimit) return;
             const ok = await runAdAndVerifyTime(btnId, adFunc);
-            if (ok) await processAdReward(type, AD_CONFIG[type].reward, countName);
+            
+            if (ok) {
+                // Update Local Lootbox instead of Database
+                localAdData.unclaimedPoints += AD_CONFIG[type].reward;
+                localAdData.adsWatched += 1;
+                localAdData[countName] = (localAdData[countName] || 0) + 1;
+                
+                localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
+                
+                showSuccessModal("Ad Watched! 🎁", `+${AD_CONFIG[type].reward} Points added to Lootbox`);
+                
+                updateLootboxUI();
+                updateAdButtonStats();
+            }
         };
 
         document.getElementById('btn-watch-adsgram-daily').addEventListener('click',   () => handleAdClick('adsgramDaily',   'btn-watch-adsgram-daily',   AD_CONFIG.adsgramDaily.limit,   showAdsgramDailyAd));
         document.getElementById('btn-watch-adsgram-special').addEventListener('click', () => handleAdClick('adsgramSpecial', 'btn-watch-adsgram-special', AD_CONFIG.adsgramSpecial.limit, showAdsgramSpecialAd));
         document.getElementById('btn-watch-monetag').addEventListener('click',         () => handleAdClick('monetag',        'btn-watch-monetag',         AD_CONFIG.monetag.limit,        showMonetagAd));
         document.getElementById('btn-watch-giga').addEventListener('click',            () => handleAdClick('giga',           'btn-watch-giga',            AD_CONFIG.giga.limit,           showGigaPubAd));
-
-        async function processAdReward(type, points, dbField) {
-            const userRef = doc(db, 'users', currentUser.id);
-            const updates = { lifetimeAdsWatched: increment(1), pointBalance: increment(points), lifetimePointsEarned: increment(points) };
-            updates[dbField] = increment(1);
-            
-            try { await updateDoc(userRef, updates); } catch(e){}
-
-            currentUser[dbField] = (currentUser[dbField] || 0) + 1;
-            currentUser.lifetimeAdsWatched = (currentUser.lifetimeAdsWatched || 0) + 1;
-            currentUser.pointBalance       = (currentUser.pointBalance       || 0) + points;
-            currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + points;
-
-            const VALID_REF_ADS = 20;
-            if (currentUser.lifetimeAdsWatched === VALID_REF_ADS && currentUser.referredBy) {
-                try {
-                    await runTransaction(db, async (t) => {
-                        const refRef = doc(db, 'users', currentUser.referredBy);
-                        const refDoc = await t.get(refRef);
-                        if (refDoc.exists()) {
-                            t.update(refRef, { pointBalance: increment(REFERRAL_REWARD_POINTS), lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS), referralCount: increment(1) });
-                            t.set(doc(collection(db, 'transactions')), { userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp() });
-                        }
-                    });
-                } catch (e) {}
-            }
-            showSuccessModal("Ad Complete! 🎉", `+${points} Points added`);
-            updateBalanceUI(); updateAdButtonStats();
-        }
 
         // ════════════════════════════════════════════
         // WITHDRAW LOGIC
@@ -1201,7 +1201,9 @@
 
             if (state === 'start') {
                 if (taskUrl) tg.openLink(taskUrl);
-                button.disabled = true; let c = 8; button.textContent = `Wait ${c}s`;
+                
+                button.disabled = true; let c = 5; button.textContent = `Wait ${c}s`;
+                
                 const iv = setInterval(() => {
                     c--; if (c > 0) { button.textContent = `Wait ${c}s`; }
                     else {
@@ -1220,13 +1222,15 @@
                             if (!j.joined) { alert('⚠️ Join the channel/group first, then tap Verify!'); button.disabled = false; button.textContent = 'Verify'; return; }
                         } catch(e) { button.disabled = false; button.textContent = 'Verify'; return; }
                     }
-                    const taskSnap = await getDoc(doc(db, 'tasks', taskId));
-                    if (!taskSnap.exists()) throw new Error('Task missing');
-                    const reward = taskSnap.data().rewardPoints || 0;
+                    
+                    // FIXED: All tasks give 20 points
+                    const reward = 20; 
+                    
                     const batch = writeBatch(db);
                     batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
                     batch.update(doc(db, 'tasks', taskId), { completionCount: increment(1) });
                     await batch.commit();
+                    
                     currentUser.completedTasks = [...(currentUser.completedTasks || []), taskId];
                     currentUser.pointBalance = (currentUser.pointBalance || 0) + reward;
                     updateBalanceUI(); showSuccessModal('Task Done!', `+${reward} Points`); button.closest('[data-task-card]').remove();
@@ -1248,17 +1252,19 @@
                     
                     const card = document.createElement('div'); card.setAttribute('data-task-card', docSnap.id);
                     card.className = 'card'; card.style.padding = '15px';
+                    
+                    // FIXED: Showing +20 Points in UI permanently
                     if (category === 'channel') {
                         card.innerHTML = `
                             <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-                                <div style="flex:1;"><div style="font-weight:600;font-size:0.9rem;color:#fff;"><i class="fab fa-telegram-plane" style="color:var(--primary);"></i> ${task.title}</div><div style="color:var(--green);font-size:0.8rem;margin-top:3px;">+${task.rewardPoints||5} Points</div></div>
+                                <div style="flex:1;"><div style="font-weight:600;font-size:0.9rem;color:#fff;"><i class="fab fa-telegram-plane" style="color:var(--primary);"></i> ${task.title}</div><div style="color:var(--green);font-size:0.8rem;margin-top:3px;">+20 Points</div></div>
                                 <button class="btn outline task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="padding:8px 12px;width:auto;">Join</button>
                             </div>`;
                     } else {
                         card.innerHTML = `
                             <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
                                 <div style="width:35px;height:35px;background:var(--primary-dim);border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-robot" style="color:var(--primary);"></i></div>
-                                <div><div style="font-weight:700;color:#fff;font-size:0.95rem;">${task.title}</div><div style="color:var(--green);font-size:0.8rem;">+${task.rewardPoints||5} Points</div></div>
+                                <div><div style="font-weight:700;color:#fff;font-size:0.95rem;">${task.title}</div><div style="color:var(--green);font-size:0.8rem;">+20 Points</div></div>
                             </div>
                             <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-category="${category}" data-state="start">🚀 Complete Task</button>`;
                     }
