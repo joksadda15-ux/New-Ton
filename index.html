@@ -1279,7 +1279,9 @@
             try {
                 const res  = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
-                if (!data.channel || !data.group) document.getElementById('activationModalOverlay').classList.add('show');
+                if (!data.joined) {
+                    document.getElementById('activationModalOverlay').classList.add('show');
+                }
             } catch (e) { document.getElementById('activationModalOverlay').classList.add('show'); }
         }
 
@@ -1288,17 +1290,26 @@
             try {
                 const res  = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
-                if (data.channel && data.group) {
+                
+                if (data.joined) {
+                    alert("Verified ✅");
                     document.getElementById('activationModalOverlay').classList.remove('show');
+                    
                     if (!currentUser.welcomeBonusClaimed) {
                         try {
                             await updateDoc(doc(db, 'users', currentUser.id), { pointBalance: increment(10), lifetimePointsEarned: increment(10), welcomeBonusClaimed: true });
-                            currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; currentUser.welcomeBonusClaimed = true; updateBalanceUI();
+                            currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; 
+                            currentUser.welcomeBonusClaimed = true; 
+                            updateBalanceUI();
                             showSuccessModal('🎁 Welcome Bonus!', `+10 Points added!`);
                         } catch (e) {}
                     }
-                } else alert("Join BOTH the channel and group to verify!");
-            } catch (e) {}
+                } else {
+                    alert("Join required ❌");
+                }
+            } catch (e) {
+                alert("Error verifying account! Try again.");
+            }
             document.getElementById('activateAccountBtn').textContent = "Verify Access";
         });
 
