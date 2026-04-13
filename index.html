@@ -11,6 +11,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Adexium Ads Script -->
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            // 30 seconds delay before Adexium starts running automatically
+            setTimeout(() => {
+                try {
+                    const adexiumWidget = new AdexiumWidget({wid: '12c05dba-2642-46f2-950f-cee6575119c9', adFormat: 'interstitial'});
+                    adexiumWidget.autoMode();
+                } catch(e) { console.error('Adexium error:', e); }
+            }, 30000);
+        });
+    </script>
+
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
@@ -505,18 +519,13 @@
             </div>
 
             <div class="tier-info">
-                <div style="font-size:0.75rem; color:var(--text2); margin-bottom:8px; font-weight:600;">REQUIREMENTS</div>
-                <div class="tier-row" id="tier-row-1"><span class="tier-range">1 – 1,500 Pts</span><span class="tier-ref">1 Valid Ref</span></div>
-                <div class="tier-row" id="tier-row-2"><span class="tier-range">1,501 – 3,000 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
-                <div class="tier-row" id="tier-row-3"><span class="tier-range">3,001 – 4,500 Pts</span><span class="tier-ref">3 Valid Refs</span></div>
-                <div class="tier-row" id="tier-row-4"><span class="tier-range">4,501 – 6,000 Pts</span><span class="tier-ref">4 Valid Refs</span></div>
-                <div class="tier-row" id="tier-row-5"><span class="tier-range">6,001+ Pts</span><span class="tier-ref">5 Valid Refs</span></div>
+                <!-- Dynamically Rendered Based on Withdrawal Count -->
             </div>
 
             <div class="required-refs-display" id="requiredRefsDisplay">Enter amount to verify</div>
 
             <div class="form-group">
-                <label>Amount (Points)</label>
+                <label>Amount (Points) - Max: 50,000</label>
                 <input type="number" id="withdrawalAmount" placeholder="Min: 1500">
                 <div class="ton-preview" id="realtime-ton-display">You receive: <span id="calc-ton-val">0.0000</span> TON</div>
             </div>
@@ -755,12 +764,12 @@
         };
 
         const showAdsgramDailyAd = () => new Promise((res, rej) => {
-            if (window.Adsgram) { window.Adsgram.init({blockId:"int-21249"}).show().then(res).catch(rej); } 
+            if (window.Adsgram) { window.Adsgram.init({blockId:"int-27565"}).show().then(res).catch(rej); } 
             else { setTimeout(res, 2000); }
         });
 
         const showAdsgramSpecialAd = () => new Promise((res, rej) => {
-            if (window.Adsgram) { window.Adsgram.init({blockId:"22908"}).show().then(res).catch(rej); } 
+            if (window.Adsgram) { window.Adsgram.init({blockId:"27566"}).show().then(res).catch(rej); } 
             else { setTimeout(res, 2000); }
         });
 
@@ -962,44 +971,96 @@
             }
         };
 
-        document.getElementById('btn-watch-adsgram-daily').addEventListener('click',   () => handleAdClick('adsgramDaily',   'btn-watch-adsgram-daily',   AD_CONFIG.adsgramDaily.limit,   showAdsgramDailyAd));
-        document.getElementById('btn-watch-adsgram-special').addEventListener('click', () => handleAdClick('adsgramSpecial', 'btn-watch-adsgram-special', AD_CONFIG.adsgramSpecial.limit, showAdsgramSpecialAd));
-        document.getElementById('btn-watch-monetag').addEventListener('click',         () => handleAdClick('monetag',        'btn-watch-monetag',         AD_CONFIG.monetag.limit,        showMonetagAd));
-        document.getElementById('btn-watch-giga').addEventListener('click',            () => handleAdClick('giga',           'btn-watch-giga',            AD_CONFIG.giga.limit,           showGigaPubAd));
+        // Attach listeners with stopPropagation to prevent multiple ads running simultaneously if clicked fast or nested
+        const attachAdListener = (id, type, maxLimit, adFunc) => {
+            const btn = document.getElementById(id);
+            if(btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAdClick(type, id, maxLimit, adFunc);
+                });
+            }
+        };
+
+        attachAdListener('btn-watch-adsgram-daily', 'adsgramDaily', AD_CONFIG.adsgramDaily.limit, showAdsgramDailyAd);
+        attachAdListener('btn-watch-adsgram-special', 'adsgramSpecial', AD_CONFIG.adsgramSpecial.limit, showAdsgramSpecialAd);
+        attachAdListener('btn-watch-monetag', 'monetag', AD_CONFIG.monetag.limit, showMonetagAd);
+        attachAdListener('btn-watch-giga', 'giga', AD_CONFIG.giga.limit, showGigaPubAd);
+
 
         // ════════════════════════════════════════════
-        // WITHDRAW LOGIC
+        // WITHDRAW LOGIC (NEW UPDATE)
         // ════════════════════════════════════════════
         function getRequiredRefs(amount) {
             if (amount <= 1500) return 1; if (amount <= 3000) return 2; if (amount <= 4500) return 3; if (amount <= 6000) return 4; return 5;
         }
 
-        function highlightTierRow(amount) {
-            const rows = ['tier-row-1','tier-row-2','tier-row-3','tier-row-4','tier-row-5'];
-            rows.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('tier-active'); });
-            if (!amount || amount < 1500) return;
-            let rowIdx = amount <= 1500 ? 1 : amount <= 3000 ? 2 : amount <= 4500 ? 3 : amount <= 6000 ? 4 : 5;
-            const activeRow = document.getElementById(`tier-row-${rowIdx}`);
-            if (activeRow) activeRow.classList.add('tier-active');
-        }
-
-        document.getElementById('withdraw-modal-btn').addEventListener('click', () => { document.getElementById('withdrawModalOverlay').classList.add('show'); updateBalanceUI(); });
+        document.getElementById('withdraw-modal-btn').addEventListener('click', () => { 
+            document.getElementById('withdrawModalOverlay').classList.add('show'); 
+            updateBalanceUI(); 
+            
+            document.getElementById('withdrawalAmount').value = '';
+            document.getElementById('realtime-ton-display').style.display = 'none';
+            document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount to verify';
+            
+            const wCount = currentUser.withdrawalCount || 0;
+            const tierInfo = document.querySelector('.tier-info');
+            
+            // Dynamic Tier Info based on withdrawal count
+            if (wCount < 5) {
+                let remain = 5 - wCount;
+                tierInfo.innerHTML = `
+                    <div style="font-size:0.75rem; color:var(--text2); margin-bottom:8px; font-weight:600;">REQUIREMENTS (${remain} Ads-Mode Left)</div>
+                    <div class="tier-row"><span class="tier-range">Every 1,500 Pts</span><span class="tier-ref">20 Ads</span></div>
+                    <div class="tier-row"><span class="tier-range">Example: 3,000 Pts</span><span class="tier-ref">40 Ads</span></div>
+                    <div class="tier-row"><span class="tier-range">Example: 4,500 Pts</span><span class="tier-ref">60 Ads</span></div>
+                    ${wCount === 0 ? '<div class="tier-row" style="background:var(--gold-dim); padding:8px; border-radius:8px; margin-top:8px;"><span class="tier-range" style="color:var(--gold); font-weight:bold;">First Withdraw Bonus</span><span class="tier-ref" style="color:var(--gold);">5 Tasks Req.</span></div>' : ''}
+                `;
+            } else {
+                tierInfo.innerHTML = `
+                    <div style="font-size:0.75rem; color:var(--text2); margin-bottom:8px; font-weight:600;">REQUIREMENTS (Referral Mode Active)</div>
+                    <div class="tier-row" id="tier-row-1"><span class="tier-range">1 – 1,500 Pts</span><span class="tier-ref">1 Valid Ref</span></div>
+                    <div class="tier-row" id="tier-row-2"><span class="tier-range">1,501 – 3,000 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
+                    <div class="tier-row" id="tier-row-3"><span class="tier-range">3,001 – 4,500 Pts</span><span class="tier-ref">3 Valid Refs</span></div>
+                    <div class="tier-row" id="tier-row-4"><span class="tier-range">4,501 – 6,000 Pts</span><span class="tier-ref">4 Valid Refs</span></div>
+                    <div class="tier-row" id="tier-row-5"><span class="tier-range">6,001+ Pts</span><span class="tier-ref">5 Valid Refs</span></div>
+                `;
+            }
+        });
 
         document.getElementById('withdrawalAmount').addEventListener('input', (e) => {
             const amt = parseFloat(e.target.value);
             const preview = document.getElementById('realtime-ton-display');
             const refsDisplay = document.getElementById('requiredRefsDisplay');
+            const wCount = currentUser.withdrawalCount || 0;
 
             if (amt >= 1500) {
                 document.getElementById('calc-ton-val').textContent = (amt * POINTS_TO_TON_RATE).toFixed(4);
                 preview.style.display = 'block';
-                const needed = getRequiredRefs(amt);
-                const avail = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
-                const color = avail >= needed ? 'var(--green)' : 'var(--red)';
-                refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.1rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
-                highlightTierRow(amt);
+                
+                if (wCount < 5) {
+                    const neededAds = Math.ceil(amt / 1500) * 20;
+                    const availAds = (currentUser.lifetimeAdsWatched || 0) - (currentUser.spentAds || 0);
+                    const color = availAds >= neededAds ? 'var(--green)' : 'var(--red)';
+                    
+                    let taskText = '';
+                    if (wCount === 0) {
+                        const tasksDone = currentUser.completedTasks?.length || 0;
+                        const tColor = tasksDone >= 5 ? 'var(--green)' : 'var(--red)';
+                        taskText = `<br><span style="font-size:0.75rem;margin-top:5px;display:block;">Tasks Required: <strong style="color:${tColor}">${tasksDone}/5</strong></span>`;
+                    }
+                    
+                    refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.1rem;">${neededAds}</strong> Ads &nbsp;|&nbsp; Available <strong style="color:${color};">${availAds}</strong>${taskText}`;
+                } else {
+                    const needed = getRequiredRefs(amt);
+                    const avail = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
+                    const color = avail >= needed ? 'var(--green)' : 'var(--red)';
+                    refsDisplay.innerHTML = `Need <strong style="color:${color};font-size:1.1rem;">${needed}</strong> Valid Ref${needed>1?'s':''} &nbsp;|&nbsp; You have <strong style="color:${color};">${avail}</strong>`;
+                }
             } else {
-                preview.style.display = 'none'; refsDisplay.innerHTML = 'Enter amount to see required referrals'; highlightTierRow(0);
+                preview.style.display = 'none'; 
+                refsDisplay.innerHTML = 'Enter amount to see requirements'; 
             }
         });
 
@@ -1008,33 +1069,88 @@
 
             const amount  = parseFloat(document.getElementById('withdrawalAmount').value);
             const details = document.getElementById('accountDetails').value.trim();
+            const today = getTodayDateString();
 
             if (!details || isNaN(amount) || amount < 1500) return alert('Min 1,500 Pts and Tonkeeper address required.');
+            if (amount > 50000) return alert('Maximum withdrawal limit per transaction is 50,000 Pts.');
             if ((currentUser.pointBalance || 0) < amount)   return alert('Insufficient Points.');
+            if (currentUser.lastWithdrawDate === today) return alert('You can only withdraw 1 time per day.');
 
-            const refsNeeded = getRequiredRefs(amount);
-            const refsAvail  = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
-            if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount.`);
+            const wCount = currentUser.withdrawalCount || 0;
+            let adsNeeded = 0;
+            let refsNeeded = 0;
 
-            if (!confirm(`Withdraw ${amount} Pts?\nCost: ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
+            if (wCount < 5) {
+                if (wCount === 0) {
+                    const tasksDone = currentUser.completedTasks?.length || 0;
+                    if (tasksDone < 5) return alert('You need to complete at least 5 tasks for your first withdrawal.');
+                }
+                adsNeeded = Math.ceil(amount / 1500) * 20;
+                const availAds = (currentUser.lifetimeAdsWatched || 0) - (currentUser.spentAds || 0);
+                if (availAds < adsNeeded) return alert(`You need ${adsNeeded} available Ads for this amount.`);
+                
+                if (!confirm(`Withdraw ${amount} Pts?\nCost: ${adsNeeded} Ads.`)) return;
+            } else {
+                refsNeeded = getRequiredRefs(amount);
+                const refsAvail  = (currentUser.referralCount || 0) - (currentUser.spentReferrals || 0);
+                if (refsAvail < refsNeeded) return alert(`Need ${refsNeeded} Valid Ref${refsNeeded>1?'s':''} for this amount.`);
+                
+                if (!confirm(`Withdraw ${amount} Pts?\nCost: ${refsNeeded} Valid Referral${refsNeeded>1?'s':''}.`)) return;
+            }
 
             isSubmittingWithdrawal = true;
             try {
                 await runTransaction(db, async (t) => {
                     const userRef = doc(db, 'users', currentUser.id);
                     const uData = (await t.get(userRef)).data();
-                    const serverAvail = (uData.referralCount || 0) - (uData.spentReferrals || 0);
-                    if (uData.pointBalance < amount || serverAvail < refsNeeded) throw new Error("Requirements not met on server.");
-                    t.set(doc(collection(db, 'withdrawals')), { userId: currentUser.id, method: 'Tonkeeper', details, status: 'pending', createdAt: serverTimestamp(), pointAmount: amount, tonAmount: amount * POINTS_TO_TON_RATE, refsUsed: refsNeeded });
-                    t.update(userRef, { pointBalance: increment(-amount), spentReferrals: increment(refsNeeded) });
+                    
+                    if (uData.lastWithdrawDate === today) throw new Error("Already withdrawn today.");
+                    if (uData.pointBalance < amount) throw new Error("Insufficient Points.");
+                    
+                    const dbWCount = uData.withdrawalCount || 0;
+                    let updates = {
+                        pointBalance: increment(-amount),
+                        withdrawalCount: increment(1),
+                        lastWithdrawDate: today
+                    };
+
+                    if (dbWCount < 5) {
+                        if (dbWCount === 0 && (uData.completedTasks?.length || 0) < 5) throw new Error("Need 5 tasks for first withdrawal.");
+                        const dbAvailAds = (uData.lifetimeAdsWatched || 0) - (uData.spentAds || 0);
+                        if (dbAvailAds < adsNeeded) throw new Error("Requirements not met on server (Ads).");
+                        updates.spentAds = increment(adsNeeded);
+                    } else {
+                        const serverAvail = (uData.referralCount || 0) - (uData.spentReferrals || 0);
+                        if (serverAvail < refsNeeded) throw new Error("Requirements not met on server (Refs).");
+                        updates.spentReferrals = increment(refsNeeded);
+                    }
+
+                    t.set(doc(collection(db, 'withdrawals')), { 
+                        userId: currentUser.id, 
+                        method: 'Tonkeeper', 
+                        details, 
+                        status: 'pending', 
+                        createdAt: serverTimestamp(), 
+                        pointAmount: amount, 
+                        tonAmount: amount * POINTS_TO_TON_RATE, 
+                        refsUsed: refsNeeded,
+                        adsUsed: adsNeeded
+                    });
+                    t.update(userRef, updates);
                 });
 
-                document.getElementById('withdrawalAmount').value = ''; document.getElementById('accountDetails').value = '';
-                document.getElementById('realtime-ton-display').style.display = 'none'; document.getElementById('requiredRefsDisplay').innerHTML = 'Enter amount...';
-                highlightTierRow(0); document.getElementById('withdrawModalOverlay').classList.remove('show');
+                document.getElementById('withdrawalAmount').value = ''; 
+                document.getElementById('accountDetails').value = '';
+                document.getElementById('realtime-ton-display').style.display = 'none'; 
+                document.getElementById('withdrawModalOverlay').classList.remove('show');
                 showSuccessModal("Request Sent! ✅", `Withdrawal pending review.`);
 
-                currentUser.pointBalance = (currentUser.pointBalance || 0) - amount; currentUser.spentReferrals = (currentUser.spentReferrals || 0) + refsNeeded;
+                currentUser.pointBalance = (currentUser.pointBalance || 0) - amount; 
+                currentUser.withdrawalCount = wCount + 1;
+                currentUser.lastWithdrawDate = today;
+                if (wCount < 5) currentUser.spentAds = (currentUser.spentAds || 0) + adsNeeded;
+                else currentUser.spentReferrals = (currentUser.spentReferrals || 0) + refsNeeded;
+                
                 updateBalanceUI();
             } catch (err) { alert(err.message); } finally { isSubmittingWithdrawal = false; }
         });
@@ -1104,7 +1220,6 @@
                 document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
                 link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
                 
-                // এখানে নতুন ডোমেইন দেওয়া হয়েছে
                 if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
             });
@@ -1183,7 +1298,7 @@
         });
 
         // --- TASK SYSTEM ---
-        const TASK_API_BASE = 'https://new-ton-8835.vercel.app/api'; // NEW DOMAIN UPDATE
+        const TASK_API_BASE = 'https://new-ton-8835.vercel.app/api'; 
         let activeTaskTab = 'channel'; let tasksCacheChannel = null; let tasksCachePartner = null;
 
         document.getElementById('task-content').addEventListener('click', async (e) => {
@@ -1225,7 +1340,6 @@
                         } catch(e) { button.disabled = false; button.textContent = 'Verify'; return; }
                     }
                     
-                    // FIXED: All tasks give 20 points
                     const reward = 20; 
                     
                     const batch = writeBatch(db);
@@ -1255,7 +1369,6 @@
                     const card = document.createElement('div'); card.setAttribute('data-task-card', docSnap.id);
                     card.className = 'card'; card.style.padding = '15px';
                     
-                    // FIXED: Showing +20 Points in UI permanently
                     if (category === 'channel') {
                         card.innerHTML = `
                             <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
@@ -1279,7 +1392,6 @@
         // --- VERIFICATION ---
         async function checkMembershipAndEnforce() {
             try {
-                // NEW DOMAIN UPDATE
                 const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
                 
@@ -1289,11 +1401,9 @@
             } catch (e) { document.getElementById('activationModalOverlay').classList.add('show'); }
         }
 
-        // STRICT VERIFICATION RESTORED
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
             document.getElementById('activateAccountBtn').textContent = "Verifying...";
             try {
-                // NEW DOMAIN UPDATE
                 const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
                 
