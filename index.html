@@ -1279,7 +1279,9 @@
             try {
                 const res  = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
-                if (!data.joined) {
+                
+                // Handling both new and old API response structure just in case
+                if (!(data.joined || (data.channel && data.group))) {
                     document.getElementById('activationModalOverlay').classList.add('show');
                 }
             } catch (e) { document.getElementById('activationModalOverlay').classList.add('show'); }
@@ -1291,7 +1293,8 @@
                 const res  = await fetch(`https://new-ton-p2rd.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
                 
-                if (data.joined) {
+                // Handling both new and old API response structure just in case
+                if (data.joined || (data.channel && data.group)) {
                     alert("Verified ✅");
                     document.getElementById('activationModalOverlay').classList.remove('show');
                     
@@ -1305,7 +1308,7 @@
                         } catch (e) {}
                     }
                 } else {
-                    alert("Join required ❌");
+                    alert("Join required ❌\nPlease join the Channel & Group.");
                 }
             } catch (e) {
                 alert("Error verifying account! Try again.");
