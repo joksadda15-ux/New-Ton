@@ -1103,6 +1103,8 @@
                 e.preventDefault();
                 document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
                 link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
+                
+                // এখানে নতুন ডোমেইন দেওয়া হয়েছে
                 if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
             });
@@ -1181,7 +1183,7 @@
         });
 
         // --- TASK SYSTEM ---
-        const TASK_API_BASE = 'https://new-ton-p2rd.vercel.app/api';
+        const TASK_API_BASE = 'https://new-ton-8835.vercel.app/api'; // NEW DOMAIN UPDATE
         let activeTaskTab = 'channel'; let tasksCacheChannel = null; let tasksCachePartner = null;
 
         document.getElementById('task-content').addEventListener('click', async (e) => {
@@ -1276,34 +1278,45 @@
 
         // --- VERIFICATION ---
         async function checkMembershipAndEnforce() {
-            // API তে সমস্যা থাকায় ভেরিফিকেশন পপআপ সরাসরি দেখিয়ে দেওয়া হচ্ছে
-            document.getElementById('activationModalOverlay').classList.add('show');
+            try {
+                // NEW DOMAIN UPDATE
+                const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const data = await res.json();
+                
+                if (!data.joined) {
+                    document.getElementById('activationModalOverlay').classList.add('show');
+                }
+            } catch (e) { document.getElementById('activationModalOverlay').classList.add('show'); }
         }
 
-        // সাময়িক বাইপাস (যতক্ষণ API ঠিক না হয়)
+        // STRICT VERIFICATION RESTORED
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
             document.getElementById('activateAccountBtn').textContent = "Verifying...";
-            
-            // API কল না করেই সরাসরি ভেরিফাই করে দেওয়া হচ্ছে
-            setTimeout(async () => {
-                alert("Verified ✅");
-                document.getElementById('activationModalOverlay').classList.remove('show');
+            try {
+                // NEW DOMAIN UPDATE
+                const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const data = await res.json();
                 
-                if (!currentUser.welcomeBonusClaimed) {
-                    try {
-                        await updateDoc(doc(db, 'users', currentUser.id), { 
-                            pointBalance: increment(10), 
-                            lifetimePointsEarned: increment(10), 
-                            welcomeBonusClaimed: true 
-                        });
-                        currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; 
-                        currentUser.welcomeBonusClaimed = true; 
-                        updateBalanceUI();
-                        showSuccessModal('🎁 Welcome Bonus!', `+10 Points added!`);
-                    } catch (e) {}
+                if (data.joined) {
+                    alert("Verified ✅");
+                    document.getElementById('activationModalOverlay').classList.remove('show');
+                    
+                    if (!currentUser.welcomeBonusClaimed) {
+                        try {
+                            await updateDoc(doc(db, 'users', currentUser.id), { pointBalance: increment(10), lifetimePointsEarned: increment(10), welcomeBonusClaimed: true });
+                            currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; 
+                            currentUser.welcomeBonusClaimed = true; 
+                            updateBalanceUI();
+                            showSuccessModal('🎁 Welcome Bonus!', `+10 Points added!`);
+                        } catch (e) {}
+                    }
+                } else {
+                    alert("Join required ❌\nPlease join the Channel & Group.");
                 }
-                document.getElementById('activateAccountBtn').textContent = "Verify Access";
-            }, 1000); // 1 সেকেন্ড লোডিং দেখাবে
+            } catch (e) {
+                alert("Error verifying account! Try again.");
+            }
+            document.getElementById('activateAccountBtn').textContent = "Verify Access";
         });
 
         // --- MAIN INIT ---
@@ -1311,8 +1324,7 @@
             if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
             tg.ready(); tg.expand(); tg.setHeaderColor('#030509');
             await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
-            if(currentUser && !currentUser.isBanned && !currentUser.welcomeBonusClaimed) {
-                // যারা এখনও বোনাস নেয়নি, তাদের ক্ষেত্রে পপআপ শো করবে
+            if(currentUser && !currentUser.isBanned) {
                 await checkMembershipAndEnforce();
             }
         }
