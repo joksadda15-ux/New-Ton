@@ -420,7 +420,7 @@
                     </div>
                     <div style="text-align:right;">
                         <div class="ad-badge">MONETAG</div>
-                        <div class="ad-limit-text" id="limit-monetag">0/10</div>
+                        <div class="ad-limit-text" id="limit-monetag">0/15</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
@@ -438,7 +438,7 @@
                     </div>
                     <div style="text-align:right;">
                         <div class="ad-badge">GIGAPUB</div>
-                        <div class="ad-limit-text" id="limit-giga">0/10</div>
+                        <div class="ad-limit-text" id="limit-giga">0/15</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
@@ -721,46 +721,13 @@
         });
 
         // ════════════════════════════════════════════
-        // DEVICE FINGERPRINTING & MULTI-ACCOUNT SYSTEM
-        // ════════════════════════════════════════════
-        async function generateDeviceFingerprint() {
-            return new Promise(resolve => {
-                let fp = "";
-                try {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    ctx.textBaseline = "top"; ctx.font = "14px 'Arial'"; ctx.textBaseline = "alphabetic";
-                    ctx.fillStyle = "#f60"; ctx.fillRect(125,1,62,20);
-                    ctx.fillStyle = "#069"; ctx.fillText("NewTubeTON", 2, 15);
-                    ctx.fillStyle = "rgba(102, 204, 0, 0.7)"; ctx.fillText("NewTubeTON", 4, 17);
-                    const dataUrl = canvas.toDataURL();
-                    
-                    let hash = 0;
-                    for (let i = 0; i < dataUrl.length; i++) {
-                        let char = dataUrl.charCodeAt(i);
-                        hash = ((hash << 5) - hash) + char; hash = hash & hash;
-                    }
-                    const rawString = `${hash}_${navigator.userAgent}_${screen.width}x${screen.height}x${screen.colorDepth}`;
-                    
-                    let finalHash = 0;
-                    for (let i = 0; i < rawString.length; i++) {
-                        let char = rawString.charCodeAt(i);
-                        finalHash = ((finalHash << 5) - finalHash) + char; finalHash = finalHash & finalHash;
-                    }
-                    fp = Math.abs(finalHash).toString(16);
-                } catch(e) { fp = "fallback_" + Math.random().toString(36).substr(2, 9); }
-                resolve(fp);
-            });
-        }
-
-        // ════════════════════════════════════════════
-        // UPDATED AD CONFIGURATION
+        // UPDATED AD CONFIGURATION (GigaPub and Monetag daily limits updated to 15)
         // ════════════════════════════════════════════
         const AD_CONFIG = { 
             adsgramDaily:   { limit: 10, reward: 10 },
             adsgramSpecial: { limit: 5,  reward: 20 },
-            monetag:        { limit: 10, reward: 15 },
-            giga:           { limit: 10, reward: 15 }
+            monetag:        { limit: 15, reward: 15 },
+            giga:           { limit: 15, reward: 15 }
         };
 
         const showAdsgramDailyAd = () => new Promise((res, rej) => {
@@ -845,34 +812,6 @@
 
         async function initializeUser(tgUser, referrerCode) {
             const userId = String(tgUser.id);
-            
-            const fpHash = await generateDeviceFingerprint();
-            let localDevId = localStorage.getItem('newtube_device_id');
-            if(!localDevId) {
-                localDevId = 'dev_' + Date.now() + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('newtube_device_id', localDevId);
-            }
-
-            let isMultiAccount = false;
-            try {
-                const checkHash = await getDocs(query(collection(db, 'users'), where('deviceHash', '==', fpHash), limit(2)));
-                checkHash.forEach(d => { if(d.id !== userId) isMultiAccount = true; });
-
-                const checkLoc = await getDocs(query(collection(db, 'users'), where('deviceId', '==', localDevId), limit(2)));
-                checkLoc.forEach(d => { if(d.id !== userId) isMultiAccount = true; });
-            } catch(e) {}
-
-            if(isMultiAccount) {
-                document.body.innerHTML = `
-                    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center; padding:20px;">
-                        <i class="fas fa-lock" style="font-size:4rem; color:var(--red); margin-bottom:20px; filter:drop-shadow(0 0 20px var(--red));"></i>
-                        <h2 style="color:#fff; margin-bottom:10px;">Device Blocked</h2>
-                        <p style="color:var(--text2); font-size:0.9rem; line-height:1.5;">Multiple accounts are not allowed on the same device. Your access has been restricted to prevent fraud.</p>
-                        <div style="margin-top:20px; padding:10px; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); border-radius:10px; font-size:0.8rem; color:var(--red);">Error: MULTI_ACCOUNT_VIOLATION</div>
-                    </div>`;
-                return null;
-            }
-
             const userRef = doc(db, 'users', userId);
             const userSnap = await getDoc(userRef);
             const today = getTodayDateString();
@@ -882,8 +821,7 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [],
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false,
                     lifetimeAdsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailySpinsUsed: 0,
-                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false,
-                    deviceId: localDevId, deviceHash: fpHash
+                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -893,9 +831,6 @@
                 currentUser = { id: userId, ...data };
             } else {
                 currentUser = { id: userSnap.id, ...userSnap.data() };
-                if (!currentUser.deviceId || !currentUser.deviceHash) {
-                    try { await updateDoc(userRef, { deviceId: localDevId, deviceHash: fpHash }); } catch(e){}
-                }
             }
 
             if (currentUser.isBanned) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;color:#EF4444;">Account Banned.</h3>`; return null; }
