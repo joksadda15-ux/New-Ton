@@ -365,7 +365,7 @@
             <!-- LOOTBOX SECTION -->
             <div class="lootbox-card">
                 <h3 style="margin:0 0 10px; color:var(--text);"><i class="fas fa-box-open" style="color:var(--primary);"></i> Ad Lootbox</h3>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 100 Points to save server loads.</p>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 100 Points.<br><strong style="color:var(--primary);">Max Capacity: 550 Pts</strong></p>
                 <div style="font-size:2.2rem; font-weight:800; color:var(--green); font-family:monospace; margin-bottom:15px; text-shadow: 0 0 10px rgba(16,185,129,0.4);" id="lootboxPointsDisplay">0 Pts</div>
                 <button id="claimLootboxBtn" class="btn" disabled><i class="fas fa-download"></i> Claim Lootbox</button>
             </div>
@@ -630,6 +630,9 @@
         // Update 3: Referral reward increased to 500 points
         const REFERRAL_REWARD_POINTS = 500;
         const POINTS_TO_TON_RATE = 0.00002;
+        
+        // MAXIMUM LOOTBOX CAPACITY - Based on Firebase Rules `getPoint(req) - getPoint(res) <= 550`
+        const MAX_LOOTBOX_POINTS = 550;
 
         // ════════════════════════════════════════════
         // LOOTBOX LOCAL STORAGE SYSTEM
@@ -641,7 +644,7 @@
             const btn = document.getElementById('claimLootboxBtn');
             display.textContent = `${localAdData.unclaimedPoints} Pts`;
             
-            // Update 2: Lootbox claim threshold increased to 100 points
+            // Limit applied here
             if (localAdData.unclaimedPoints >= 100) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
@@ -654,12 +657,11 @@
         }
 
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
-            // Update 2: Limit applied here
             if (localAdData.unclaimedPoints < 100) return;
             
-            // Security limit to prevent local storage hacking
-            if (localAdData.unclaimedPoints > 1500) {
-                alert("⚠️ Security Error: Invalid Lootbox Data.");
+            // Security limit to prevent local storage hacking and to match Firebase Security Rules limit of 550
+            if (localAdData.unclaimedPoints > MAX_LOOTBOX_POINTS) {
+                alert(`⚠️ Security Error: Invalid Lootbox Data. Maximum allowed is ${MAX_LOOTBOX_POINTS} Pts.`);
                 localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
                 localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
                 updateLootboxUI(); updateAdButtonStats(); return;
@@ -725,7 +727,6 @@
 
         // ════════════════════════════════════════════
         // UPDATED AD CONFIGURATION 
-        // Update 1: Monetag & GigaPub rewards changed to 12
         // ════════════════════════════════════════════
         const AD_CONFIG = { 
             adsgramDaily:   { limit: 10, reward: 10 },
@@ -893,17 +894,25 @@
             const totalCount = (currentUser[countName] || 0) + (localAdData[countName] || 0);
             
             if (totalCount >= maxLimit) return;
+
+            // LOOTBOX MAX LIMIT SECURITY CHECK (Based on Firebase Rules)
+            const rewardAmt = AD_CONFIG[type].reward;
+            if (localAdData.unclaimedPoints + rewardAmt > MAX_LOOTBOX_POINTS) {
+                alert(`⚠️ Lootbox Full!\nMaximum capacity is ${MAX_LOOTBOX_POINTS} Pts due to database security rules.\nPlease claim your Lootbox first!`);
+                return;
+            }
+
             const ok = await runAdAndVerifyTime(btnId, adFunc);
             
             if (ok) {
                 // Update Local Lootbox instead of Database
-                localAdData.unclaimedPoints += AD_CONFIG[type].reward;
+                localAdData.unclaimedPoints += rewardAmt;
                 localAdData.adsWatched += 1;
                 localAdData[countName] = (localAdData[countName] || 0) + 1;
                 
                 localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
                 
-                showSuccessModal("Ad Watched! 🎁", `+${AD_CONFIG[type].reward} Points added to Lootbox`);
+                showSuccessModal("Ad Watched! 🎁", `+${rewardAmt} Points added to Lootbox`);
                 
                 updateLootboxUI();
                 updateAdButtonStats();
@@ -929,7 +938,7 @@
 
 
         // ════════════════════════════════════════════
-        // WITHDRAW LOGIC (NEW UPDATE)
+        // WITHDRAW LOGIC
         // ════════════════════════════════════════════
         function getRequiredRefs(amount) {
             if (amount <= 1500) return 1; if (amount <= 3000) return 2; if (amount <= 4500) return 3; if (amount <= 6000) return 4; return 5;
