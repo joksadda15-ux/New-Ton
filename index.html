@@ -365,7 +365,7 @@
             <!-- LOOTBOX SECTION -->
             <div class="lootbox-card">
                 <h3 style="margin:0 0 10px; color:var(--text);"><i class="fas fa-box-open" style="color:var(--primary);"></i> Ad Lootbox</h3>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 50 Points to save server loads.</p>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 100 Points to save server loads.</p>
                 <div style="font-size:2.2rem; font-weight:800; color:var(--green); font-family:monospace; margin-bottom:15px; text-shadow: 0 0 10px rgba(16,185,129,0.4);" id="lootboxPointsDisplay">0 Pts</div>
                 <button id="claimLootboxBtn" class="btn" disabled><i class="fas fa-download"></i> Claim Lootbox</button>
             </div>
@@ -424,7 +424,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward">+15 Points</div>
+                    <div class="ad-reward">+12 Points</div>
                     <button id="btn-watch-monetag" class="btn outline task-btn" style="border-color:var(--secondary);color:var(--secondary);">Watch</button>
                 </div>
             </div>
@@ -442,7 +442,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward" style="color:var(--text);">+15 Points</div>
+                    <div class="ad-reward" style="color:var(--text);">+12 Points</div>
                     <button id="btn-watch-giga" class="btn outline task-btn" style="border-color:var(--red);color:var(--red);">Watch</button>
                 </div>
             </div>
@@ -563,7 +563,7 @@
             <h3 style="margin:0 0 10px; font-size:1.2rem;">Referral Network</h3>
             <p style="font-size:0.85rem; color:var(--text2); margin-bottom:15px; line-height:1.5;">
                 Get <b style="color:#fff;">+1 Invite</b> on registration.<br>
-                Get <b style="color:var(--green);">+1 Valid Ref & 400 Pts</b> when your friend completes 20 ads!
+                Get <b style="color:var(--green);">+1 Valid Ref & 500 Pts</b> when your friend completes 20 ads!
             </p>
             <div class="input-row">
                 <input type="text" id="modalReferralLinkInput" readonly value="...">
@@ -627,7 +627,8 @@
         let isSubmittingWithdrawal = false;
         let isAdRunning = false; 
 
-        const REFERRAL_REWARD_POINTS = 400;
+        // Update 3: Referral reward increased to 500 points
+        const REFERRAL_REWARD_POINTS = 500;
         const POINTS_TO_TON_RATE = 0.00002;
 
         // ════════════════════════════════════════════
@@ -640,19 +641,21 @@
             const btn = document.getElementById('claimLootboxBtn');
             display.textContent = `${localAdData.unclaimedPoints} Pts`;
             
-            if (localAdData.unclaimedPoints >= 50) {
+            // Update 2: Lootbox claim threshold increased to 100 points
+            if (localAdData.unclaimedPoints >= 100) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
                 btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
             } else {
                 btn.disabled = true;
                 btn.classList.add('outline');
-                btn.innerHTML = '<i class="fas fa-lock"></i> Min 50 Pts Required';
+                btn.innerHTML = '<i class="fas fa-lock"></i> Min 100 Pts Required';
             }
         }
 
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
-            if (localAdData.unclaimedPoints < 50) return;
+            // Update 2: Limit applied here
+            if (localAdData.unclaimedPoints < 100) return;
             
             // Security limit to prevent local storage hacking
             if (localAdData.unclaimedPoints > 1500) {
@@ -721,13 +724,14 @@
         });
 
         // ════════════════════════════════════════════
-        // UPDATED AD CONFIGURATION (GigaPub and Monetag daily limits updated to 15)
+        // UPDATED AD CONFIGURATION 
+        // Update 1: Monetag & GigaPub rewards changed to 12
         // ════════════════════════════════════════════
         const AD_CONFIG = { 
             adsgramDaily:   { limit: 10, reward: 10 },
             adsgramSpecial: { limit: 5,  reward: 20 },
-            monetag:        { limit: 15, reward: 15 },
-            giga:           { limit: 15, reward: 15 }
+            monetag:        { limit: 15, reward: 12 },
+            giga:           { limit: 15, reward: 12 }
         };
 
         const showAdsgramDailyAd = () => new Promise((res, rej) => {
