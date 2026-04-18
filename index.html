@@ -365,7 +365,8 @@
             <!-- LOOTBOX SECTION -->
             <div class="lootbox-card">
                 <h3 style="margin:0 0 10px; color:var(--text);"><i class="fas fa-box-open" style="color:var(--primary);"></i> Ad Lootbox</h3>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 100 Points.<br><strong style="color:var(--primary);">Max Capacity: 550 Pts</strong></p>
+                <!-- UPDATE 2: UI text changed to 700 -->
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 100 Points.<br><strong style="color:var(--primary);">Max Capacity: 700 Pts</strong></p>
                 <div style="font-size:2.2rem; font-weight:800; color:var(--green); font-family:monospace; margin-bottom:15px; text-shadow: 0 0 10px rgba(16,185,129,0.4);" id="lootboxPointsDisplay">0 Pts</div>
                 <button id="claimLootboxBtn" class="btn" disabled><i class="fas fa-download"></i> Claim Lootbox</button>
             </div>
@@ -631,8 +632,8 @@
         const REFERRAL_REWARD_POINTS = 500;
         const POINTS_TO_TON_RATE = 0.00002;
         
-        // MAXIMUM LOOTBOX CAPACITY - Based on Firebase Rules `getPoint(req) - getPoint(res) <= 550`
-        const MAX_LOOTBOX_POINTS = 550;
+        // UPDATE 2: Maximum Lootbox capacity updated to 700
+        const MAX_LOOTBOX_POINTS = 700;
 
         // ════════════════════════════════════════════
         // LOOTBOX LOCAL STORAGE SYSTEM
@@ -659,7 +660,7 @@
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
             if (localAdData.unclaimedPoints < 100) return;
             
-            // Security limit to prevent local storage hacking and to match Firebase Security Rules limit of 550
+            // Security limit to prevent local storage hacking
             if (localAdData.unclaimedPoints > MAX_LOOTBOX_POINTS) {
                 alert(`⚠️ Security Error: Invalid Lootbox Data. Maximum allowed is ${MAX_LOOTBOX_POINTS} Pts.`);
                 localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
@@ -826,7 +827,7 @@
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [],
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false,
                     lifetimeAdsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailySpinsUsed: 0,
-                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false
+                    lastResetDate: today, lastSpinTimestamp: 0
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -1023,6 +1024,21 @@
             if (amount > 50000) return alert('Maximum withdrawal limit per transaction is 50,000 Pts.');
             if ((currentUser.pointBalance || 0) < amount)   return alert('Insufficient Points.');
             if (currentUser.lastWithdrawDate === today) return alert('You can only withdraw 1 time per day.');
+
+            // UPDATE 1: Check for duplicate Tonkeeper address in the database
+            try {
+                const addressCheckQuery = query(collection(db, 'withdrawals'), where('details', '==', details), limit(1));
+                const addressCheckSnap = await getDocs(addressCheckQuery);
+                if (!addressCheckSnap.empty) {
+                    const existingOwnerId = addressCheckSnap.docs[0].data().userId;
+                    if (existingOwnerId !== currentUser.id) {
+                        alert('⚠️ WARNING: This Tonkeeper address has already been used by another account!\nYou cannot use the same wallet address to take payments for multiple accounts.');
+                        return; // Block the withdrawal
+                    }
+                }
+            } catch (error) {
+                console.error("Address check error:", error);
+            }
 
             const wCount = currentUser.withdrawalCount || 0;
             let adsNeeded = 0;
@@ -1302,41 +1318,6 @@
             }
         });
 
-        async function fetchAndRenderTasks(category = 'channel') {
-            const container = document.getElementById(`task-list-${category}`);
-            container.innerHTML = '<div class="loader"></div>';
-            try {
-                const q = query(collection(db,'tasks'), where('isApproved','==',true), where('category','==',category), orderBy('createdAt','desc'), limit(30));
-                const snap = await getDocs(q);
-                if (category === 'channel') tasksCacheChannel = snap; else tasksCachePartner = snap;
-                container.innerHTML = ''; let count = 0;
-                snap.forEach(docSnap => {
-                    const task = docSnap.data();
-                    if (currentUser.completedTasks?.includes(docSnap.id) || ((task.limit||0)>0 && (task.completionCount||0)>=task.limit)) return;
-                    
-                    const card = document.createElement('div'); card.setAttribute('data-task-card', docSnap.id);
-                    card.className = 'card'; card.style.padding = '15px';
-                    
-                    if (category === 'channel') {
-                        card.innerHTML = `
-                            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-                                <div style="flex:1;"><div style="font-weight:600;font-size:0.9rem;color:#fff;"><i class="fab fa-telegram-plane" style="color:var(--primary);"></i> ${task.title}</div><div style="color:var(--green);font-size:0.8rem;margin-top:3px;">+20 Points</div></div>
-                                <button class="btn outline task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-channel-id="${task.channelId||''}" data-category="${category}" data-state="start" style="padding:8px 12px;width:auto;">Join</button>
-                            </div>`;
-                    } else {
-                        card.innerHTML = `
-                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                                <div style="width:35px;height:35px;background:var(--primary-dim);border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-robot" style="color:var(--primary);"></i></div>
-                                <div><div style="font-weight:700;color:#fff;font-size:0.95rem;">${task.title}</div><div style="color:var(--green);font-size:0.8rem;">+20 Points</div></div>
-                            </div>
-                            <button class="btn task-button" data-task-id="${docSnap.id}" data-task-url="${task.url||''}" data-category="${category}" data-state="start">🚀 Complete Task</button>`;
-                    }
-                    container.appendChild(card); count++;
-                });
-                if (!count) container.innerHTML = '<p style="text-align:center;color:var(--text2);">No tasks available.</p>';
-            } catch (err) { container.innerHTML = `<p style="text-align:center;color:var(--red);">Failed to load.</p>`; }
-        }
-
         // --- VERIFICATION ---
         async function checkMembershipAndEnforce() {
             try {
@@ -1359,15 +1340,8 @@
                     alert("Verified ✅");
                     document.getElementById('activationModalOverlay').classList.remove('show');
                     
-                    if (!currentUser.welcomeBonusClaimed) {
-                        try {
-                            await updateDoc(doc(db, 'users', currentUser.id), { pointBalance: increment(10), lifetimePointsEarned: increment(10), welcomeBonusClaimed: true });
-                            currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; 
-                            currentUser.welcomeBonusClaimed = true; 
-                            updateBalanceUI();
-                            showSuccessModal('🎁 Welcome Bonus!', `+10 Points added!`);
-                        } catch (e) {}
-                    }
+                    // Welcome bonus block removed based on instructions
+                    
                 } else {
                     alert("Join required ❌\nPlease join the Channel & Group.");
                 }
