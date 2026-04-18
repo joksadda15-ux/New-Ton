@@ -365,7 +365,7 @@
             <!-- LOOTBOX SECTION -->
             <div class="lootbox-card">
                 <h3 style="margin:0 0 10px; color:var(--text);"><i class="fas fa-box-open" style="color:var(--primary);"></i> Ad Lootbox</h3>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 50 Points to save server loads.</p>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Watch ads to fill the box. Claim when it reaches 500 Points to save server loads.</p>
                 <div style="font-size:2.2rem; font-weight:800; color:var(--green); font-family:monospace; margin-bottom:15px; text-shadow: 0 0 10px rgba(16,185,129,0.4);" id="lootboxPointsDisplay">0 Pts</div>
                 <button id="claimLootboxBtn" class="btn" disabled><i class="fas fa-download"></i> Claim Lootbox</button>
             </div>
@@ -640,22 +640,25 @@
             const btn = document.getElementById('claimLootboxBtn');
             display.textContent = `${localAdData.unclaimedPoints} Pts`;
             
-            if (localAdData.unclaimedPoints >= 50) {
+            // Changed from 50 to 500
+            if (localAdData.unclaimedPoints >= 500) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
                 btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
             } else {
                 btn.disabled = true;
                 btn.classList.add('outline');
-                btn.innerHTML = '<i class="fas fa-lock"></i> Min 50 Pts Required';
+                // Changed from 50 to 500
+                btn.innerHTML = '<i class="fas fa-lock"></i> Min 500 Pts Required';
             }
         }
 
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
-            if (localAdData.unclaimedPoints < 50) return;
+            // Changed from 50 to 500
+            if (localAdData.unclaimedPoints < 500) return;
             
             // Security limit to prevent local storage hacking
-            if (localAdData.unclaimedPoints > 1500) {
+            if (localAdData.unclaimedPoints > 2500) {
                 alert("⚠️ Security Error: Invalid Lootbox Data.");
                 localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
                 localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
