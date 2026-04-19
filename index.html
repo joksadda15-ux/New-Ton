@@ -776,9 +776,11 @@
 
         function getTodayDateString() { return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }); }
 
+        // ─── UPDATED DAILY RESET FUNCTION ───
         async function checkDailyReset(user) {
             const today = getTodayDateString();
             if (user.lastResetDate !== today) {
+                // ১. Reset Database
                 const updates = { 
                     adsWatchedAdsgramDaily: 0, 
                     adsWatchedAdsgramSpecial: 0, 
@@ -789,6 +791,29 @@
                 };
                 Object.assign(user, updates);
                 try { await updateDoc(doc(db, 'users', user.id), updates); } catch (e) {}
+                
+                // ২. Reset Local Storage (Keep points untouched)
+                const savedLoot = localStorage.getItem('newtube_lootbox_' + user.id);
+                if (savedLoot) {
+                    try { 
+                        let parsedLoot = JSON.parse(savedLoot);
+                        parsedLoot.adsWatchedAdsgramDaily = 0;
+                        parsedLoot.adsWatchedAdsgramSpecial = 0;
+                        parsedLoot.adsWatchedMonetag = 0;
+                        parsedLoot.adsWatchedGiga = 0;
+                        localStorage.setItem('newtube_lootbox_' + user.id, JSON.stringify(parsedLoot));
+                        
+                        // Update RAM object
+                        if (localAdData) {
+                            localAdData.adsWatchedAdsgramDaily = 0;
+                            localAdData.adsWatchedAdsgramSpecial = 0;
+                            localAdData.adsWatchedMonetag = 0;
+                            localAdData.adsWatchedGiga = 0;
+                        }
+                    } catch(e) {}
+                }
+                
+                updateAdButtonStats();
                 return true;
             }
             return false;
@@ -868,6 +893,9 @@
         }
 
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
+            // Check for midnight reset right before clicking an ad!
+            await checkDailyReset(currentUser);
+
             if (localAdData.unclaimedPoints >= 500) {
                 alert("⚠️ Lootbox is full (Max 500 Pts). Please claim it first!");
                 return;
