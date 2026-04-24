@@ -6,6 +6,9 @@
     <title>NEWTUBE TON - Premium Platform</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <!-- YouTube Iframe API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
@@ -185,6 +188,7 @@
         .ti-blue { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--border); }
         .ti-gold  { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(253,224,71,0.3); }
         .ti-violet{ background: var(--secondary);  color: #fff;  border: 1px solid rgba(217,70,239,0.3); }
+        .ti-red { background: rgba(251,113,133,0.15); color: var(--red); border: 1px solid rgba(251,113,133,0.3); }
 
         .ad-card {
             background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--r-card); padding: 18px 20px; margin-bottom: 14px;
@@ -258,10 +262,6 @@
         .required-refs-display { text-align: center; padding: 14px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 12px; margin-bottom: 16px; font-size: 0.9rem; }
         .ton-preview { margin-top: 8px; font-size: 0.9rem; color: var(--green); font-weight: 800; display: none; text-align:center; }
 
-        .wheel-wrap { position: relative; width: 240px; height: 240px; margin: 0 auto 24px; }
-        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 0 4px var(--border), 0 0 40px var(--primary-dim); transition: transform 4s cubic-bezier(0.175,0.885,0.32,1.05); }
-        .spin-pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-right: 26px solid var(--primary); z-index: 10; }
-
         .tab-bar { display: flex; gap: 10px; margin-bottom: 18px; }
         .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: var(--text2); font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .tab-btn.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
@@ -291,7 +291,6 @@
 
         <!-- ══ HOME ══ -->
         <section id="home-content" class="content-section active">
-
             <div class="profile-card">
                 <div class="profile-top">
                     <div class="avatar-wrap">
@@ -341,12 +340,10 @@
                     </a>
                 </div>
             </div>
-
         </section>
 
         <!-- ══ ADS ══ -->
         <section id="ads-content" class="content-section">
-
             <div class="section-title">
                 <div class="title-icon ti-blue"><i class="fas fa-satellite-dish"></i></div>
                 Network Missions
@@ -436,30 +433,42 @@
                     <button id="btn-watch-giga" class="btn outline task-btn" style="border-color:var(--red);color:var(--red);">Watch</button>
                 </div>
             </div>
-
         </section>
 
-        <!-- ══ LOTTERY ══ -->
-        <section id="lottery-content" class="content-section">
+        <!-- ══ NEW VIDEO MINING SECTION ══ -->
+        <section id="video-content" class="content-section">
             <div class="section-title">
-                <div class="title-icon ti-gold"><i class="fas fa-dharmachakra"></i></div>
-                Data Spinner
+                <div class="title-icon ti-red"><i class="fab fa-youtube"></i></div>
+                Data Decryption (Video)
             </div>
 
-            <div class="card" style="text-align:center;">
-                <div id="spinLimitText" style="font-size:0.9rem; color:var(--primary); background:var(--primary-dim); border:1px solid var(--primary); padding:10px 18px; border-radius:12px; display:inline-block; margin-bottom:24px; font-weight:700;">
-                    🎰 Loading Spin Status...
+            <!-- Video Player Box -->
+            <div class="card" style="padding:0; overflow:hidden; border-radius:16px; margin-bottom:18px; position:relative; background:#000;">
+                <div id="ytplayer" style="width:100%; height:220px; background:#000;"></div>
+            </div>
+
+            <!-- Mining Box -->
+            <div class="lootbox-card" style="border-color:var(--secondary);">
+                <h3 style="margin:0 0 8px; color:var(--text); font-size:1.2rem;">
+                    <i class="fas fa-microchip" style="color:var(--secondary);"></i> Mining Terminal
+                </h3>
+                <div style="font-size:0.8rem; color:var(--text2); margin-bottom:16px;">Play video to mine. (Max Box: 25 Pts)</div>
+
+                <!-- Progress Bar -->
+                <div style="width:100%; height:12px; background:rgba(255,255,255,0.1); border-radius:6px; overflow:hidden; margin-bottom:12px; position:relative;">
+                    <div id="videoMiningProgress" style="width:0%; height:100%; background:linear-gradient(90deg, var(--secondary), var(--violet)); transition:width 0.5s;"></div>
                 </div>
 
-                <div class="wheel-wrap">
-                    <div class="spin-pointer"></div>
-                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
-                </div>
+                <div style="font-size:2.4rem; font-weight:800; color:var(--secondary); font-family:monospace; margin-bottom:6px; text-shadow: 0 0 15px rgba(217,70,239,0.4);" id="videoMinedDisplay">0.0 Pts</div>
+                <div style="font-size:0.8rem; color:var(--text2); margin-bottom:18px;" id="videoDailyLimitDisplay">Daily Limit: 0 / 250 Pts</div>
 
-                <button id="spinBtn" class="btn" style="margin-top:24px; padding:16px; max-width:300px; margin-left:auto; margin-right:auto;">
-                    <i class="fas fa-sync-alt"></i> INITIALIZE SPIN (AD)
-                </button>
-                <div id="lotteryResult" style="margin-top:18px; font-size:1.05rem; font-weight:800; color:var(--text);">Awaiting spin...</div>
+                <button id="claimVideoPtsBtn" class="btn outline" disabled><i class="fas fa-lock"></i> Min 5 Pts to Claim</button>
+            </div>
+
+            <!-- Video List From Firebase -->
+            <h4 style="color:var(--text); margin-bottom:12px; font-weight:800;">Available Streams</h4>
+            <div id="video-list-container" style="display:grid; gap:12px;">
+                <div class="loader"></div>
             </div>
         </section>
 
@@ -489,7 +498,7 @@
     <nav class="bottom-nav">
         <a href="#" class="nav-item active" data-tab-target="#home-content"><i class="fas fa-layer-group"></i>Panel</a>
         <a href="#" class="nav-item" data-tab-target="#ads-content"><i class="fas fa-bolt"></i>Extract</a>
-        <a href="#" class="nav-item" data-tab-target="#lottery-content"><i class="fas fa-dharmachakra"></i>Spin</a>
+        <a href="#" class="nav-item" data-tab-target="#video-content"><i class="fas fa-play-circle"></i>Watch</a>
         <a href="#" class="nav-item" data-tab-target="#task-content"><i class="fas fa-check-double"></i>Tasks</a>
     </nav>
 
@@ -621,6 +630,12 @@
         const POINTS_TO_TON_RATE = 0.00002;
 
         let localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+        
+        // --- NEW VIDEO VARIABLES ---
+        let ytPlayer = null;
+        let isVideoPlaying = false;
+        let localVideoMined = 0; // Max 25
+        let videoPlaySeconds = 0;
 
         function updateLootboxUI() {
             const display = document.getElementById('lootboxPointsDisplay');
@@ -702,9 +717,6 @@
             }
         });
 
-        // ════════════════════════════════════════════
-        // UPDATED AD CONFIGURATION
-        // ════════════════════════════════════════════
         const AD_CONFIG = { 
             adsgramDaily:   { limit: 10, min: 8, max: 12 },
             adsgramSpecial: { limit: 5,  min: 12, max: 20 },
@@ -774,23 +786,20 @@
 
         function getTodayDateString() { return new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }); }
 
-        // ─── UPDATED DAILY RESET FUNCTION ───
         async function checkDailyReset(user) {
             const today = getTodayDateString();
             if (user.lastResetDate !== today) {
-                // ১. Reset Database
                 const updates = { 
                     adsWatchedAdsgramDaily: 0, 
                     adsWatchedAdsgramSpecial: 0, 
                     adsWatchedMonetag: 0, 
                     adsWatchedGiga: 0, 
-                    dailySpinsUsed: 0, 
+                    dailyVideoMined: 0, // NEW
                     lastResetDate: today 
                 };
                 Object.assign(user, updates);
                 try { await updateDoc(doc(db, 'users', user.id), updates); } catch (e) {}
                 
-                // ২. Reset Local Storage
                 const savedLoot = localStorage.getItem('newtube_lootbox_' + user.id);
                 if (savedLoot) {
                     try { 
@@ -800,8 +809,6 @@
                         parsedLoot.adsWatchedMonetag = 0;
                         parsedLoot.adsWatchedGiga = 0;
                         localStorage.setItem('newtube_lootbox_' + user.id, JSON.stringify(parsedLoot));
-                        
-                        // Update RAM object
                         if (localAdData) {
                             localAdData.adsWatchedAdsgramDaily = 0;
                             localAdData.adsWatchedAdsgramSpecial = 0;
@@ -810,8 +817,7 @@
                         }
                     } catch(e) {}
                 }
-                
-                updateAdButtonStats();
+                updateAdButtonStats(); updateVideoUI();
                 return true;
             }
             return false;
@@ -827,8 +833,8 @@
                 const data = {
                     tonBalance: 0, pointBalance: 0, lifetimePointsEarned: 0, referralCount: 0, totalInvites: 0, spentReferrals: 0, completedTasks: [],
                     createdAt: serverTimestamp(), telegramUsername: tgUser.username || 'N/A', isBanned: false, withdrawalCount: 0,
-                    lifetimeAdsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0, dailySpinsUsed: 0,
-                    lastResetDate: today, lastSpinTimestamp: 0, welcomeBonusClaimed: false
+                    lifetimeAdsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0,
+                    dailyVideoMined: 0, lastResetDate: today, welcomeBonusClaimed: false
                 };
                 if (referrerCode && referrerCode !== userId) {
                     data.referredBy = referrerCode;
@@ -844,16 +850,21 @@
             
             await checkDailyReset(currentUser);
 
+            // Fetch Local Ad Data
             const savedLoot = localStorage.getItem('newtube_lootbox_' + currentUser.id);
-            if (savedLoot) {
-                try { localAdData = JSON.parse(savedLoot); } catch(e) {}
-            }
+            if (savedLoot) { try { localAdData = JSON.parse(savedLoot); } catch(e) {} }
             updateLootboxUI();
+
+            // Fetch Local Video Mine Data
+            const savedVideoMine = localStorage.getItem('newtube_video_mine_' + currentUser.id);
+            if (savedVideoMine) { try { localVideoMined = parseFloat(savedVideoMine) || 0; } catch(e){} }
+            updateVideoUI();
 
             updateBalanceUI();
             document.querySelector('#profile-id-display span').textContent = currentUser.id;
             document.getElementById('modalReferralLinkInput').value = `https://t.me/NewTube12_bot/TonFREE?startapp=${userId}`;
-            updateAdButtonStats(); updateLotteryUI();
+            updateAdButtonStats();
+            fetchVideosFromFirebase();
         }
 
         function updateAdButtonStats() {
@@ -943,10 +954,180 @@
         attachAdListener('btn-watch-giga', 'giga', AD_CONFIG.giga.limit, showGigaPubAd);
 
         // ════════════════════════════════════════════
-        // UPDATED WITHDRAW LOGIC (ONLY REFERRALS)
+        // VIDEO MINING LOGIC
+        // ════════════════════════════════════════════
+
+        window.onYouTubeIframeAPIReady = function() {
+            ytPlayer = new YT.Player('ytplayer', {
+                height: '100%',
+                width: '100%',
+                videoId: '', 
+                playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        };
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                isVideoPlaying = true;
+            } else {
+                isVideoPlaying = false;
+            }
+        }
+
+        // Pause YT video if user minimizes Telegram
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && isVideoPlaying && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                ytPlayer.pauseVideo();
+            }
+        });
+
+        // Global function so onclick from rendered HTML can access it
+        window.playYtVideo = function(vId) {
+            if (!ytPlayer) return alert("YouTube Player is loading, please wait...");
+            if (localVideoMined >= 25) return alert("Box is full! Claim your 25 points first.");
+            let dailyMined = currentUser.dailyVideoMined || 0;
+            if (dailyMined + localVideoMined >= 250) return alert("Daily limit reached! Come back tomorrow.");
+
+            ytPlayer.loadVideoById(vId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function updateVideoUI() {
+            if(!currentUser) return;
+            const display = document.getElementById('videoMinedDisplay');
+            const prog = document.getElementById('videoMiningProgress');
+            const btn = document.getElementById('claimVideoPtsBtn');
+            const limitDisplay = document.getElementById('videoDailyLimitDisplay');
+            
+            display.textContent = `${localVideoMined.toFixed(1)} Pts`;
+            prog.style.width = `${(localVideoMined / 25) * 100}%`;
+            
+            let dailyMined = currentUser.dailyVideoMined || 0;
+            limitDisplay.textContent = `Daily Limit: ${(dailyMined + localVideoMined).toFixed(1)} / 250 Pts`;
+            
+            if (localVideoMined >= 5) {
+                btn.disabled = false;
+                btn.classList.remove('outline');
+                btn.innerHTML = '<i class="fas fa-bolt"></i> Claim & Watch Ad';
+                if (localVideoMined >= 25) {
+                    btn.innerHTML = '<i class="fas fa-box"></i> Box Full! Claim Now';
+                    btn.style.background = 'var(--red)';
+                } else {
+                    btn.style.background = '';
+                }
+            } else {
+                btn.disabled = true;
+                btn.classList.add('outline');
+                btn.style.background = '';
+                btn.innerHTML = `<i class="fas fa-lock"></i> Min 5 Pts to Claim`;
+            }
+        }
+
+        // The Mining Loop (1 Second Interval)
+        setInterval(() => {
+            if (!isVideoPlaying || !currentUser) return;
+            
+            let dailyMined = currentUser.dailyVideoMined || 0;
+            if (dailyMined + localVideoMined >= 250) {
+                if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
+                updateVideoUI();
+                alert("Daily Video Limit (250 Pts) Reached! Come back tomorrow.");
+                return;
+            }
+
+            if (localVideoMined >= 25) {
+                if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
+                updateVideoUI();
+                return; // Box full
+            }
+
+            videoPlaySeconds++;
+            if (videoPlaySeconds >= 15) { // Every 15 seconds of playing
+                localVideoMined = Math.round((localVideoMined + 0.1) * 10) / 10; // Add 0.1
+                videoPlaySeconds = 0;
+                localStorage.setItem('newtube_video_mine_' + currentUser.id, localVideoMined);
+                updateVideoUI();
+            }
+        }, 1000);
+
+        // Claiming Video Points
+        document.getElementById('claimVideoPtsBtn').addEventListener('click', async () => {
+            if (localVideoMined < 5) return;
+            const btn = document.getElementById('claimVideoPtsBtn');
+            const amtToClaim = localVideoMined;
+            
+            btn.dataset.busy = "true";
+            const ok = await runAdAndVerifyTime('claimVideoPtsBtn', showAdsgramDailyAd); // Trigger Ad
+            
+            if (ok) {
+                btn.disabled = true; btn.textContent = "Saving...";
+                try {
+                    await updateDoc(doc(db, 'users', currentUser.id), { 
+                        pointBalance: increment(amtToClaim), 
+                        lifetimePointsEarned: increment(amtToClaim),
+                        dailyVideoMined: increment(amtToClaim)
+                    });
+
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + amtToClaim;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + amtToClaim;
+                    currentUser.dailyVideoMined = (currentUser.dailyVideoMined || 0) + amtToClaim;
+
+                    showSuccessModal("Decrypted!", `+${amtToClaim} Points from Video Mining!`);
+                    
+                    localVideoMined = 0;
+                    localStorage.setItem('newtube_video_mine_' + currentUser.id, 0);
+                    
+                    updateBalanceUI(); 
+                    updateVideoUI();
+                } catch(e) {
+                    alert("Error saving. Try again.");
+                }
+            }
+            btn.dataset.busy = "false";
+            updateVideoUI(); // restore button state
+        });
+
+        // Fetch Videos from Firebase
+        async function fetchVideosFromFirebase() {
+            const container = document.getElementById('video-list-container');
+            container.innerHTML = '<div class="loader"></div>';
+            try {
+                // Ensure you have a 'videos' collection in Firebase with { videoId: 'id', title: 'name', isActive: true }
+                const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
+                container.innerHTML = '';
+                if(snap.empty) { 
+                    container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; 
+                    return; 
+                }
+                snap.forEach(doc => {
+                    const v = doc.data();
+                    container.innerHTML += `
+                        <div class="card" style="padding:12px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:0;" onclick="window.playYtVideo('${v.videoId}')">
+                            <div style="position:relative; width:90px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0;">
+                                <img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
+                                <div style="position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center;">
+                                    <i class="fas fa-play-circle" style="color:#fff; font-size:1.5rem;"></i>
+                                </div>
+                            </div>
+                            <div style="flex:1;">
+                                <h4 style="margin:0 0 6px; font-size:0.9rem; color:var(--text); line-height:1.3;">${v.title}</h4>
+                                <span style="font-size:0.75rem; color:var(--green); font-weight:700;"><i class="fas fa-bolt"></i> Mine 24 Pts/Hr</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch(e) { 
+                container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>'; 
+            }
+        }
+
+        // ════════════════════════════════════════════
+        // WITHDRAW LOGIC
         // ════════════════════════════════════════════
         
-        // 1 Valid Refer per 1000 Points
         function getRequiredRefs(amount) {
             return Math.ceil(amount / 1000);
         }
@@ -1145,71 +1326,6 @@
             document.getElementById('successModalOverlay').classList.add('show');
             setTimeout(() => document.getElementById('successModalOverlay').classList.remove('show'), 3000);
         }
-
-        // --- LOTTERY ---
-        class LotteryWheel {
-            constructor(cId) {
-                this.c = document.getElementById(cId); this.ctx = this.c.getContext("2d"); this.rot = 0;
-                this.seg = [ { l: "5 Pts", v: 5, c: "#FDE047", w: 40 }, { l: "8 Pts", v: 8, c: "#A855F7", w: 30 }, { l: "10 Pts", v: 10, c: "#D946EF", w: 20 }, { l: "15 Pts", v: 15, c: "#FB7185", w: 5 }, { l: "17 Pts", v: 17, c: "#2DD4BF", w: 3 }, { l: "20 Pts", v: 20, c: "#F59E0B", w: 2 } ];
-                this.draw();
-            }
-            draw() {
-                const a = (2*Math.PI)/this.seg.length, cx = this.c.width/2, cy = this.c.height/2, r = cx;
-                this.seg.forEach((s, i) => {
-                    this.ctx.beginPath(); this.ctx.moveTo(cx,cy); this.ctx.arc(cx,cy,r,i*a,(i+1)*a);
-                    this.ctx.fillStyle = s.c; this.ctx.fill(); this.ctx.lineWidth = 4; this.ctx.strokeStyle = "#090310"; this.ctx.stroke();
-                    this.ctx.save(); this.ctx.translate(cx,cy); this.ctx.rotate(i*a+a/2);
-                    this.ctx.textAlign = "right"; this.ctx.fillStyle = "#fff"; this.ctx.font = "bold 32px Arial";
-                    this.ctx.fillText(s.l, r-35, 12); this.ctx.restore();
-                });
-            }
-            spin(resEl, cb) {
-                const wId = (() => { let rnd=Math.random()*100, s=0; for(let i=0;i<this.seg.length;i++){s+=this.seg[i].w;if(rnd<=s)return i;} return 0;})();
-                const a = 360/this.seg.length, tg = (wId*a)+(a/2), fn = this.rot + (Math.floor(Math.random()*4)+6)*360 + (360-tg) - (this.rot%360);
-                this.c.style.transform = `rotate(${fn}deg)`; this.rot = fn;
-                resEl.innerText = "Spinning... 🌀";
-                setTimeout(() => { resEl.innerHTML = `🎉 Won ${this.seg[wId].l}!`; if(cb) cb(this.seg[wId]); }, 4000);
-            }
-        }
-        const wheel = new LotteryWheel("wheelCanvas");
-
-        async function updateLotteryUI() {
-            if (!currentUser) return; const now = Date.now(); const lastSpinTime = currentUser.lastSpinTimestamp || 0; const hourMs = 60 * 60 * 1000;
-            const canSpin = (now - lastSpinTime) >= hourMs;
-            const btn = document.getElementById("spinBtn"); const spinLimitEl = document.getElementById("spinLimitText");
-
-            if (!canSpin) {
-                btn.innerHTML = '<i class="fas fa-clock"></i> Wait for Next Spin'; btn.disabled = true;
-                if (!window._spinCountdown) {
-                    window._spinCountdown = setInterval(() => {
-                        const rem = hourMs - (Date.now() - (currentUser.lastSpinTimestamp || 0));
-                        if (rem <= 0) { clearInterval(window._spinCountdown); window._spinCountdown = null; updateLotteryUI(); } 
-                        else { spinLimitEl.innerText = `Next Spin in: ${Math.floor(rem/60000)}m ${Math.floor((rem%60000)/1000)}s`; }
-                    }, 1000);
-                }
-            } else {
-                if (window._spinCountdown) { clearInterval(window._spinCountdown); window._spinCountdown = null; }
-                spinLimitEl.innerText = `🎰 Spin Available! (1 per hour)`; btn.innerHTML = '<i class="fas fa-play-circle"></i> SPIN NOW (Watch Ad)'; btn.disabled = false;
-            }
-        }
-
-        document.getElementById('spinBtn').addEventListener('click', async () => {
-            if ((Date.now() - (currentUser.lastSpinTimestamp || 0)) < 3600000) return;
-            const btn = document.getElementById('spinBtn'); btn.dataset.busy = "true";
-            const ok = await runAdAndVerifyTime('spinBtn', showAdsgramDailyAd);
-            if (!ok) { btn.dataset.busy = "false"; updateLotteryUI(); return; }
-            btn.disabled = true; btn.innerHTML = 'Spinning...';
-            wheel.spin(document.getElementById("lotteryResult"), async (pz) => {
-                try {
-                    const spinTs = Date.now();
-                    await updateDoc(doc(db, 'users', currentUser.id), { lastSpinTimestamp: spinTs, pointBalance: increment(pz.v), lifetimePointsEarned: increment(pz.v) });
-                    showSuccessModal("You Won!", `+${pz.v} Points added!`);
-                    currentUser.lastSpinTimestamp = spinTs; currentUser.pointBalance = (currentUser.pointBalance || 0) + pz.v;
-                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + pz.v;
-                    updateBalanceUI(); updateLotteryUI();
-                } catch (e) {} finally { btn.dataset.busy = "false"; btn.disabled = false; }
-            });
-        });
 
         // --- TASK SYSTEM ---
         const TASK_API_BASE = 'https://new-ton-8835.vercel.app/api'; 
