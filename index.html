@@ -42,28 +42,28 @@
     <script src="https://ad.gigapub.tech/script?id=846"></script>
 
     <style>
-        /* ── NEW PREMIUM CYBER GOLD & FUCHSIA THEME ── */
+        /* ── NEON CYBER BLUE & EMERALD ULTRA THEME ── */
         :root {
-            --bg: #090310;
-            --card: rgba(22, 10, 36, 0.85);
-            --header-bg: rgba(9, 3, 16, 0.95);
-            --primary: #FDE047;
-            --primary-dim: rgba(253, 224, 71, 0.15);
-            --primary-hover: #FACC15;
-            --secondary: #D946EF;
-            --violet: #A855F7;
-            --violet-dim: rgba(168, 85, 247, 0.15);
+            --bg: #030712;
+            --card: rgba(6, 16, 35, 0.9);
+            --header-bg: rgba(3, 7, 18, 0.97);
+            --primary: #00F5FF;
+            --primary-dim: rgba(0, 245, 255, 0.12);
+            --primary-hover: #00D4E0;
+            --secondary: #7C3AED;
+            --violet: #A78BFA;
+            --violet-dim: rgba(167, 139, 250, 0.15);
             --gold: #F59E0B;
             --gold-dim: rgba(245, 158, 11, 0.15);
-            --green: #2DD4BF;
-            --green-dim: rgba(45, 212, 191, 0.15);
-            --red: #FB7185;
-            --text: #F8FAFC;
-            --text2: #CBD5E1;
-            --border: rgba(217, 70, 239, 0.25);
-            --input-bg: rgba(9, 3, 16, 0.85);
-            --disabled-bg: #1A1025;
-            --disabled-text: #64748B;
+            --green: #10F590;
+            --green-dim: rgba(16, 245, 144, 0.12);
+            --red: #FF4D6D;
+            --text: #E2E8F0;
+            --text2: #94A3B8;
+            --border: rgba(0, 245, 255, 0.2);
+            --input-bg: rgba(3, 7, 18, 0.9);
+            --disabled-bg: #0F172A;
+            --disabled-text: #475569;
             --r-card: 20px;
             --r-btn: 14px;
         }
@@ -78,15 +78,16 @@
 
         .bg-canvas {
             position: fixed; inset: 0; z-index: -2; overflow: hidden;
-            background: radial-gradient(circle at 50% 0%, #1e0b30 0%, var(--bg) 70%);
+            background: radial-gradient(circle at 20% 20%, #0a1628 0%, #030712 50%), 
+                        radial-gradient(circle at 80% 80%, #060f1e 0%, transparent 60%);
         }
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
             background-image:
-                linear-gradient(rgba(217, 70, 239, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(217, 70, 239, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 30s linear infinite;
+                linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+            background-size: 36px 36px;
+            animation: gridMove 25s linear infinite;
             mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
         }
@@ -111,11 +112,11 @@
         .site-branding { display: flex; align-items: center; gap: 10px; }
         .logo-ring {
             width: 38px; height: 38px; border-radius: 12px;
-            background: linear-gradient(135deg, rgba(253,224,71,0.1), rgba(217,70,239,0.1));
+            background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(124,58,237,0.15));
             border: 1px solid var(--primary);
             display: flex; align-items: center; justify-content: center;
             color: var(--primary); font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(253,224,71,0.3);
+            box-shadow: 0 0 20px rgba(0,245,255,0.4), 0 0 40px rgba(0,245,255,0.1);
         }
         .site-title { font-size: 1.15rem; color: var(--text); font-weight: 800; margin: 0; letter-spacing: 0.5px; }
         .site-title span { color: var(--primary); }
@@ -136,8 +137,8 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
         .profile-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
-            background: linear-gradient(90deg, var(--secondary), var(--primary), var(--green));
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--green));
         }
 
         .profile-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
@@ -146,7 +147,7 @@
             width: 100%; height: 100%; border-radius: 18px;
             background: var(--primary-dim); border: 2px solid var(--primary);
             display: flex; align-items: center; justify-content: center; font-size: 1.9rem; color: var(--primary);
-            box-shadow: 0 0 20px rgba(253,224,71,0.25);
+            box-shadow: 0 0 25px rgba(0,245,255,0.3);
         }
         .avatar-status { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; background: var(--green); border: 2px solid var(--bg); border-radius: 50%; }
         .profile-info { flex: 1; min-width: 0; }
@@ -157,7 +158,7 @@
         }
 
         .balance-display { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 18px; padding: 20px; text-align: center; margin-bottom: 16px; }
-        .bal-ton { font-size: 2.5rem; font-weight: 800; color: var(--text); line-height: 1; text-shadow: 0 0 20px rgba(253,224,71,0.4); font-family: 'Roboto Mono', monospace; }
+        .bal-ton { font-size: 2.5rem; font-weight: 800; color: var(--text); line-height: 1; text-shadow: 0 0 30px rgba(0,245,255,0.5), 0 0 60px rgba(0,245,255,0.2); font-family: 'Roboto Mono', monospace; }
         .bal-ton-label { font-size: 0.75rem; color: var(--text2); font-weight: 600; letter-spacing: 1px; margin-top: 6px; }
         .bal-pts { font-size: 1.05rem; color: var(--green); font-weight: 700; margin-top: 8px; }
 
@@ -172,13 +173,13 @@
         .btn {
             width: 100%; padding: 14px; border: none; border-radius: var(--r-btn); font-weight: 700; font-size: 0.9rem; cursor: pointer;
             background: var(--primary); color: #000; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(253,224,71,0.3);
+            text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 20px rgba(0,245,255,0.35);
         }
-        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(253,224,71,0.5); background: var(--primary-hover); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,245,255,0.6); background: var(--primary-hover); }
         .btn.outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none; }
-        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 15px var(--primary-dim); }
-        .btn.violet { background: var(--violet); color: #fff; box-shadow: 0 4px 15px rgba(168,85,247,0.3); }
-        .btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text); box-shadow: none; }
+        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 20px var(--primary-dim); }
+        .btn.violet { background: var(--secondary); color: #fff; box-shadow: 0 4px 15px rgba(124,58,237,0.4); }
+        .btn.ghost { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--text); box-shadow: none; }
         .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); }
         .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid #222 !important; box-shadow: none !important; transform: none !important; }
         .task-btn { padding: 10px 16px; font-size: 0.85rem; border-radius: 10px; width: auto; flex-shrink: 0; }
@@ -219,9 +220,9 @@
 
         /* Lootbox Styles */
         .lootbox-card {
-            background: linear-gradient(145deg, rgba(22,10,36,0.9), rgba(253,224,71,0.05));
+            background: linear-gradient(145deg, rgba(6,16,35,0.95), rgba(0,245,255,0.04));
             border: 1px solid var(--primary); border-radius: var(--r-card); padding: 22px; text-align: center; margin-bottom: 18px;
-            box-shadow: 0 0 25px rgba(253,224,71,0.15);
+            box-shadow: 0 0 30px rgba(0,245,255,0.1), inset 0 0 30px rgba(0,245,255,0.02);
         }
 
         .form-group { margin-bottom: 16px; text-align: left; }
@@ -248,7 +249,7 @@
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 16px; }
         .modal-overlay.show { display: flex; }
-        .modal-box { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 26px; border-radius: 24px; width: 100%; max-width: 360px; box-shadow: 0 10px 50px rgba(253,224,71,0.15); animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; max-height: 85vh; overflow-y: auto; }
+        .modal-box { background: #060f1e; border: 1px solid var(--border); color: var(--text); padding: 26px; border-radius: 24px; width: 100%; max-width: 360px; box-shadow: 0 10px 60px rgba(0,245,255,0.15), 0 0 100px rgba(0,245,255,0.05); animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; max-height: 85vh; overflow-y: auto; }
         @keyframes modalPop { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
         .modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .modal-header-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
@@ -371,11 +372,11 @@
                     </div>
                     <div style="text-align:right;">
                         <div class="ad-badge">ADSGRAM</div>
-                        <div class="ad-limit-text" id="limit-adsgram-daily">0/10</div>
+                        <div class="ad-limit-text" id="limit-adsgram-daily">0/15</div>
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward">8-12 Pts</div>
+                    <div class="ad-reward">10-15 Pts</div>
                     <button id="btn-watch-adsgram-daily" class="btn outline task-btn">Watch</button>
                 </div>
             </div>
@@ -393,7 +394,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward" style="color:var(--gold);">12-20 Pts</div>
+                    <div class="ad-reward" style="color:var(--gold);">15-25 Pts</div>
                     <button id="btn-watch-adsgram-special" class="btn task-btn" style="background:var(--gold);color:#000;">Watch</button>
                 </div>
             </div>
@@ -411,7 +412,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward">8-15 Pts</div>
+                    <div class="ad-reward">10-18 Pts</div>
                     <button id="btn-watch-monetag" class="btn outline task-btn" style="border-color:var(--secondary);color:var(--secondary);">Watch</button>
                 </div>
             </div>
@@ -429,7 +430,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward" style="color:var(--text);">8-15 Pts</div>
+                    <div class="ad-reward" style="color:var(--text);">10-18 Pts</div>
                     <button id="btn-watch-giga" class="btn outline task-btn" style="border-color:var(--red);color:var(--red);">Watch</button>
                 </div>
             </div>
@@ -664,7 +665,31 @@
             }
 
             const btn = document.getElementById('claimLootboxBtn');
-            btn.disabled = true; btn.textContent = "Claiming...";
+            btn.disabled = true; btn.textContent = "Verifying...";
+
+            // Verify via Vercel API before claiming (hack protection)
+            try {
+                const verifyRes = await fetch(`https://new-ton-755t.vercel.app/api/claimLootbox`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        points: localAdData.unclaimedPoints,
+                        adsWatched: localAdData.adsWatched
+                    })
+                });
+                const verifyData = await verifyRes.json();
+                if (!verifyData.ok) {
+                    alert("⚠️ Server rejected claim: " + (verifyData.message || "Invalid data."));
+                    btn.disabled = false; btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
+                    return;
+                }
+            } catch(e) {
+                // If API is down, allow claim (fail open for UX)
+                console.warn("Lootbox API check failed, proceeding:", e);
+            }
+
+            btn.textContent = "Claiming...";
 
             try {
                 const userRef = doc(db, 'users', currentUser.id);
@@ -718,10 +743,10 @@
         });
 
         const AD_CONFIG = { 
-            adsgramDaily:   { limit: 10, min: 8, max: 12 },
-            adsgramSpecial: { limit: 5,  min: 12, max: 20 },
-            monetag:        { limit: 10, min: 8, max: 15 },
-            giga:           { limit: 10, min: 8, max: 15 }
+            adsgramDaily:   { limit: 15, min: 10, max: 15 },
+            adsgramSpecial: { limit: 5,  min: 15, max: 25 },
+            monetag:        { limit: 10, min: 10, max: 18 },
+            giga:           { limit: 10, min: 10, max: 18 }
         };
 
         const showAdsgramDailyAd = () => new Promise((res, rej) => {
@@ -1090,20 +1115,19 @@
             updateVideoUI(); // restore button state
         });
 
-        // Fetch Videos from Firebase
+        // Fetch Videos from Vercel API (admin panel থেকে add করা videos)
         async function fetchVideosFromFirebase() {
             const container = document.getElementById('video-list-container');
             container.innerHTML = '<div class="loader"></div>';
             try {
-                // Ensure you have a 'videos' collection in Firebase with { videoId: 'id', title: 'name', isActive: true }
-                const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
+                const res = await fetch(`https://new-ton-755t.vercel.app/api/video`);
+                const videos = await res.json();
                 container.innerHTML = '';
-                if(snap.empty) { 
+                if(!videos || videos.length === 0) { 
                     container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; 
                     return; 
                 }
-                snap.forEach(doc => {
-                    const v = doc.data();
+                videos.forEach(v => {
                     container.innerHTML += `
                         <div class="card" style="padding:12px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:0;" onclick="window.playYtVideo('${v.videoId}')">
                             <div style="position:relative; width:90px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0;">
@@ -1120,7 +1144,31 @@
                     `;
                 });
             } catch(e) { 
-                container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>'; 
+                // Fallback to Firebase if API fails
+                try {
+                    const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
+                    container.innerHTML = '';
+                    if(snap.empty) { container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; return; }
+                    snap.forEach(doc => {
+                        const v = doc.data();
+                        container.innerHTML += `
+                            <div class="card" style="padding:12px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:0;" onclick="window.playYtVideo('${v.videoId}')">
+                                <div style="position:relative; width:90px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0;">
+                                    <img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
+                                    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center;">
+                                        <i class="fas fa-play-circle" style="color:#fff; font-size:1.5rem;"></i>
+                                    </div>
+                                </div>
+                                <div style="flex:1;">
+                                    <h4 style="margin:0 0 6px; font-size:0.9rem; color:var(--text); line-height:1.3;">${v.title}</h4>
+                                    <span style="font-size:0.75rem; color:var(--green); font-weight:700;"><i class="fas fa-bolt"></i> Mine 24 Pts/Hr</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } catch(e2) {
+                    container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>'; 
+                }
             }
         }
 
@@ -1328,7 +1376,7 @@
         }
 
         // --- TASK SYSTEM ---
-        const TASK_API_BASE = 'https://new-ton-8835.vercel.app/api'; 
+        const TASK_API_BASE = 'https://new-ton-755t.vercel.app/api'; 
         let activeTaskTab = 'channel'; let tasksCacheChannel = null; let tasksCachePartner = null;
 
         document.getElementById('task-content').addEventListener('click', async (e) => {
@@ -1422,7 +1470,7 @@
         // --- VERIFICATION ---
         async function checkMembershipAndEnforce() {
             try {
-                const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const res  = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
                 
                 if (!data.joined) {
@@ -1434,7 +1482,7 @@
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
             document.getElementById('activateAccountBtn').textContent = "Verifying...";
             try {
-                const res  = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                const res  = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
                 const data = await res.json();
                 
                 if (data.joined) {
@@ -1462,7 +1510,7 @@
         // --- MAIN INIT ---
         async function main() {
             if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
-            tg.ready(); tg.expand(); tg.setHeaderColor('#090310');
+            tg.ready(); tg.expand(); tg.setHeaderColor('#030712');
             await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
             if(currentUser && !currentUser.isBanned) {
                 await checkMembershipAndEnforce();
@@ -1472,7 +1520,7 @@
 
         (function spawnParticles() {
             const container = document.getElementById('particles');
-            const colors = ['rgba(253,224,71,0.4)', 'rgba(217,70,239,0.3)', 'rgba(45,212,191,0.3)'];
+            const colors = ['rgba(0,245,255,0.5)', 'rgba(124,58,237,0.4)', 'rgba(16,245,144,0.4)'];
             for (let i = 0; i < 20; i++) {
                 const p = document.createElement('div'); p.className = 'particle';
                 const size = Math.random() * 3 + 1.5;
