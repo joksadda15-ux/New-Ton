@@ -45,7 +45,7 @@
         /* ── NEON CYBER BLUE & EMERALD ULTRA THEME ── */
         :root {
             --bg: #030712;
-            --card: rgba(6, 16, 35, 0.9);
+            --card: rgba(6, 16, 35, 0.90);
             --header-bg: rgba(3, 7, 18, 0.97);
             --primary: #00F5FF;
             --primary-dim: rgba(0, 245, 255, 0.12);
@@ -60,8 +60,8 @@
             --red: #FF4D6D;
             --text: #E2E8F0;
             --text2: #94A3B8;
-            --border: rgba(0, 245, 255, 0.2);
-            --input-bg: rgba(3, 7, 18, 0.9);
+            --border: rgba(0, 245, 255, 0.20);
+            --input-bg: rgba(3, 7, 18, 0.90);
             --disabled-bg: #0F172A;
             --disabled-text: #475569;
             --r-card: 20px;
@@ -78,8 +78,7 @@
 
         .bg-canvas {
             position: fixed; inset: 0; z-index: -2; overflow: hidden;
-            background: radial-gradient(circle at 20% 20%, #0a1628 0%, #030712 50%), 
-                        radial-gradient(circle at 80% 80%, #060f1e 0%, transparent 60%);
+            background: radial-gradient(circle at 20% 20%, #0a1628 0%, #030712 50%), radial-gradient(circle at 80% 80%, #060f1e 0%, transparent 60%);
         }
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
@@ -177,9 +176,9 @@
         }
         .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,245,255,0.6); background: var(--primary-hover); }
         .btn.outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none; }
-        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 20px var(--primary-dim); }
-        .btn.violet { background: var(--secondary); color: #fff; box-shadow: 0 4px 15px rgba(124,58,237,0.4); }
-        .btn.ghost { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--text); box-shadow: none; }
+        .btn.outline:hover:not(:disabled) { background: var(--primary-dim); box-shadow: 0 0 15px var(--primary-dim); }
+        .btn.violet { background: var(--violet); color: #fff; box-shadow: 0 4px 15px rgba(124,58,237,0.4); }
+        .btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text); box-shadow: none; }
         .btn.ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); }
         .btn:disabled { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; cursor: not-allowed; border: 1px solid #222 !important; box-shadow: none !important; transform: none !important; }
         .task-btn { padding: 10px 16px; font-size: 0.85rem; border-radius: 10px; width: auto; flex-shrink: 0; }
@@ -249,7 +248,7 @@
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 16px; }
         .modal-overlay.show { display: flex; }
-        .modal-box { background: #060f1e; border: 1px solid var(--border); color: var(--text); padding: 26px; border-radius: 24px; width: 100%; max-width: 360px; box-shadow: 0 10px 60px rgba(0,245,255,0.15), 0 0 100px rgba(0,245,255,0.05); animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; max-height: 85vh; overflow-y: auto; }
+        .modal-box { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 26px; border-radius: 24px; width: 100%; max-width: 360px; box-shadow: 0 10px 60px rgba(0,245,255,0.15), 0 0 100px rgba(0,245,255,0.05); animation: modalPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; max-height: 85vh; overflow-y: auto; }
         @keyframes modalPop { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
         .modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .modal-header-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
@@ -667,25 +666,24 @@
             const btn = document.getElementById('claimLootboxBtn');
             btn.disabled = true; btn.textContent = "Verifying...";
 
-            // Verify via Vercel API before claiming (hack protection)
+            // Server-side verify via Vercel API (hack protection)
+            // নতুন domain → পুরনো domain fallback
             try {
-                const verifyRes = await fetch(`https://new-ton-755t.vercel.app/api/claimLootbox`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: currentUser.id,
-                        points: localAdData.unclaimedPoints,
-                        adsWatched: localAdData.adsWatched
-                    })
-                });
-                const verifyData = await verifyRes.json();
-                if (!verifyData.ok) {
-                    alert("⚠️ Server rejected claim: " + (verifyData.message || "Invalid data."));
+                const payload = JSON.stringify({ userId: currentUser.id, points: localAdData.unclaimedPoints, adsWatched: localAdData.adsWatched });
+                let verifyData;
+                try {
+                    const r = await fetch('https://new-ton-755t.vercel.app/api/claimLootbox', { method:'POST', headers:{'Content-Type':'application/json'}, body: payload });
+                    verifyData = await r.json();
+                } catch(e2) {
+                    const r = await fetch('https://new-ton-8835.vercel.app/api/claimLootbox', { method:'POST', headers:{'Content-Type':'application/json'}, body: payload });
+                    verifyData = await r.json();
+                }
+                if (verifyData && !verifyData.ok) {
+                    alert("⚠️ Server rejected: " + (verifyData.message || "Invalid data."));
                     btn.disabled = false; btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
                     return;
                 }
             } catch(e) {
-                // If API is down, allow claim (fail open for UX)
                 console.warn("Lootbox API check failed, proceeding:", e);
             }
 
@@ -1115,17 +1113,16 @@
             updateVideoUI(); // restore button state
         });
 
-        // Fetch Videos from Vercel API (admin panel থেকে add করা videos)
+        // Fetch Videos - নতুন domain → পুরনো domain → Firebase fallback
         async function fetchVideosFromFirebase() {
             const container = document.getElementById('video-list-container');
             container.innerHTML = '<div class="loader"></div>';
-            try {
-                const res = await fetch(`https://new-ton-755t.vercel.app/api/video`);
-                const videos = await res.json();
+
+            const renderVideos = (videos) => {
                 container.innerHTML = '';
-                if(!videos || videos.length === 0) { 
-                    container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; 
-                    return; 
+                if (!videos || videos.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>';
+                    return;
                 }
                 videos.forEach(v => {
                     container.innerHTML += `
@@ -1143,31 +1140,31 @@
                         </div>
                     `;
                 });
-            } catch(e) { 
-                // Fallback to Firebase if API fails
+            };
+
+            try {
+                // 1st: নতুন domain
+                let res = await fetch('https://new-ton-755t.vercel.app/api/video');
+                if (!res.ok) throw new Error('new domain failed');
+                const videos = await res.json();
+                renderVideos(videos);
+            } catch(e1) {
                 try {
-                    const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
-                    container.innerHTML = '';
-                    if(snap.empty) { container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; return; }
-                    snap.forEach(doc => {
-                        const v = doc.data();
-                        container.innerHTML += `
-                            <div class="card" style="padding:12px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:0;" onclick="window.playYtVideo('${v.videoId}')">
-                                <div style="position:relative; width:90px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0;">
-                                    <img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
-                                    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center;">
-                                        <i class="fas fa-play-circle" style="color:#fff; font-size:1.5rem;"></i>
-                                    </div>
-                                </div>
-                                <div style="flex:1;">
-                                    <h4 style="margin:0 0 6px; font-size:0.9rem; color:var(--text); line-height:1.3;">${v.title}</h4>
-                                    <span style="font-size:0.75rem; color:var(--green); font-weight:700;"><i class="fas fa-bolt"></i> Mine 24 Pts/Hr</span>
-                                </div>
-                            </div>
-                        `;
-                    });
+                    // 2nd: পুরনো domain fallback
+                    let res = await fetch('https://new-ton-8835.vercel.app/api/video');
+                    if (!res.ok) throw new Error('old domain failed');
+                    const videos = await res.json();
+                    renderVideos(videos);
                 } catch(e2) {
-                    container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>'; 
+                    try {
+                        // 3rd: Firebase direct fallback
+                        const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
+                        const videos = [];
+                        snap.forEach(d => videos.push({ videoId: d.data().videoId, title: d.data().title }));
+                        renderVideos(videos);
+                    } catch(e3) {
+                        container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>';
+                    }
                 }
             }
         }
@@ -1376,7 +1373,9 @@
         }
 
         // --- TASK SYSTEM ---
-        const TASK_API_BASE = 'https://new-ton-755t.vercel.app/api'; 
+        // Primary: new domain | Fallback: old domain
+        const TASK_API_BASE = 'https://new-ton-755t.vercel.app/api';
+        const TASK_API_BASE_OLD = 'https://new-ton-8835.vercel.app/api';
         let activeTaskTab = 'channel'; let tasksCacheChannel = null; let tasksCachePartner = null;
 
         document.getElementById('task-content').addEventListener('click', async (e) => {
@@ -1412,8 +1411,15 @@
                 try {
                     if (category === 'channel' && channelId) {
                         try {
-                            const res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
-                            const j = await res.json();
+                            let res, j;
+                            try {
+                                res = await fetch(`${TASK_API_BASE}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
+                                j = await res.json();
+                            } catch(e2) {
+                                // Fallback to old domain
+                                res = await fetch(`${TASK_API_BASE_OLD}/checkMember?userId=${currentUser.id}&channel=${encodeURIComponent(channelId)}`);
+                                j = await res.json();
+                            }
                             if (!j.joined) { alert('⚠️ Join the channel/group first, then tap Verify!'); button.disabled = false; button.textContent = 'Verify'; return; }
                         } catch(e) { button.disabled = false; button.textContent = 'Verify'; return; }
                     }
@@ -1470,9 +1476,15 @@
         // --- VERIFICATION ---
         async function checkMembershipAndEnforce() {
             try {
-                const res  = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
-                const data = await res.json();
-                
+                let res, data;
+                try {
+                    res = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                    data = await res.json();
+                } catch(e2) {
+                    // Fallback to old domain
+                    res = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                    data = await res.json();
+                }
                 if (!data.joined) {
                     document.getElementById('activationModalOverlay').classList.add('show');
                 }
@@ -1482,8 +1494,15 @@
         document.getElementById('activateAccountBtn').addEventListener('click', async () => {
             document.getElementById('activateAccountBtn').textContent = "Verifying...";
             try {
-                const res  = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
-                const data = await res.json();
+                let res, data;
+                try {
+                    res = await fetch(`https://new-ton-755t.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                    data = await res.json();
+                } catch(e2) {
+                    // Fallback to old domain
+                    res = await fetch(`https://new-ton-8835.vercel.app/api/checkJoin?userId=${currentUser.id}`);
+                    data = await res.json();
+                }
                 
                 if (data.joined) {
                     alert("Verified ✅");
