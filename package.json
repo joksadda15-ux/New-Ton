@@ -1,11 +1,8 @@
 {
-  "name": "newtube-backend",
+  "name": "newtube-ton-api",
   "version": "1.0.0",
-  "description": "Video Mining API",
-  "main": "api/index.js",
+  "description": "Vercel APIs for NewTube TON",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
     "firebase-admin": "^12.0.0"
   }
 }
