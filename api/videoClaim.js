@@ -1,13 +1,11 @@
-// api/claimLootbox.js
-// GitHub: New-Ton/api/claimLootbox.js
-// Deploy: https://new-ton-755t.vercel.app/api/claimLootbox
-//
-// Lootbox claim à¦à¦° à¦†à¦—à§‡ server-side verify à¦•à¦°à§‡ hack à¦¥à§‡à¦•à§‡ à¦¬à¦¾à¦à¦šà¦¾à¦¯à¦¼à¥¤
-// Firebase Free Plan safe - à¦¶à§à¦§à§ read à¦•à¦°à§‡à¥¤
-
+// api/videoClaim.js
+const crypto = require('crypto');
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 
+const SECRET_KEY = process.env.API_SECRET || 'newtube-ton-premium-secret-key-2024';
+
+// Firebase Admin init (শুধুমাত্র একবার হবে)
 if (!getApps().length) {
     initializeApp({
         credential: cert({
@@ -20,59 +18,81 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
-// Max possible points per ad type per day
-const MAX_DAILY_POINTS = {
-    adsgramDaily: 15 * 15,   // 15 ads Ã— max 15pts = 225
-    adsgramSpecial: 5 * 25,  // 5 ads Ã— max 25pts = 125
-    monetag: 10 * 18,        // 10 ads Ã— max 18pts = 180
-    giga: 10 * 18            // 10 ads Ã— max 18pts = 180
-};
-const ABSOLUTE_MAX = 550; // max lootbox capacity
-
 module.exports = async (req, res) => {
+    // CORS Headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, message: 'Method not allowed' });
+    if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Method not allowed' });
 
     try {
-        const { userId, points, adsWatched } = req.body;
+        const { userId, startTime, signature, claimedPoints } = req.body;
 
-        if (!userId || typeof points !== 'number' || points < 200) {
-            return res.status(400).json({ ok: false, message: 'Invalid request data.' });
+        if (!userId || !startTime || !signature || claimedPoints == null) {
+            return res.status(400).json({ success: false, error: 'Missing required fields' });
         }
 
-        // Hard limit check
-        if (points > ABSOLUTE_MAX) {
-            return res.status(400).json({ ok: false, message: 'Points exceed maximum capacity.' });
+        // ১. সিগনেচার ভেরিফাই (Hack Check)
+        const expectedSignature = crypto.createHmac('sha256', SECRET_KEY)
+                                        .update(`${userId}_${startTime}`)
+                                        .digest('hex');
+                                        
+        if (signature !== expectedSignature) {
+            return res.status(403).json({ success: false, error: 'Security token mismatch. Refresh app.' });
         }
 
-        // Sanity check: minimum ads needed to earn points
-        // (min 8pts per ad, so points / 18 is rough min ads needed)
-        const minAdsNeeded = Math.floor(points / 18);
-        if (adsWatched < minAdsNeeded) {
-            return res.status(400).json({ ok: false, message: 'Points/ads ratio is suspicious.' });
+        // ২. টাইম ভেরিফিকেশন (Speed Hack Check)
+        const now = Date.now();
+        const elapsedSeconds = (now - startTime) / 1000;
+        
+        // ফ্রন্টএন্ডে ১৫ সেকেন্ডে ০.১ পয়েন্ট দেয়। (১ পয়েন্ট = ১৫০ সেকেন্ড)
+        // ১৫% বাফার টাইম রাখা হয়েছে ল্যাগ/ইন্টারনেট সমস্যার জন্য।
+        const maxPossiblePoints = (elapsedSeconds / 150) * 1.15; 
+
+        if (claimedPoints > 26) {
+            return res.status(403).json({ success: false, error: 'Exceeded max box limit (25)' });
         }
 
-        // Check user exists in Firebase
+        if (claimedPoints > maxPossiblePoints && claimedPoints > 0.5) {
+            return res.status(403).json({ success: false, error: 'Speed hack detected. Too fast.' });
+        }
+
+        // ৩. ফায়ারবেস আপডেট
         const userRef = db.collection('users').doc(String(userId));
         const userSnap = await userRef.get();
-        if (!userSnap.exists()) {
-            return res.status(404).json({ ok: false, message: 'User not found.' });
+
+        if (!userSnap.exists) {
+            return res.status(404).json({ success: false, error: 'User not found' });
         }
 
-        const user = userSnap.data();
-        if (user.isBanned) {
-            return res.status(403).json({ ok: false, message: 'Account is banned.' });
+        const userData = userSnap.data();
+
+        if (userData.isBanned) {
+            return res.status(403).json({ success: false, error: 'Account is banned' });
         }
 
-        // All checks passed
-        return res.status(200).json({ ok: true, message: 'Verified.' });
+        const dailyMined = userData.dailyVideoMined || 0;
+        if (dailyMined + claimedPoints > 250) {
+            return res.status(403).json({ success: false, error: 'Daily limit reached' });
+        }
+
+        // ফায়ারবেসে পয়েন্ট যোগ করা
+        await userRef.update({
+            pointBalance: FieldValue.increment(claimedPoints),
+            lifetimePointsEarned: FieldValue.increment(claimedPoints),
+            dailyVideoMined: FieldValue.increment(claimedPoints)
+        });
+
+        // ৪. সফল রেসপন্স
+        return res.status(200).json({ 
+            success: true, 
+            pointsAdded: claimedPoints 
+        });
 
     } catch (err) {
-        console.error('claimLootbox API error:', err);
-        return res.status(500).json({ ok: false, message: 'Server error.' });
+        console.error('videoClaim API error:', err);
+        return res.status(500).json({ success: false, error: 'Server error' });
     }
 };
