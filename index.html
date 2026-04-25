@@ -375,7 +375,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward">8-12 Pts</div>
+                    <div class="ad-reward">10-15 Pts</div>
                     <button id="btn-watch-adsgram-daily" class="btn outline task-btn">Watch</button>
                 </div>
             </div>
@@ -393,7 +393,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward" style="color:var(--gold);">12-20 Pts</div>
+                    <div class="ad-reward" style="color:var(--gold);">15-25 Pts</div>
                     <button id="btn-watch-adsgram-special" class="btn task-btn" style="background:var(--gold);color:#000;">Watch</button>
                 </div>
             </div>
@@ -411,7 +411,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward">8-15 Pts</div>
+                    <div class="ad-reward">10-18 Pts</div>
                     <button id="btn-watch-monetag" class="btn outline task-btn" style="border-color:var(--secondary);color:var(--secondary);">Watch</button>
                 </div>
             </div>
@@ -429,7 +429,7 @@
                     </div>
                 </div>
                 <div class="ad-card-bottom">
-                    <div class="ad-reward" style="color:var(--text);">8-15 Pts</div>
+                    <div class="ad-reward" style="color:var(--text);">10-18 Pts</div>
                     <button id="btn-watch-giga" class="btn outline task-btn" style="border-color:var(--red);color:var(--red);">Watch</button>
                 </div>
             </div>
@@ -634,18 +634,45 @@
         // --- NEW VIDEO VARIABLES ---
         let ytPlayer = null;
         let isVideoPlaying = false;
-        let localVideoMined = 0; // Local counter for UI 
+        let localVideoMined = 0; 
         let videoPlaySeconds = 0;
         let vServerStartTime = 0;
         let vServerSignature = "";
         
         const VERCEL_API_BASE = "https://new-ton-8835.vercel.app";
 
+        // AD FUNCTIONS
+        const showAdsgramDailyAd = () => new Promise((res, rej) => {
+            if (window.Adsgram) { window.Adsgram.init({blockId:"int-27565"}).show().then(res).catch(rej); } 
+            else { setTimeout(res, 2000); }
+        });
+        const showAdsgramSpecialAd = () => new Promise((res, rej) => {
+            if (window.Adsgram) { window.Adsgram.init({blockId:"27566"}).show().then(res).catch(rej); } 
+            else { setTimeout(res, 2000); }
+        });
+        const showMonetagAd = () => new Promise((res) => {
+            if (typeof show_9442539 === 'function') {
+                const t = setTimeout(res, 15000);
+                show_9442539().then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
+            } else { setTimeout(res, 2000); }
+        });
+        const showGigaPubAd = () => new Promise((res) => {
+            if (typeof window.showGiga === 'function') {
+                const t = setTimeout(res, 15000);
+                window.showGiga("main").then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
+            } else { setTimeout(res, 2000); }
+        });
+
+        // ════════════════════════════════════════════
+        // LOOTBOX SYSTEM WITH VERCEL
+        // ════════════════════════════════════════════
         function updateLootboxUI() {
             const display = document.getElementById('lootboxPointsDisplay');
             const btn = document.getElementById('claimLootboxBtn');
             display.textContent = `${localAdData.unclaimedPoints} Pts`;
             
+            if (btn.dataset.busy === "true") return;
+
             if (localAdData.unclaimedPoints >= 200) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
@@ -668,89 +695,81 @@
             }
 
             const btn = document.getElementById('claimLootboxBtn');
-            btn.disabled = true; btn.textContent = "Claiming...";
+            btn.disabled = true; 
+
+            // RANDOMLY SHOW 1 AD BEFORE CLAIMING
+            btn.dataset.busy = "true";
+            const adFunctions = [showAdsgramDailyAd, showAdsgramSpecialAd, showMonetagAd, showGigaPubAd];
+            const randomAdFunc = adFunctions[Math.floor(Math.random() * adFunctions.length)];
+            
+            const ok = await runAdAndVerifyTime('claimLootboxBtn', randomAdFunc);
+            
+            if (!ok) {
+                btn.dataset.busy = "false";
+                updateLootboxUI(); 
+                return;
+            }
+
+            btn.textContent = "Claiming...";
 
             try {
-                const userRef = doc(db, 'users', currentUser.id);
-                const updates = {
-                    pointBalance: increment(localAdData.unclaimedPoints),
-                    lifetimePointsEarned: increment(localAdData.unclaimedPoints),
-                    lifetimeAdsWatched: increment(localAdData.adsWatched),
-                };
-                if (localAdData.adsWatchedAdsgramDaily > 0) updates.adsWatchedAdsgramDaily = increment(localAdData.adsWatchedAdsgramDaily);
-                if (localAdData.adsWatchedAdsgramSpecial > 0) updates.adsWatchedAdsgramSpecial = increment(localAdData.adsWatchedAdsgramSpecial);
-                if (localAdData.adsWatchedMonetag > 0) updates.adsWatchedMonetag = increment(localAdData.adsWatchedMonetag);
-                if (localAdData.adsWatchedGiga > 0) updates.adsWatchedGiga = increment(localAdData.adsWatchedGiga);
+                // Call Vercel API
+                const response = await fetch(`${VERCEL_API_BASE}/api/claimLootbox`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        points: localAdData.unclaimedPoints,
+                        adsWatched: localAdData.adsWatched,
+                        adsWatchedAdsgramDaily: localAdData.adsWatchedAdsgramDaily,
+                        adsWatchedAdsgramSpecial: localAdData.adsWatchedAdsgramSpecial,
+                        adsWatchedMonetag: localAdData.adsWatchedMonetag,
+                        adsWatchedGiga: localAdData.adsWatchedGiga
+                    })
+                });
 
-                const oldAds = currentUser.lifetimeAdsWatched || 0;
-                const newAds = oldAds + localAdData.adsWatched;
-                
-                if (oldAds < 10 && newAds >= 10 && currentUser.referredBy) {
-                    try {
-                        await runTransaction(db, async (t) => {
-                            const refRef = doc(db, 'users', currentUser.referredBy);
-                            const refDoc = await t.get(refRef);
-                            if (refDoc.exists()) {
-                                t.update(refRef, { pointBalance: increment(REFERRAL_REWARD_POINTS), lifetimePointsEarned: increment(REFERRAL_REWARD_POINTS), referralCount: increment(1) });
-                                t.set(doc(collection(db, 'transactions')), { userId: currentUser.referredBy, type: 'Referral Reward', details: `Valid Ref UID: ${currentUser.id}`, pointAmount: REFERRAL_REWARD_POINTS, createdAt: serverTimestamp() });
-                            }
-                        });
-                    } catch(e) {}
+                const data = await response.json();
+
+                if (data.success || data.ok) {
+                    currentUser.pointBalance = (currentUser.pointBalance || 0) + localAdData.unclaimedPoints;
+                    currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + localAdData.unclaimedPoints;
+                    currentUser.lifetimeAdsWatched = (currentUser.lifetimeAdsWatched || 0) + localAdData.adsWatched;
+                    
+                    currentUser.adsWatchedAdsgramDaily = (currentUser.adsWatchedAdsgramDaily || 0) + localAdData.adsWatchedAdsgramDaily;
+                    currentUser.adsWatchedAdsgramSpecial = (currentUser.adsWatchedAdsgramSpecial || 0) + localAdData.adsWatchedAdsgramSpecial;
+                    currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + localAdData.adsWatchedMonetag;
+                    currentUser.adsWatchedGiga = (currentUser.adsWatchedGiga || 0) + localAdData.adsWatchedGiga;
+
+                    showSuccessModal("Lootbox Claimed! 🎉", `+${localAdData.unclaimedPoints} Points Saved securely!`);
+
+                    localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+                    localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
+                    
+                    updateBalanceUI(); 
+                    updateAdButtonStats(); 
+                    
+                } else {
+                    alert("Error: " + (data.message || "Invalid data"));
+                    localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
+                    localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
+                    updateAdButtonStats();
                 }
-
-                await updateDoc(userRef, updates);
-
-                currentUser.pointBalance = (currentUser.pointBalance || 0) + localAdData.unclaimedPoints;
-                currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + localAdData.unclaimedPoints;
-                currentUser.lifetimeAdsWatched = newAds;
-                currentUser.adsWatchedAdsgramDaily = (currentUser.adsWatchedAdsgramDaily || 0) + localAdData.adsWatchedAdsgramDaily;
-                currentUser.adsWatchedAdsgramSpecial = (currentUser.adsWatchedAdsgramSpecial || 0) + localAdData.adsWatchedAdsgramSpecial;
-                currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + localAdData.adsWatchedMonetag;
-                currentUser.adsWatchedGiga = (currentUser.adsWatchedGiga || 0) + localAdData.adsWatchedGiga;
-
-                showSuccessModal("Lootbox Claimed! 🎉", `+${localAdData.unclaimedPoints} Points Saved to Database!`);
-
-                localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
-                localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
-                
-                updateBalanceUI(); updateAdButtonStats(); updateLootboxUI();
-
             } catch(e) {
-                alert("Error saving data. Please try again.");
-                btn.disabled = false; btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
+                alert("Server connection failed. Please try again.");
             }
+            btn.dataset.busy = "false";
+            updateLootboxUI();
         });
 
+        // ════════════════════════════════════════════
+        // REWARDS INCREASED UPDATED
+        // ════════════════════════════════════════════
         const AD_CONFIG = { 
-            adsgramDaily:   { limit: 10, min: 8, max: 12 },
-            adsgramSpecial: { limit: 5,  min: 12, max: 20 },
-            monetag:        { limit: 10, min: 8, max: 15 },
-            giga:           { limit: 10, min: 8, max: 15 }
+            adsgramDaily:   { limit: 10, min: 10, max: 15 },
+            adsgramSpecial: { limit: 5,  min: 15, max: 25 },
+            monetag:        { limit: 10, min: 10, max: 18 },
+            giga:           { limit: 10, min: 10, max: 18 }
         };
-
-        const showAdsgramDailyAd = () => new Promise((res, rej) => {
-            if (window.Adsgram) { window.Adsgram.init({blockId:"int-27565"}).show().then(res).catch(rej); } 
-            else { setTimeout(res, 2000); }
-        });
-
-        const showAdsgramSpecialAd = () => new Promise((res, rej) => {
-            if (window.Adsgram) { window.Adsgram.init({blockId:"27566"}).show().then(res).catch(rej); } 
-            else { setTimeout(res, 2000); }
-        });
-
-        const showMonetagAd = () => new Promise((res) => {
-            if (typeof show_9442539 === 'function') {
-                const t = setTimeout(res, 15000);
-                show_9442539().then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
-            } else { setTimeout(res, 2000); }
-        });
-
-        const showGigaPubAd = () => new Promise((res) => {
-            if (typeof window.showGiga === 'function') {
-                const t = setTimeout(res, 15000);
-                window.showGiga("main").then(() => { clearTimeout(t); res(); }).catch(() => { clearTimeout(t); res(); });
-            } else { setTimeout(res, 2000); }
-        });
 
         async function runAdAndVerifyTime(btnId, adFunc) {
             if (isAdRunning) { alert("⚠️ Please wait, an ad is already playing."); return false; }
@@ -784,7 +803,10 @@
                 if (closedEarly) {
                     alert("⚠️ Ad skipped or closed too early. No points awarded.");
                     btn.innerHTML = originalHTML; btn.disabled = false; resolve(false);
-                } else { resolve(true); }
+                } else { 
+                    btn.innerHTML = originalHTML;
+                    resolve(true); 
+                }
             });
         }
 
@@ -1063,7 +1085,7 @@
             }
         }
 
-        // The Mining Loop (UI Only - Real check happens on Vercel Backend)
+        // The Mining Loop
         setInterval(() => {
             if (!isVideoPlaying || !currentUser || vServerStartTime === 0) return;
             
@@ -1089,7 +1111,7 @@
             }
         }, 1000);
 
-        // Vercel Secure Claim System
+        // Vercel Secure Claim System (Video)
         document.getElementById('claimVideoPtsBtn').addEventListener('click', async () => {
             if (localVideoMined < 5) return;
             if (vServerStartTime === 0 || !vServerSignature) return alert("Security token missing. Refresh app.");
@@ -1098,12 +1120,14 @@
             const amtToClaim = localVideoMined;
             
             btn.dataset.busy = "true";
-            const ok = await runAdAndVerifyTime('claimVideoPtsBtn', showAdsgramDailyAd); 
+            
+            const adFunctions = [showAdsgramDailyAd, showAdsgramSpecialAd, showMonetagAd, showGigaPubAd];
+            const randomAdFunc = adFunctions[Math.floor(Math.random() * adFunctions.length)];
+            const ok = await runAdAndVerifyTime('claimVideoPtsBtn', randomAdFunc); 
             
             if (ok) {
                 btn.disabled = true; btn.textContent = "Verifying...";
                 try {
-                    // Call Vercel to verify and save points directly to Firebase
                     const res = await fetch(`${VERCEL_API_BASE}/api/videoClaim`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1117,15 +1141,13 @@
                     
                     const data = await res.json();
                     
-                    if (data.success) {
-                        // Vercel already added points to Firebase. We just update UI.
+                    if (data.success || data.ok) {
                         currentUser.pointBalance = (currentUser.pointBalance || 0) + data.pointsAdded;
                         currentUser.lifetimePointsEarned = (currentUser.lifetimePointsEarned || 0) + data.pointsAdded;
                         currentUser.dailyVideoMined = (currentUser.dailyVideoMined || 0) + data.pointsAdded;
 
                         showSuccessModal("Decrypted!", `+${data.pointsAdded} Points added securely!`);
                         
-                        // Reset Local Session
                         localVideoMined = 0;
                         vServerStartTime = 0;
                         vServerSignature = "";
@@ -1134,13 +1156,11 @@
                         updateBalanceUI(); 
                         updateVideoUI();
                         
-                        // Restart player if it was paused
                         if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
                             ytPlayer.playVideo();
                         }
                     } else {
                         alert("Verification Failed: " + (data.message || data.error));
-                        // Hacking attempt detected, reset session to punish
                         localVideoMined = 0;
                         vServerStartTime = 0;
                         vServerSignature = "";
@@ -1154,7 +1174,7 @@
             updateVideoUI(); 
         });
 
-        // Fetch Videos from Firebase
+        // Fetch Videos from Firebase directly
         async function fetchVideosFromFirebase() {
             const container = document.getElementById('video-list-container');
             container.innerHTML = '<div class="loader"></div>';
