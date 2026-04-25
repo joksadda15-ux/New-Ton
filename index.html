@@ -6,8 +6,6 @@
     <title>NEWTUBE TON - Premium Platform</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <!-- YouTube Iframe API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -989,31 +987,28 @@
         attachAdListener('btn-watch-giga', 'giga', AD_CONFIG.giga.limit, showGigaPubAd);
 
         // ════════════════════════════════════════════
-        // VERCEL SECURE VIDEO MINING LOGIC
+        // VERCEL SECURE VIDEO MINING LOGIC (UPDATED)
         // ════════════════════════════════════════════
 
+        window.ytApiReady = false;
+        
+        // YouTube API ডাইনামিক লোড
+        const ytScriptTag = document.createElement('script');
+        ytScriptTag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(ytScriptTag, firstScriptTag);
+
         window.onYouTubeIframeAPIReady = function() {
-            ytPlayer = new YT.Player('ytplayer', {
-                height: '100%',
-                width: '100%',
-                videoId: '', 
-                playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
-                events: {
-                    'onStateChange': onPlayerStateChange
-                }
-            });
+            window.ytApiReady = true;
         };
 
         async function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING) {
                 isVideoPlaying = true;
-                
-                // If this is the start of a new mining session, call Vercel API
                 if (vServerStartTime === 0) {
                     try {
                         const res = await fetch(`${VERCEL_API_BASE}/api/videoStart`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ userId: currentUser.id })
                         });
                         const data = await res.json();
@@ -1022,35 +1017,44 @@
                             vServerSignature = data.signature;
                         } else {
                             isVideoPlaying = false;
-                            ytPlayer.pauseVideo();
+                            if(ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
                             alert("Server error. Please reload app.");
                         }
                     } catch (e) {
                         isVideoPlaying = false;
-                        ytPlayer.pauseVideo();
+                        if(ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
                         alert("Connection failed.");
                     }
                 }
-
             } else {
                 isVideoPlaying = false;
             }
         }
 
-        // Pause YT video if user minimizes Telegram
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && isVideoPlaying && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
                 ytPlayer.pauseVideo();
             }
         });
 
+        // স্মার্ট ভিডিও প্লেয়ার ফাংশন (লুকানো অবস্থায় আটকে থাকবে না)
         window.playYtVideo = function(vId) {
-            if (!ytPlayer) return alert("YouTube Player is loading, please wait...");
+            if (!window.ytApiReady) return alert("YouTube Player is loading, please wait...");
             if (localVideoMined >= 25) return alert("Box is full! Claim your 25 points first.");
             let dailyMined = currentUser.dailyVideoMined || 0;
             if (dailyMined + localVideoMined >= 250) return alert("Daily limit reached! Come back tomorrow.");
 
-            ytPlayer.loadVideoById(vId);
+            if (!ytPlayer) {
+                // প্রথমবার ক্লিক করলে প্লেয়ার তৈরি হবে
+                ytPlayer = new YT.Player('ytplayer', {
+                    height: '100%', width: '100%', videoId: vId,
+                    playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
+                    events: { 'onStateChange': onPlayerStateChange }
+                });
+            } else {
+                // দ্বিতীয়বার ক্লিক করলে শুধু ভিডিও চেঞ্জ হবে
+                ytPlayer.loadVideoById(vId);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
