@@ -712,6 +712,10 @@
         const VERCEL_API_BASE = "https://new-ton-8835.vercel.app";
 
         // AD FUNCTIONS
+        // ── MONETAG INTERSTITIAL: প্রতি 10 মিনিট video দেখার পর show করবে ──
+        let videoWatchTotalSeconds = 0;  // মোট কতক্ষণ video দেখা হলো
+        const MONETAG_AD_INTERVAL_SECONDS = 600; // 10 মিনিট = 600 সেকেন্ড
+        let lastMonetagAdShownAt = 0; // কত সেকেন্ডে শেষ ads দেখানো হয়েছিল
         const showAdsgramDailyAd = () => new Promise((res, rej) => {
             if (window.Adsgram) { window.Adsgram.init({blockId:"int-27565"}).show().then(res).catch(rej); } 
             else { setTimeout(res, 2000); }
@@ -1202,6 +1206,27 @@
             }
 
             videoPlaySeconds++;
+            videoWatchTotalSeconds++; // মোট watch time track
+
+            // ── MONETAG INTERSTITIAL: প্রতি 10 মিনিটে একবার show করবে ──
+            if (videoWatchTotalSeconds - lastMonetagAdShownAt >= MONETAG_AD_INTERVAL_SECONDS) {
+                lastMonetagAdShownAt = videoWatchTotalSeconds;
+                try {
+                    if (typeof show_9442539 === 'function') {
+                        show_9442539({
+                            type: 'inApp',
+                            inAppSettings: {
+                                frequency: 2,
+                                capping: 0.1,
+                                interval: 30,
+                                timeout: 5,
+                                everyPage: false
+                            }
+                        });
+                    }
+                } catch(e) { /* silent fail */ }
+            }
+
             if (videoPlaySeconds >= 15) { 
                 localVideoMined = Math.round((localVideoMined + 0.1) * 10) / 10; 
                 videoPlaySeconds = 0;
@@ -1502,12 +1527,24 @@
         document.querySelectorAll('.nav-item').forEach(link => {
             link.addEventListener('click', e => {
                 e.preventDefault();
+
+                const isGoingToVideo = link.dataset.tabTarget === '#video-content';
+                const isLeavingVideo = !isGoingToVideo && document.body.classList.contains('video-active');
+
+                // ── VIDEO PAUSE WHEN LEAVING VIDEO TAB ──
+                if (isLeavingVideo) {
+                    if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                        ytPlayer.pauseVideo();
+                    }
+                    isVideoPlaying = false;
+                }
+
                 document.querySelectorAll('.nav-item, .content-section').forEach(el => el.classList.remove('active'));
                 link.classList.add('active'); document.querySelector(link.dataset.tabTarget).classList.add('active');
                 
                 if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
-                document.body.classList.toggle('video-active', link.dataset.tabTarget === '#video-content');
+                document.body.classList.toggle('video-active', isGoingToVideo);
             });
         });
 
