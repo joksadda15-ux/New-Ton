@@ -222,6 +222,68 @@
             box-shadow: 0 0 25px rgba(253,224,71,0.15);
         }
 
+        /* ── VIDEO SECTION THEME ── */
+        .video-theme-bg {
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(217,70,239,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 100% 100%, rgba(168,85,247,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 80%, rgba(253,224,71,0.08) 0%, transparent 40%);
+            opacity: 0; transition: opacity 0.6s ease;
+        }
+        body.video-active .video-theme-bg { opacity: 1; }
+        .video-scanlines {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(217,70,239,0.015) 2px, rgba(217,70,239,0.015) 4px);
+            opacity: 0; transition: opacity 0.6s ease;
+        }
+        body.video-active .video-scanlines { opacity: 1; }
+
+        /* Video Player Card */
+        .video-player-card {
+            padding: 0; overflow: hidden; border-radius: 16px; margin-bottom: 14px;
+            position: relative; background: #000;
+            border: 1px solid rgba(217,70,239,0.4);
+            box-shadow: 0 0 30px rgba(217,70,239,0.2), 0 0 60px rgba(168,85,247,0.1);
+        }
+        .video-player-label {
+            position: absolute; top: 10px; left: 10px; z-index: 10;
+            background: rgba(0,0,0,0.7); border: 1px solid rgba(217,70,239,0.5);
+            color: var(--secondary); font-size: 0.65rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 6px; letter-spacing: 1px;
+            backdrop-filter: blur(6px);
+        }
+
+        /* Compact Mining Box */
+        .mining-compact {
+            background: linear-gradient(135deg, rgba(14,6,24,0.95), rgba(217,70,239,0.07));
+            border: 1px solid rgba(217,70,239,0.35); border-radius: 14px;
+            padding: 14px 16px; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 14px;
+            box-shadow: 0 0 15px rgba(217,70,239,0.08);
+        }
+        .mining-compact-left { flex: 1; min-width: 0; }
+        .mining-compact-title { font-size: 0.78rem; font-weight: 800; color: var(--secondary); letter-spacing: 0.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .mining-compact-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+        .mining-compact-fill { height: 100%; background: linear-gradient(90deg, var(--secondary), var(--violet)); transition: width 0.5s; border-radius: 4px; }
+        .mining-compact-stats { display: flex; gap: 14px; font-size: 0.72rem; color: var(--text2); }
+        .mining-compact-pts { font-family: monospace; font-weight: 800; color: var(--secondary); font-size: 1.3rem; }
+        .mining-compact-right { flex-shrink: 0; }
+
+        /* Video Table */
+        .video-table-wrap { background: rgba(0,0,0,0.3); border: 1px solid rgba(217,70,239,0.2); border-radius: 14px; overflow: hidden; margin-bottom: 18px; }
+        .video-table-header { display: grid; grid-template-columns: 1fr 70px; padding: 10px 14px; background: rgba(217,70,239,0.1); border-bottom: 1px solid rgba(217,70,239,0.2); font-size: 0.7rem; font-weight: 800; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+        .video-table-row { display: grid; grid-template-columns: 1fr 70px; align-items: center; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; cursor: pointer; gap: 10px; }
+        .video-table-row:last-child { border-bottom: none; }
+        .video-table-row:hover { background: rgba(217,70,239,0.08); }
+        .video-row-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .video-row-thumb { width: 54px; height: 36px; border-radius: 6px; overflow: hidden; flex-shrink: 0; position: relative; border: 1px solid rgba(217,70,239,0.3); }
+        .video-row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .video-row-thumb-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; }
+        .video-row-thumb-overlay i { color: #fff; font-size: 0.75rem; }
+        .video-row-title { font-size: 0.8rem; color: var(--text); font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .video-row-pts { font-size: 0.72rem; color: var(--green); font-weight: 700; text-align: right; white-space: nowrap; }
+
         .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text2); }
         input[type="text"], input[type="number"] { width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: var(--text); font-size: 0.95rem; outline: none; transition: all 0.2s; }
@@ -273,6 +335,8 @@
     <div class="bg-canvas"></div>
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
+    <div class="video-theme-bg"></div>
+    <div class="video-scanlines"></div>
 
     <header class="main-header">
         <div class="site-branding">
@@ -433,7 +497,7 @@
             </div>
         </section>
 
-        <!-- ══ NEW VIDEO MINING SECTION ══ -->
+        <!-- ══ VIDEO MINING SECTION ══ -->
         <section id="video-content" class="content-section">
             <div class="section-title">
                 <div class="title-icon ti-red"><i class="fab fa-youtube"></i></div>
@@ -441,32 +505,40 @@
             </div>
 
             <!-- Video Player Box -->
-            <div class="card" style="padding:0; overflow:hidden; border-radius:16px; margin-bottom:18px; position:relative; background:#000;">
-                <div id="ytplayer" style="width:100%; height:220px; background:#000;"></div>
+            <div class="video-player-card">
+                <div class="video-player-label">&#9679; LIVE STREAM</div>
+                <div id="ytplayer" style="width:100%; height:210px; background:#000;"></div>
             </div>
 
-            <!-- Mining Box -->
-            <div class="lootbox-card" style="border-color:var(--secondary);">
-                <h3 style="margin:0 0 8px; color:var(--text); font-size:1.2rem;">
-                    <i class="fas fa-microchip" style="color:var(--secondary);"></i> Mining Terminal
-                </h3>
-                <div style="font-size:0.8rem; color:var(--text2); margin-bottom:16px;">Play video to mine. (Max Box: 25 Pts)</div>
-
-                <!-- Progress Bar -->
-                <div style="width:100%; height:12px; background:rgba(255,255,255,0.1); border-radius:6px; overflow:hidden; margin-bottom:12px; position:relative;">
-                    <div id="videoMiningProgress" style="width:0%; height:100%; background:linear-gradient(90deg, var(--secondary), var(--violet)); transition:width 0.5s;"></div>
+            <!-- Compact Mining Box -->
+            <div class="mining-compact">
+                <div class="mining-compact-left">
+                    <div class="mining-compact-title">
+                        <i class="fas fa-microchip"></i> Mining Terminal &nbsp;<span style="font-size:0.65rem;color:var(--text2);font-weight:500;">Max 25 Pts/Box</span>
+                    </div>
+                    <div class="mining-compact-bar">
+                        <div class="mining-compact-fill" id="videoMiningProgress" style="width:0%;"></div>
+                    </div>
+                    <div class="mining-compact-stats">
+                        <span id="videoDailyLimitDisplay">Daily: 0 / 250 Pts</span>
+                    </div>
                 </div>
-
-                <div style="font-size:2.4rem; font-weight:800; color:var(--secondary); font-family:monospace; margin-bottom:6px; text-shadow: 0 0 15px rgba(217,70,239,0.4);" id="videoMinedDisplay">0.0 Pts</div>
-                <div style="font-size:0.8rem; color:var(--text2); margin-bottom:18px;" id="videoDailyLimitDisplay">Daily Limit: 0 / 250 Pts</div>
-
-                <button id="claimVideoPtsBtn" class="btn outline" disabled><i class="fas fa-lock"></i> Min 5 Pts to Claim</button>
+                <div class="mining-compact-right" style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                    <div class="mining-compact-pts" id="videoMinedDisplay">0.0 Pts</div>
+                    <button id="claimVideoPtsBtn" class="btn outline" disabled style="padding:9px 14px; font-size:0.78rem; width:auto; white-space:nowrap;"><i class="fas fa-lock"></i> Min 5 Pts</button>
+                </div>
             </div>
 
-            <!-- Video List From Firebase -->
-            <h4 style="color:var(--text); margin-bottom:12px; font-weight:800;">Available Streams</h4>
-            <div id="video-list-container" style="display:grid; gap:12px;">
-                <div class="loader"></div>
+            <!-- Video List Table -->
+            <h4 style="color:var(--text); margin-bottom:10px; font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-film" style="color:var(--secondary);"></i> Available Streams</h4>
+            <div class="video-table-wrap">
+                <div class="video-table-header">
+                    <span>Video</span>
+                    <span style="text-align:right;">Reward</span>
+                </div>
+                <div id="video-list-container">
+                    <div class="loader"></div>
+                </div>
             </div>
         </section>
 
@@ -1085,23 +1157,29 @@
             prog.style.width = `${(localVideoMined / 25) * 100}%`;
             
             let dailyMined = currentUser.dailyVideoMined || 0;
-            limitDisplay.textContent = `Daily Limit: ${(dailyMined + localVideoMined).toFixed(1)} / 250 Pts`;
+            limitDisplay.textContent = `Daily: ${(dailyMined + localVideoMined).toFixed(1)} / 250 Pts`;
             
             if (localVideoMined >= 5) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
-                btn.innerHTML = '<i class="fas fa-bolt"></i> Claim & Watch Ad';
+                btn.innerHTML = '<i class="fas fa-bolt"></i> Claim';
                 if (localVideoMined >= 25) {
-                    btn.innerHTML = '<i class="fas fa-box"></i> Box Full! Claim Now';
+                    btn.innerHTML = '<i class="fas fa-box"></i> Full! Claim';
                     btn.style.background = 'var(--red)';
+                    btn.style.color = '#fff';
+                    btn.style.border = 'none';
                 } else {
-                    btn.style.background = '';
+                    btn.style.background = 'var(--secondary)';
+                    btn.style.color = '#fff';
+                    btn.style.border = 'none';
                 }
             } else {
                 btn.disabled = true;
                 btn.classList.add('outline');
                 btn.style.background = '';
-                btn.innerHTML = `<i class="fas fa-lock"></i> Min 5 Pts to Claim`;
+                btn.style.color = '';
+                btn.style.border = '';
+                btn.innerHTML = `<i class="fas fa-lock"></i> Min 5 Pts`;
             }
         }
 
@@ -1215,28 +1293,26 @@
                 const snap = await getDocs(query(collection(db, 'videos'), where('isActive', '==', true), limit(20)));
                 container.innerHTML = '';
                 if(snap.empty) { 
-                    container.innerHTML = '<p style="text-align:center; color:var(--text2);">No videos available right now.</p>'; 
+                    container.innerHTML = '<p style="text-align:center; padding:18px; color:var(--text2); font-size:0.85rem;">No videos available right now.</p>'; 
                     return; 
                 }
                 snap.forEach(doc => {
                     const v = doc.data();
                     container.innerHTML += `
-                        <div class="card" style="padding:12px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:0;" onclick="window.playYtVideo('${v.videoId}')">
-                            <div style="position:relative; width:90px; height:60px; border-radius:8px; overflow:hidden; flex-shrink:0;">
-                                <img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
-                                <div style="position:absolute; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center;">
-                                    <i class="fas fa-play-circle" style="color:#fff; font-size:1.5rem;"></i>
+                        <div class="video-table-row" onclick="window.playYtVideo('${v.videoId}')">
+                            <div class="video-row-info">
+                                <div class="video-row-thumb">
+                                    <img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" alt="${v.title}">
+                                    <div class="video-row-thumb-overlay"><i class="fas fa-play"></i></div>
                                 </div>
+                                <div class="video-row-title">${v.title}</div>
                             </div>
-                            <div style="flex:1;">
-                                <h4 style="margin:0 0 6px; font-size:0.9rem; color:var(--text); line-height:1.3;">${v.title}</h4>
-                                <span style="font-size:0.75rem; color:var(--green); font-weight:700;"><i class="fas fa-bolt"></i> Mine 24 Pts/Hr</span>
-                            </div>
+                            <div class="video-row-pts"><i class="fas fa-bolt"></i> 24 Pts/Hr</div>
                         </div>
                     `;
                 });
             } catch(e) { 
-                container.innerHTML = '<p style="text-align:center; color:var(--red);">Failed to load videos.</p>'; 
+                container.innerHTML = '<p style="text-align:center; padding:18px; color:var(--red); font-size:0.85rem;">Failed to load videos.</p>'; 
             }
         }
 
@@ -1245,7 +1321,7 @@
         // ════════════════════════════════════════════
         
         function getRequiredRefs(amount) {
-            return Math.ceil(amount / 1000);
+            return Math.ceil(amount / 1500);
         }
 
         document.getElementById('withdraw-modal-btn').addEventListener('click', () => { 
@@ -1260,10 +1336,10 @@
             
             tierInfo.innerHTML = `
                 <div style="font-size:0.8rem; color:var(--text2); margin-bottom:10px; font-weight:700;">REQUIREMENTS (REFERRAL MODE)</div>
-                <div class="tier-row"><span class="tier-range">Base Rule</span><span class="tier-ref">1 Ref / 1,000 Pts</span></div>
-                <div class="tier-row"><span class="tier-range">Example: 1,500 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
-                <div class="tier-row"><span class="tier-range">Example: 2,001 Pts</span><span class="tier-ref">3 Valid Refs</span></div>
-                <div class="tier-row"><span class="tier-range">Example: 5,000 Pts</span><span class="tier-ref">5 Valid Refs</span></div>
+                <div class="tier-row"><span class="tier-range">Base Rule</span><span class="tier-ref">1 Ref / 1,500 Pts</span></div>
+                <div class="tier-row"><span class="tier-range">Example: 1,500 Pts</span><span class="tier-ref">1 Valid Ref</span></div>
+                <div class="tier-row"><span class="tier-range">Example: 3,000 Pts</span><span class="tier-ref">2 Valid Refs</span></div>
+                <div class="tier-row"><span class="tier-range">Example: 7,500 Pts</span><span class="tier-ref">5 Valid Refs</span></div>
             `;
         });
 
@@ -1431,6 +1507,7 @@
                 
                 if (link.dataset.tabTarget === '#task-content') { tasksCacheChannel = null; tasksCachePartner = null; fetchAndRenderTasks(activeTaskTab); }
                 if (link.dataset.tabTarget === '#ads-content') updateAdButtonStats();
+                document.body.classList.toggle('video-active', link.dataset.tabTarget === '#video-content');
             });
         });
 
