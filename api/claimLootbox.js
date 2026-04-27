@@ -1,7 +1,7 @@
-// api/claimLootbox.js
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 
+// Initialize Firebase Admin once
 if (!getApps().length) {
     initializeApp({
         credential: cert({
@@ -13,12 +13,10 @@ if (!getApps().length) {
 }
 
 const db = getFirestore();
-
-// রেফারাল বোনাস
 const REFERRAL_REWARD_POINTS = 300;
 
 module.exports = async (req, res) => {
-    // CORS Headers
+    // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -33,15 +31,17 @@ module.exports = async (req, res) => {
             adsWatchedMonetag, adsWatchedGiga 
         } = req.body;
 
+        // Basic validation
         if (!userId || typeof points !== 'number' || points < 200) {
             return res.status(400).json({ success: false, message: 'Invalid data or points too low.' });
         }
 
+        // Hard security limit
         if (points > 550) {
             return res.status(400).json({ success: false, message: 'Security Error: Invalid Lootbox Data.' });
         }
 
-        // হ্যাকিং চেক (প্রতি অ্যাডে ম্যাক্সিমাম ২০ পয়েন্ট ধরা হয়েছে)
+        // Security ratio check (Avg max 20pts per ad)
         const minExpectedAds = Math.floor(points / 20);
         if (adsWatched < minExpectedAds) {
             return res.status(400).json({ success: false, message: 'Points/ads ratio is suspicious. Hack attempt blocked.' });
@@ -59,10 +59,38 @@ module.exports = async (req, res) => {
             return res.status(403).json({ success: false, message: 'Account is banned.' });
         }
 
-        const oldAdsCount = userData.lifetimeAdsWatched || 0;
-        const newAdsCount = oldAdsCount + adsWatched;
+        // ── NEW REFERRAL LOGIC: Trigger on FIRST Lootbox Claim ──
+        let refBonusGiven = false;
+        
+        // We consider it the first claim if they haven't claimed any Lootbox yet
+        // Meaning lifetimeAdsWatched is currently 0 in the database
+        const isFirstLootboxClaim = (userData.lifetimeAdsWatched || 0) === 0;
 
-        // আপডেট অবজেক্ট তৈরি
+        if (isFirstLootboxClaim && userData.referredBy) {
+            const refRef = db.collection('users').doc(String(userData.referredBy));
+            const refSnap = await refRef.get();
+            
+            if (refSnap.exists) {
+                // Give 300 Pts and 1 Valid Ref count to the inviter
+                await refRef.update({
+                    pointBalance: FieldValue.increment(REFERRAL_REWARD_POINTS),
+                    lifetimePointsEarned: FieldValue.increment(REFERRAL_REWARD_POINTS),
+                    referralCount: FieldValue.increment(1)
+                });
+                
+                // Add transaction history for inviter
+                await db.collection('transactions').add({
+                    userId: userData.referredBy,
+                    type: 'Referral Reward',
+                    details: `Valid Ref UID: ${userId}`,
+                    pointAmount: REFERRAL_REWARD_POINTS,
+                    createdAt: FieldValue.serverTimestamp()
+                });
+                refBonusGiven = true;
+            }
+        }
+
+        // ── UPDATE CURRENT USER STATS ──
         const updates = {
             pointBalance: FieldValue.increment(points),
             lifetimePointsEarned: FieldValue.increment(points),
@@ -74,32 +102,7 @@ module.exports = async (req, res) => {
         if (adsWatchedMonetag > 0) updates.adsWatchedMonetag = FieldValue.increment(adsWatchedMonetag);
         if (adsWatchedGiga > 0) updates.adsWatchedGiga = FieldValue.increment(adsWatchedGiga);
 
-        // ডাটাবেসে সেভ করা
         await userRef.update(updates);
-
-        // রেফারাল বোনাস লজিক (যদি আগে ১০টা অ্যাড না দেখে থাকে, এবং এখন ১০ পার করে)
-        let refBonusGiven = false;
-        if (oldAdsCount < 10 && newAdsCount >= 10 && userData.referredBy) {
-            const refRef = db.collection('users').doc(String(userData.referredBy));
-            const refSnap = await refRef.get();
-            
-            if (refSnap.exists) {
-                await refRef.update({
-                    pointBalance: FieldValue.increment(REFERRAL_REWARD_POINTS),
-                    lifetimePointsEarned: FieldValue.increment(REFERRAL_REWARD_POINTS),
-                    referralCount: FieldValue.increment(1)
-                });
-                
-                await db.collection('transactions').add({
-                    userId: userData.referredBy,
-                    type: 'Referral Reward',
-                    details: `Valid Ref UID: ${userId}`,
-                    pointAmount: REFERRAL_REWARD_POINTS,
-                    createdAt: FieldValue.serverTimestamp()
-                });
-                refBonusGiven = true;
-            }
-        }
 
         return res.status(200).json({ 
             success: true, 
