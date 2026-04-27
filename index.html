@@ -501,7 +501,7 @@
         <section id="video-content" class="content-section">
             <div class="section-title">
                 <div class="title-icon ti-red"><i class="fab fa-youtube"></i></div>
-                Data Decryption (Video)
+                Watch Videos &amp; Earn
             </div>
 
             <!-- Video Player Box -->
@@ -582,6 +582,13 @@
                 <h3 class="modal-title">Withdraw Funds</h3>
             </div>
 
+            <div style="background:rgba(45,212,191,0.07); border:1px solid rgba(45,212,191,0.25); border-radius:12px; padding:12px 14px; margin-bottom:16px; display:flex; align-items:flex-start; gap:10px;">
+                <i class="fas fa-clock" style="color:var(--green); margin-top:2px; flex-shrink:0;"></i>
+                <div style="font-size:0.82rem; color:var(--text2); line-height:1.6;">
+                    Withdraw request দেওয়ার পর <b style="color:var(--green);">১২ থেকে ৪৮ ঘণ্টার মধ্যে</b> আপনার Tonkeeper Wallet-এ payment পেয়ে যাবেন। Processing সময় network এবং verification-এর উপর নির্ভর করে।
+                </div>
+            </div>
+
             <div style="text-align:center; margin-bottom:18px;">
                 <div style="font-size:2rem; font-weight:800; color:var(--text); font-family:monospace;" id="withdrawPointBalance">0.0000 TON</div>
                 <div style="font-size:0.8rem; color:var(--text2); margin-top:6px; font-weight:600;">Rate: 50,000 Pts = 1.00 TON</div>
@@ -630,10 +637,17 @@
         <div class="modal-box" style="text-align:center;">
             <i class="fas fa-user-plus" style="font-size:3.5rem; color:var(--primary); margin-bottom:18px;"></i>
             <h3 style="margin:0 0 12px; font-size:1.3rem;">Referral Network</h3>
-            <p style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.6;">
-                Get <b style="color:#fff;">+1 Invite</b> on registration.<br>
-                Get <b style="color:var(--green);">+1 Valid Ref & 300 Pts</b> when your friend completes 10 ads!
-            </p>
+            <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(253,224,71,0.2); border-radius:14px; padding:16px; margin-bottom:20px; text-align:left;">
+                <div style="font-size:0.75rem; font-weight:800; color:var(--primary); letter-spacing:1px; margin-bottom:10px; text-transform:uppercase;">📋 How Referral Works</div>
+                <div style="font-size:0.85rem; color:var(--text2); line-height:1.8;">
+                    <div style="margin-bottom:6px;">👥 <b style="color:#fff;">Step 1:</b> Share your referral link with friends.</div>
+                    <div style="margin-bottom:6px;">🎮 <b style="color:#fff;">Step 2:</b> Your friend opens the app & watches ads.</div>
+                    <div style="margin-bottom:6px;">📦 <b style="color:#fff;">Step 3:</b> As soon as your friend <b style="color:var(--primary);">Claims their first Lootbox</b>, the referral becomes <b style="color:var(--green);">Valid</b>.</div>
+                    <div style="padding:10px; background:rgba(45,212,191,0.1); border:1px solid rgba(45,212,191,0.3); border-radius:10px; margin-top:8px;">
+                        🎁 <b style="color:var(--green);">Reward: +300 Points</b> credited instantly to your account for each valid referral!
+                    </div>
+                </div>
+            </div>
             <div class="input-row">
                 <input type="text" id="modalReferralLinkInput" readonly value="...">
                 <button id="modalCopyReferralLinkBtn" class="btn" style="padding:0 18px;"><i class="fas fa-copy"></i></button>
@@ -814,14 +828,21 @@
                     currentUser.adsWatchedMonetag = (currentUser.adsWatchedMonetag || 0) + localAdData.adsWatchedMonetag;
                     currentUser.adsWatchedGiga = (currentUser.adsWatchedGiga || 0) + localAdData.adsWatchedGiga;
 
-                    showSuccessModal("Lootbox Claimed! 🎉", `+${localAdData.unclaimedPoints} Points Saved securely!`);
+                    const claimedPts = localAdData.unclaimedPoints;
+                    showSuccessModal("Lootbox Claimed! 🎉", `+${claimedPts} Points Saved securely!`);
 
                     localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
                     localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
                     
                     updateBalanceUI(); 
-                    updateAdButtonStats(); 
-                    
+                    updateAdButtonStats();
+
+                    // যদি referrer-কে bonus দেওয়া হয়েছে, user কে জানাও
+                    if (data.refBonusGiven) {
+                        setTimeout(() => {
+                            showSuccessModal("🎁 Referral Activated!", "আপনার Inviter-এর account-এ +300 Pts পাঠানো হয়েছে!");
+                        }, 3200);
+                    }
                 } else {
                     alert("Error: " + (data.message || "Invalid data"));
                     localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
