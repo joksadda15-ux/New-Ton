@@ -807,9 +807,6 @@
         let isSubmittingWithdrawal = false;
         let isAdRunning = false; 
 
-        const REFERRAL_REWARD_GOLD = 300;
-        const GOLD_PER_DIAMOND_RATE = 1000;
-        const TON_PER_DIAMOND_RATE  = 0.75;
 
         let localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
         
@@ -867,10 +864,10 @@
         }
 
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
-            if (localAdData.unclaimedPoints < 200) return;
+            if (localAdData.unclaimedPoints < 40) return;
             
-            if (localAdData.unclaimedPoints > 550) {
-                alert("⚠️ Security Error: Invalid Lootbox Data.");
+            if (localAdData.unclaimedPoints > 220) {
+                alert("⚠️ Lootbox data error, resetting.");
                 localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
                 localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
                 updateLootboxUI(); updateAdButtonStats(); return;
