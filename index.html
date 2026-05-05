@@ -786,8 +786,8 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, writeBatch } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
@@ -800,7 +800,8 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const tg = window.Telegram.WebApp;
+        let tg = null;
+        try { tg = window.Telegram?.WebApp || null; } catch(e) {}
 
         let currentUser = null;
         let isSubmittingWithdrawal = false;
@@ -1896,14 +1897,19 @@
 
         // --- MAIN INIT ---
         async function main() {
-            if (!tg.initDataUnsafe?.user) { document.body.innerHTML = `<h3 style="text-align:center;margin-top:50px;">Open in Telegram.</h3>`; return; }
-            tg.ready(); tg.expand(); tg.setHeaderColor('#050d0a');
+            if (!tg || !tg.initDataUnsafe?.user) { 
+                document.body.innerHTML = `<div style="text-align:center;margin-top:50px;padding:20px;color:#22c55e;font-family:sans-serif;"><div style="font-size:3rem;margin-bottom:16px;">⚠️</div><h3>Please open in Telegram</h3><p style="color:#6b7280;margin-top:8px;font-size:0.9rem;">This app works only inside Telegram Mini App.</p></div>`; 
+                return; 
+            }
+            try {
+                tg.ready(); tg.expand(); tg.setHeaderColor('#050d0a');
+            } catch(e) {}
             await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
             if(currentUser && !currentUser.isBanned) {
                 await checkMembershipAndEnforce();
             }
         }
-        main();
+        main().catch(err => { console.error('App init error:', err); document.body.innerHTML = `<div style="text-align:center;margin-top:50px;padding:20px;color:#f87171;font-family:sans-serif;"><div style="font-size:2rem;margin-bottom:12px;">❌</div><p>App failed to load. Please restart.</p><p style="font-size:0.75rem;color:#6b7280;margin-top:8px;">${err.message}</p></div>`; });
 
         (function spawnParticles() {
             const container = document.getElementById('particles');
