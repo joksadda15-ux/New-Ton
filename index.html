@@ -6,6 +6,9 @@
     <title>NEWTUBE TON - Premium Platform</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -368,11 +371,11 @@
                 </div>
 
                 <div class="balance-display">
-                    <div class="bal-ton" style="font-size:1.8rem;"><span id="home-ton">0.0000</span> TON</div>
+                    <div class="bal-ton"><span id="home-ton">0.0000</span> TON</div>
                     <div class="bal-ton-label">ESTIMATED BALANCE</div>
                     <div class="bal-pts" style="color:#fcd34d;"><i class="fas fa-coins"></i> <span id="home-pts">0</span> 🪙 Gold</div>
                     <div class="bal-pts" style="color:#c4b5fd;margin-top:4px;"><i class="fas fa-gem"></i> <span id="home-diamond">0.0000</span> 💎 Diamond</div>
-                    <div style="font-size:0.68rem;color:#6b7280;margin-top:8px;background:rgba(0,0,0,0.3);padding:4px 12px;border-radius:20px;display:inline-block;">1K 🪙 = 1 💎 · 1K 💎 = 1 USDT · 1 💎 = 0.75 TON</div>
+                    <div style="font-size:0.68rem;color:#6b7280;margin-top:6px;background:rgba(0,0,0,0.2);padding:3px 10px;border-radius:20px;display:inline-block;">1K🪙=1💎 · 1K💎=1USDT · 1💎=0.75TON</div>
                 </div>
 
                 <div class="stats-grid">
@@ -691,9 +694,34 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, orderBy, limit, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, increment, arrayUnion, writeBatch } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    <script>
+        // Firebase loaded via compat script tags in <head>
+        const initializeApp = firebase.initializeApp.bind(firebase);
+        const getFirestore = () => firebase.firestore();
+        const { collection, getDocs, query, where, orderBy, limit, addDoc, 
+                serverTimestamp, doc, getDoc, setDoc, updateDoc, runTransaction, 
+                increment, arrayUnion, writeBatch } = {
+            collection: (db, ...args) => db.collection(...args),
+            getDocs: (q) => q.get(),
+            query: (ref, ...constraints) => {
+                let q = ref;
+                constraints.forEach(c => { q = c(q); });
+                return q;
+            },
+            where: (f, op, v) => (q) => q.where(f, op, v),
+            orderBy: (f, dir) => (q) => q.orderBy(f, dir || 'asc'),
+            limit: (n) => (q) => q.limit(n),
+            addDoc: (ref, data) => ref.add(data),
+            serverTimestamp: () => firebase.firestore.FieldValue.serverTimestamp(),
+            doc: (db, col, id) => id ? db.collection(col).doc(id) : col,
+            getDoc: (ref) => ref.get(),
+            setDoc: (ref, data) => ref.set(data),
+            updateDoc: (ref, data) => ref.update(data),
+            runTransaction: (db, fn) => db.runTransaction(fn),
+            increment: (n) => firebase.firestore.FieldValue.increment(n),
+            arrayUnion: (...args) => firebase.firestore.FieldValue.arrayUnion(...args),
+            writeBatch: (db) => db.batch(),
+        };
 
         const firebaseConfig = {
             apiKey: "AIzaSyAUiFRn61DM4PD-4ssrTxcBG-X7BEldgOk",
@@ -704,8 +732,8 @@
             messagingSenderId: "41011548816",
             appId: "1:41011548816:web:9c27139d9487b144ecbe15"
         };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
         let tg = null;
         try { tg = window.Telegram?.WebApp || null; } catch(e) {}
 
@@ -766,19 +794,20 @@
             
             if (btn.dataset.busy === "true") return;
 
-            if (localAdData.unclaimedPoints >= 200) {
+            if (localAdData.unclaimedPoints >= 40) {
                 btn.disabled = false;
                 btn.classList.remove('outline');
                 btn.innerHTML = '<i class="fas fa-download"></i> Claim Lootbox';
             } else {
                 btn.disabled = true;
                 btn.classList.add('outline');
-                btn.innerHTML = '<i class="fas fa-lock"></i> Min 40 Gold Required';
+                btn.innerHTML = '<i class="fas fa-lock"></i> Min 200 Gold Required';
             }
         }
 
         document.getElementById('claimLootboxBtn').addEventListener('click', async () => {
             if (localAdData.unclaimedPoints < 40) return;
+            
             if (localAdData.unclaimedPoints > 220) {
                 alert("⚠️ Security Error: Invalid Lootbox Data.");
                 localAdData = { unclaimedPoints: 0, adsWatched: 0, adsWatchedAdsgramDaily: 0, adsWatchedAdsgramSpecial: 0, adsWatchedMonetag: 0, adsWatchedGiga: 0 };
@@ -1033,9 +1062,9 @@
 
         function updateBalanceUI() {
             if(!currentUser) return;
-            const gold    = currentUser.pointBalance || 0;
+            const gold = currentUser.pointBalance || 0;
             const diamond = gold / GOLD_PER_DIAMOND;
-            const ton     = diamond * TON_PER_DIAMOND;
+            const ton = diamond * TON_PER_DIAMOND;
             const elTon = document.getElementById('home-ton');
             if(elTon) elTon.textContent = ton.toFixed(4);
             const elDia = document.getElementById('home-diamond');
@@ -1051,7 +1080,7 @@
         const handleAdClick = async (type, btnId, maxLimit, adFunc) => {
             await checkDailyReset(currentUser);
 
-            if (localAdData.unclaimedPoints >= 200) {
+            if (localAdData.unclaimedPoints >= 40) {
                 alert("⚠️ Lootbox is full (Max 500 Gold). Please claim it first!");
                 return;
             }
@@ -1077,7 +1106,7 @@
                 
                 localStorage.setItem('newtube_lootbox_' + currentUser.id, JSON.stringify(localAdData));
                 
-                showSuccessModal("Ad Watched! 🎁", `+${reward} Gold added to Lootbox`);
+                showSuccessModal("Ad Watched! 🎁", `+${reward} Gold 🪙 added to Lootbox`);
                 
                 updateLootboxUI();
                 updateAdButtonStats();
@@ -1163,7 +1192,7 @@
             if (!window.ytApiReady) return alert("YouTube Player is loading, please wait...");
             if (localVideoMined >= 200) return alert("Box is full! Claim your 200 Gold first.");
             let dailyMined = currentUser.dailyVideoMined || 0;
-            if (dailyMined + localVideoMined >= 1000) return alert("Daily limit (1000 Gold) reached! Come back tomorrow.");
+            if (dailyMined + localVideoMined >= 1000) return alert("Daily limit (1000 Gold) reached!");
 
             if (!ytPlayer) {
                 // প্রথমবার ক্লিক করলে প্লেয়ার তৈরি হবে
@@ -1186,7 +1215,7 @@
             const btn = document.getElementById('claimVideoPtsBtn');
             const limitDisplay = document.getElementById('videoDailyLimitDisplay');
             
-            display.textContent = `${localVideoMined.toFixed(2)} Gold`;
+            display.textContent = `${localVideoMined.toFixed(1)} Gold`;
             prog.style.width = `${Math.min((localVideoMined / 200) * 100, 100)}%`;
             
             let dailyMined = currentUser.dailyVideoMined || 0;
@@ -1257,7 +1286,7 @@
             }
 
             if (videoPlaySeconds >= 15) { 
-                localVideoMined = Math.round((localVideoMined + 0.83) * 10) / 10; 
+                localVideoMined = Math.round((localVideoMined + 0.83) * 100) / 100; 
                 videoPlaySeconds = 0;
                 updateVideoUI();
                 
@@ -1514,9 +1543,9 @@
                     const date = d.time ? d.time.toDate().toLocaleDateString() : '';
                     let title, amt, color, icon;
                     if (d.isW || d.type === 'Withdrawal') {
-                        title = `Withdraw (${d.status || 'pending'})`; amt = `-${d.pointAmount} Gold 🪙`; color = 'var(--red)'; icon = '💸';
+                        title = `Withdraw (${d.status || 'pending'})`; amt = `-${d.pointAmount} Gold`; color = 'var(--red)'; icon = '💸';
                     } else {
-                        title = d.type || 'Reward'; amt = `+${d.pointAmount} Gold 🪙`; color = 'var(--green)'; icon = '✨';
+                        title = d.type || 'Reward'; amt = `+${d.pointAmount} Gold`; color = 'var(--green)'; icon = '✨';
                     }
                     return `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);">
                         <span style="font-size:1.4rem;">${icon}</span><div style="flex:1;"><strong style="display:block;color:var(--text);font-size:0.9rem;">${title}</strong><small style="color:var(--text2);font-size:0.75rem;">${date}</small></div>
@@ -1627,7 +1656,7 @@
                         } catch(e) { button.disabled = false; button.textContent = 'Verify'; return; }
                     }
                     
-                    const reward = 250; // 250 GOLD
+                    const reward = 250; // 250 GOLD per task
                     
                     const batch = writeBatch(db);
                     batch.update(doc(db, 'users', currentUser.id), { completedTasks: arrayUnion(taskId), pointBalance: increment(reward), lifetimePointsEarned: increment(reward) });
@@ -1704,7 +1733,7 @@
                             currentUser.pointBalance = (currentUser.pointBalance || 0) + 10; 
                             currentUser.welcomeBonusClaimed = true; 
                             updateBalanceUI();
-                            showSuccessModal('🎁 Welcome Bonus!', `+10 Gold added!`);
+                            showSuccessModal('🎁 Welcome Bonus!', `+500 Gold 🪙 credited!`);
                         } catch (e) {}
                     }
                 } else {
@@ -1718,17 +1747,14 @@
 
         // --- MAIN INIT ---
         async function main() {
-            if (!tg || !tg.initDataUnsafe?.user) { 
-                document.body.innerHTML = '<div style="text-align:center;margin-top:60px;padding:20px;font-family:sans-serif;color:#22c55e;"><div style="font-size:3rem;margin-bottom:16px;">📱</div><h3 style="color:#fff;">Open in Telegram</h3><p style="color:#6b7280;margin-top:8px;">This app only works inside Telegram Mini App.</p></div>'; 
-                return; 
-            }
+            if (!tg || !tg.initDataUnsafe?.user) { document.body.innerHTML = '<div style="text-align:center;margin-top:60px;padding:20px;font-family:sans-serif;"><div style="font-size:3rem;">📱</div><h3 style="color:#22c55e;">Open in Telegram</h3></div>'; return; }
             try { tg.ready(); tg.expand(); tg.setHeaderColor('#050d0a'); } catch(e) {}
             await initializeUser(tg.initDataUnsafe.user, tg.initDataUnsafe.start_param);
             if(currentUser && !currentUser.isBanned) {
                 await checkMembershipAndEnforce();
             }
         }
-        main().catch(e => { console.error("App error:", e); });
+        main().catch(e => console.error("App error:", e));
 
         (function spawnParticles() {
             const container = document.getElementById('particles');
